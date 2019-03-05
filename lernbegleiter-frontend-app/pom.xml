@@ -43,6 +43,17 @@
                                 </configuration>
                             </execution>
 
+                            <execution>
+                                <id>run npm install</id>
+                                <goals>
+                                    <goal>npm</goal>
+                                </goals>
+
+                                <configuration>
+                                    <arguments>install</arguments>
+                                </configuration>
+                            </execution>
+
                         </executions>
 
                     </plugin>
@@ -69,6 +80,7 @@
                                     <executable>ng</executable>
                                     <arguments>
                                         <argument>build</argument>
+                                        <argument>--prod</argument>
                                     </arguments>
                                 </configuration>
                             </execution>
@@ -86,11 +98,11 @@
                                     <goal>copy-resources</goal>
                                 </goals>
                                 <configuration>
-                                    <outputDirectory>${basedir}/../lernbegleiter-backend-app/src/main/resources/dist/lernbegleiter-frontend-app
+                                    <outputDirectory>${basedir}/../lernbegleiter-backend-app/src/main/resources/dist
                                     </outputDirectory>
                                     <resources>
                                         <resource>
-                                            <directory>dist</directory>
+                                            <directory>dist/lernbegleiter-frontend-app</directory>
                                             <filtering>true</filtering>
                                         </resource>
                                     </resources>
