@@ -28,7 +28,7 @@ public class LoginService {
   @Autowired
   private PasswordHasher passwordHasher;
 
-  public UserAuthentication getAuthenticationForSecretOrThrow(String secret) {
+  public UserAuthentication getAuthenticationForSecretOrThrow(@NonNull String secret) {
     LoginEntity le = loginRepository.findBySecret(secret);
     if (le == null) {
       throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid secret. Please login again.");
@@ -55,7 +55,7 @@ public class LoginService {
 
     String newSecret = loginRepository.save(new LoginEntity()
         .setSecret(UUID.randomUUID().toString())
-        .setUser(null)
+        .setUser(userEntity)
     ).getSecret();
 
     return new LoginResponse()

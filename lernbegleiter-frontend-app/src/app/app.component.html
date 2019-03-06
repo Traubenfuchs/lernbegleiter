@@ -1,0 +1,3 @@
+<button *ngIf='!this.loginService.getLoginResponse() && router.url !== "/login"' [routerLink]="['/login']" >go to login</button>
+<button *ngIf='!!this.loginService.getLoginResponse()' (click)="loginService.logout()" >logout</button>
+<router-outlet>
