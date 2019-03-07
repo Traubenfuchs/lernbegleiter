@@ -23,7 +23,7 @@ public class UserService {
   @Autowired
   private AuthHelper authHelper;
 
-  @PreAuthorize("hasRole('ADMIN') or hasRole('TEACHER')")
+  @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
   public boolean deleteByUuid(@NonNull String uuid) {
     if (!userRepository.existsById(uuid)) {
       return false;
