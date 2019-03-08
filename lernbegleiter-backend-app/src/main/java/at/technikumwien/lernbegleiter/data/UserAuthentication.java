@@ -1,18 +1,18 @@
 package at.technikumwien.lernbegleiter.data;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Set;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Set;
-
 @Accessors(chain = true)
 @Data
 public class UserAuthentication implements Authentication {
+
   private String uuid;
   private Set<String> rights;
   private Collection<SimpleGrantedAuthority> sgas;
