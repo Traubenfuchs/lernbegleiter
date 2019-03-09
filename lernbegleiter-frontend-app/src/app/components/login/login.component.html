@@ -1,6 +1,35 @@
-<form>
-  <input id='username' name="username" [(ngModel)]="username" placeholder="username">
-  <input id='password' name="password" [(ngModel)]="password" type='password' placeholder="password">
-  <button (click)="login()">login</button>
-<p>{{response}}</p>
-</form>
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-6 mx-auto">
+      <div class="card">
+        <div class="card-header">
+          <h6 class="text-primary">Wilkommen im Lernbegleiter</h6>
+          <small class="text-muted">Bitte loggen Sie sich ein</small>
+        </div>
+
+        <div class="card-body">
+          <form [formGroup]="loginFormgroup">
+            <div class="row">
+              <div class="col-md-12">
+                <input id='usernameInput' formControlName="username" class="form-control" name="username" placeholder="username">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <input id='passwordInput' formControlName="password" class="form-control" name="password" type='password'
+                       placeholder="password">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <button class="btn btn-outline-primary w-100" (click)="login()">login</button>
+              </div>
+            </div>
+            <p>{{ response }}</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
