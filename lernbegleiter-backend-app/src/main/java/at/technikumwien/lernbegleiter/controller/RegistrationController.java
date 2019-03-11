@@ -1,6 +1,6 @@
 package at.technikumwien.lernbegleiter.controller;
 
-import at.technikumwien.lernbegleiter.data.RegistrationRequest;
+import at.technikumwien.lernbegleiter.data.requests.RegistrationRequest;
 import at.technikumwien.lernbegleiter.services.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;

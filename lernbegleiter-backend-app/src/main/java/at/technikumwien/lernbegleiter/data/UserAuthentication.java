@@ -48,7 +48,7 @@ public class UserAuthentication implements Authentication {
 
   @Override
   public Object getPrincipal() {
-    throw new RuntimeException("Not implemented.");
+   return uuid;
   }
 
   @Override
@@ -63,6 +63,6 @@ public class UserAuthentication implements Authentication {
 
   @Override
   public String getName() {
-    throw new RuntimeException("Not implemented.");
+    return uuid;
   }
 }

@@ -1,4 +1,4 @@
-package at.technikumwien.lernbegleiter.data;
+package at.technikumwien.lernbegleiter.data.responses;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

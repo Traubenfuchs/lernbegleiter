@@ -1,3 +1,17 @@
-<button *ngIf='!this.loginService.getLoginResponse() && router.url !== "/login"' [routerLink]="['/login']" >go to login</button>
-<button *ngIf='!!this.loginService.getLoginResponse()' (click)="loginService.logout()" >logout</button>
+<div *ngIf='!this.loginService.getLoginResponse() && router.url !== "/login"'>
+	<button [routerLink]="['/login']">go to login</button>
+</div>
+
+<div *ngIf='!!this.loginService.getLoginResponse() && this.loginService.loggedInAndStudent()'>
+	<button (click)="loginService.logout()">logout</button>
+</div>
+
+<div *ngIf='!!this.loginService.getLoginResponse() && this.loginService.loggedInAndAuthority()'>
+	<button [routerLink]="['/management/grades']">Klassen verwalten</button>
+	<button [routerLink]="['/management/students']">Schüler verwalten</button>
+	<button [routerLink]="['/management/classes']">Fächer verwalten</button>
+	<button [routerLink]="['/management/learning-modules']">Lernmodule verwalten</button>
+	<button (click)="loginService.logout()">logout</button>
+</div>
+
 <router-outlet>

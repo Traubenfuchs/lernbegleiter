@@ -1,20 +1,41 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
 
-import {AppRoutingModule} from './app-routing.module';
-import {AppComponent} from './app.component';
-import {HttpClientModule} from '@angular/common/http';
-import {LoginComponent} from './components/login/login.component';
-import {HomeComponent} from './components/home/home.component';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {LoginSuccessComponent} from './components/login-success/login-success.component';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { ClassComponent } from './components/admin/class/class.component';
+import { ClassesComponent } from './components/admin/classes/classes.component';
+import { GradeComponent } from './components/admin/grade/grade.component';
+import { GradesComponent } from './components/admin/grades/grades.component';
+import { LearningModuleComponent } from './components/admin/learning-module/learning-module.component';
+import { LearningModulesComponent } from './components/admin/learning-modules/learning-modules.component';
+import { StudentComponent } from './components/admin/student/student.component';
+import { StudentsComponent } from './components/admin/students/students.component';
+import { SubModuleComponent } from './components/admin/sub-module/sub-module.component';
+import { SubModulesComponent } from './components/admin/sub-modules/sub-modules.component';
+import { HomeComponent } from './components/general/home/home.component';
+import { LoginSuccessComponent } from './components/general/login-success/login-success.component';
+import { LoginComponent } from './components/general/login/login.component';
+import { SecurityInterceptor } from './services/security-interceptor.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent,
-    LoginSuccessComponent
+    LoginSuccessComponent,
+    StudentsComponent,
+    GradesComponent,
+    GradeComponent,
+    StudentComponent,
+    LearningModuleComponent,
+    LearningModulesComponent,
+    SubModuleComponent,
+    SubModulesComponent,
+    ClassComponent,
+    ClassesComponent
   ],
   imports: [
     BrowserModule,
@@ -23,7 +44,11 @@ import {LoginSuccessComponent} from './components/login-success/login-success.co
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: SecurityInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule {

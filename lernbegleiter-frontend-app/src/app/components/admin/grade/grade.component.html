@@ -1,0 +1,20 @@
+<p>List of students:</p>
+
+<table>
+	<tr>
+		<th>Vorname</th>
+		<th>Nachname</th>
+		<th>Email</th>
+		<th>Geburtsdatum</th>
+		<th></th>
+	</tr>
+
+	<tr *ngFor="let student of students">
+		<td>{{student.firstName}}</td>
+		<td>{{student.familyName}}</td>
+		<td>{{student.familyName}}</td>
+		<td><button [routerLink]="'/management/student/' + student.uuid">edit</button></td>
+		<td><button (click)='deleteFromGrade(student.uuid)'>von Klasse entfernen</button></td>
+	</tr>
+
+</table>

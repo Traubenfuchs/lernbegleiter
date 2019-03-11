@@ -1,6 +1,6 @@
 package at.technikumwien.lernbegleiter.controller;
 
-import at.technikumwien.lernbegleiter.data.UserUpdateRequest;
+import at.technikumwien.lernbegleiter.data.requests.UserUpdateRequest;
 import at.technikumwien.lernbegleiter.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

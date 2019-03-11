@@ -1,7 +1,7 @@
 package at.technikumwien.lernbegleiter.services;
 
-import at.technikumwien.lernbegleiter.data.LoginRequest;
-import at.technikumwien.lernbegleiter.data.LoginResponse;
+import at.technikumwien.lernbegleiter.data.requests.LoginRequest;
+import at.technikumwien.lernbegleiter.data.responses.LoginResponse;
 import at.technikumwien.lernbegleiter.data.UserAuthentication;
 import at.technikumwien.lernbegleiter.entities.auth.LoginEntity;
 import at.technikumwien.lernbegleiter.entities.auth.UserEntity;
@@ -11,6 +11,7 @@ import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -18,6 +19,7 @@ import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.UUID;
 
+@Transactional
 @Validated
 @Service
 public class LoginService {

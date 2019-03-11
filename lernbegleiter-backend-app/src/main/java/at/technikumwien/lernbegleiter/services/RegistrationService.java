@@ -1,6 +1,6 @@
 package at.technikumwien.lernbegleiter.services;
 
-import at.technikumwien.lernbegleiter.data.RegistrationRequest;
+import at.technikumwien.lernbegleiter.data.requests.RegistrationRequest;
 import at.technikumwien.lernbegleiter.entities.auth.UserEntity;
 import at.technikumwien.lernbegleiter.repositories.auth.UserRepository;
 import lombok.NonNull;
