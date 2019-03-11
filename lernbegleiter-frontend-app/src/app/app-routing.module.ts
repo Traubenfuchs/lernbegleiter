@@ -34,6 +34,8 @@ const routes: Routes = [
 
   { path: 'management/classes', component: ClassesComponent }, // class = Fach
   { path: 'management/class/:classUUID', component: ClassComponent }, // class = Fach
+
+  { path: 'student/:studentUUID/weekly-overview', component: ClassesComponent }, // class = Fach
 ]
 
 @NgModule({

@@ -19,6 +19,7 @@ import { HomeComponent } from './components/general/home/home.component';
 import { LoginSuccessComponent } from './components/general/login-success/login-success.component';
 import { LoginComponent } from './components/general/login/login.component';
 import { SecurityInterceptor } from './services/security-interceptor.service';
+import { WeekOverviewComponent } from './components/week-overview/week-overview.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { SecurityInterceptor } from './services/security-interceptor.service';
     SubModuleComponent,
     SubModulesComponent,
     ClassComponent,
-    ClassesComponent
+    ClassesComponent,
+    WeekOverviewComponent
   ],
   imports: [
     BrowserModule,
