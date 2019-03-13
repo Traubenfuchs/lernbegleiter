@@ -5,13 +5,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Data
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class WeeklyOverviewRelectionClass {
+public class WeeklyOverviewClassDto {
     private String uuid = "";
+    private String name = "";
     private String color = "";
-    private String progress = "";
-    private String improvements ="";
+    private Set<WeeklyOverviewClassDayDto> days = new HashSet<>();
 }

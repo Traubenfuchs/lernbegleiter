@@ -19,6 +19,6 @@ public class WeeklyOverviewDto {
     private String firstDayOfWeek = "";
     private String lastDayOfWeek = "";
     private String furtherSteps = "";
-    private Set<WeeklyOverviewClass> weeklyOverviewClass = new HashSet<>();
-    private Set<WeeklyOverviewRelectionClass> reflexionClasses = new HashSet<>();
+    private Set<WeeklyOverviewClassDto> weeklyOverviewClasses = new HashSet<>();
+    private Set<WeeklyOverviewReflectionClassDto> reflexionClasses = new HashSet<>();
 }

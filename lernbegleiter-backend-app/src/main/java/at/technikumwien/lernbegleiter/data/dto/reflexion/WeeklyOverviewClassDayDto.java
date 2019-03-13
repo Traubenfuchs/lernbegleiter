@@ -5,16 +5,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @Data
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class WeeklyOverviewClass {
+public class WeeklyOverviewClassDayDto {
     private String uuid = "";
-    private String name = "";
-    private String color = "";
-    private Set<WeeklyOverviewClassDay> days = new HashSet<>();
+    private String teacherComment = "";
+    private String studentComment = "";
 }

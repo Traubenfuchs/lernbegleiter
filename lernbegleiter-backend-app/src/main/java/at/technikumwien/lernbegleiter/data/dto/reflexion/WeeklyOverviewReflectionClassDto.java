@@ -9,8 +9,9 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class WeeklyOverviewClassDay {
+public class WeeklyOverviewReflectionClassDto {
     private String uuid = "";
-    private String teacherComment = "";
-    private String studentComment = "";
+    private String color = "";
+    private String progress = "";
+    private String improvements ="";
 }
