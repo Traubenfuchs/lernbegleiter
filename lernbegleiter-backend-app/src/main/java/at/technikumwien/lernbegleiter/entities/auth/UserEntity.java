@@ -1,7 +1,7 @@
 package at.technikumwien.lernbegleiter.entities.auth;
 
 import at.technikumwien.lernbegleiter.entities.GradeEntity;
-import at.technikumwien.lernbegleiter.entities.base.BaseEntity;
+import at.technikumwien.lernbegleiter.entities.base.BaseEntityCreationUpdateDate;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -14,7 +14,7 @@ import java.util.Set;
 @Data
 @Table(name = "USERS")
 @Entity
-public class UserEntity extends BaseEntity<UserEntity> {
+public class UserEntity extends BaseEntityCreationUpdateDate<UserEntity> {
     @Column(name = "EMAIL", nullable = false, unique = true)
     private String email;
     @Column(name = "FIRST_NAME")
