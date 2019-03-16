@@ -4,10 +4,7 @@ import at.technikumwien.lernbegleiter.entities.base.BaseEntity;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,7 +15,11 @@ import java.util.Set;
 public class WeeklyOverviewClassEntity extends BaseEntity<WeeklyOverviewClassEntity> {
   private String name = "";
   private String color = "";
-  @OneToMany
-  @JoinColumn(name = "WEEKLY_OVERVIEW_CLASS_UUID", nullable = false)
+
+  @ManyToOne
+  @JoinColumn(name = "WEEKLY_OVERVIEW_UUID", nullable = false)
+  private WeeklyOverviewEntity weeklyOverview;
+
+  @OneToMany(mappedBy = "weeklyOverviewClass")
   private Set<WeeklyOverviewClassDayEntity> days = new HashSet<>();
 }

@@ -1,11 +1,13 @@
 package at.technikumwien.lernbegleiter.entities.auth;
 
+import at.technikumwien.lernbegleiter.entities.GradeEntity;
 import at.technikumwien.lernbegleiter.entities.base.BaseEntity;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Accessors(chain = true)
@@ -13,16 +15,34 @@ import java.util.Set;
 @Table(name = "USERS")
 @Entity
 public class UserEntity extends BaseEntity<UserEntity> {
-  @Column(nullable = false, unique = true)
-  private String email;
-  private String firstName;
-  private String familyName;
-  private LocalDate birthday;
-  @Column(nullable = false)
-  @Lob
-  private byte[] hashedAndSaltedPassword;
-  @ElementCollection
-  @CollectionTable(name="USER_RIGHTS", joinColumns=@JoinColumn(name="USER_UUID"))
-  @Column(name="RIGHT_NAME")
-  private Set<String> rights;
+    @Column(name = "EMAIL", nullable = false, unique = true)
+    private String email;
+    @Column(name = "FIRST_NAME")
+    private String firstName;
+    @Column(name = "FAMILY_NAME")
+    private String familyName;
+    @Column(name = "BIRTHDAY")
+    private LocalDate birthday;
+
+    @Column(name = "HASHED_AND_SALTED_PASSWORD", nullable = false)
+    @Lob
+    private byte[] hashedAndSaltedPassword;
+
+    @ElementCollection
+    @CollectionTable(name = "USER_RIGHTS", joinColumns = @JoinColumn(name = "USER_UUID"))
+    @Column(name = "RIGHT_NAME", nullable = false)
+    private Set<String> rights;
+
+    /**
+     * Grades this teacher is head teacher of
+     */
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "classTeacher")
+    private Set<GradeEntity> grades = new HashSet<>();
+
+    /**
+     * Grade this student belongs to
+     */
+    @ManyToOne
+    @JoinColumn(name = "GRADE_UUID")
+    private GradeEntity grade;
 }

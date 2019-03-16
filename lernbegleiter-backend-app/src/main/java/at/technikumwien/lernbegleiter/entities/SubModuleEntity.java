@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -14,6 +15,7 @@ import javax.persistence.Table;
 @Entity
 public class SubModuleEntity extends BaseEntityCreationUpdateDate<SubModuleEntity> {
     @ManyToOne
+    @JoinColumn(name = "LEARNING_MODULE_UUID")
     private LearningModuleEntity parent;
     private String name;
 }

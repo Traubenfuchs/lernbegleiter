@@ -3,6 +3,7 @@ package at.technikumwien.lernbegleiter.entities.base;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
@@ -11,6 +12,7 @@ import java.util.UUID;
 @Data
 @MappedSuperclass
 public abstract class BaseEntity<T extends BaseEntity<T>> {
+    @Column(length = 36)
     @GenericGenerator(
             name = "UUID_GENERATOR",
             strategy = "at.technikumwien.lernbegleiter.entities.base.UuidGenerator")

@@ -20,7 +20,6 @@ import java.util.Set;
 @Entity
 public class ClassEntity extends BaseEntityCreationUpdateDate<ClassEntity> {
     private String name;
-    @OneToMany
-    @JoinColumn(name = "CLASS_UUID", nullable = false)
+    @OneToMany(mappedBy = "parent")
     private Set<LearningModuleEntity> modules = new HashSet<>();
 }

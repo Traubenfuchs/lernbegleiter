@@ -14,9 +14,9 @@ import java.util.Set;
 @Entity
 public class LearningModuleEntity extends BaseEntityCreationUpdateDate<LearningModuleEntity> {
     @ManyToOne
+    @JoinColumn(name = "CLASS_UUID")
     private ClassEntity parent;
     private String name;
-    @OneToMany
-    @JoinColumn(name = "LEARNING_MODULE_UUID", nullable = false)
-    private Set<LearningModuleEntity> subModules = new HashSet<>();
+    @OneToMany(mappedBy = "parent")
+    private Set<SubModuleEntity> subModules = new HashSet<>();
 }

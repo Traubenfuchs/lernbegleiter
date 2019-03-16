@@ -17,8 +17,14 @@ import java.util.Set;
 @Table(name = "GRADE")
 @Entity
 public class GradeEntity extends BaseEntityCreationUpdateDate<GradeEntity> {
+    /**
+     * Students that belong to this class
+     */
     private String name;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "GRADE_UUID")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "grade")
     private Set<UserEntity> students = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name = "HEADTEACHER_UUID")
+    private UserEntity classTeacher;
 }
