@@ -10,7 +10,7 @@ import java.util.Set;
 
 @Accessors(chain = true)
 @Data
-@Table(name = "USER")
+@Table(name = "USERS")
 @Entity
 public class UserEntity extends BaseEntity<UserEntity> {
   @Column(nullable = false, unique = true)
@@ -23,6 +23,6 @@ public class UserEntity extends BaseEntity<UserEntity> {
   private byte[] hashedAndSaltedPassword;
   @ElementCollection
   @CollectionTable(name="USER_RIGHTS", joinColumns=@JoinColumn(name="USER_UUID"))
-  @Column(name="RIGHT")
+  @Column(name="RIGHT_NAME")
   private Set<String> rights;
 }

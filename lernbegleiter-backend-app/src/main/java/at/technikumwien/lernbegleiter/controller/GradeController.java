@@ -22,7 +22,7 @@ public class GradeController {
         return gradeService.getAll();
     }
 
-    @GetMapping("grade/${uuid}")
+    @GetMapping("grade/{uuid}")
     public GradeDto get(@PathVariable String uuid) {
         return gradeService.getOne(uuid);
     }
