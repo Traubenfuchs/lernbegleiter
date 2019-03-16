@@ -1,10 +1,13 @@
 package at.technikumwien.lernbegleiter.entities.base;
 
+import lombok.Data;
+
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import java.time.Instant;
 
+@Data
 @MappedSuperclass
 public abstract class BaseEntityCreationUpdateDate<T extends BaseEntityCreationUpdateDate<T>> extends  BaseEntity<T> {
   private Instant tsCreation;
