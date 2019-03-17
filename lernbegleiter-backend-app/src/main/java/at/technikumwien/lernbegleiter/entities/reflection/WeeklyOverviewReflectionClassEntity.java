@@ -17,6 +17,10 @@ public class WeeklyOverviewReflectionClassEntity extends BaseEntity<WeeklyOvervi
     @Column(length = 10240)
     private String improvements = "";
 
+    @Column(name="SHORT_NAME")
+    private String shortName="";
+    private String name="";
+
     @ManyToOne
     @JoinColumn(name = "WEEKLY_OVERVIEW_UUID", nullable = false)
     private WeeklyOverviewEntity weeklyOverview;

@@ -1,3 +1,23 @@
-<p>
-  week-overview works!
-</p>
+<p>Wochenplanung</p>
+<textarea [(ngModel)]="weeklyOverview.myWeeklyGoals" placeholder="Meine Wochenziele"></textarea>
+
+<div *ngFor="let c of weeklyOverview.classes">
+</div>
+
+<p>Wochenreflexion</p>
+<table>
+  <tr>
+    <th></th>
+    <th *ngFor="let rc of weeklyOverview.reflexionClasses">{{rc.shortName}}</th>
+  </tr>
+  <tr>
+    <td>Fortschritte</td>
+    <td *ngFor="let rc of weeklyOverview.reflexionClasses"><textarea [(ngModel)]="rc.progress"></textarea></td>
+  </tr>
+  <tr>
+    <td>verbesserungswürdig</td>
+    <td *ngFor="let rc of weeklyOverview.reflexionClasses"><textarea [(ngModel)]="rc.improvements"></textarea></td>
+  </tr>
+</table>
+
+<textarea [(ngModel)]="weeklyOverview.furtherSteps" placeholder="Weitere Schritte"></textarea>

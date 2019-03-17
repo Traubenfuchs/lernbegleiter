@@ -17,7 +17,8 @@ import java.util.Set;
 @Table(name = "WEEKLY_OVERVIEW")
 @Entity
 public class WeeklyOverviewEntity extends BaseEntity<WeeklyOverviewEntity> {
-  private String kw = "";
+  @Column(nullable = false)
+  private Integer kw;
   @Column(name="MY_WEEKLY_GOALS", length = 10240)
   private String myWeeklyGoals = "";
   @Column(name="FIRST_DAY_OF_WEEK")

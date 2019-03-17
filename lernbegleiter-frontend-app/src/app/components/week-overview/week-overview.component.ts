@@ -1,3 +1,5 @@
+import { HttpClient } from '@angular/common/http';
+import { WeeklyOverview } from './../../data/weekly-overview/WeeklyOverview';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WeekOverviewComponent implements OnInit {
 
-  constructor() { }
+  public weeklyOverview: WeeklyOverview
+
+  constructor(private http: HttpClient) { }
 
   ngOnInit() {
+  }
+
+  loadWeeklyOverview() {
+
   }
 
 }

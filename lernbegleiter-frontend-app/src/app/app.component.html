@@ -6,6 +6,9 @@
 	<button (click)="loginService.logout()">logout</button>
 </div>
 
+<button [routerLink]="['/student/'+this.loginService.getUserUuid()+'/weekly-overview/'+this.weekInYear]">Wöchentliche
+	Übersicht</button>
+
 <div *ngIf='!!this.loginService.getLoginResponse() && this.loginService.loggedInAndAuthority()'>
 	<button [routerLink]="['/management/grades']">Klassen verwalten</button>
 	<button [routerLink]="['/management/students']">Schüler verwalten</button>

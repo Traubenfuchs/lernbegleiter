@@ -14,4 +14,6 @@ public class WeeklyOverviewReflectionClassDto {
     private String color = "";
     private String progress = "";
     private String improvements ="";
+    private String shortName="";
+    private String name="";
 }

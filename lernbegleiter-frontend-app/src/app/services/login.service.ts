@@ -1,4 +1,4 @@
-import { JwtService } from './jwt.service';
+
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
@@ -15,15 +15,22 @@ export class LoginService {
   private loginUrl = 'api/login';
   private loginResponse: LoginResponse;
 
-  constructor(private http: HttpClient, private jwtService: JwtService, private router: Router) {
-    jwtService.requestJwt(jwt => {
-      this.loginResponse = JSON.parse(jwt)
-    })
+  constructor(private http: HttpClient, private router: Router) {
+    const loginResponseS = localStorage.getItem('loginResponse')
+    if (!!loginResponseS) {
+      this.loginResponse = JSON.parse(loginResponseS)
+    }
+  }
+
+  public getUserUuid() {
+    if (!!this.loginResponse) {
+      return this.loginResponse.uuid
+    }
   }
 
   public logout() {
     this.loginResponse = null
-    this.jwtService.deleteJwt()
+    localStorage.removeItem('loginResponse')
     this.router.navigate(['/'])
   }
 
@@ -39,13 +46,13 @@ export class LoginService {
     const result = this.http
       .post<LoginResponse>(this.loginUrl, loginRequest)
       .pipe(catchError(res => {
-        this.jwtService.deleteJwt()
+        this.logout()
         error(res);
         return throwError(res.error || 'Server error');
       }));
     result.subscribe(v => {
       this.loginResponse = v
-      this.jwtService.setJwt(JSON.stringify(this.loginResponse))
+      localStorage.setItem('loginResponse', JSON.stringify(this.loginResponse))
       success(v);
     })
     return result;

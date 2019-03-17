@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class JwtService {
+export class JwtServiceX {
 
   private jwtCallback: JwtCallback = () => {
     console.log("jwt callback dummy called")

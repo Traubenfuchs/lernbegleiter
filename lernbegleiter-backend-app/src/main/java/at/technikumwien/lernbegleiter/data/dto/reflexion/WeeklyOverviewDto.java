@@ -14,7 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class WeeklyOverviewDto {
     private String uuid = "";
-    private String kw = "";
+    private Integer kw;
     private String myWeeklyGoals = "";
     private String firstDayOfWeek = "";
     private String lastDayOfWeek = "";

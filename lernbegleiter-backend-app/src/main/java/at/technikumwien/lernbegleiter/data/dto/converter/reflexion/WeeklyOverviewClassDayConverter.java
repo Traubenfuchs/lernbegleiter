@@ -9,11 +9,17 @@ import org.springframework.stereotype.Component;
 public class WeeklyOverviewClassDayConverter extends DtoEntityConverter<WeeklyOverviewClassDayEntity, WeeklyOverviewClassDayDto> {
   @Override
   public WeeklyOverviewClassDayDto toDTO(WeeklyOverviewClassDayEntity weeklyOverviewClassDayEntity) {
-    return null;
+    return new WeeklyOverviewClassDayDto()
+            .setStudentComment(weeklyOverviewClassDayEntity.getStudentComment())
+            .setTeacherComment(weeklyOverviewClassDayEntity.getTeacherComment())
+            .setUuid(weeklyOverviewClassDayEntity.getUuid());
   }
 
   @Override
   public WeeklyOverviewClassDayEntity toEntity(WeeklyOverviewClassDayDto weeklyOverviewClassDayDto) {
-    return null;
+    return new WeeklyOverviewClassDayEntity()
+            .setStudentComment(weeklyOverviewClassDayDto.getStudentComment())
+            .setTeacherComment(weeklyOverviewClassDayDto.getTeacherComment())
+            .setUuid(weeklyOverviewClassDayDto.getUuid());
   }
 }

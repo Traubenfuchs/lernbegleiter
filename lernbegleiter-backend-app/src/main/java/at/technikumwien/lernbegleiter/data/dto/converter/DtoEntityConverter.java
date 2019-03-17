@@ -8,6 +8,9 @@ public abstract class DtoEntityConverter<ENTITY, DTO> {
     public abstract ENTITY toEntity(DTO dto);
 
     public List<DTO> toDtoList(Collection<ENTITY> entities) {
+        if(entities == null) {
+            return null;
+        }
         ArrayList<DTO> result = new ArrayList<>();
         for(ENTITY entity : entities) {
             result.add(toDTO(entity));
@@ -16,6 +19,9 @@ public abstract class DtoEntityConverter<ENTITY, DTO> {
     }
 
     public List<ENTITY> toEntityList(Collection<DTO> dtos) {
+        if(dtos == null) {
+            return null;
+        }
         ArrayList<ENTITY> result = new ArrayList<>();
         for(DTO dto : dtos) {
             result.add(toEntity(dto));
@@ -25,6 +31,9 @@ public abstract class DtoEntityConverter<ENTITY, DTO> {
 
     public Set<DTO> toDtoSet(Collection<ENTITY> entities) {
         HashSet<DTO> result = new HashSet<>();
+        if(entities == null) {
+            return null;
+        }
         for(ENTITY entity : entities) {
             result.add(toDTO(entity));
         }
@@ -32,6 +41,9 @@ public abstract class DtoEntityConverter<ENTITY, DTO> {
     }
 
     public Set<ENTITY> toEntitySet(Collection<DTO> dtos) {
+        if(dtos == null) {
+            return null;
+        }
         HashSet<ENTITY> result = new HashSet<>();
         for(DTO dto : dtos) {
             result.add(toEntity(dto));
