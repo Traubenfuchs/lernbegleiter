@@ -12,8 +12,8 @@ public class WeeklyOverviewClassConverter extends DtoEntityConverter<WeeklyOverv
   private WeeklyOverviewClassDayConverter weeklyOverviewClassDayConverter;
 
   @Override
-  public WeeklyOverviewClassDto toDTO(WeeklyOverviewClassEntity weeklyOverviewClassEntity) {
-    return new WeeklyOverviewClassDto()
+  public void applyToDto(WeeklyOverviewClassEntity weeklyOverviewClassEntity, WeeklyOverviewClassDto weeklyOverviewClassDto) {
+    weeklyOverviewClassDto
             .setColor(weeklyOverviewClassEntity.getColor())
             .setDays(weeklyOverviewClassDayConverter.toDtoSet(weeklyOverviewClassEntity.getDays()))
             .setName(weeklyOverviewClassEntity.getName())
@@ -21,8 +21,8 @@ public class WeeklyOverviewClassConverter extends DtoEntityConverter<WeeklyOverv
   }
 
   @Override
-  public WeeklyOverviewClassEntity toEntity(WeeklyOverviewClassDto weeklyOverviewClassDto) {
-    return new WeeklyOverviewClassEntity()
+  public void applyToEntity(WeeklyOverviewClassDto weeklyOverviewClassDto,WeeklyOverviewClassEntity weeklyOverviewClassEntity) {
+    weeklyOverviewClassEntity
             .setColor(weeklyOverviewClassDto.getColor())
             .setDays(weeklyOverviewClassDayConverter.toEntitySet(weeklyOverviewClassDto.getDays()))
             .setName(weeklyOverviewClassDto.getName())

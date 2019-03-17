@@ -1,4 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Student } from 'src/app/data/Student';
 
 @Component({
   selector: 'app-students',
@@ -7,9 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StudentsComponent implements OnInit {
 
-  constructor() { }
+  public students: Student[]
+
+  constructor(private http: HttpClient) { }
 
   ngOnInit() {
+    this.loadStudents()
+  }
+
+  loadStudents() {
+    this.http
+      .get<Student[]>(`api/students`, { observe: 'body' })
+      .subscribe(students => {
+        this.students = students
+      })
   }
 
 }

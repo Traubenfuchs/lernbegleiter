@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 })
 export class LoginService {
   private loginUrl = 'api/login';
+  private loginCheckUrl = 'api/login/check';
   private loginResponse: LoginResponse;
 
   constructor(private http: HttpClient, private router: Router) {
@@ -20,6 +21,18 @@ export class LoginService {
     if (!!loginResponseS) {
       this.loginResponse = JSON.parse(loginResponseS)
     }
+    setTimeout(() => {
+      console.log("doing login check")
+      this.http
+        .post<any>(this.loginCheckUrl, null)
+        .pipe(catchError(res => {
+          console.error('login check not ok')
+          this.logout()
+          return throwError(res.error || 'Server error');
+        })).subscribe(v => {
+          console.info('login check ok')
+        })
+    }, 100)
   }
 
   public getUserUuid() {

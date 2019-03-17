@@ -4,4 +4,6 @@ export class Student {
 	firstName: string
 	familyName: string
 	birthday: string
+	email: string
+	password: string
 }

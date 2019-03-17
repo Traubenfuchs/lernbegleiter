@@ -3,17 +3,18 @@
 </div>
 
 <div *ngIf='!!this.loginService.getLoginResponse() && this.loginService.loggedInAndStudent()'>
+	<button [routerLink]="['/student/'+this.loginService.getUserUuid()+'/weekly-overview/'+this.weekInYear]">Wöchentliche
+		Übersicht</button>
 	<button (click)="loginService.logout()">logout</button>
 </div>
 
-<button [routerLink]="['/student/'+this.loginService.getUserUuid()+'/weekly-overview/'+this.weekInYear]">Wöchentliche
-	Übersicht</button>
+
 
 <div *ngIf='!!this.loginService.getLoginResponse() && this.loginService.loggedInAndAuthority()'>
-	<button [routerLink]="['/management/grades']">Klassen verwalten</button>
-	<button [routerLink]="['/management/students']">Schüler verwalten</button>
-	<button [routerLink]="['/management/classes']">Fächer verwalten</button>
-	<button [routerLink]="['/management/learning-modules']">Lernmodule verwalten</button>
+	<button [routerLink]="'/management/grades'">Klassen verwalten</button>
+	<button [routerLink]="'/management/students'">Schüler verwalten</button>
+	<button [routerLink]="'/management/classes'">Fächer verwalten</button>
+	<button [routerLink]="'/management/learning-modules'">Lernmodule verwalten</button>
 	<button (click)="loginService.logout()">logout</button>
 </div>
 

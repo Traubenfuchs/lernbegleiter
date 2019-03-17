@@ -1,11 +1,56 @@
 package at.technikumwien.lernbegleiter.data.dto.converter;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.*;
 
 public abstract class DtoEntityConverter<ENTITY, DTO> {
-    public abstract DTO toDTO(ENTITY entity);
 
-    public abstract ENTITY toEntity(DTO dto);
+    private final Constructor<ENTITY> entityConstructor;
+    private final Constructor<DTO> dtoConstructor;
+
+    public DtoEntityConverter() {
+        Type type = getClass().getGenericSuperclass();
+
+        while(!(type instanceof ParameterizedType) || ((ParameterizedType) type).getRawType() != DtoEntityConverter.class) {
+            if(type instanceof ParameterizedType) {
+                type = ((Class<?>) ((ParameterizedType) type).getRawType()).getGenericSuperclass();
+            } else {
+                type = ((Class<?>) type).getGenericSuperclass();
+            }
+        }
+        try {
+            entityConstructor = ((Class<ENTITY>) ((ParameterizedType) type).getActualTypeArguments()[0]).getDeclaredConstructor();
+            dtoConstructor = ((Class<DTO>) ((ParameterizedType) type).getActualTypeArguments()[1]).getDeclaredConstructor();
+        } catch(Exception e1) {
+            throw new RuntimeException();
+        }
+    }
+
+    public abstract void applyToDto(ENTITY entity, DTO dto);
+
+    public abstract void applyToEntity(DTO dto, ENTITY entity);
+
+    public DTO toDTO(ENTITY entity) {
+        try {
+            DTO dto = dtoConstructor.newInstance();
+            applyToDto(entity, dto);
+            return dto;
+        } catch(Exception e1) {
+            throw new RuntimeException();
+        }
+    }
+
+    public ENTITY toEntity(DTO dto) {
+        try {
+            ENTITY entity = entityConstructor.newInstance();
+            applyToEntity(dto, entity);
+            return entity;
+        } catch(Exception e1) {
+            throw new RuntimeException();
+        }
+    }
 
     public List<DTO> toDtoList(Collection<ENTITY> entities) {
         if(entities == null) {

@@ -1,3 +1,10 @@
-<p>
-  student works!
-</p>
+<form>
+  <input name='uuid' placeholder="UUID" [(ngModel)]="student.uuid" disabled>
+  <input name='firstName' placeholder="Vorname" [(ngModel)]="student.firstName">
+  <input name='familyName' placeholder="Nachname" [(ngModel)]="student.familyName">
+  <input name='email' placeholder="email" [(ngModel)]="student.email">
+  <input name='birthday' placeholder="Geburtstag" type='date' [(ngModel)]="student.birthday">
+  <input name='password' placeholder="Passwort" type='password' [(ngModel)]="student.password">
+  <button (click)="saveClick()">{{this.uuid ==='new' ? 'anlegen':'updaten'}}</button>
+  <button (click)="deleteClick()" *ngIf="this.uuid !=='new'">Löschen</button>
+</form>

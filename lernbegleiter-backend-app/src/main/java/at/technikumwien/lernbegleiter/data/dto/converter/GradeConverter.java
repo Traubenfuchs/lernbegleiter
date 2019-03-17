@@ -9,9 +9,10 @@ import org.springframework.stereotype.Component;
 public class GradeConverter extends DtoEntityConverter<GradeEntity, GradeDto> {
 @Autowired
 private StudentConverter studentConverter;
+
     @Override
-    public GradeDto toDTO(GradeEntity gradeEntity) {
-       return new GradeDto()
+    public void applyToDto(GradeEntity gradeEntity, GradeDto gradeDto) {
+        gradeDto
                .setUuid(gradeEntity.getUuid())
                .setName(gradeEntity.getName())
                .setStudents(studentConverter.toDtoSet(gradeEntity.getStudents()))
@@ -20,8 +21,12 @@ private StudentConverter studentConverter;
     }
 
     @Override
-    public GradeEntity toEntity(GradeDto gradeDto) {
-        return new GradeEntity()
-                .setName(gradeDto.getName());
+    public void applyToEntity(GradeDto gradeDto, GradeEntity gradeEntity) {
+        gradeEntity
+                .setUuid(gradeDto.getUuid())
+                .setName(gradeDto.getName())
+                .setStudents(studentConverter.toEntitySet(gradeDto.getStudents()))
+                .setUuid(gradeDto.getUuid())
+        ;
     }
 }

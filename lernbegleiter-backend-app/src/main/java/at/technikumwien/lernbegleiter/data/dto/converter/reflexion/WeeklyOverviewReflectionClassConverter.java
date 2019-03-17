@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class WeeklyOverviewReflectionClassConverter extends DtoEntityConverter<WeeklyOverviewReflectionClassEntity, WeeklyOverviewReflectionClassDto> {
     @Override
-    public WeeklyOverviewReflectionClassDto toDTO(WeeklyOverviewReflectionClassEntity weeklyOverviewReflectionClassEntity) {
-        return new WeeklyOverviewReflectionClassDto()
+    public void applyToDto(WeeklyOverviewReflectionClassEntity weeklyOverviewReflectionClassEntity, WeeklyOverviewReflectionClassDto weeklyOverviewReflectionClassDto) {
+        weeklyOverviewReflectionClassDto
                 .setColor(weeklyOverviewReflectionClassEntity.getColor())
                 .setImprovements(weeklyOverviewReflectionClassEntity.getImprovements())
                 .setName(weeklyOverviewReflectionClassEntity.getName())
@@ -19,8 +19,8 @@ public class WeeklyOverviewReflectionClassConverter extends DtoEntityConverter<W
     }
 
     @Override
-    public WeeklyOverviewReflectionClassEntity toEntity(WeeklyOverviewReflectionClassDto weeklyOverviewReflectionClassDto) {
-        return new WeeklyOverviewReflectionClassEntity()
+    public void applyToEntity(WeeklyOverviewReflectionClassDto weeklyOverviewReflectionClassDto, WeeklyOverviewReflectionClassEntity weeklyOverviewReflectionClassEntity) {
+        weeklyOverviewReflectionClassDto
                 .setColor(weeklyOverviewReflectionClassDto.getColor())
                 .setImprovements(weeklyOverviewReflectionClassDto.getImprovements())
                 .setName(weeklyOverviewReflectionClassDto.getName())
