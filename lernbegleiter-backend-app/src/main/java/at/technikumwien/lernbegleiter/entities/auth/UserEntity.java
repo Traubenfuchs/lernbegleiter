@@ -2,6 +2,7 @@ package at.technikumwien.lernbegleiter.entities.auth;
 
 import at.technikumwien.lernbegleiter.entities.GradeEntity;
 import at.technikumwien.lernbegleiter.entities.base.BaseEntityCreationUpdateDate;
+import at.technikumwien.lernbegleiter.entities.reflection.WeeklyOverviewEntity;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -29,7 +30,7 @@ public class UserEntity extends BaseEntityCreationUpdateDate<UserEntity> {
     private byte[] hashedAndSaltedPassword;
 
     @ElementCollection
-    @CollectionTable(name = "USER_RIGHTS", joinColumns = @JoinColumn(name = "USER_UUID"))
+    @CollectionTable(name = "USER_RIGHTS", joinColumns = @JoinColumn(name = "FK_USER_UUID"))
     @Column(name = "RIGHT_NAME", nullable = false)
     private Set<String> rights;
 
@@ -43,6 +44,12 @@ public class UserEntity extends BaseEntityCreationUpdateDate<UserEntity> {
      * Grade this student belongs to
      */
     @ManyToOne
-    @JoinColumn(name = "GRADE_UUID")
+    @JoinColumn(name = "FK_GRADE_UUID")
     private GradeEntity grade;
+
+    /**
+     * weekly overviews
+     */
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "student")
+    private Set<WeeklyOverviewEntity> weeklyOverviews = new HashSet<>();
 }

@@ -13,8 +13,8 @@ import java.util.Set;
 @Table(name = "LEARNING_MODULE")
 @Entity
 public class LearningModuleEntity extends BaseEntityCreationUpdateDate<LearningModuleEntity> {
-    @ManyToOne
-    @JoinColumn(name = "CLASS_UUID")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "FK_CLASS_UUID", nullable = false)
     private ClassEntity parent;
     private String name;
     @OneToMany(mappedBy = "parent")

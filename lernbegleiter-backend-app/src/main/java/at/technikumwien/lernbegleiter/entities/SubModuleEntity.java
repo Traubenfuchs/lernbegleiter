@@ -14,8 +14,8 @@ import javax.persistence.Table;
 @Table(name = "SUB_MODULE")
 @Entity
 public class SubModuleEntity extends BaseEntityCreationUpdateDate<SubModuleEntity> {
-    @ManyToOne
-    @JoinColumn(name = "LEARNING_MODULE_UUID")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "FK_LEARNING_MODULE_UUID", nullable = false)
     private LearningModuleEntity parent;
     private String name;
 }

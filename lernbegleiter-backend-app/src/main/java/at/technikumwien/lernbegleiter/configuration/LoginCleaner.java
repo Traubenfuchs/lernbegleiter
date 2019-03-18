@@ -9,11 +9,11 @@ import java.time.Instant;
 
 @Configuration
 public class LoginCleaner {
-  @Autowired
-  private LoginRepository loginRepository;
+    @Autowired
+    private LoginRepository loginRepository;
 
-  @Scheduled(fixedDelay = 1000 * 60 * 60)
-  public void clean() {
-    loginRepository.deleteByTsCreationBefore(Instant.now().minusSeconds(60 * 60 * 24));
-  }
+    @Scheduled(fixedDelay = 1000 * 60 * 60)
+    public void clean() {
+        loginRepository.deleteByTsCreationBefore(Instant.now().minusSeconds(60 * 60 * 24));
+    }
 }

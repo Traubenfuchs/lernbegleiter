@@ -11,44 +11,44 @@ import java.util.Set;
 
 @Component
 public class AuthHelper {
-  public static UserAuthentication getAuth() {
-    return (UserAuthentication) SecurityContextHolder.getContext().getAuthentication();
-  }
-
-  public boolean hasAnyRole(String... roles) {
-    Set<String> rights = getAuth().getRights();
-
-    for (String role : roles) {
-      if (rights.contains(role)) {
-        return true;
-      }
+    public static UserAuthentication getAuth() {
+        return (UserAuthentication) SecurityContextHolder.getContext().getAuthentication();
     }
-    return false;
-  }
 
-  public void hasAnyRoleOrThrow(String... roles) {
-    if (!hasAnyRole(roles)) {
-      throwResponseStatusException();
+    public boolean hasAnyRole(String... roles) {
+        Set<String> rights = getAuth().getRights();
+
+        for(String role : roles) {
+            if(rights.contains(role)) {
+                return true;
+            }
+        }
+        return false;
     }
-  }
 
-  public boolean hasRole(String role) {
-    return getAuth().getRights().contains(role);
-  }
-
-  public void hasRoleOrThrow(String role) {
-    if (!hasRole(role)) {
-      throwResponseStatusException();
+    public void hasAnyRoleOrThrow(String... roles) {
+        if(!hasAnyRole(roles)) {
+            throwResponseStatusException();
+        }
     }
-  }
 
-  public void currentUserHasUuidOrThrow(String uuid) {
-    if (!Objects.equals(getAuth().getUuid(), uuid)) {
-      throwResponseStatusException();
+    public boolean hasRole(String role) {
+        return getAuth().getRights().contains(role);
     }
-  }
 
-  public void throwResponseStatusException() {
-    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You lack the required rights.");
-  }
+    public void hasRoleOrThrow(String role) {
+        if(!hasRole(role)) {
+            throwResponseStatusException();
+        }
+    }
+
+    public void currentUserHasUuidOrThrow(String uuid) {
+        if(!Objects.equals(getAuth().getUuid(), uuid)) {
+            throwResponseStatusException();
+        }
+    }
+
+    public void throwResponseStatusException() {
+        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You lack the required rights.");
+    }
 }

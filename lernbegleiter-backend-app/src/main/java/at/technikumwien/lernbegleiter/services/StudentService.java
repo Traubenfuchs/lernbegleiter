@@ -50,8 +50,7 @@ public class StudentService {
     public UuidResponse create(@Valid @NonNull StudentDto studentDto) {
         UserEntity userEntity = studentConverter.toEntity(studentDto)
                 .generateUuid()
-                .setRights(Set.of("STUDENT"))
-                ;
+                .setRights(Set.of("STUDENT"));
         userEntity = userRepository.save(userEntity);
         return new UuidResponse(userEntity.getUuid());
     }

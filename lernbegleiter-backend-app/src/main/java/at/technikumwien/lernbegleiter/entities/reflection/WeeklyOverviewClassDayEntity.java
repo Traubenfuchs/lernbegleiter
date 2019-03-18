@@ -16,7 +16,7 @@ public class WeeklyOverviewClassDayEntity extends BaseEntity<WeeklyOverviewClass
     @Column(name = "STUDENT_COMMENT", length = 10240)
     private String studentComment = "";
 
-    @ManyToOne
-    @JoinColumn(name = "WEEKLY_OVERVIEW_CLASS_UUID")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "FK_WEEKLY_OVERVIEW_CLASS_UUID", nullable = false)
     private WeeklyOverviewClassEntity weeklyOverviewClass;
 }

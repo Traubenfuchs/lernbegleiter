@@ -8,8 +8,8 @@ import java.io.Serializable;
 import java.util.UUID;
 
 public class UuidGenerator implements IdentifierGenerator {
-  @Override
-  public Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {
-    return UUID.randomUUID().toString();
-  }
+    @Override
+    public Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {
+        return UUID.randomUUID().toString();
+    }
 }

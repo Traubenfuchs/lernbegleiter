@@ -16,58 +16,58 @@ import javax.validation.Valid;
 @Validated
 @Service
 public class UserService {
-  @Autowired
-  private UserRepository userRepository;
-  @Autowired
-  private PasswordHasher passwordHasher;
-  @Autowired
-  private AuthHelper authHelper;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private PasswordHasher passwordHasher;
+    @Autowired
+    private AuthHelper authHelper;
 
-  @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
-  public boolean deleteByUuid(@NonNull String uuid) {
-    if (!userRepository.existsById(uuid)) {
-      return false;
-    }
-    userRepository.deleteById(uuid);
-    return true;
-  }
-
-  public void update(@NonNull String uuid, @Valid @NonNull UserUpdateRequest uur) {
-    UserEntity ue = userRepository.getOne(uuid);
-
-    if (authHelper.hasRole("STUDENT")) {
-      // Students can only change themselves
-      authHelper.currentUserHasUuidOrThrow(uuid);
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
+    public boolean deleteByUuid(@NonNull String uuid) {
+        if(!userRepository.existsById(uuid)) {
+            return false;
+        }
+        userRepository.deleteById(uuid);
+        return true;
     }
 
-    if (uur.getPassword() != null) {
-      enforceAtLeastStudent();
-      ue.setHashedAndSaltedPassword(passwordHasher.hashAndSalt(uur.getPassword()));
-    }
-    if (uur.getEmail() != null) {
-      enforceAtLeastStudent();
-      ue.setEmail(uur.getEmail());
+    public void update(@NonNull String uuid, @Valid @NonNull UserUpdateRequest uur) {
+        UserEntity ue = userRepository.getOne(uuid);
+
+        if(authHelper.hasRole("STUDENT")) {
+            // Students can only change themselves
+            authHelper.currentUserHasUuidOrThrow(uuid);
+        }
+
+        if(uur.getPassword() != null) {
+            enforceAtLeastStudent();
+            ue.setHashedAndSaltedPassword(passwordHasher.hashAndSalt(uur.getPassword()));
+        }
+        if(uur.getEmail() != null) {
+            enforceAtLeastStudent();
+            ue.setEmail(uur.getEmail());
+        }
+
+        if(uur.getBirthday() != null) {
+            enforceAdminOrTeacher();
+            ue.setBirthday(uur.getBirthday());
+        }
+        if(uur.getFamilyName() != null) {
+            enforceAdminOrTeacher();
+            ue.setFamilyName(uur.getFamilyName());
+        }
+        if(uur.getFirstName() != null) {
+            enforceAdminOrTeacher();
+            ue.setFirstName(uur.getFirstName());
+        }
     }
 
-    if (uur.getBirthday() != null) {
-      enforceAdminOrTeacher();
-      ue.setBirthday(uur.getBirthday());
+    private void enforceAtLeastStudent() {
+        authHelper.hasAnyRoleOrThrow("STUDENT", "TEACHER", "ADMIN");
     }
-    if (uur.getFamilyName() != null) {
-      enforceAdminOrTeacher();
-      ue.setFamilyName(uur.getFamilyName());
-    }
-    if (uur.getFirstName() != null) {
-      enforceAdminOrTeacher();
-      ue.setFirstName(uur.getFirstName());
-    }
-  }
 
-  private void enforceAtLeastStudent() {
-    authHelper.hasAnyRoleOrThrow("STUDENT", "TEACHER", "ADMIN");
-  }
-
-  private void enforceAdminOrTeacher() {
-    authHelper.hasAnyRoleOrThrow("TEACHER", "ADMIN");
-  }
+    private void enforceAdminOrTeacher() {
+        authHelper.hasAnyRoleOrThrow("TEACHER", "ADMIN");
+    }
 }

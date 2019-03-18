@@ -16,8 +16,6 @@ public class WeeklyOverviewDto {
     private String uuid = "";
     private Integer kw;
     private String myWeeklyGoals = "";
-    private String firstDayOfWeek = "";
-    private String lastDayOfWeek = "";
     private String furtherSteps = "";
     private Set<WeeklyOverviewClassDto> weeklyOverviewClasses = new HashSet<>();
     private Set<WeeklyOverviewReflectionClassDto> reflexionClasses = new HashSet<>();

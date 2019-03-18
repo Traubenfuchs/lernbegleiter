@@ -12,20 +12,18 @@ public class WeeklyOverviewReflectionClassConverter extends DtoEntityConverter<W
         weeklyOverviewReflectionClassDto
                 .setColor(weeklyOverviewReflectionClassEntity.getColor())
                 .setImprovements(weeklyOverviewReflectionClassEntity.getImprovements())
-                .setName(weeklyOverviewReflectionClassEntity.getName())
+                .setName(weeklyOverviewReflectionClassEntity.getClazz().getName())
                 .setProgress(weeklyOverviewReflectionClassEntity.getProgress())
-                .setShortName(weeklyOverviewReflectionClassEntity.getShortName())
+                .setShortName(weeklyOverviewReflectionClassEntity.getClazz().getName()) // TODO
                 .setUuid(weeklyOverviewReflectionClassEntity.getUuid());
     }
 
     @Override
     public void applyToEntity(WeeklyOverviewReflectionClassDto weeklyOverviewReflectionClassDto, WeeklyOverviewReflectionClassEntity weeklyOverviewReflectionClassEntity) {
-        weeklyOverviewReflectionClassDto
+        weeklyOverviewReflectionClassEntity
                 .setColor(weeklyOverviewReflectionClassDto.getColor())
                 .setImprovements(weeklyOverviewReflectionClassDto.getImprovements())
-                .setName(weeklyOverviewReflectionClassDto.getName())
                 .setProgress(weeklyOverviewReflectionClassDto.getProgress())
-                .setShortName(weeklyOverviewReflectionClassDto.getShortName())
                 .setUuid(weeklyOverviewReflectionClassDto.getUuid());
     }
 }

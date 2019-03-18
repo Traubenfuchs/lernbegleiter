@@ -1,14 +1,11 @@
 package at.technikumwien.lernbegleiter.entities.reflection;
 
+import at.technikumwien.lernbegleiter.entities.auth.UserEntity;
 import at.technikumwien.lernbegleiter.entities.base.BaseEntity;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,20 +14,20 @@ import java.util.Set;
 @Table(name = "WEEKLY_OVERVIEW")
 @Entity
 public class WeeklyOverviewEntity extends BaseEntity<WeeklyOverviewEntity> {
-  @Column(nullable = false)
-  private Integer kw;
-  @Column(name="MY_WEEKLY_GOALS", length = 10240)
-  private String myWeeklyGoals = "";
-  @Column(name="FIRST_DAY_OF_WEEK")
-  private String firstDayOfWeek = "";
-  @Column(name="LAST_DAY_OF_WEEK")
-  private String lastDayOfWeek = "";
-  @Column(name="FURTHER_STEPS", length = 10240)
-  private String furtherSteps = "";
+    @Column(name = "KW", nullable = false)
+    private Integer kw;
+    @Column(name = "MY_WEEKLY_GOALS", length = 10240)
+    private String myWeeklyGoals = "";
+    @Column(name = "FURTHER_STEPS", length = 10240)
+    private String furtherSteps = "";
 
-  @OneToMany(mappedBy = "weeklyOverview")
-  private Set<WeeklyOverviewClassEntity> weeklyOverviewClasses = new HashSet<>();
+    @OneToMany(mappedBy = "weeklyOverview")
+    private Set<WeeklyOverviewClassEntity> weeklyOverviewClasses = new HashSet<>();
 
-  @OneToMany(mappedBy = "weeklyOverview")
-  private Set<WeeklyOverviewReflectionClassEntity> reflexionClasses = new HashSet<>();
+    @OneToMany(mappedBy = "weeklyOverview")
+    private Set<WeeklyOverviewReflectionClassEntity> reflexionClasses = new HashSet<>();
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "FK_STUDENT_UUID", nullable = false)
+    private UserEntity student;
 }

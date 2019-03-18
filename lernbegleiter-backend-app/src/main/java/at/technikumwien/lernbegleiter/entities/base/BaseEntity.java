@@ -12,7 +12,7 @@ import java.util.UUID;
 @Data
 @MappedSuperclass
 public abstract class BaseEntity<T extends BaseEntity<T>> {
-    @Column(length = 36)
+    @Column(length = 36, nullable = false)
     @GenericGenerator(
             name = "UUID_GENERATOR",
             strategy = "at.technikumwien.lernbegleiter.entities.base.UuidGenerator")

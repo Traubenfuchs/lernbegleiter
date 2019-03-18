@@ -11,10 +11,10 @@ import javax.persistence.*;
 @Table(name = "LOGINS")
 @Entity
 public class LoginEntity extends BaseEntityCreationDate<LoginEntity> {
-  @ManyToOne(optional = false)
-  @JoinColumn(name="USER_UUID", nullable=false, updatable=false)
-  private UserEntity user;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "FK_USER_UUID", nullable = false, updatable = false)
+    private UserEntity user;
 
-  @Column(nullable = false)
-  private String secret;
+    @Column(nullable = false)
+    private String secret;
 }

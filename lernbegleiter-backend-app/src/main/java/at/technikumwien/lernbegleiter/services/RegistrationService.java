@@ -13,30 +13,30 @@ import javax.validation.Valid;
 
 @Service
 public class RegistrationService {
-  @Autowired
-  private UserRepository userRepository;
-  @Autowired
-  private PasswordHasher passwordHasher;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private PasswordHasher passwordHasher;
 
-  public String register(@NonNull @Valid RegistrationRequest request) {
-    String email = request.getEmail();
+    public String register(@NonNull @Valid RegistrationRequest request) {
+        String email = request.getEmail();
 
-    if (userRepository.existsByEmail(email)) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email<" + email + "> already in use.");
+        if(userRepository.existsByEmail(email)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email<" + email + "> already in use.");
+        }
+
+        byte[] hashedAndSaltedPassword = passwordHasher.hashAndSalt(request.getPassword());
+
+        UserEntity userEntity = new UserEntity()
+                .setEmail(email)
+                .setHashedAndSaltedPassword(hashedAndSaltedPassword)
+                .setBirthday(request.getBirthday())
+                .setFirstName(request.getFirstName())
+                .setFamilyName(request.getFamilyName())
+                .generateUuid();
+
+        userEntity = userRepository.save(userEntity);
+
+        return userEntity.getUuid();
     }
-
-    byte[] hashedAndSaltedPassword = passwordHasher.hashAndSalt(request.getPassword());
-
-    UserEntity userEntity = new UserEntity()
-        .setEmail(email)
-        .setHashedAndSaltedPassword(hashedAndSaltedPassword)
-        .setBirthday(request.getBirthday())
-        .setFirstName(request.getFirstName())
-        .setFamilyName(request.getFamilyName())
-        .generateUuid();
-
-    userEntity = userRepository.save(userEntity);
-
-    return userEntity.getUuid();
-  }
 }

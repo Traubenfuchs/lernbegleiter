@@ -15,27 +15,27 @@ import org.springframework.security.web.authentication.AnonymousAuthenticationFi
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, proxyTargetClass = true)
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-  @Autowired
-  private LoginService loginService;
+    @Autowired
+    private LoginService loginService;
 
-  @Override
-  protected void configure(HttpSecurity http) throws Exception {
-    http.addFilterBefore(new SecretSecurityFilter(loginService), AnonymousAuthenticationFilter.class);
-    http
-        .csrf().disable()
-        .sessionManagement().disable()
-        .formLogin().disable()
-        .logout().disable()
-        .httpBasic().disable()
-        .logout().disable()
-        .authorizeRequests()
-        .antMatchers("/api/login").permitAll()
-        .antMatchers("/**").authenticated()
-    ;
-  }
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.addFilterBefore(new SecretSecurityFilter(loginService), AnonymousAuthenticationFilter.class);
+        http
+                .csrf().disable()
+                .sessionManagement().disable()
+                .formLogin().disable()
+                .logout().disable()
+                .httpBasic().disable()
+                .logout().disable()
+                .authorizeRequests()
+                .antMatchers("/api/login").permitAll()
+                .antMatchers("/**").authenticated()
+        ;
+    }
 
-  @Bean
-  GrantedAuthorityDefaults grantedAuthorityDefaults() {
-    return new GrantedAuthorityDefaults(""); // Remove the ROLE_ prefix
-  }
+    @Bean
+    GrantedAuthorityDefaults grantedAuthorityDefaults() {
+        return new GrantedAuthorityDefaults(""); // Remove the ROLE_ prefix
+    }
 }

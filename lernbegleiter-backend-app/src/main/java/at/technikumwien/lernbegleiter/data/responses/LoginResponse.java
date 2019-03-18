@@ -8,7 +8,7 @@ import java.util.Set;
 @Accessors(chain = true)
 @Data
 public class LoginResponse {
-  private String uuid;
-  private String secret;
-  private Set<String> rights;
+    private String uuid;
+    private String secret;
+    private Set<String> rights;
 }

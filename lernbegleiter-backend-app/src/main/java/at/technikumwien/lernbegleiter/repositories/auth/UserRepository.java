@@ -9,9 +9,10 @@ import java.util.Set;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, String> {
-  boolean existsByEmail(String email);
-  UserEntity findByEmail(String email);
+    boolean existsByEmail(String email);
 
-  @Query("SELECT u FROM UserEntity u WHERE ?1 member of u.rights")
-  Set<UserEntity> findByRightsContains(String right);
+    UserEntity findByEmail(String email);
+
+    @Query("SELECT u FROM UserEntity u WHERE ?1 member of u.rights")
+    Set<UserEntity> findByRightsContains(String right);
 }

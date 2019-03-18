@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 public class StudentConverter extends DtoEntityConverter<UserEntity, StudentDto> {
     @Autowired
     private PasswordHasher passwordHasher;
+
     @Override
     public void applyToDto(UserEntity userEntity, StudentDto studentDto) {
         studentDto
@@ -18,7 +19,7 @@ public class StudentConverter extends DtoEntityConverter<UserEntity, StudentDto>
                 .setFamilyName(userEntity.getFamilyName())
                 .setFirstName(userEntity.getFirstName())
                 .setBirthday(userEntity.getBirthday())
-                ;
+        ;
     }
 
     @Override

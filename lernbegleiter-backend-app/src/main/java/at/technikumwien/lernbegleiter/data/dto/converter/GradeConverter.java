@@ -7,17 +7,17 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class GradeConverter extends DtoEntityConverter<GradeEntity, GradeDto> {
-@Autowired
-private StudentConverter studentConverter;
+    @Autowired
+    private StudentConverter studentConverter;
 
     @Override
     public void applyToDto(GradeEntity gradeEntity, GradeDto gradeDto) {
         gradeDto
-               .setUuid(gradeEntity.getUuid())
-               .setName(gradeEntity.getName())
-               .setStudents(studentConverter.toDtoSet(gradeEntity.getStudents()))
-               .setUuid(gradeEntity.getUuid())
-               ;
+                .setUuid(gradeEntity.getUuid())
+                .setName(gradeEntity.getName())
+                .setStudents(studentConverter.toDtoSet(gradeEntity.getStudents()))
+                .setUuid(gradeEntity.getUuid())
+        ;
     }
 
     @Override

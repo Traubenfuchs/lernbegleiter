@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class RegistrationController {
-  @Autowired
-  private RegistrationService registrationService;
+    @Autowired
+    private RegistrationService registrationService;
 
-  @PreAuthorize("hasRole('TEACHER') or hasRole('ADMIN')")
-  @PostMapping("api/registration")
-  public String register(@RequestBody RegistrationRequest registrationRequest) {
-    return registrationService.register(registrationRequest);
-  }
+    @PreAuthorize("hasRole('TEACHER') or hasRole('ADMIN')")
+    @PostMapping("api/registration")
+    public String register(@RequestBody RegistrationRequest registrationRequest) {
+        return registrationService.register(registrationRequest);
+    }
 }

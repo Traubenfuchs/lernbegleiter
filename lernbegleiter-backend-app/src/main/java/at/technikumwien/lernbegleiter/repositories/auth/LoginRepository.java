@@ -8,7 +8,7 @@ import java.time.Instant;
 
 @Repository
 public interface LoginRepository extends JpaRepository<LoginEntity, String> {
-  long deleteByTsCreationBefore(Instant cutoff);
+    long deleteByTsCreationBefore(Instant cutoff);
 
-  LoginEntity findBySecret(String secret);
+    LoginEntity findBySecret(String secret);
 }

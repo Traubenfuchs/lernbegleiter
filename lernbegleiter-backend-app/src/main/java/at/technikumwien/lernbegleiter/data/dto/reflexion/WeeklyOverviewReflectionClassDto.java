@@ -13,7 +13,7 @@ public class WeeklyOverviewReflectionClassDto {
     private String uuid = "";
     private String color = "";
     private String progress = "";
-    private String improvements ="";
-    private String shortName="";
-    private String name="";
+    private String improvements = "";
+    private String shortName = "";
+    private String name = "";
 }
