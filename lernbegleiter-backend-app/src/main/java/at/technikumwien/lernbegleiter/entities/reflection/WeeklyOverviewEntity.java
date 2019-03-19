@@ -16,8 +16,10 @@ import java.util.Set;
 public class WeeklyOverviewEntity extends BaseEntity<WeeklyOverviewEntity> {
     @Column(name = "KW", nullable = false)
     private Integer kw;
+    @Lob
     @Column(name = "MY_WEEKLY_GOALS", length = 10240)
     private String myWeeklyGoals = "";
+    @Lob
     @Column(name = "FURTHER_STEPS", length = 10240)
     private String furtherSteps = "";
 

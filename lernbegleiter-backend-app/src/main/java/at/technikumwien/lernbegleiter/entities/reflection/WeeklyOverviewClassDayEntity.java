@@ -11,8 +11,10 @@ import javax.persistence.*;
 @Table(name = "WEEKLY_OVERVIEW_CLASS_DAY")
 @Entity
 public class WeeklyOverviewClassDayEntity extends BaseEntity<WeeklyOverviewClassDayEntity> {
+    @Lob
     @Column(name = "TEACHER_COMMENT", length = 10240)
     private String teacherComment = "";
+    @Lob
     @Column(name = "STUDENT_COMMENT", length = 10240)
     private String studentComment = "";
 
