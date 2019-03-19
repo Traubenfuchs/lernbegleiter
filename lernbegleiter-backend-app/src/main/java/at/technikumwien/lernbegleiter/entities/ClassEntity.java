@@ -2,6 +2,7 @@ package at.technikumwien.lernbegleiter.entities;
 
 import at.technikumwien.lernbegleiter.entities.base.BaseEntityCreationUpdateDate;
 import at.technikumwien.lernbegleiter.entities.reflection.WeeklyOverviewClassEntity;
+import at.technikumwien.lernbegleiter.entities.reflection.WeeklyOverviewReflectionClassEntity;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -25,7 +26,7 @@ public class ClassEntity extends BaseEntityCreationUpdateDate<ClassEntity> {
     @OneToMany(mappedBy = "parent")
     private Set<LearningModuleEntity> modules = new HashSet<>();
     @OneToMany(mappedBy = "clazz")
-    private Set<LearningModuleEntity> weeklyOverviewReflectionClasses = new HashSet<>();
+    private Set<WeeklyOverviewReflectionClassEntity> weeklyOverviewReflectionClasses = new HashSet<>();
     @OneToMany(mappedBy = "clazz")
     private Set<WeeklyOverviewClassEntity> weeklyOverviewClasses = new HashSet<>();
 }
