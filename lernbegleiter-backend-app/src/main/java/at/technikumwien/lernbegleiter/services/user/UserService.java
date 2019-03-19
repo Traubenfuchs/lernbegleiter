@@ -1,8 +1,10 @@
-package at.technikumwien.lernbegleiter.services;
+package at.technikumwien.lernbegleiter.services.user;
 
 import at.technikumwien.lernbegleiter.data.requests.UserUpdateRequest;
 import at.technikumwien.lernbegleiter.entities.auth.UserEntity;
 import at.technikumwien.lernbegleiter.repositories.auth.UserRepository;
+import at.technikumwien.lernbegleiter.components.PasswordHasher;
+import at.technikumwien.lernbegleiter.components.AuthHelper;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;

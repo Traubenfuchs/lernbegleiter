@@ -2,7 +2,7 @@ package at.technikumwien.lernbegleiter.configuration;
 
 import at.technikumwien.lernbegleiter.entities.auth.UserEntity;
 import at.technikumwien.lernbegleiter.repositories.auth.UserRepository;
-import at.technikumwien.lernbegleiter.services.PasswordHasher;
+import at.technikumwien.lernbegleiter.components.PasswordHasher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 

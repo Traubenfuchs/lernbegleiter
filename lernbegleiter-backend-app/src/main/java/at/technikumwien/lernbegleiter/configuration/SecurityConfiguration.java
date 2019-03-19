@@ -1,6 +1,6 @@
 package at.technikumwien.lernbegleiter.configuration;
 
-import at.technikumwien.lernbegleiter.services.LoginService;
+import at.technikumwien.lernbegleiter.services.user.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

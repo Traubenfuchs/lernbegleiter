@@ -1,6 +1,6 @@
-package at.technikumwien.lernbegleiter.repositories;
+package at.technikumwien.lernbegleiter.repositories.modules;
 
-import at.technikumwien.lernbegleiter.entities.LearningModuleEntity;
+import at.technikumwien.lernbegleiter.entities.modules.LearningModuleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

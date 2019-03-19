@@ -6,7 +6,11 @@ import at.technikumwien.lernbegleiter.repositories.reflection.WeeklyOverviewRefl
 import at.technikumwien.lernbegleiter.repositories.reflection.WeeklyOverviewReflectionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
+@Transactional
+@Validated
 @Service
 public class ReflectionService {
     @Autowired

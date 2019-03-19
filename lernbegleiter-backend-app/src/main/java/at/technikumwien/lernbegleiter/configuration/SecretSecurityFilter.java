@@ -1,7 +1,7 @@
 package at.technikumwien.lernbegleiter.configuration;
 
 import at.technikumwien.lernbegleiter.data.UserAuthentication;
-import at.technikumwien.lernbegleiter.services.LoginService;
+import at.technikumwien.lernbegleiter.services.user.LoginService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.server.ResponseStatusException;

@@ -1,6 +1,7 @@
 package at.technikumwien.lernbegleiter.entities;
 
 import at.technikumwien.lernbegleiter.entities.base.BaseEntityCreationUpdateDate;
+import at.technikumwien.lernbegleiter.entities.modules.LearningModuleEntity;
 import at.technikumwien.lernbegleiter.entities.reflection.WeeklyOverviewClassEntity;
 import at.technikumwien.lernbegleiter.entities.reflection.WeeklyOverviewReflectionClassEntity;
 import lombok.Data;
@@ -8,6 +9,7 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.HashSet;
@@ -29,4 +31,6 @@ public class ClassEntity extends BaseEntityCreationUpdateDate<ClassEntity> {
     private Set<WeeklyOverviewReflectionClassEntity> weeklyOverviewReflectionClasses = new HashSet<>();
     @OneToMany(mappedBy = "clazz")
     private Set<WeeklyOverviewClassEntity> weeklyOverviewClasses = new HashSet<>();
+    @ManyToMany(mappedBy = "classes")
+    private Set<GradeEntity> grades;
 }

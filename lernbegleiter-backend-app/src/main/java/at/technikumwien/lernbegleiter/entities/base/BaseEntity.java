@@ -12,21 +12,21 @@ import java.util.UUID;
 @Data
 @MappedSuperclass
 public abstract class BaseEntity<T extends BaseEntity<T>> {
-    @Column(length = 36, nullable = false)
-    @GenericGenerator(
-            name = "UUID_GENERATOR",
-            strategy = "at.technikumwien.lernbegleiter.entities.base.UuidGenerator")
-    @GeneratedValue(generator = "UUID_GENERATOR")
-    @Id
-    private String uuid;
+  @Column(name = "UUID", length = 36, nullable = false)
+  @GenericGenerator(
+      name = "UUID_GENERATOR",
+      strategy = "at.technikumwien.lernbegleiter.entities.base.UuidGenerator")
+  @GeneratedValue(generator = "UUID_GENERATOR")
+  @Id
+  private String uuid;
 
-    public T setUuid(String uuid) {
-        this.uuid = uuid;
-        return (T) this;
-    }
+  public T setUuid(String uuid) {
+    this.uuid = uuid;
+    return (T) this;
+  }
 
-    public T generateUuid() {
-        this.uuid = UUID.randomUUID().toString();
-        return (T) this;
-    }
+  public T generateUuid() {
+    this.uuid = UUID.randomUUID().toString();
+    return (T) this;
+  }
 }

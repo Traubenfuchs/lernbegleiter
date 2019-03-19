@@ -2,6 +2,8 @@ package at.technikumwien.lernbegleiter.entities.auth;
 
 import at.technikumwien.lernbegleiter.entities.GradeEntity;
 import at.technikumwien.lernbegleiter.entities.base.BaseEntityCreationUpdateDate;
+import at.technikumwien.lernbegleiter.entities.modules.LearningModuleStudentEntity;
+import at.technikumwien.lernbegleiter.entities.modules.SubModuleStudentEntity;
 import at.technikumwien.lernbegleiter.entities.reflection.WeeklyOverviewEntity;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -52,4 +54,10 @@ public class UserEntity extends BaseEntityCreationUpdateDate<UserEntity> {
      */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "student")
     private Set<WeeklyOverviewEntity> weeklyOverviews = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "student")
+    private Set<LearningModuleStudentEntity> learningModulesStudents = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "student")
+    private Set<SubModuleStudentEntity> subModuleStudents = new HashSet<>();
 }

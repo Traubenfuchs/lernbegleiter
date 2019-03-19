@@ -1,4 +1,4 @@
-package at.technikumwien.lernbegleiter.services;
+package at.technikumwien.lernbegleiter.services.user;
 
 import at.technikumwien.lernbegleiter.data.dto.StudentDto;
 import at.technikumwien.lernbegleiter.data.dto.converter.StudentConverter;

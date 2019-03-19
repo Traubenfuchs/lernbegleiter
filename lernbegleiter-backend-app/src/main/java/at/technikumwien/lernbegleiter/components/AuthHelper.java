@@ -1,4 +1,4 @@
-package at.technikumwien.lernbegleiter.services;
+package at.technikumwien.lernbegleiter.components;
 
 import at.technikumwien.lernbegleiter.data.UserAuthentication;
 import org.springframework.http.HttpStatus;

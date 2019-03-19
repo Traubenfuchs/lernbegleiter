@@ -1,4 +1,4 @@
-package at.technikumwien.lernbegleiter.services;
+package at.technikumwien.lernbegleiter.components;
 
 import org.springframework.stereotype.Component;
 
