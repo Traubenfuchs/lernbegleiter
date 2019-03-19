@@ -8,6 +8,6 @@ spring:
       ddl-auto: update
     database-platform: org.hibernate.dialect.MySQL8Dialect
   datasource:
-    url: jdbc:mysql://localhost:3307/lernbegleiter?createDatabaseIfNotExist=true&serverTimezone=UTC
-    username: root
+    url: jdbc:mysql://${DB_HOST_AND_PORT}/lernbegleiter?createDatabaseIfNotExist=true&serverTimezone=UTC
+    username: ${DB_USER}
     password: ${DB_PASSWORD}
