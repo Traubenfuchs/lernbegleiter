@@ -6,4 +6,5 @@ export class Student {
 	birthday: string
 	email: string
 	password: string
+	gradeUuid:string
 }

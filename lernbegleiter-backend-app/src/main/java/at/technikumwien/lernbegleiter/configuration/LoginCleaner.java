@@ -12,7 +12,7 @@ public class LoginCleaner {
     @Autowired
     private LoginRepository loginRepository;
 
-    @Scheduled(fixedDelay = 1000 * 60 * 60)
+    @Scheduled(fixedDelay = 1000 * 60 * 60, initialDelay = 1000)
     public void clean() {
         loginRepository.deleteByTsCreationBefore(Instant.now().minusSeconds(60 * 60 * 24));
     }

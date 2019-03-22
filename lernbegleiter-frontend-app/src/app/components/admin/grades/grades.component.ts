@@ -20,7 +20,6 @@ export class GradesComponent implements OnInit {
   loadGrades() {
     this.http.get<Grade[]>('api/grades')
       .subscribe(res => {
-        console.log("LOADED GRADES")
         this.grades = res
       })
   }

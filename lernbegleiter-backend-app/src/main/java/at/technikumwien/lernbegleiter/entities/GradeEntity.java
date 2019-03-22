@@ -26,7 +26,7 @@ import java.util.Set;
 @Entity
 public class GradeEntity extends BaseEntityCreationUpdateDate<GradeEntity> {
 
-  @Column(name = "NAME", nullable = false)
+  @Column(name = "NAME", nullable = false, unique = true)
   private String name;
 
   /**

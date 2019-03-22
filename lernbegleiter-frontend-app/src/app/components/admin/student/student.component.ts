@@ -1,3 +1,4 @@
+import { Grade } from './../../../data/Grade';
 import { catchError } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
@@ -14,6 +15,7 @@ import { UuidResponse } from 'src/app/data/UuidResponse';
 export class StudentComponent implements OnInit {
   student: Student = new Student()
   uuid: string
+  grades: Grade[] = []
 
   constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute) { }
 
@@ -23,7 +25,16 @@ export class StudentComponent implements OnInit {
       this.student.uuid = 'Automatisch'
     } else {
       this.loadStudent()
+      this.loadGrades()
     }
+  }
+
+  loadGrades() {
+    console.log('loading grades...')
+    this.http.get<Grade[]>('api/grades')
+      .subscribe(res => {
+        this.grades = res
+      })
   }
 
   saveClick() {

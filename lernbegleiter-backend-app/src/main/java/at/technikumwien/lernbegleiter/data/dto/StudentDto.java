@@ -18,4 +18,5 @@ public class StudentDto {
     private String familyName;
     private LocalDate birthday;
     private String password;
+    private String gradeUuid;
 }
