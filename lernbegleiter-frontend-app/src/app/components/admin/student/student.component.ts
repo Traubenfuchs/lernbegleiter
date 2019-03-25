@@ -16,6 +16,7 @@ export class StudentComponent implements OnInit {
   student: Student = new Student()
   uuid: string
   grades: Grade[] = []
+  selectedClass: string = ''
 
   constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute) { }
 

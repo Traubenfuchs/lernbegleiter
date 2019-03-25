@@ -7,11 +7,8 @@ import at.technikumwien.lernbegleiter.entities.reflection.WeeklyOverviewReflecti
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,6 +28,7 @@ public class ClassEntity extends BaseEntityCreationUpdateDate<ClassEntity> {
     private Set<WeeklyOverviewReflectionClassEntity> weeklyOverviewReflectionClasses = new HashSet<>();
     @OneToMany(mappedBy = "clazz")
     private Set<WeeklyOverviewClassEntity> weeklyOverviewClasses = new HashSet<>();
-    @ManyToMany(mappedBy = "classes")
-    private Set<GradeEntity> grades;
+    @ManyToOne
+    @JoinColumn(name = "FK_GRADE_UUID")
+    private GradeEntity grade;
 }

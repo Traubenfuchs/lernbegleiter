@@ -34,7 +34,7 @@ public class UserEntity extends BaseEntityCreationUpdateDate<UserEntity> {
     @ElementCollection
     @CollectionTable(name = "USER_RIGHTS", joinColumns = @JoinColumn(name = "FK_USER_UUID"))
     @Column(name = "RIGHT_NAME", nullable = false)
-    private Set<String> rights;
+    private Set<String> rights = new HashSet<>();
 
     /**
      * Grades this teacher is head teacher of

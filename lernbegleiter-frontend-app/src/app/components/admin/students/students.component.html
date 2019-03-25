@@ -1,19 +1,21 @@
 <table>
-  <tr>
-    <th>Vorname</th>
-    <th>Nachname</th>
-    <th>Email</th>
-    <th>Geburtstag</th>
-    <th>UUID</th>
-    <th>Edit</th>
-  </tr>
-  <tr *ngFor="let student of students">
-    <td>{{student.firstName}}</td>
-    <td>{{student.familyName}}</td>
-    <td>{{student.email}}</td>
-    <td>{{student.birthday}}</td>
-    <td>{{student.uuid}}</td>
-    <td><button [routerLink]="'/management/student/' + student.uuid">edit</button></td>
-  </tr>
-  <button [routerLink]="'/management/student/new'">Neuen Schüler anlegen</button>
+    <tr>
+        <th>Vorname</th>
+        <th>Nachname</th>
+        <th>Email</th>
+        <th>Geburtstag</th>
+        <th>UUID</th>
+        <th>Klassenname</th>
+        <th>Edit</th>
+    </tr>
+    <tr *ngFor="let student of students">
+        <td>{{student.firstName}}</td>
+        <td>{{student.familyName}}</td>
+        <td>{{student.email}}</td>
+        <td>{{student.birthday}}</td>
+        <td>{{student.uuid}}</td>
+        <td>{{student.gradeName}}</td>
+        <td><button [routerLink]="'/management/student/' + student.uuid">edit</button></td>
+    </tr>
+    <button [routerLink]="'/management/student/new'">Neuen Schüler anlegen</button>
 </table>

@@ -3,6 +3,7 @@ package at.technikumwien.lernbegleiter.entities;
 import at.technikumwien.lernbegleiter.entities.auth.UserEntity;
 import at.technikumwien.lernbegleiter.entities.base.BaseEntityCreationUpdateDate;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import javax.persistence.CascadeType;
@@ -24,6 +25,7 @@ import java.util.Set;
 @Data
 @Table(name = "GRADE")
 @Entity
+@EqualsAndHashCode(exclude={"students", "classes"})
 public class GradeEntity extends BaseEntityCreationUpdateDate<GradeEntity> {
 
   @Column(name = "NAME", nullable = false, unique = true)
@@ -39,12 +41,6 @@ public class GradeEntity extends BaseEntityCreationUpdateDate<GradeEntity> {
   @JoinColumn(name = "FK_HEADTEACHER_UUID")
   private UserEntity classTeacher;
 
-  @ManyToMany
-  @JoinTable(name = "CUST_PHONE",
-      joinColumns =
-      @JoinColumn(name = "FK_GRADE_UUID", referencedColumnName = "UUID"),
-      inverseJoinColumns =
-      @JoinColumn(name = "FK_CLASS_UUID", referencedColumnName = "UUID")
-  )
-  private Set<ClassEntity> classes;
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "grade")
+  private Set<ClassEntity> classes = new HashSet<>();
 }

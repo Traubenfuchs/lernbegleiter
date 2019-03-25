@@ -6,17 +6,15 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Data
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class StudentDto {
+public class LearningModuleDto {
     private String uuid;
-    private String email;
-    private String firstName;
-    private String familyName;
-    private LocalDate birthday;
-    private String password;
-    private String gradeName;
+    private String name;
+    private Set<SubModuleDto> learningModules;
+    private LocalDate deadline;
 }

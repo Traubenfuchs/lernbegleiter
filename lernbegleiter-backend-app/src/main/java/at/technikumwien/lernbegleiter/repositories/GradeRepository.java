@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface GradeRepository extends JpaRepository<GradeEntity, String> {
+    GradeEntity getByName(String name);
 }

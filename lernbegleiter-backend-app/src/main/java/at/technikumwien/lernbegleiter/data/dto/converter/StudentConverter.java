@@ -22,7 +22,7 @@ public class StudentConverter extends DtoEntityConverter<UserEntity, StudentDto>
         .setFamilyName(ue.getFamilyName())
         .setFirstName(ue.getFirstName())
         .setBirthday(ue.getBirthday())
-        .setGradeUuid(ue.getGrade() == null ? null : ue.getGrade().getUuid())
+        .setGradeName(ue.getGrade() == null ? null : ue.getGrade().getName())
     ;
   }
 
@@ -34,7 +34,7 @@ public class StudentConverter extends DtoEntityConverter<UserEntity, StudentDto>
         .setFamilyName(sd.getFamilyName())
         .setFirstName(sd.getFirstName())
         .setBirthday(sd.getBirthday())
-        .setGrade(sd.getGradeUuid() == null ? null : gr.getOne(sd.getGradeUuid()))
+        .setGrade(sd.getGradeName() == null ? null : gr.getByName(sd.getGradeName()))
     ;
 
     if (sd.getPassword() != null) {

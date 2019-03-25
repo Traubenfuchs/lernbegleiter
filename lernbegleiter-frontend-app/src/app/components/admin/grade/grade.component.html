@@ -1,20 +1,41 @@
-<p>List of students:</p>
-
+<p>Liste der Schüler</p>
 <table>
-	<tr>
-		<th>Vorname</th>
-		<th>Nachname</th>
-		<th>Email</th>
-		<th>Geburtsdatum</th>
-		<th></th>
-	</tr>
+    <tr>
+        <th>Vorname</th>
+        <th>Nachname</th>
+        <th>Email</th>
+        <th>Geburtsdatum</th>
+        <th></th>
+        <th></th>
+    </tr>
+    <tr *ngFor="let student of grade.students">
+        <td>{{student.firstName}}</td>
+        <td>{{student.familyName}}</td>
+        <td>{{student.email}}</td>
+        <td>{{student.birthday}}</td>
+        <td><button [routerLink]="'/management/student/' + student.uuid">bearbeiten</button></td>
+        <td><button (click)='deleteFromGrade(student.uuid)'>von Klasse entfernen</button></td>
+    </tr>
 
-	<tr *ngFor="let student of students">
-		<td>{{student.firstName}}</td>
-		<td>{{student.familyName}}</td>
-		<td>{{student.familyName}}</td>
-		<td><button [routerLink]="'/management/student/' + student.uuid">edit</button></td>
-		<td><button (click)='deleteFromGrade(student.uuid)'>von Klasse entfernen</button></td>
-	</tr>
+</table>
+
+<p>Liste von Fächern für diese Klasse: (TODO!)</p>
+<table>
+    <tr>
+        <th>Fachname</th>
+        <th>Anzahl Submodule</th>
+        <th>geplante Fertigstellung</th>
+        <th>TODO</th>
+        <th></th>
+        <th></th>
+    </tr>
+    <tr *ngFor="let student of grade.students">
+        <td>{{student.firstName}}</td>
+        <td>{{student.familyName}}</td>
+        <td>{{student.email}}</td>
+        <td>{{student.birthday}}</td>
+        <td><button [routerLink]="'/management/student/' + student.uuid">bearbeiten</button></td>
+        <td><button (click)='deleteFromGrade(student.uuid)'>Fach löschen</button></td>
+    </tr>
 
 </table>

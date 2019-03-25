@@ -47,7 +47,7 @@ public class GradeService {
 
         ge.setStudents(
                 ge.getStudents().stream()
-                        .filter(student -> !student.getUuid().equals(studentUuid))
+                        .filter(student ->{ student.setGrade(null); return !student.getUuid().equals(studentUuid);})
                         .collect(Collectors.toSet()));
     }
 }

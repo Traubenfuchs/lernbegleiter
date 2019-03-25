@@ -1,22 +1,22 @@
 <p>Es gibt die folgenden Klassen:</p>
 
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Schüler</th>
-    <th></th>
-  </tr>
+    <tr>
+        <th>Name</th>
+        <th>Schüler</th>
+        <th></th>
+    </tr>
 
-  <tr *ngFor="let grade of grades">
-    <td>{{grade.name}}</td>
-    <td>{{grade.students.length}}</td>
-    <td><button [routerLink]="'/management/grade/' + grade.uuid">edit</button></td>
-    <td><button (click)='deleteGrade(grade.uuid)'>delete</button></td>
-  </tr>
+    <tr *ngFor="let grade of grades">
+        <td>{{grade.name}}</td>
+        <td>{{grade.students.length}}</td>
+        <td><button [routerLink]="'/management/grade/' + grade.uuid">edit</button></td>
+        <td><button (click)='deleteGrade(grade.uuid)'>delete</button></td>
+    </tr>
 
 </table>
 
 <div>
-  <input placeholder="Name" name='newGradeName' [(ngModel)]="newGradeName">
-  <button (click)='createGrade()'>create</button>
+    <input placeholder="Klassenname" name='newGradeName' [(ngModel)]="newGradeName">
+    <button (click)='createGrade()'>erstellen</button>
 </div>

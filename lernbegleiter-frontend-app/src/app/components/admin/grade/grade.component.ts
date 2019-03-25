@@ -14,7 +14,17 @@ export class GradeComponent implements OnInit {
 
   constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.loadGrade()
+  }
+
+  loadClasses() {
+    this.http.get<Class>(`api/grade/${this.route.snapshot.paramMap.get("gradeUUID")}`)
+      .subscribe(res => {
+        console.log("Loaded grade")
+        this.grade = res
+      })
+  }
 
   loadGrade() {
     this.http.get<Grade>(`api/grade/${this.route.snapshot.paramMap.get("gradeUUID")}`)
@@ -25,7 +35,7 @@ export class GradeComponent implements OnInit {
   }
 
   deleteFromGrade(uuid: string) {
-    this.http.delete<any>(`api/grade/${uuid}/student/${this.route.snapshot.paramMap.get("gradeUUID")}`)
+    this.http.delete<any>(`api/grade/${this.route.snapshot.paramMap.get("gradeUUID")}/student/${uuid}`)
       .subscribe(res => {
         console.log(`Student with uuid <${uuid}> deleted.`)
         this.loadGrade()

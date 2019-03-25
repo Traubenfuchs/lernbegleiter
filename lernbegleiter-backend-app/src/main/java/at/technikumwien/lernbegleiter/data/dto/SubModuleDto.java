@@ -11,12 +11,8 @@ import java.time.LocalDate;
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class StudentDto {
+public class SubModuleDto {
     private String uuid;
-    private String email;
-    private String firstName;
-    private String familyName;
-    private LocalDate birthday;
-    private String password;
-    private String gradeName;
+    private String name;
+    private LocalDate deadline;
 }
