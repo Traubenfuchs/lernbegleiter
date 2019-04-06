@@ -37,7 +37,7 @@ export class GradesComponent implements OnInit {
 
   deleteGrade(uuid: string) {
     this.http.delete<any>('api/grade/' + uuid)
-    .subscribe(res => {
+    .subscribe(() => {
       this.loadGrades()
     })
   }

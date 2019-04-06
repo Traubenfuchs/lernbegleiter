@@ -1,4 +1,4 @@
-<div *ngIf='!this.loginService.getLoginResponse() && router.url !== "/login"'>
+<div *ngIf='!loginService.getLoginResponse() && router.url !== "/login"'>
   <button class="btn btn-primary btn-lg" [routerLink]="['/login']">Login</button>
 </div>
 
@@ -38,7 +38,7 @@
 
 <div class="container">
   <div *ngIf="isLoggedInWithStudentAuthority()">
-    <button [routerLink]="['/student/'+this.loginService.getUserUuid()+'/weekly-overview/'+this.weekInYear]">Wöchentliche
+    <button [routerLink]="['/student/'+loginService.getUserUuid()+'/weekly-overview/'+weekInYear]">Wöchentliche
       Übersicht
     </button>
     <button (click)="loginService.logout()">logout</button>

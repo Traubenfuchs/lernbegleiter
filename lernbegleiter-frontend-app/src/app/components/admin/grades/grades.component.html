@@ -2,9 +2,11 @@
   <div class="row">
     <div class="col-sm-4">
       <div class="card">
-        <div class="card-body">
+        <div class="card-header">
           <h5 class="card-title">Neue Klasse anlegen</h5>
-          <label for="newClassName">Hier kannst du eine neue Klasse anlegen</label>
+          <p class="card-text">Hier kannst du eine neue Klasse anlegen</p>
+        </div>
+        <div class="card-body">
           <div class="input-group mb-3">
             <input id="newClassName" class="form-control" placeholder="Klassenname" aria-label="Klassenname" aria-describedby="basic-addon1"
                    name='newGradeName' [(ngModel)]="newGradeName">
@@ -17,8 +19,8 @@
           <li class="list-group-item">
             <span>{{ grade.name }}</span> ({{ grade.students.length }})
             <div class="btn-group float-right" role="group" aria-label="Basic example">
-              <button (click)='deleteGrade(grade.uuid)' type="button" class="btn btn-danger btn-sm">Löschen</button>
-              <button (click)="setSelectedGrade(grade)" type="button" class="btn btn-secondary btn-sm">Bearbeiten</button>
+              <button (click)='deleteGrade(grade.uuid)' type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+              <button (click)="setSelectedGrade(grade)" type="button" class="btn btn-secondary btn-sm"><i class="fa fa-pencil"></i></button>
             </div>
           </li>
         </ul>
@@ -26,9 +28,14 @@
     </div>
     <div class="col-sm-8">
       <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Klassen bearbeiten</h5>
+        <div class="card-header">
+          <div class="d-flex justify-content-between">
+            <h5 class="card-title">Bearbeiten</h5>
+            <h4><span *ngIf="selectedGrade" class="badge badge-secondary">{{ selectedGrade.name }}</span></h4>
+          </div>
           <p class="card-text">Hier kannst du die Klassen bearbeiten</p>
+        </div>
+        <div class="card-body">
           <app-grade *ngIf="selectedGrade" [gradeUUID]="selectedGrade.uuid"></app-grade>
         </div>
       </div>
