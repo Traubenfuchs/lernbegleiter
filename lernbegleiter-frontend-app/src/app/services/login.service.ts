@@ -1,12 +1,11 @@
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable, throwError} from 'rxjs';
+import {catchError} from 'rxjs/operators';
 
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-
-import { LoginRequest } from '../data/LoginRequest';
-import { LoginResponse } from './../data/LoginResponse';
-import { Router } from '@angular/router';
+import {LoginRequest} from '../data/LoginRequest';
+import {LoginResponse} from './../data/LoginResponse';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -70,9 +69,11 @@ export class LoginService {
     })
     return result;
   }
+
   public loggedInAndStudent() {
     return !!this.loginResponse && this.loginResponse.rights.indexOf('STUDENT') > -1;
   }
+
   public loggedInAndAuthority() {
     return !!this.loginResponse && (
       this.loginResponse.rights.indexOf('STUDENT') > -1 ||

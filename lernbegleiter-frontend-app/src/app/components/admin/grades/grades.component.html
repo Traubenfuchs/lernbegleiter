@@ -1,22 +1,37 @@
-<p>Es gibt die folgenden Klassen:</p>
-
-<table>
-    <tr>
-        <th>Name</th>
-        <th>Schüler</th>
-        <th></th>
-    </tr>
-
-    <tr *ngFor="let grade of grades">
-        <td>{{grade.name}}</td>
-        <td>{{grade.students.length}}</td>
-        <td><button [routerLink]="'/management/grade/' + grade.uuid">edit</button></td>
-        <td><button (click)='deleteGrade(grade.uuid)'>delete</button></td>
-    </tr>
-
-</table>
-
-<div>
-    <input placeholder="Klassenname" name='newGradeName' [(ngModel)]="newGradeName">
-    <button (click)='createGrade()'>erstellen</button>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Neue Klasse anlegen</h5>
+          <label for="newClassName">Hier kannst du eine neue Klasse anlegen</label>
+          <div class="input-group mb-3">
+            <input id="newClassName" class="form-control" placeholder="Klassenname" aria-label="Klassenname" aria-describedby="basic-addon1"
+                   name='newGradeName' [(ngModel)]="newGradeName">
+            <div class="input-group-append">
+              <button id="basic-addon1" class="btn btn-success w-100" (click)='createGrade()'>Anlegen</button>
+            </div>
+          </div>
+        </div>
+        <ul *ngFor="let grade of grades" class="list-group list-group-flush">
+          <li class="list-group-item">
+            <span>{{ grade.name }}</span> ({{ grade.students.length }})
+            <div class="btn-group float-right" role="group" aria-label="Basic example">
+              <button (click)='deleteGrade(grade.uuid)' type="button" class="btn btn-danger btn-sm">Löschen</button>
+              <button (click)="setSelectedGrade(grade)" type="button" class="btn btn-secondary btn-sm">Bearbeiten</button>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-sm-8">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Klassen bearbeiten</h5>
+          <p class="card-text">Hier kannst du die Klassen bearbeiten</p>
+          <app-grade *ngIf="selectedGrade" [gradeUUID]="selectedGrade.uuid"></app-grade>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

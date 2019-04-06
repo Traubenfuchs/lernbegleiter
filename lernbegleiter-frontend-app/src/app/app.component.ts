@@ -1,6 +1,6 @@
-import { Router } from '@angular/router';
-import { LoginService } from './services/login.service';
-import { Component } from '@angular/core';
+import {Router} from '@angular/router';
+import {LoginService} from './services/login.service';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -10,21 +10,64 @@ import { Component } from '@angular/core';
 export class AppComponent {
   public weekInYear: number
 
+  welcomeHeader = 'Lernbegleiter';
+  contextMessage = 'Dein Wochenplaner';
+
+  gradesUrl = '/management/grades';
+  studentsUrl = '/management/students';
+  classesUrl = '/management/classes';
+  learningModuledUrl = '/management/learning-modules';
 
   constructor(public loginService: LoginService, public router: Router) {
-    this.weekInYear = this.getWeekNumber()
-    const loginResponse = loginService.getLoginResponse()
+    this.weekInYear = AppComponent.getWeekNumber();
+    const loginResponse = loginService.getLoginResponse();
     if (!!loginResponse)
       loginResponse.uuid
   }
-  title = 'lernbegleiter-frontend-app';
 
 
-  getWeekNumber(): any {
+  static getWeekNumber(): any {
     const d = new Date();
-    d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7))
-    var yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1))
-    var weekNo = Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7)
-    return weekNo
+    d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+    const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+    return Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7)
+  }
+
+  isLoggedInWithAnyAuthority(): boolean {
+    return this.loginService.loggedInAndAuthority()
+  }
+
+  isLoggedInWithStudentAuthority(): boolean {
+    return this.loginService.loggedInAndStudent();
+  }
+
+  setActiveIfRouterPointsTo(page: string): string {
+    return this.isRouterComponentOn(page) ? 'active' : '';
+  }
+
+  isRouterComponentOn(page: string): boolean {
+    return this.router.url === page;
+  }
+
+  updateContextMessage(url: string) {
+    let subject = '';
+
+    switch (url) {
+      case this.gradesUrl:
+        subject = 'Klassen';
+        break;
+      case this.studentsUrl:
+        subject = 'Schüler';
+        break;
+      case this.classesUrl:
+        subject = 'Fächer';
+        break;
+      case this.learningModuledUrl:
+        subject = 'Lernmodule';
+        break;
+    }
+
+    this.contextMessage = `Hier kannst du die ${subject} verwalten`;
+
   }
 }
