@@ -1,3 +1,5 @@
+import { HttpClient } from '@angular/common/http';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LearningModuleComponent implements OnInit {
 
-  constructor() { }
+  constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute) { }
 
   ngOnInit() {
   }

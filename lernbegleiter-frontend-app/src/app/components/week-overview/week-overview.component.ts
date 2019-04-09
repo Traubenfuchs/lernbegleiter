@@ -1,3 +1,4 @@
+import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { WeeklyOverview } from './../../data/weekly-overview/WeeklyOverview';
 import { Component, OnInit } from '@angular/core';
@@ -11,13 +12,14 @@ export class WeekOverviewComponent implements OnInit {
 
   public weeklyOverview: WeeklyOverview
 
-  constructor(private http: HttpClient) { }
+  constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.loadWeeklyOverview()
   }
 
   loadWeeklyOverview() {
-
+    console.log('Loading weekly over')
   }
 
 }
