@@ -15,6 +15,7 @@ export class AppComponent {
 
   gradesUrl = '/management/grades';
   studentsUrl = '/management/students';
+  newStudentUrl = '/management/student/new';
   classesUrl = '/management/classes';
   learningModuledUrl = '/management/learning-modules';
 
@@ -41,12 +42,16 @@ export class AppComponent {
     return this.loginService.loggedInAndStudent();
   }
 
-  setActiveIfRouterPointsTo(page: string): string {
-    return this.isRouterComponentOn(page) ? 'active' : '';
-  }
+  isRouterSetTo(pages: string[]): boolean {
+    let isRouterSetTo = false;
 
-  isRouterComponentOn(page: string): boolean {
-    return this.router.url === page;
+    pages.forEach(p => {
+      if (this.router.url === p) {
+        isRouterSetTo = true;
+      }
+    });
+
+    return isRouterSetTo;
   }
 
   updateContextMessage(url: string) {

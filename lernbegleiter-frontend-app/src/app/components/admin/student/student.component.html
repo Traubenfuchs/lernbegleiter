@@ -1,20 +1,16 @@
 <div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a [routerLink]="'/management/students'">Übersicht</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Neuer Schüler</li>
+        </ol>
+    </nav>
     <div class="card">
-        <div class="card-header" *ngIf="this.uuid === 'new'">
+        <div class="card-header">
             <h5 class="card-title">Neuen Schüler anlegen</h5>
-            <p class="card-text">Hier kannst du einen neuen Schüler anlegen.</p>
-        </div>
-        <div class="card-header" *ngIf="this.uuid !== 'new'">
-            <h5 class="card-title">Schüler bearbeiten</h5>
-            <p class="card-text">Hier kannst du den ausgewählten Schüler bearbeiten.</p>
+            <p class="card-text">Hier kannst du einen neuen Schüler anlegen</p>
         </div>
         <div class="card-body">
-            <div class="row">
-                <div class="col">
-                    <label for="uuidInput">Uuid</label>
-                    <input id="uuidInput" [(ngModel)]="student.uuid" type="text" class="form-control" placeholder="UUID" disabled="true">
-                </div>
-            </div>
             <div class="row">
                 <div class="col">
                     <label for="vornameInput">Vorname</label>
@@ -33,7 +29,7 @@
                 <div class="col">
                     <label for="klassenSelect">Klasse</label>
                     <select id="klassenSelect" [(ngModel)]="student.gradeName" class="form-control">
-                      <option *ngFor="let grade of grades" [value]="grade.name">{{ grade.name }}</option>
+                        <option *ngFor="let grade of grades" [value]="grade.name">{{ grade.name }}</option>
                     </select>
                 </div>
             </div>
@@ -56,6 +52,4 @@
             <button (click)="saveClick()" *ngIf="uuid === 'new'" class="btn btn-success w-100">Anlegen</button>
         </div>
     </div>
-    <label for="inputUUID">Todo: Löschen</label>
-    <input id="inputUUID" name="uuid" placeholder="UUID" [(ngModel)]="student.uuid" disabled/>
 </div>

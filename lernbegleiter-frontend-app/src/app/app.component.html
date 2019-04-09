@@ -14,16 +14,16 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-          <li class="nav-item {{ setActiveIfRouterPointsTo(gradesUrl) }} ">
+          <li class="nav-item {{ isRouterSetTo([gradesUrl]) ? 'active' : '' }} ">
             <a [routerLink]="gradesUrl" (click)="updateContextMessage(gradesUrl)" class="nav-link">Klassen verwalten</a>
           </li>
-          <li class="nav-item {{ setActiveIfRouterPointsTo(studentsUrl) }}">
+          <li class="nav-item {{ isRouterSetTo([studentsUrl, newStudentUrl]) ? 'active' : '' }}">
             <a [routerLink]="studentsUrl" (click)="updateContextMessage(studentsUrl)" class="nav-link">Schüler verwalten</a>
           </li>
-          <li class="nav-item {{ setActiveIfRouterPointsTo(classesUrl) }}">
+          <li class="nav-item {{ isRouterSetTo([classesUrl]) ? 'active' : '' }}">
             <a [routerLink]="classesUrl" (click)="updateContextMessage(classesUrl)" class="nav-link">Fächer verwalten</a>
           </li>
-          <li class="nav-item {{ setActiveIfRouterPointsTo(learningModuledUrl) }}">
+          <li class="nav-item {{ isRouterSetTo([learningModuledUrl]) ? 'active' : '' }}">
             <a [routerLink]="learningModuledUrl" (click)="updateContextMessage(learningModuledUrl)" class="nav-link">Lernmodule
               verwalten</a>
           </li>
