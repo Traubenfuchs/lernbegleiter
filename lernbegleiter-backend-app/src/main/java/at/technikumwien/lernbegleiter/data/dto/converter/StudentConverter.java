@@ -34,7 +34,7 @@ public class StudentConverter extends DtoEntityConverter<UserEntity, StudentDto>
         .setFamilyName(sd.getFamilyName())
         .setFirstName(sd.getFirstName())
         .setBirthday(sd.getBirthday())
-        .setGrade(sd.getGradeName() == null ? null : gr.getByName(sd.getGradeName()))
+        .setGrade(sd.getGradeName() == null ? null : gr.findByName(sd.getGradeName()))
     ;
 
     if (sd.getPassword() != null) {

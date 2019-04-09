@@ -22,18 +22,19 @@ export class StudentComponent implements OnInit {
 
   ngOnInit() {
     this.uuid = this.route.snapshot.paramMap.get("studentUUID")
+    this.loadGrades()
     if (this.uuid === 'new') {
       this.student.uuid = 'Automatisch'
     } else {
       this.loadStudent()
-      this.loadGrades()
     }
   }
 
   loadGrades() {
-    console.log('loading grades...')
+    console.log('Loading grades...')
     this.http.get<Grade[]>('api/grades')
       .subscribe(res => {
+        console.log('Grades loaded.')
         this.grades = res
       })
   }
@@ -58,8 +59,7 @@ export class StudentComponent implements OnInit {
     console.log('creating student...')
     this.http.post<UuidResponse>('api/student', this.student)
       .subscribe(uuidResponse => {
-        this.uuid = uuidResponse.uuid
-        this.loadStudent()
+        this.router.navigate([`management/student/${uuidResponse.uuid}`])
       })
   }
 

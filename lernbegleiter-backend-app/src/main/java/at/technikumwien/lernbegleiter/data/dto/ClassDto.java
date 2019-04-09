@@ -16,4 +16,5 @@ public class ClassDto {
     private String uuid;
     private String name;
     private Set<LearningModuleDto> learningModules;
+    private String gradeName;
 }

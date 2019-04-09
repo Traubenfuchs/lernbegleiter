@@ -1,7 +1,7 @@
-import {ActivatedRoute, Router} from '@angular/router';
-import {HttpClient} from '@angular/common/http';
-import {Grade} from './../../../data/Grade';
-import {Component, Input, OnInit} from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { Grade } from './../../../data/Grade';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-grade',
@@ -20,27 +20,31 @@ export class GradeComponent implements OnInit {
     this.loadGrade()
   }
 
-  // loadClasses() {
-  //   this.http.get<Class>(`api/grade/${this.route.snapshot.paramMap.get("gradeUUID")}`)
-  //     .subscribe(res => {
-  //       console.log("Loaded grade")
-  //       this.grade = res
-  //     })
-  // }
-
   loadGrade() {
+    console.log(`Loading grade ${this.gradeUUID}`)
+
     this.http.get<Grade>(`api/grade/${this.gradeUUID}`)
-    .subscribe(res => {
-      console.log("Loaded grade")
-      this.grade = res
-    })
+      .subscribe(res => {
+        console.log(`Loaded grade ${this.gradeUUID}`)
+        this.grade = res
+      })
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.loadGrade()
+  }
+
+  deleteClass(uuid: string) {
+    //TODO
   }
 
   deleteFromGrade(uuid: string) {
+    console.log(`Deleting student with uuid <${uuid}> from grade <${uuid}>.`)
+
     this.http.delete<any>(`api/grade/${this.gradeUUID}/student/${uuid}`)
-    .subscribe(res => {
-      console.log(`Student with uuid <${uuid}> deleted.`)
-      this.loadGrade()
-    })
+      .subscribe(res => {
+        console.log(`Student with uuid <${uuid}> deleted from grade <${uuid}>.`)
+        this.loadGrade()
+      })
   }
 }

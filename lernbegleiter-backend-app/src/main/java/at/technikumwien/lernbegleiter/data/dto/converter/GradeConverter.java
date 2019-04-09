@@ -10,12 +10,16 @@ public class GradeConverter extends DtoEntityConverter<GradeEntity, GradeDto> {
     @Autowired
     private StudentConverter studentConverter;
 
+    @Autowired
+    private ClassConverter classConverter;
+
     @Override
     public void applyToDto(GradeEntity gradeEntity, GradeDto gradeDto) {
         gradeDto
                 .setUuid(gradeEntity.getUuid())
                 .setName(gradeEntity.getName())
                 .setStudents(studentConverter.toDtoSet(gradeEntity.getStudents()))
+                .setClasses(classConverter.toDtoSet( gradeEntity.getClasses()))
                 .setUuid(gradeEntity.getUuid())
         ;
     }

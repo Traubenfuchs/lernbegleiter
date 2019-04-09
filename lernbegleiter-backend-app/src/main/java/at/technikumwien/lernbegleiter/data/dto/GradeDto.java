@@ -15,4 +15,5 @@ public class GradeDto {
     private String uuid;
     private String name;
     private Set<StudentDto> students;
+    private Set<ClassDto> classes;
 }

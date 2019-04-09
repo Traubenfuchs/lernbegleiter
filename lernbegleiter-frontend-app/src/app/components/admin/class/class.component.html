@@ -1,3 +1,42 @@
-<p>
-  class works!
-</p>
+<div class="container">
+    <div class="card">
+        <div class="card-header" *ngIf="this.uuid === 'new'">
+            <h5 class="card-title">Neues Fach anlegen</h5>
+            <p class="card-text">Hier kannst du ein neues Fach anlegen.</p>
+        </div>
+        <div class="card-header" *ngIf="this.uuid !== 'new'">
+            <h5 class="card-title">Fach bearbeiten</h5>
+            <p class="card-text">Hier kannst du das ausgewählte Fach bearbeiten.</p>
+        </div>
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <label for="uuidInput">Uuid</label>
+                    <input id="uuidInput" [(ngModel)]="class.uuid" type="text" class="form-control" placeholder="UUID" disabled="true">
+                </div>
+            </div>
+            <div class='row'>
+                <div class="col">
+                    <label for="nameInput">Name</label>
+                    <input id="nameInput" [(ngModel)]="class.name" type="text" class="form-control" placeholder="Name">
+                </div>
+                <div class="col">
+                    <label for="klassenSelect">Klasse</label>
+                    <select id="klassenSelect" [(ngModel)]="class.gradeName" class="form-control">
+                      <option *ngFor="let grade of grades" [value]="grade.name">{{ grade.name }}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-footer">
+            <div *ngIf="uuid !== 'new'" class="btn-group w-100">
+                <button (click)="saveClick()" class="btn btn-secondary">Aktualisieren</button>
+                <button (click)="deleteClick()" class="btn btn-danger">Löschen</button>
+            </div>
+            <button (click)="saveClick()" *ngIf="uuid === 'new'" class="btn btn-success w-100">Anlegen</button>
+        </div>
+
+    </div>
+</div>

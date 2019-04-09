@@ -22,9 +22,9 @@ public class GradeController {
         return gradeService.getAll();
     }
 
-    @GetMapping("grade/{uuid}")
-    public GradeDto get(@PathVariable String uuid) {
-        return gradeService.getOne(uuid);
+    @GetMapping("grade/{gradeUuid}")
+    public GradeDto get(@PathVariable String gradeUuid) {
+        return gradeService.getOne(gradeUuid);
     }
 
     @PostMapping("grade")

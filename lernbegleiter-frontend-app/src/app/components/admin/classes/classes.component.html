@@ -1,5 +1,23 @@
 <div class="container">
-  <p>
-    classes works!
-  </p>
+    <table>
+        <tr>
+            <th>Uuid</th>
+            <th>Name</th>
+            <th>Klasse</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        <tr *ngFor="let class of classes">
+            <td>{{class.uuid}}</td>
+            <td>{{class.name}}</td>
+            <td>{{class.gradeName}}</td>
+            <td>
+                <button [routerLink]="'/management/class/' + class.uuid">edit</button>
+            </td>
+            <td>
+                <button (click)='deleteClass(class.uuid)' type="button">löschen</button>
+            </td>
+        </tr>
+        <button [routerLink]="'/management/class/new'">Neues Fach anlegen</button>
+    </table>
 </div>

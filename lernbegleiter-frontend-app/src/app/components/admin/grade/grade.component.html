@@ -19,23 +19,17 @@
 
 </table>
 
-<p>Liste von Fächern für diese Klasse: (TODO!)</p>
+<p>Liste von Fächern für diese Klasse</p>
+<button [routerLink]="'/management/class/new'">neues Fach anlegen</button>
 <table>
     <tr>
-        <th>Fachname</th>
-        <th>Anzahl Submodule</th>
-        <th>geplante Fertigstellung</th>
-        <th>TODO</th>
+        <th>Name</th>
         <th></th>
         <th></th>
     </tr>
-    <tr *ngFor="let student of grade.students">
-        <td>{{student.firstName}}</td>
-        <td>{{student.familyName}}</td>
-        <td>{{student.email}}</td>
-        <td>{{student.birthday}}</td>
-        <td><button [routerLink]="'/management/student/' + student.uuid">bearbeiten</button></td>
-        <td><button (click)='deleteFromGrade(student.uuid)'>Fach löschen</button></td>
+    <tr *ngFor="let class of grade.classes">
+        <td>{{class.name}}</td>
+        <td><button [routerLink]="'/management/class/' + class.uuid">bearbeiten</button></td>
+        <td><button (click)='deleteClass(class.uuid)'>Fach löschen</button></td>
     </tr>
-
 </table>
