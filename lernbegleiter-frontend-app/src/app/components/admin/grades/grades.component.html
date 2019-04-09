@@ -19,8 +19,8 @@
           <li class="list-group-item">
             <span>{{ grade.name }}</span> ({{ grade.students.length }})
             <div class="btn-group float-right" role="group" aria-label="Basic example">
-              <button (click)='deleteGrade(grade.uuid)' type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
-              <button (click)="setSelectedGrade(grade)" type="button" class="btn btn-secondary btn-sm"><i class="fa fa-pencil"></i></button>
+              <button (click)='deleteGrade(grade.uuid)' type="button" class="btn btn-danger btn-sm">Löschen</button>
+              <button (click)="setSelectedGrade(grade)" type="button" class="btn btn-secondary btn-sm">Bearbeiten</button>
             </div>
           </li>
         </ul>

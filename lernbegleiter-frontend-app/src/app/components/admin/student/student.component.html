@@ -1,4 +1,10 @@
 <div class="container">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a [routerLink]="'/management/students'">Übersicht</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Neuer Schüler</li>
+    </ol>
+  </nav>
   <div class="card">
     <div class="card-header">
       <h5 class="card-title">Neuen Schüler anlegen</h5>
@@ -46,6 +52,4 @@
       <button (click)="saveClick()" *ngIf="uuid === 'new'" class="btn btn-success w-100">Anlegen</button>
     </div>
   </div>
-  <label for="inputUUID">Todo: Löschen</label>
-  <input id="inputUUID" name="uuid" placeholder="UUID" [(ngModel)]="student.uuid" disabled/>
 </div>

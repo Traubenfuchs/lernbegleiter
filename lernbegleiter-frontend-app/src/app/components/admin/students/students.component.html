@@ -1,25 +1,29 @@
 <div class="container">
-  <table>
+  <table class="table  table-striped table-hover">
+    <thead class="sticky-top">
     <tr>
-      <th>Vorname</th>
-      <th>Nachname</th>
-      <th>Email</th>
-      <th>Geburtstag</th>
-      <th>UUID</th>
-      <th>Klassenname</th>
-      <th>Edit</th>
+      <th scope="col">Vorname</th>
+      <th scope="col">Nachname</th>
+      <th scope="col">Email</th>
+      <th scope="col">Geburtstag</th>
+      <!--      <th scope="col">UUID</th>-->
+      <th scope="col">Klassenname</th>
+      <th scope="col">
+        <button class="btn btn-sm btn-success col-md-10 float-right" [routerLink]="'/management/student/new'">Anlegen</button>
+      </th>
     </tr>
+    </thead>
     <tr *ngFor="let student of students">
       <td>{{student.firstName}}</td>
       <td>{{student.familyName}}</td>
       <td>{{student.email}}</td>
       <td>{{student.birthday}}</td>
-      <td>{{student.uuid}}</td>
+      <!--      <td>{{student.uuid}}</td>-->
       <td>{{student.gradeName}}</td>
       <td>
-        <button [routerLink]="'/management/student/' + student.uuid">edit</button>
+        <button class="btn btn-sm btn-secondary col-md-10 float-right" [routerLink]="'/management/student/' + student.uuid">Bearbeiten
+        </button>
       </td>
     </tr>
-    <button [routerLink]="'/management/student/new'">Neuen Schüler anlegen</button>
   </table>
 </div>
