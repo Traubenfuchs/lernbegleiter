@@ -20,6 +20,8 @@ import {LoginSuccessComponent} from './components/general/login-success/login-su
 import {LoginComponent} from './components/general/login/login.component';
 import {SecurityInterceptor} from './services/security-interceptor.service';
 import {WeekOverviewComponent} from './components/week-overview/week-overview.component';
+import { LoaderComponent } from './components/general/loader/loader.component';
+import { BreadcrumbComponent } from './components/general/breadcrumb/breadcrumb.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import {WeekOverviewComponent} from './components/week-overview/week-overview.co
     SubModulesComponent,
     ClassComponent,
     ClassesComponent,
-    WeekOverviewComponent
+    WeekOverviewComponent,
+    LoaderComponent,
+    BreadcrumbComponent
   ],
   imports: [
     BrowserModule,

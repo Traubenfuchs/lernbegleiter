@@ -17,10 +17,13 @@
         </div>
         <ul *ngFor="let grade of grades" class="list-group list-group-flush">
           <li class="list-group-item">
-            <span>{{ grade.name }}</span> ({{ grade.students.length }})
-            <div class="btn-group float-right" role="group" aria-label="Basic example">
-              <button (click)='deleteGrade(grade.uuid)' type="button" class="btn btn-danger btn-sm">Löschen</button>
-              <button (click)="setSelectedGrade(grade)" type="button" class="btn btn-secondary btn-sm">Bearbeiten</button>
+            <app-loader *ngIf="isLoadingGrades"></app-loader>
+            <div *ngIf="!isLoadingGrades">
+              <span>{{ grade.name }}</span> ({{ grade.students.length }})
+              <div class="btn-group float-right" role="group" aria-label="Basic example">
+                <button (click)='deleteGrade(grade.uuid)' type="button" class="btn btn-danger btn-sm">Löschen</button>
+                <button (click)="setSelectedGrade(grade)" type="button" class="btn btn-secondary btn-sm">Bearbeiten</button>
+              </div>
             </div>
           </li>
         </ul>

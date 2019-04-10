@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
-import { Class } from './../../../data/Class';
-import { Component, OnInit } from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Class} from './../../../data/Class';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-classes',
@@ -11,23 +11,30 @@ export class ClassesComponent implements OnInit {
 
   public classes: Class[]
 
-  constructor(private http: HttpClient) { }
+  isLoadingClasses: boolean = true;
+
+  constructor(private http: HttpClient) {
+  }
 
   ngOnInit() {
     this.loadClasses()
   }
 
   loadClasses() {
-    console.log("Loading Classes...")
+    this.isLoadingClasses = true;
     this.http
-      .get<Class[]>(`api/classes`, { observe: 'body' })
-      .subscribe(classes => {
-        console.log("Loaded classes.")
-        this.classes = classes
-      })
+    .get<Class[]>(`api/classes`, {observe: 'body'})
+    .subscribe(
+        classes => this.classes = classes,
+        (err) => console.log(err),
+        () => this.isLoadingClasses = false
+    );
   }
 
-  deleteClass(classUuid: string) {
+  deleteClass(classUuid
+                  :
+                  string
+  ) {
     console.log("Deleting class...")
     //TODO
   }

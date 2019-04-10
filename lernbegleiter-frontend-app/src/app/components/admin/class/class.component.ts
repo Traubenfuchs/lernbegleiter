@@ -1,10 +1,11 @@
-import { LearningModule } from './../../../data/LearningModule';
-import { Grade } from './../../../data/Grade';
-import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { Class } from 'src/app/data/Class';
-import { UuidResponse } from 'src/app/data/UuidResponse';
+import {LearningModule} from '../../../data/LearningModule';
+import {Grade} from '../../../data/Grade';
+import {ActivatedRoute, Router} from '@angular/router';
+import {HttpClient} from '@angular/common/http';
+import {Component, OnInit} from '@angular/core';
+import {Class} from 'src/app/data/Class';
+import {UuidResponse} from 'src/app/data/UuidResponse';
+import {Breadcrumb} from "../../../data/Breadcrumb";
 
 @Component({
   selector: 'app-class',
@@ -12,12 +13,18 @@ import { UuidResponse } from 'src/app/data/UuidResponse';
   styleUrls: ['./class.component.scss']
 })
 export class ClassComponent implements OnInit {
-  class: Class = new Class()
-  uuid: string
-  grades: Grade[] = []
-  learningModules: LearningModule[] = []
+  class: Class = new Class();
+  uuid: string;
+  grades: Grade[] = [];
+  learningModules: LearningModule[] = [];
+  breadcrumbs: Breadcrumb[] = [];
 
-  constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute) { }
+  constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute) {
+    this.breadcrumbs = [
+      Breadcrumb.getInactive('/management/classes', 'Übersicht'),
+      Breadcrumb.getActive('Neues Fach')
+    ]
+  }
 
   ngOnInit() {
     this.uuid = this.route.snapshot.paramMap.get("classUUID")
@@ -38,10 +45,10 @@ export class ClassComponent implements OnInit {
 
     console.log('Loading learningModules...')
     this.http.get<LearningModule[]>(`api/class/${this.uuid}/learning-modules`)
-      .subscribe(res => {
-        console.log('LearningModules loaded.')
-        this.learningModules = res
-      })
+    .subscribe(res => {
+      console.log('LearningModules loaded.')
+      this.learningModules = res
+    })
   }
 
   deleteLearningModule(learningModuleUuid: string) {
@@ -51,19 +58,19 @@ export class ClassComponent implements OnInit {
   loadGrades() {
     console.log('Loading grades...')
     this.http.get<Grade[]>('api/grades')
-      .subscribe(res => {
-        console.log('Grades loaded.')
-        this.grades = res
-      })
+    .subscribe(res => {
+      console.log('Grades loaded.')
+      this.grades = res
+    })
   }
 
   loadClass() {
     console.log('Loading class...')
     this.http.get<Class>(`api/class/${this.uuid}`)
-      .subscribe(c => {
-        console.log('Class loaded.')
-        this.class = c
-      })
+    .subscribe(c => {
+      console.log('Class loaded.')
+      this.class = c
+    })
   }
 
   saveClick() {
@@ -77,26 +84,26 @@ export class ClassComponent implements OnInit {
   updateClass() {
     console.log('updating class...')
     this.http.patch<UuidResponse>(`api/class/${this.uuid}`, this.class)
-      .subscribe(uuidResponse => {
-        this.loadClass()
-      })
+    .subscribe(uuidResponse => {
+      this.loadClass()
+    })
   }
 
   createNewClass() {
     console.log('creating class...')
     this.http.post<UuidResponse>('api/class', this.class)
-      .subscribe(uuidResponse => {
-        this.router.navigate([`management/class/${uuidResponse.uuid}`])
-      })
+    .subscribe(uuidResponse => {
+      this.router.navigate([`management/class/${uuidResponse.uuid}`])
+    })
   }
 
   deleteClick() {
     console.log('deleting class...')
     this.http
-      .delete<any>(`api/class/${this.uuid}`, { observe: 'body' })
-      .subscribe(_ => {
-        this.router.navigate(['management/classes'])
-      })
+    .delete<any>(`api/class/${this.uuid}`, {observe: 'body'})
+    .subscribe(_ => {
+      this.router.navigate(['management/classes'])
+    })
   }
 
 }

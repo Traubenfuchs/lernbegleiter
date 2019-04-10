@@ -1,23 +1,34 @@
 <div class="container">
-    <table>
-        <tr>
-            <th>Uuid</th>
-            <th>Name</th>
-            <th>Klasse</th>
-            <th>Edit</th>
-            <th>Delete</th>
-        </tr>
-        <tr *ngFor="let class of classes">
-            <td>{{class.uuid}}</td>
-            <td>{{class.name}}</td>
-            <td>{{class.gradeName}}</td>
-            <td>
-                <button [routerLink]="'/management/class/' + class.uuid">edit</button>
-            </td>
-            <td>
-                <button (click)='deleteClass(class.uuid)' type="button">löschen</button>
-            </td>
-        </tr>
-        <button [routerLink]="'/management/class/new'">Neues Fach anlegen</button>
-    </table>
+  <table class="lernbegleiter-table">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Klasse</th>
+      <th>
+        <button class="btn btn-sm btn-success col-md-4 float-right" [routerLink]="'/management/class/new'">Anlegen</button>
+      </th>
+    </tr>
+    </thead>
+    <tr *ngIf="isLoadingClasses">
+      <td>
+        <app-loader></app-loader>
+      </td>
+      <td>
+        <app-loader></app-loader>
+      </td>
+      <td>
+        <app-loader></app-loader>
+      </td>
+    </tr>
+    <tr *ngFor=" let class of classes">
+      <td>{{class.name}}</td>
+      <td>{{class.gradeName}}</td>
+      <td>
+        <div class="btn-group float-right col-md-4 p-0">
+          <button class="btn btn-sm btn-secondary" [routerLink]="'/management/class/' + class.uuid">Bearbeiten</button>
+          <button class="btn btn-sm btn-danger" (click)='deleteClass(class.uuid)' type="button">Löschen</button>
+        </div>
+      </td>
+    </tr>
+  </table>
 </div>

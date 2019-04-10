@@ -1,43 +1,42 @@
 <div *ngIf='!loginService.getLoginResponse() && router.url !== "/login"'>
-    <button class="btn btn-primary btn-lg" [routerLink]="['/login']">Login</button>
+  <button class="btn btn-primary btn-lg" [routerLink]="['/login']">Login</button>
 </div>
 
 <div *ngIf="isLoggedInWithAnyAuthority()" class="jumbotron jumbotron-fluid">
-    <div class="container">
-        <h1 class="display-4">{{ welcomeHeader }}</h1>
-        <p class="lead">{{ contextMessage }}</p>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" [routerLink]="['/']">Home</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+  <div class="container">
+    <h1 class="display-4">{{ welcomeHeader }}</h1>
+    <p class="lead">{{ contextMessage }}</p>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" [routerLink]="['/']">Home</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+              aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item {{ isRouterSetTo([gradesUrl]) ? 'active' : '' }} ">
-                        <a [routerLink]="gradesUrl" (click)="updateContextMessage(gradesUrl)" class="nav-link">Klassen verwalten</a>
-                    </li>
-                    <li class="nav-item {{ isRouterSetTo([studentsUrl, newStudentUrl]) ? 'active' : '' }}">
-                        <a [routerLink]="studentsUrl" (click)="updateContextMessage(studentsUrl)" class="nav-link">Schüler verwalten</a>
-                    </li>
-                    <li class="nav-item {{ isRouterSetTo([classesUrl]) ? 'active' : '' }}">
-                        <a [routerLink]="classesUrl" (click)="updateContextMessage(classesUrl)" class="nav-link">Fächer verwalten</a>
-                    </li>
-                    <li class="nav-item">
-                        <a (click)="loginService.logout()" class="nav-link my-2 my-sm-0 " href="#">Ausloggen</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </div>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item {{ isRouterSetTo([gradesUrl]) ? 'active' : '' }} ">
+            <a [routerLink]="gradesUrl" (click)="updateContextMessage(gradesUrl)" class="nav-link">Klassen verwalten</a>
+          </li>
+          <li class="nav-item {{ isRouterSetTo([studentsUrl, newStudentUrl]) ? 'active' : '' }}">
+            <a [routerLink]="studentsUrl" (click)="updateContextMessage(studentsUrl)" class="nav-link">Schüler verwalten</a>
+          </li>
+          <li class="nav-item {{ isRouterSetTo([classesUrl]) ? 'active' : '' }}">
+            <a [routerLink]="classesUrl" (click)="updateContextMessage(classesUrl)" class="nav-link">Fächer verwalten</a>
+          </li>
+        </ul>
+      </div>
+      <i (click)="loginService.logout()" class="fa fa-sign-out" style="cursor: pointer;"></i>
+    </nav>
+  </div>
 </div>
 
 <div class="container">
-    <div *ngIf="isLoggedInWithStudentAuthority()">
-        <button [routerLink]="['/student/'+loginService.getUserUuid()+'/weekly-overview/'+weekInYear]">Wöchentliche
+  <div *ngIf="isLoggedInWithStudentAuthority()">
+    <button [routerLink]="['/student/'+loginService.getUserUuid()+'/weekly-overview/'+weekInYear]">Wöchentliche
       Übersicht
     </button>
-        <button (click)="loginService.logout()">logout</button>
-    </div>
+    <button (click)="loginService.logout()">logout</button>
+  </div>
 </div>
 
 <router-outlet></router-outlet>
