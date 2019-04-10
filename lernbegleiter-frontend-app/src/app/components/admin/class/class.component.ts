@@ -1,3 +1,4 @@
+import { LearningModule } from './../../../data/LearningModule';
 import { Grade } from './../../../data/Grade';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -14,7 +15,7 @@ export class ClassComponent implements OnInit {
   class: Class = new Class()
   uuid: string
   grades: Grade[] = []
-
+  learningModules: LearningModule[] = []
 
   constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute) { }
 
@@ -26,7 +27,25 @@ export class ClassComponent implements OnInit {
       this.class.gradeName = sessionStorage.getItem('preferedGradeName')
     } else {
       this.loadClass()
+      this.loadLearningModules()
     }
+  }
+
+  loadLearningModules() {
+    if (this.uuid === 'new') {
+      return
+    }
+
+    console.log('Loading learningModules...')
+    this.http.get<LearningModule[]>(`api/class/${this.uuid}/learning-modules`)
+      .subscribe(res => {
+        console.log('LearningModules loaded.')
+        this.learningModules = res
+      })
+  }
+
+  deleteLearningModule(learningModuleUuid: string) {
+    //TODO
   }
 
   loadGrades() {
@@ -35,8 +54,6 @@ export class ClassComponent implements OnInit {
       .subscribe(res => {
         console.log('Grades loaded.')
         this.grades = res
-
-
       })
   }
 

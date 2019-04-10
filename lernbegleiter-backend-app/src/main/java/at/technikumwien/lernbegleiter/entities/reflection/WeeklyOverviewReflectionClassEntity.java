@@ -3,12 +3,15 @@ package at.technikumwien.lernbegleiter.entities.reflection;
 import at.technikumwien.lernbegleiter.entities.ClassEntity;
 import at.technikumwien.lernbegleiter.entities.base.BaseEntity;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 
 @Accessors(chain = true)
-@Data
+@Getter
+@Setter
 @Table(name = "WEEKLY_OVERVIEW_REFLECTION_CLASS")
 @Entity
 public class WeeklyOverviewReflectionClassEntity extends BaseEntity<WeeklyOverviewReflectionClassEntity> {

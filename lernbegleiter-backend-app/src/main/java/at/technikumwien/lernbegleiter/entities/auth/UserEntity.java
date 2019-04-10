@@ -6,15 +6,23 @@ import at.technikumwien.lernbegleiter.entities.modules.LearningModuleStudentEnti
 import at.technikumwien.lernbegleiter.entities.modules.SubModuleStudentEntity;
 import at.technikumwien.lernbegleiter.entities.reflection.WeeklyOverviewEntity;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import static javax.persistence.FetchType.EAGER;
+import static javax.persistence.FetchType.LAZY;
+
 @Accessors(chain = true)
-@Data
+@Getter
+@Setter
 @Table(name = "USERS")
 @Entity
 public class UserEntity extends BaseEntityCreationUpdateDate<UserEntity> {
@@ -39,7 +47,8 @@ public class UserEntity extends BaseEntityCreationUpdateDate<UserEntity> {
     /**
      * Grades this teacher is head teacher of
      */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "classTeacher")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "classTeacher", fetch = EAGER)
+    @Fetch(value= FetchMode.JOIN)
     private Set<GradeEntity> grades = new HashSet<>();
 
     /**
@@ -52,12 +61,15 @@ public class UserEntity extends BaseEntityCreationUpdateDate<UserEntity> {
     /**
      * weekly overviews
      */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "student")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "student", fetch = EAGER)
+    @Fetch(value= FetchMode.JOIN)
     private Set<WeeklyOverviewEntity> weeklyOverviews = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "student")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "student", fetch = EAGER)
+    @Fetch(value= FetchMode.JOIN)
     private Set<LearningModuleStudentEntity> learningModulesStudents = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "student")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "student", fetch = EAGER)
+    @Fetch(value= FetchMode.JOIN)
     private Set<SubModuleStudentEntity> subModuleStudents = new HashSet<>();
 }

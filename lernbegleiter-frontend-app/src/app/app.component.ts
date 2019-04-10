@@ -1,6 +1,6 @@
-import {Router} from '@angular/router';
-import {LoginService} from './services/login.service';
-import {Component} from '@angular/core';
+import { Router } from '@angular/router';
+import { LoginService } from './services/login.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -55,24 +55,19 @@ export class AppComponent {
   }
 
   updateContextMessage(url: string) {
-    let subject = '';
-
+    this.contextMessage = "DEFAULT MESSAGE -> CHANGEME!"
+    console.log("HI  " + url)
     switch (url) {
       case this.gradesUrl:
-        subject = 'Klassen';
+        this.contextMessage = `Hier kannst du die Klassen verwalten.`;
         break;
       case this.studentsUrl:
-        subject = 'Schüler';
+        this.contextMessage = `Hier kannst du die Schüler verwalten.`;
         break;
       case this.classesUrl:
-        subject = 'Fächer';
-        break;
-      case this.learningModuledUrl:
-        subject = 'Lernmodule';
+        this.contextMessage = `Hier kannst du die Fächer verwalten.`;
         break;
     }
-
-    this.contextMessage = `Hier kannst du die ${subject} verwalten`;
 
   }
 }

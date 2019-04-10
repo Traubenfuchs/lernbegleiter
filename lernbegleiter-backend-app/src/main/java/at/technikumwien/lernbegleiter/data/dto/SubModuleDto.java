@@ -15,4 +15,5 @@ public class SubModuleDto {
     private String uuid;
     private String name;
     private LocalDate deadline;
+    private String description;
 }

@@ -5,4 +5,5 @@ export class LearningModule {
 	name: string = ''
 	subModules: SubModule[]
 	deadline: string
+	description: string
 }

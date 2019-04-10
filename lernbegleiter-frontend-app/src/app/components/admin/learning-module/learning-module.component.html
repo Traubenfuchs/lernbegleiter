@@ -1,3 +1,30 @@
-<p>
-  learning-module works!
-</p>
+<div class="card">
+    <div class="card-body">
+        <label for="nameInput">Name</label>
+        <input id="nameInput" [(ngModel)]="learningModule.name" class="form-control" placeholder="xxx">
+        <label for="deadlineInput">Deadline</label>
+        <input id="deadlineInput" type="date" [(ngModel)]="learningModule.deadline" class="form-control" placeholder="xxx">
+        <label for="descriptionInput">Beschreibung</label>
+        <input id="descriptionInput" [(ngModel)]="learningModule.description" class="form-control" placeholder="xxx">
+        <button (click)='saveClick()'>Anlegen / Aktualisieren</button>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <button [routerLink]="'/management/learning-module/' + this.uuid + '/sub-module/new'">Submodul anlegen</button>
+        <table>
+            <thead class="sticky-top">
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Bearbeiten</th>
+                    <th scope="col">Löschen (TODO)</th>
+                </tr>
+            </thead>
+            <tr *ngFor="let subModule of subModules">
+                <td>{{subModule.name}}</td>
+                <td><button [routerLink]="'/management/learning-module/' + this.uuid + '/sub-module/' + subModule.uuid">bearbeiten</button></td>
+                <td><button (click)='deleteSubModule(subModule.uuid)'>Löschen (TODO)</button></td>
+            </tr>
+        </table>
+    </div>
+</div>

@@ -2,6 +2,8 @@ package at.technikumwien.lernbegleiter.entities.auth;
 
 import at.technikumwien.lernbegleiter.entities.base.BaseEntityCreationDate;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.persistence.Column;
@@ -11,7 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Accessors(chain = true)
-@Data
+@Getter
+@Setter
 @Table(name = "LOGINS")
 @Entity
 public class LoginEntity extends BaseEntityCreationDate<LoginEntity> {

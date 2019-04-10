@@ -26,10 +26,10 @@ const routes: Routes = [
   { path: 'management/students', component: StudentsComponent },
   { path: 'management/student/:studentUUID', component: StudentComponent },
 
-  { path: 'management/learning-modules', component: LearningModulesComponent },
-  { path: 'management/learning-module/:learningModuleUUID', component: LearningModuleComponent },
+  { path: 'management/learning-modules', component: LearningModulesComponent }, // TODO / Later
+  { path: 'management/class/:classUUID/learning-module/:learningModuleUUID', component: LearningModuleComponent },
 
-  { path: 'management/learning-module/:learningModuleUUID/sub-modules', component: SubModulesComponent },
+  { path: 'management/learning-module/:learningModuleUUID/sub-modules', component: SubModulesComponent }, // TODO / Later
   { path: 'management/learning-module/:learningModuleUUID/sub-module/:subModuleUUID', component: SubModuleComponent },
 
   { path: 'management/classes', component: ClassesComponent }, // class = Fach

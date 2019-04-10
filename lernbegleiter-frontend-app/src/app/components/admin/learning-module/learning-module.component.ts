@@ -1,6 +1,9 @@
+import { LearningModule } from './../../../data/LearningModule';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { UuidResponse } from 'src/app/data/UuidResponse';
+import { SubModule } from 'src/app/data/SubModule';
 
 @Component({
   selector: 'app-learning-module',
@@ -8,10 +11,72 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./learning-module.component.scss']
 })
 export class LearningModuleComponent implements OnInit {
+  learningModule: LearningModule = new LearningModule()
+  uuid: string
+  classUuid: string
+  subModules: SubModule[] = []
 
   constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.uuid = this.route.snapshot.paramMap.get("learningModuleUUID")
+    this.classUuid = this.route.snapshot.paramMap.get("classUUID")
+
+    if (this.uuid === 'new') {
+      this.learningModule.uuid = 'Automatisch'
+    } else {
+      this.loadLearningModule()
+      this.loadSubModules()
+    }
+  }
+
+  saveClick() {
+    if (this.uuid === 'new') {
+      this.createLearningModule()
+    } else {
+      this.updateLearningModule()
+    }
+  }
+
+  deleteSubModule(uuid: string) {
+    //TODO
+  }
+
+  loadSubModules() {
+    console.log("Loading subModules...")
+    this.http.get<SubModule[]>(`api/learning-module/${this.uuid}/sub-modules`)
+      .subscribe(subModules => {
+        console.log("Loaded subModules...")
+        this.subModules = subModules
+      })
+  }
+
+  updateLearningModule() {
+    console.log('Updating learningModule...')
+    this.http.patch<UuidResponse>(`api/class/${this.classUuid}/learning-module`, this.learningModule)
+      .subscribe(uuidResponse => {
+        console.log('Updated learningModule.')
+        this.router.navigate([`management/class/${this.classUuid}`])
+      })
+  }
+
+  createLearningModule() {
+    console.log('Creating learningModule...')
+    this.http.post<UuidResponse>(`api/class/${this.classUuid}/learning-module`, this.learningModule)
+      .subscribe(uuidResponse => {
+        console.log('Created learningModule.')
+        this.router.navigate([`management/class/${this.classUuid}`])
+      })
+  }
+
+  loadLearningModule() {
+    console.log('Loading learningModule...')
+    this.http
+      .get<LearningModule>(`api/learning-module/${this.uuid}`, { observe: 'body' })
+      .subscribe(learningModule => {
+        console.log('Loaded learningModule.')
+        this.learningModule = learningModule
+      })
   }
 
 }

@@ -48,7 +48,7 @@ export class StudentComponent implements OnInit {
   }
 
   updateStudent() {
-    console.log('updating student...')
+    console.log('Updating student...')
     this.http.patch<UuidResponse>(`api/student/${this.uuid}`, this.student)
       .subscribe(uuidResponse => {
         this.loadStudent()
@@ -56,7 +56,7 @@ export class StudentComponent implements OnInit {
   }
 
   createNewStudent() {
-    console.log('creating student...')
+    console.log('Creating student...')
     this.http.post<UuidResponse>('api/student', this.student)
       .subscribe(uuidResponse => {
         this.router.navigate([`management/student/${uuidResponse.uuid}`])
@@ -64,19 +64,21 @@ export class StudentComponent implements OnInit {
   }
 
   loadStudent() {
-    console.log('loading student...')
+    console.log('Loading student...')
     this.http
       .get<Student>(`api/student/${this.uuid}`, { observe: 'body' })
       .subscribe(student => {
+        console.log('Loaded student.')
         this.student = student
       })
   }
 
   deleteClick() {
-    console.log('deleting student...')
+    console.log('Deleting student...')
     this.http
       .delete<any>(`api/student/${this.uuid}`, { observe: 'body' })
       .subscribe(_ => {
+        console.log('Deleted student.')
         this.router.navigate(['management/students'])
       })
   }

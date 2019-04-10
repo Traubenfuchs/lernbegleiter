@@ -1,3 +1,11 @@
-<p>
-  sub-module works!
-</p>
+<div class="card">
+    <div class="card-body">
+        <label for="nameInput">Name</label>
+        <input id="nameInput" [(ngModel)]="subModule.name" class="form-control" placeholder="xxx">
+        <label for="deadlineInput">Deadline</label>
+        <input id="deadlineInput" type="date" [(ngModel)]="subModule.deadline" class="form-control" placeholder="xxx">
+        <label for="descriptionInput">Beschreibung</label>
+        <input id="descriptionInput" [(ngModel)]="subModule.description" class="form-control" placeholder="xxx">
+        <button (click)='saveClick()'>Anlegen / Aktualisieren</button>
+    </div>
+</div>

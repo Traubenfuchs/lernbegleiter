@@ -12,6 +12,7 @@ public class SubModuleConverter extends DtoEntityConverter<SubModuleEntity, SubM
                 .setName(subModuleEntity.getName())
                 .setUuid(subModuleEntity.getUuid())
                 .setDeadline(subModuleEntity.getDeadline())
+                .setDescription(subModuleEntity.getDescription())
         ;
     }
 
@@ -21,6 +22,7 @@ public class SubModuleConverter extends DtoEntityConverter<SubModuleEntity, SubM
                 .setName(subModuleDto.getName())
                 .setUuid(subModuleDto.getUuid())
                 .setDeadline(subModuleDto.getDeadline())
+                .setDescription(subModuleDto.getDescription())
         ;
     }
 }

@@ -29,4 +29,17 @@ public abstract class BaseEntity<T extends BaseEntity<T>> {
     this.uuid = UUID.randomUUID().toString();
     return (T) this;
   }
+
+  @Override
+  public final boolean equals(Object obj) {
+    return this == obj;
+  }
+
+  @Override
+  public final int hashCode() {
+    if(uuid == null) {
+      return 0;
+    }
+    return uuid.hashCode();
+  }
 }

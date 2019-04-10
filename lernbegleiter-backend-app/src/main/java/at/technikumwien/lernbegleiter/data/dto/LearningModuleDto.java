@@ -17,4 +17,5 @@ public class LearningModuleDto {
     private String name;
     private Set<SubModuleDto> learningModules;
     private LocalDate deadline;
+    private String description;
 }

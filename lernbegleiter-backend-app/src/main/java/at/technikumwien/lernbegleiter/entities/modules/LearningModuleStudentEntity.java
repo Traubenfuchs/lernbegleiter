@@ -3,18 +3,18 @@ package at.technikumwien.lernbegleiter.entities.modules;
 import at.technikumwien.lernbegleiter.entities.auth.UserEntity;
 import at.technikumwien.lernbegleiter.entities.base.BaseEntityCreationUpdateDate;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
 @Accessors(chain = true)
-@Data
+@Getter
+@Setter
 @Table(name = "LEARNING_MODULE_STUDENT")
 @Entity
 public class LearningModuleStudentEntity extends BaseEntityCreationUpdateDate<LearningModuleStudentEntity> {
@@ -26,6 +26,6 @@ public class LearningModuleStudentEntity extends BaseEntityCreationUpdateDate<Le
   @JoinColumn(name = "FK_STUDENT_UUID", nullable = false)
   private UserEntity student;
 
-  @OneToMany(mappedBy = "learningModuleStudent")
-  private Set<SubModuleStudentEntity> subModuleStudents = new HashSet<>();
+  @Column(name="DT_FINISHED_AT")
+  private Instant finishedAt;
 }
