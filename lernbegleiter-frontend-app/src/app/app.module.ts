@@ -20,8 +20,9 @@ import {LoginSuccessComponent} from './components/general/login-success/login-su
 import {LoginComponent} from './components/general/login/login.component';
 import {SecurityInterceptor} from './services/security-interceptor.service';
 import {WeekOverviewComponent} from './components/week-overview/week-overview.component';
-import { LoaderComponent } from './components/general/loader/loader.component';
-import { BreadcrumbComponent } from './components/general/breadcrumb/breadcrumb.component';
+import {LoaderComponent} from './components/general/loader/loader.component';
+import {BreadcrumbComponent} from './components/general/breadcrumb/breadcrumb.component';
+import {GrowlComponent} from './components/general/growl/growl.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { BreadcrumbComponent } from './components/general/breadcrumb/breadcrumb.
     ClassesComponent,
     WeekOverviewComponent,
     LoaderComponent,
-    BreadcrumbComponent
+    BreadcrumbComponent,
+    GrowlComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +52,7 @@ import { BreadcrumbComponent } from './components/general/breadcrumb/breadcrumb.
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [{
+  providers: [GrowlComponent, {
     provide: HTTP_INTERCEPTORS,
     useClass: SecurityInterceptor,
     multi: true
