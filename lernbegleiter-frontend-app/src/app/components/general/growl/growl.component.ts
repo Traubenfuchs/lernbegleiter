@@ -15,11 +15,14 @@ export class GrowlComponent implements OnInit {
   }
 
   ngOnInit() {
+    let timer;
+
     this.growlService.messages$.subscribe(
         (message) => {
+          clearTimeout(timer);
           this.messages = [];
           this.messages.push(message);
-          setTimeout(() => this.messages = [], this.messages[0].msToDisappear + 500);
+          timer = setTimeout(() => this.messages = [], this.messages[0].msToDisappear + 500);
         });
   }
 }
