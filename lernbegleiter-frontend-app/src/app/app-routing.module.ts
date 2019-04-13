@@ -17,7 +17,7 @@ import { WeekOverviewComponent } from './components/week-overview/week-overview.
 
 
 const routes: Routes = [
-  { path: '', component: HomeComponent, pathMatch: 'full' },
+  { path: '', children: [] },
   { path: 'login', component: LoginComponent },
   { path: 'login-success', component: LoginSuccessComponent },
 
