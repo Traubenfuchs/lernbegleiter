@@ -14,7 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class WeeklyOverviewDto {
     private String uuid = "";
-    private Integer kw;
+    private Integer calendarWeek;
     private String myWeeklyGoals = "";
     private String furtherSteps = "";
     private Set<WeeklyOverviewClassDto> weeklyOverviewClasses = new HashSet<>();

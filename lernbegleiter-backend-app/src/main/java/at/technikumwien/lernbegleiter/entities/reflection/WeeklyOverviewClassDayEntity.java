@@ -1,7 +1,6 @@
 package at.technikumwien.lernbegleiter.entities.reflection;
 
 import at.technikumwien.lernbegleiter.entities.base.BaseEntity;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -21,7 +20,10 @@ public class WeeklyOverviewClassDayEntity extends BaseEntity<WeeklyOverviewClass
     @Column(name = "STUDENT_COMMENT", length = 10240)
     private String studentComment = "";
 
-    @ManyToOne(optional = false)
+    @Column(name = "DAY_OF_WEEK")
+    private Integer dayOfWeek = -1;
+
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "FK_WEEKLY_OVERVIEW_CLASS_UUID", nullable = false)
     private WeeklyOverviewClassEntity weeklyOverviewClass;
 }

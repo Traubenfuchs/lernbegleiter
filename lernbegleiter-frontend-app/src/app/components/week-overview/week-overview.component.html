@@ -1,23 +1,44 @@
 <p>Wochenplanung</p>
+<button (click)='goToWeekRelative(-1)'>letzte Woche</button>
+<button (click)='goToWeekRelative(1)'>nächste Woche</button>
 <textarea [(ngModel)]="weeklyOverview.myWeeklyGoals" placeholder="Meine Wochenziele"></textarea>
 
-<div *ngFor="let c of weeklyOverview.classes">
-</div>
+
+<table>
+    <p>hi</p>
+    <tr>
+        <td>Fach</td>
+        <td>Montag</td>
+        <td>Dienstag</td>
+        <td>Mittwoch</td>
+        <td>Donnerstag</td>
+        <td>Freitag</td>
+    </tr>
+
+
+    <tr *ngFor="let c of weeklyOverview.weeklyOverviewClasses">
+        <td>{{c.name}}</td>
+        <td *ngFor="let dayNumIter of [].constructor(5); index as dayNum">
+            <textarea [(ngModel)]="c.days[dayNum].studentComment" placeholder='Kommentar'></textarea>
+        </td>
+    </tr>
+</table>
 
 <p>Wochenreflexion</p>
 <table>
-  <tr>
-    <th></th>
-    <th *ngFor="let rc of weeklyOverview.reflexionClasses">{{rc.shortName}}</th>
-  </tr>
-  <tr>
-    <td>Fortschritte</td>
-    <td *ngFor="let rc of weeklyOverview.reflexionClasses"><textarea [(ngModel)]="rc.progress"></textarea></td>
-  </tr>
-  <tr>
-    <td>verbesserungswürdig</td>
-    <td *ngFor="let rc of weeklyOverview.reflexionClasses"><textarea [(ngModel)]="rc.improvements"></textarea></td>
-  </tr>
+    <tr>
+        <th></th>
+        <th *ngFor="let rc of weeklyOverview.reflexionClasses">{{rc.shortName}}</th>
+    </tr>
+    <tr>
+        <td>Fortschritte</td>
+        <td *ngFor="let rc of weeklyOverview.reflexionClasses"><textarea [(ngModel)]="rc.progress" placeholder='Schüler Kommentar'></textarea></td>
+    </tr>
+    <tr>
+        <td>verbesserungswürdig</td>
+        <td *ngFor="let rc of weeklyOverview.reflexionClasses"><textarea [(ngModel)]="rc.improvements" placeholder='Lehrer Kommentar'></textarea></td>
+    </tr>
 </table>
 
 <textarea [(ngModel)]="weeklyOverview.furtherSteps" placeholder="Weitere Schritte"></textarea>
+<button (click)='saveWeeklyOverview()'>speichern</button>

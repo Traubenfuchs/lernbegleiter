@@ -8,7 +8,7 @@ export class WeeklyOverview {
 	myWeeklyGoals: string
 	firstDayOfWeek: string
 	lastDayOfWeek: string
-	classes: WeeklyOverviewClass[]
-	reflexionClasses: WeeklyOverviewReflectionClass[]
+	weeklyOverviewClasses: WeeklyOverviewClass[] = []
+	reflexionClasses: WeeklyOverviewReflectionClass[] = []
 	furtherSteps: string
 }

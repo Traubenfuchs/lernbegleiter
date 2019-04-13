@@ -38,7 +38,7 @@ public abstract class DtoEntityConverter<ENTITY, DTO> {
             applyToDto(entity, dto);
             return dto;
         } catch(Exception e1) {
-            throw new RuntimeException();
+            throw new RuntimeException(e1);
         }
     }
 
@@ -48,7 +48,7 @@ public abstract class DtoEntityConverter<ENTITY, DTO> {
             applyToEntity(dto, entity);
             return entity;
         } catch(Exception e1) {
-            throw new RuntimeException();
+            throw new RuntimeException(e1);
         }
     }
 

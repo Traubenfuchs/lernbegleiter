@@ -2,7 +2,6 @@ package at.technikumwien.lernbegleiter.entities.reflection;
 
 import at.technikumwien.lernbegleiter.entities.auth.UserEntity;
 import at.technikumwien.lernbegleiter.entities.base.BaseEntity;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -18,11 +17,14 @@ import static javax.persistence.FetchType.EAGER;
 @Accessors(chain = true)
 @Getter
 @Setter
-@Table(name = "WEEKLY_OVERVIEW")
+@Table(name = "WEEKLY_OVERVIEW",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"FK_STUDENT_UUID", "CALENDAR_WEEK"})
+        })
 @Entity
 public class WeeklyOverviewEntity extends BaseEntity<WeeklyOverviewEntity> {
-    @Column(name = "KW", nullable = false)
-    private Integer kw;
+    @Column(name = "CALENDAR_WEEK", nullable = false)
+    private Integer calendarWeek;
     @Lob
     @Column(name = "MY_WEEKLY_GOALS", length = 10240)
     private String myWeeklyGoals = "";
@@ -30,12 +32,12 @@ public class WeeklyOverviewEntity extends BaseEntity<WeeklyOverviewEntity> {
     @Column(name = "FURTHER_STEPS", length = 10240)
     private String furtherSteps = "";
 
-    @OneToMany(mappedBy = "weeklyOverview", fetch = EAGER)
-    @Fetch(value= FetchMode.JOIN)
+    @OneToMany(mappedBy = "weeklyOverview", fetch = EAGER, cascade = CascadeType.ALL)
+    @Fetch(value = FetchMode.JOIN)
     private Set<WeeklyOverviewClassEntity> weeklyOverviewClasses = new HashSet<>();
 
-    @OneToMany(mappedBy = "weeklyOverview", fetch = EAGER)
-    @Fetch(value= FetchMode.JOIN)
+    @OneToMany(mappedBy = "weeklyOverview", fetch = EAGER, cascade = CascadeType.ALL)
+    @Fetch(value = FetchMode.JOIN)
     private Set<WeeklyOverviewReflectionClassEntity> reflexionClasses = new HashSet<>();
 
     @ManyToOne(optional = false)

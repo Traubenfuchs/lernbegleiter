@@ -1,6 +1,6 @@
-import {HttpClient} from '@angular/common/http';
-import {Component, OnInit} from '@angular/core';
-import {Student} from 'src/app/data/Student';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { Student } from 'src/app/data/Student';
 
 @Component({
   selector: 'app-students',
@@ -9,24 +9,24 @@ import {Student} from 'src/app/data/Student';
 })
 export class StudentsComponent implements OnInit {
 
-  public students: Student[];
-  isLoadingStudent: boolean = true;
+  public students: Student[]
+  public currentWeek: number = new Date()['getWeekNumber']()
+  isLoadingStudent: boolean = true
 
   constructor(private http: HttpClient) {
   }
 
   ngOnInit() {
-    this.loadStudents();
+    this.loadStudents()
   }
 
   loadStudents() {
     this.http
-    .get<Student[]>(`api/students`, {observe: 'body'})
-    .subscribe(
+      .get<Student[]>(`api/students`, { observe: 'body' })
+      .subscribe(
         students => this.students = students,
         (err) => console.log(err),
         () => this.isLoadingStudent = false
-    )
+      )
   }
-
 }

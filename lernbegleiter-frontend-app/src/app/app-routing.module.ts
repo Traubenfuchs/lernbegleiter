@@ -13,6 +13,7 @@ import { StudentComponent } from './components/admin/student/student.component';
 import { GradeComponent } from './components/admin/grade/grade.component';
 import { StudentsComponent } from './components/admin/students/students.component';
 import { GradesComponent } from './components/admin/grades/grades.component';
+import { WeekOverviewComponent } from './components/week-overview/week-overview.component';
 
 
 const routes: Routes = [
@@ -35,11 +36,13 @@ const routes: Routes = [
   { path: 'management/classes', component: ClassesComponent }, // class = Fach
   { path: 'management/class/:classUUID', component: ClassComponent }, // class = Fach
 
-  { path: 'student/:studentUUID/weekly-overview/:week', component: ClassesComponent }, // class = Fach
+  { path: 'student/:studentUUID/weekly-overview/:week', component: WeekOverviewComponent }, // class = Fach
 ]
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {
+    onSameUrlNavigation: 'reload'
+  })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

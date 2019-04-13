@@ -4,5 +4,5 @@ export class WeeklyOverviewClass {
 	uuid: string
 	name: string
 	color: string
-	days: WeeklyOverviewClassDay[]
+	days: WeeklyOverviewClassDay[] = [new WeeklyOverviewClassDay(), new WeeklyOverviewClassDay(), new WeeklyOverviewClassDay(), new WeeklyOverviewClassDay(), new WeeklyOverviewClassDay()]
 }

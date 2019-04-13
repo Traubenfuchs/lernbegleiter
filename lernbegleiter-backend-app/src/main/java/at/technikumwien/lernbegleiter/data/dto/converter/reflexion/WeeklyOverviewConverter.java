@@ -17,7 +17,7 @@ public class WeeklyOverviewConverter extends DtoEntityConverter<WeeklyOverviewEn
     public void applyToDto(WeeklyOverviewEntity weeklyOverviewEntity, WeeklyOverviewDto weeklyOverviewDto) {
         weeklyOverviewDto
                 .setFurtherSteps(weeklyOverviewEntity.getFurtherSteps())
-                .setKw(weeklyOverviewEntity.getKw())
+                .setCalendarWeek(weeklyOverviewEntity.getCalendarWeek())
                 .setMyWeeklyGoals(weeklyOverviewEntity.getMyWeeklyGoals())
                 .setReflexionClasses(weeklyOverviewReflectionClassConverter.toDtoSet(weeklyOverviewEntity.getReflexionClasses()))
                 .setUuid(weeklyOverviewEntity.getUuid())
@@ -28,7 +28,7 @@ public class WeeklyOverviewConverter extends DtoEntityConverter<WeeklyOverviewEn
     public void applyToEntity(WeeklyOverviewDto weeklyOverviewDto, WeeklyOverviewEntity weeklyOverviewEntity) {
         weeklyOverviewEntity
                 .setFurtherSteps(weeklyOverviewDto.getFurtherSteps())
-                .setKw(weeklyOverviewDto.getKw())
+                .setCalendarWeek(weeklyOverviewDto.getCalendarWeek())
                 .setMyWeeklyGoals(weeklyOverviewDto.getMyWeeklyGoals())
                 .setReflexionClasses(weeklyOverviewReflectionClassConverter.toEntitySet(weeklyOverviewDto.getReflexionClasses()))
                 .setUuid(weeklyOverviewDto.getUuid())
