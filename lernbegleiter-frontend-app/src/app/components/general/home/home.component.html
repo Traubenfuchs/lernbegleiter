@@ -28,12 +28,11 @@
           <li class="nav-item {{ isRouterSetTo([classesUrl]) ? 'active' : '' }}">
             <a [routerLink]="classesUrl" (click)="updateContextMessage(classesUrl)" class="nav-link">Fächer verwalten</a>
           </li>
+          <li class="nav-item {{ isRouterSetTo([learningModuledUrl]) ? 'active' : '' }}">
+            <a [routerLink]="learningModuledUrl" (click)="updateContextMessage(learningModuledUrl)" class="nav-link">Module verwalten</a>
+          </li>
         </ul>
       </div>
-      <button class="float-left btn btn-secondary mr-3" (click)="testErrorGrowl()">Error</button>
-      <button class="float-left btn btn-secondary mr-3" (click)="testInfoGrowl()">Info</button>
-      <button class="float-left btn btn-secondary mr-3" (click)="testSuccessGrowl()">Success</button>
-      <button class="float-left btn btn-secondary mr-3" (click)="testWarningGrowl()">Warning</button>
       <i (click)="loginService.logout()" class="fa fa-sign-out" style="cursor: pointer;"></i>
     </nav>
   </div>

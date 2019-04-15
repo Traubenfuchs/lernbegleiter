@@ -1,30 +1,28 @@
-import { Observable } from 'rxjs';
-import { LoginService } from './login.service';
+import {Observable} from 'rxjs';
+import {LoginService} from './login.service';
 
-import { Injectable } from '@angular/core';
-import {
-	HttpRequest,
-	HttpHandler,
-	HttpEvent,
-	HttpInterceptor
-} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+
 @Injectable({
-	providedIn: 'root'
+  providedIn: 'root'
 })
 export class SecurityInterceptor implements HttpInterceptor {
 
-	constructor(public loginService: LoginService) { }
-	intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-		if (!this.loginService.getLoginResponse()) {
-			return next.handle(request);
-		}
+  constructor(public loginService: LoginService) {
+  }
 
-		request = request.clone({
-			setHeaders: {
-				Authorization: this.loginService.getLoginResponse().secret
-			}
-		});
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    if (!this.loginService.getLoginResponse()) {
+      return next.handle(request);
+    }
 
-		return next.handle(request)
-	}
+    request = request.clone({
+      setHeaders: {
+        Authorization: this.loginService.getLoginResponse().secret
+      }
+    });
+
+    return next.handle(request)
+  }
 }

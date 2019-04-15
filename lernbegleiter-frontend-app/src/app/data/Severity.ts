@@ -4,7 +4,7 @@ export enum Severity {
   WARNING = 'ease-slide-in-top alert alert-warning',
   ERROR = 'ease-slide-in-top alert alert-danger',
 
-  SUCCESS_FADE_OUT = 'ease-slide-out-top alert alert-success',
+  SUCCESS_FADE_OUT = 'ease-slide-out-top alert alert-success', // todo -> private access??
   INFO_FADE_OUT = 'ease-slide-out-top alert alert-info',
   WARNING_FADE_OUT = 'ease-slide-out-top alert alert-warning',
   ERROR_FADE_OUT = 'ease-slide-out-top alert alert-danger',

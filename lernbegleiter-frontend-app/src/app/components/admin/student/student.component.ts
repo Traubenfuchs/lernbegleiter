@@ -21,8 +21,8 @@ export class StudentComponent implements OnInit {
 
   constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute) {
     this.breadcrumbs = [
-      Breadcrumb.getInactive('/management/students', 'Übersicht'),
-      Breadcrumb.getActive('Neuer Schüler')
+      Breadcrumb.inactiveOf('/management/students', 'Übersicht'),
+      Breadcrumb.activeOf('Neuer Schüler')
     ];
   }
 

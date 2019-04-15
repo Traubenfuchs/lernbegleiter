@@ -9,22 +9,18 @@
       </th>
     </tr>
     </thead>
-    <tr *ngIf="isLoadingClasses">
-      <td>
-        <app-loader></app-loader>
-      </td>
-      <td>
-        <app-loader></app-loader>
-      </td>
-      <td>
-        <app-loader></app-loader>
-      </td>
-    </tr>
+    <ng-container *ngIf="isLoadingClasses">
+      <tr *ngFor="let i2 of [].constructor(10)">
+        <td *ngFor="let i of [].constructor(3)">
+          <app-loader></app-loader>
+        </td>
+      </tr>
+    </ng-container>
     <tr *ngFor=" let class of classes">
       <td>{{class.name}}</td>
       <td>{{class.gradeName}}</td>
       <td>
-        <div class="btn-group float-right col-md-4 p-0">
+        <div class="btn-group col-md-4 p-0 float-right">
           <button class="btn btn-sm btn-secondary" [routerLink]="'/management/class/' + class.uuid">Bearbeiten</button>
           <button class="btn btn-sm btn-danger" (click)='deleteClass(class.uuid)' type="button">Löschen</button>
         </div>

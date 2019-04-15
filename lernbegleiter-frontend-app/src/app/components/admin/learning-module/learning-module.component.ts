@@ -1,9 +1,10 @@
-import { LearningModule } from './../../../data/LearningModule';
-import { HttpClient } from '@angular/common/http';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
-import { UuidResponse } from 'src/app/data/UuidResponse';
-import { SubModule } from 'src/app/data/SubModule';
+import {LearningModule} from './../../../data/LearningModule';
+import {HttpClient} from '@angular/common/http';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {UuidResponse} from 'src/app/data/UuidResponse';
+import {SubModule} from 'src/app/data/SubModule';
+import {Breadcrumb} from "../../../data/Breadcrumb";
 
 @Component({
   selector: 'app-learning-module',
@@ -15,14 +16,22 @@ export class LearningModuleComponent implements OnInit {
   uuid: string
   classUuid: string
   subModules: SubModule[] = []
+  breadcrumbs: Breadcrumb[] = [];
 
-  constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute) { }
+  constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute) {
+  }
 
   ngOnInit() {
+    this.breadcrumbs = [
+      Breadcrumb.inactiveOf('/management/classes', 'Übersicht'),
+      Breadcrumb.inactiveOf('/management/class/' + this.classUuid, 'Fach bearbeiten'),
+      Breadcrumb.activeOf('Modul anlegen')
+    ];
+
     this.uuid = this.route.snapshot.paramMap.get("learningModuleUUID")
     this.classUuid = this.route.snapshot.paramMap.get("classUUID")
 
-    if (this.uuid === 'new') {
+    if (this.isModuleNew()) {
       this.learningModule.uuid = 'Automatisch'
     } else {
       this.loadLearningModule()
@@ -30,8 +39,12 @@ export class LearningModuleComponent implements OnInit {
     }
   }
 
+  isModuleNew() {
+    return this.uuid === 'new';
+  }
+
   saveClick() {
-    if (this.uuid === 'new') {
+    if (this.isModuleNew()) {
       this.createLearningModule()
     } else {
       this.updateLearningModule()
@@ -45,38 +58,45 @@ export class LearningModuleComponent implements OnInit {
   loadSubModules() {
     console.log("Loading subModules...")
     this.http.get<SubModule[]>(`api/learning-module/${this.uuid}/sub-modules`)
-      .subscribe(subModules => {
-        console.log("Loaded subModules...")
-        this.subModules = subModules
-      })
+    .subscribe(subModules => {
+      console.log("Loaded subModules...")
+      this.subModules = subModules
+    })
   }
 
   updateLearningModule() {
     console.log('Updating learningModule...')
     this.http.patch<UuidResponse>(`api/class/${this.classUuid}/learning-module`, this.learningModule)
-      .subscribe(uuidResponse => {
-        console.log('Updated learningModule.')
-        this.router.navigate([`management/class/${this.classUuid}`])
-      })
+    .subscribe(uuidResponse => {
+      console.log('Updated learningModule.')
+      this.router.navigate([`management/class/${this.classUuid}`])
+    })
   }
 
   createLearningModule() {
     console.log('Creating learningModule...')
     this.http.post<UuidResponse>(`api/class/${this.classUuid}/learning-module`, this.learningModule)
-      .subscribe(uuidResponse => {
-        console.log('Created learningModule.')
-        this.router.navigate([`management/class/${this.classUuid}`])
-      })
+    .subscribe(uuidResponse => {
+      console.log('Created learningModule.')
+      this.router.navigate([`management/class/${this.classUuid}`])
+    })
   }
 
   loadLearningModule() {
     console.log('Loading learningModule...')
     this.http
-      .get<LearningModule>(`api/learning-module/${this.uuid}`, { observe: 'body' })
-      .subscribe(learningModule => {
-        console.log('Loaded learningModule.')
-        this.learningModule = learningModule
-      })
+    .get<LearningModule>(`api/learning-module/${this.uuid}`, {observe: 'body'})
+    .subscribe(learningModule => {
+      console.log('Loaded learningModule.')
+      this.learningModule = learningModule
+    })
   }
 
+  getCardHeaderForModule() {
+    return this.isModuleNew() ? 'Modul anlegen' : 'Modul bearbeiten';
+  }
+
+  getCardDescriptionForModule() {
+    return this.isModuleNew() ? 'Hier können Sie ein neues Modul anlegen.' : 'Hier können Sie ein Modul bearbeiten.';
+  }
 }

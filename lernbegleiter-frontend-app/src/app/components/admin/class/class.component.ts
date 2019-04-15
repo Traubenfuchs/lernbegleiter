@@ -1,4 +1,3 @@
-import {LearningModule} from '../../../data/LearningModule';
 import {Grade} from '../../../data/Grade';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
@@ -16,43 +15,29 @@ export class ClassComponent implements OnInit {
   class: Class = new Class();
   uuid: string;
   grades: Grade[] = [];
-  learningModules: LearningModule[] = [];
   breadcrumbs: Breadcrumb[] = [];
 
   constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute) {
-    this.breadcrumbs = [
-      Breadcrumb.getInactive('/management/classes', 'Übersicht'),
-      Breadcrumb.getActive('Neues Fach')
-    ]
   }
 
   ngOnInit() {
-    this.uuid = this.route.snapshot.paramMap.get("classUUID")
+    this.breadcrumbs = [
+      Breadcrumb.inactiveOf('/management/classes', 'Übersicht'),
+      Breadcrumb.activeOf(this.isClassNew() ? 'Neues Fach' : 'Fach bearbeiten')
+    ];
+
+    this.uuid = this.route.snapshot.paramMap.get("classUUID");
     this.loadGrades()
-    if (this.uuid === 'new') {
+    if (this.isClassNew()) {
       this.class.uuid = 'Automatisch'
       this.class.gradeName = sessionStorage.getItem('preferedGradeName')
     } else {
       this.loadClass()
-      this.loadLearningModules()
     }
   }
 
-  loadLearningModules() {
-    if (this.uuid === 'new') {
-      return
-    }
-
-    console.log('Loading learningModules...')
-    this.http.get<LearningModule[]>(`api/class/${this.uuid}/learning-modules`)
-    .subscribe(res => {
-      console.log('LearningModules loaded.')
-      this.learningModules = res
-    })
-  }
-
-  deleteLearningModule(learningModuleUuid: string) {
-    //TODO
+  isClassNew() {
+    return this.uuid === 'new';
   }
 
   loadGrades() {
@@ -84,9 +69,9 @@ export class ClassComponent implements OnInit {
   updateClass() {
     console.log('updating class...')
     this.http.patch<UuidResponse>(`api/class/${this.uuid}`, this.class)
-    .subscribe(uuidResponse => {
-      this.loadClass()
-    })
+    .subscribe(() => this.loadClass(),
+    );
+
   }
 
   createNewClass() {
@@ -106,4 +91,11 @@ export class ClassComponent implements OnInit {
     })
   }
 
+  getCardHeaderForClass() {
+    return this.isClassNew() ? 'Neues Fach anlegen' : ' Fach bearbeiten';
+  }
+
+  getCardDescriptionForClass() {
+    return this.isClassNew() ? 'Hier kannst du ein neues Fach anlegen.' : 'Hier kannst du das ausgewählte Fach bearbeiten.';
+  }
 }

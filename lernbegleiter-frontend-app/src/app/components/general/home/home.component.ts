@@ -1,8 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {LoginService} from 'src/app/services/login.service';
-import {GrowlMessage} from "../../../data/GrowlMessage";
-import {Severity} from "../../../data/Severity";
 import {GrowlService} from "../../../services/growl.service";
 
 @Component({
@@ -73,23 +71,8 @@ export class HomeComponent implements OnInit {
       case this.classesUrl:
         this.contextMessage = `Hier kannst du die Fächer verwalten.`;
         break;
+      case this.learningModuledUrl:
+        this.contextMessage = `Hier kannst du die Module verwalten.`
     }
-
-  }
-
-  testErrorGrowl() {
-    this.growlService.addMessage(new GrowlMessage('Das Fach "Geschichte" wurde erfolgreich gespeichert!', Severity.ERROR, 1000));
-  }
-
-  testInfoGrowl() {
-    this.growlService.addMessage(new GrowlMessage('Das Fach "Geschichte" wurde erfolgreich gespeichert!', Severity.INFO, 1000));
-  }
-
-  testSuccessGrowl() {
-    this.growlService.addMessage(new GrowlMessage('Das Fach "Geschichte" wurde erfolgreich gespeichert!', Severity.SUCCESS, 1000));
-  }
-
-  testWarningGrowl() {
-    this.growlService.addMessage(new GrowlMessage('Das Fach "Geschichte" wurde erfolgreich gespeichert!', Severity.WARNING, 1000));
   }
 }

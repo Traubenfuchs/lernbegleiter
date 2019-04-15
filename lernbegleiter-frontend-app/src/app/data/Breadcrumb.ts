@@ -9,11 +9,11 @@ export class Breadcrumb {
     this.pagename = pagename;
   }
 
-  static getActive(pagename: string): Breadcrumb {
+  static activeOf(pagename: string): Breadcrumb {
     return new Breadcrumb(true, '', pagename);
   }
 
-  static getInactive(routerUrl: string, pageName: string) {
+  static inactiveOf(routerUrl: string, pageName: string) {
     return new Breadcrumb(false, routerUrl, pageName);
   }
 }

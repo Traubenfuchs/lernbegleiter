@@ -1,9 +1,17 @@
-import { SubModule } from './SubModule';
+import {SubModule} from './SubModule';
 
 export class LearningModule {
-	uuid: string = ''
-	name: string = ''
-	subModules: SubModule[]
-	deadline: string
-	description: string
+  uuid: string = ''
+  name: string = ''
+  subModules: SubModule[]
+  deadline: string
+  description: string
+
+  constructor(uuid: string, name: string, subModules: SubModule[], deadline: string, description: string) {
+    this.uuid = uuid;
+    this.name = name;
+    this.subModules = subModules;
+    this.deadline = deadline;
+    this.description = description;
+  }
 }

@@ -1,5 +1,39 @@
 <div class="container">
-  <p>
-    learning-modules works!
-  </p>
+  <div class="card">
+    <div class="card-header">
+      <h5 class="card-title">Fach auswählen</h5>
+      <p class="card-text">Bitte wählen Sie das Fach aus für das Sie die Module verwalten wollen!</p>
+    </div>
+    <div class="card-body">
+      <input class="form-control" placeholder="Suche..." list="classes">
+      <datalist id="classes">
+        <ng-container *ngFor="let class of classes">
+          <option value="{{ class.gradeName }}">
+        </ng-container>
+      </datalist>
+      <button *ngIf="isClassSelected()" class="btn btn-secondary">Module für Fach {{ selectedClass.gradeName }} anzeigen</button>
+    </div>
+  </div>
+
+  <table *ngIf="isClassSelected()" class="lernbegleiter-table">
+    <thead class="sticky-top">
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col"></th>
+    </tr>
+    </thead>
+    <tr *ngFor="let learningModule of learningModules">
+      <td>{{learningModule.name}}</td>
+      <td>
+        <div class="btn-group float-right">
+          <button class="btn btn-sm btn-secondary"
+                  [routerLink]="'/management/class/' + selectedClass.uuid + '/learning-module/' + learningModule.uuid">
+            Bearbeiten
+          </button>
+          <button class="btn btn-sm btn-danger" (click)='deleteLearningModule(learningModule.uuid)'>Löschen</button>
+        </div>
+      </td>
+    </tr>
+  </table>
 </div>
+
