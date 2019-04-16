@@ -5,21 +5,22 @@
       <p class="card-text">Bitte wählen Sie das Fach aus für das Sie die Module verwalten wollen!</p>
     </div>
     <div class="card-body">
-      <input class="form-control" placeholder="Suche..." list="classes">
+      <input id="inputGroupSelect01" [(ngModel)]="selectedClass" class="form-control" placeholder="Suche..." list="classes">
       <datalist id="classes">
-        <ng-container *ngFor="let class of classes">
-          <option value="{{ class.gradeName }}">
-        </ng-container>
+        <option *ngFor="let class of classes" value="{{ class.name }}">({{ class.gradeName }})</option>
       </datalist>
-      <button *ngIf="isClassSelected()" class="btn btn-secondary">Module für Fach {{ selectedClass.gradeName }} anzeigen</button>
     </div>
   </div>
-
   <table *ngIf="isClassSelected()" class="lernbegleiter-table">
     <thead class="sticky-top">
     <tr>
       <th scope="col">Name</th>
-      <th scope="col"></th>
+      <th scope="col">
+        <button [routerLink]="'/management/class/' + selectedClass.uuid + '/learning-module/new'"
+                class="btn btn-sm btn-success float-right">
+          Anlegen
+        </button>
+      </th>
     </tr>
     </thead>
     <tr *ngFor="let learningModule of learningModules">

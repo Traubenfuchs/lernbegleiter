@@ -52,9 +52,12 @@ export class LearningModulesComponent implements OnInit {
     return this.selectedClass !== undefined || this.selectedClass != null;
   }
 
-  setSelection(selectedClass: Class) { // TODO : weiter
+  setSelection(selectedClass: Class) {
     this.selectedClass = selectedClass;
     console.log(selectedClass)
   }
 
+  test(value: Class) {
+    console.log(value.uuid)
+  }
 }

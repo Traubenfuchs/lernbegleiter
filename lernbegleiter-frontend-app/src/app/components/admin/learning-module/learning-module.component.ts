@@ -12,19 +12,25 @@ import {Breadcrumb} from "../../../data/Breadcrumb";
   styleUrls: ['./learning-module.component.scss']
 })
 export class LearningModuleComponent implements OnInit {
-  learningModule: LearningModule = new LearningModule()
-  uuid: string
-  classUuid: string
-  subModules: SubModule[] = []
+  learningModule: LearningModule;
+  uuid: string;
+  classUuid: string;
+  subModules: SubModule[] = [];
   breadcrumbs: Breadcrumb[] = [];
 
   constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute) {
+    this.learningModule = {
+      uuid: '',
+      name: '',
+      subModules: [],
+      deadline: '',
+      description: ''
+    }
   }
 
   ngOnInit() {
     this.breadcrumbs = [
-      Breadcrumb.inactiveOf('/management/classes', 'Übersicht'),
-      Breadcrumb.inactiveOf('/management/class/' + this.classUuid, 'Fach bearbeiten'),
+      Breadcrumb.inactiveOf('/management/learning-modules', 'Übersicht'),
       Breadcrumb.activeOf('Modul anlegen')
     ];
 
