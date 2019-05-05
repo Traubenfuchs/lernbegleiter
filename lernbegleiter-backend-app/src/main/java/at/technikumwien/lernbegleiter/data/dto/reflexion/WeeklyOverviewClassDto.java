@@ -5,8 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @Accessors(chain = true)
@@ -16,5 +17,5 @@ public class WeeklyOverviewClassDto {
     private String uuid = "";
     private String name = "";
     private String color = "";
-    private Set<WeeklyOverviewClassDayDto> days = new HashSet<>();
+    private List<WeeklyOverviewClassDayDto> days = new ArrayList<>();
 }

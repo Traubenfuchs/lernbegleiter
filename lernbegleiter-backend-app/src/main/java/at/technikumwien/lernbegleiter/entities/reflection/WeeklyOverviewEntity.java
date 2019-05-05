@@ -19,7 +19,7 @@ import static javax.persistence.FetchType.EAGER;
 @Setter
 @Table(name = "WEEKLY_OVERVIEW",
         uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"FK_STUDENT_UUID", "CALENDAR_WEEK"})
+                @UniqueConstraint(columnNames = {"FK_STUDENT_UUID", "CALENDAR_WEEK", "YEAR"})
         })
 @Entity
 public class WeeklyOverviewEntity extends BaseEntity<WeeklyOverviewEntity> {
@@ -32,6 +32,9 @@ public class WeeklyOverviewEntity extends BaseEntity<WeeklyOverviewEntity> {
     @Column(name = "FURTHER_STEPS", length = 10240)
     private String furtherSteps = "";
 
+    @Column(name = "YEAR", nullable = false)
+    private Short year;
+
     @OneToMany(mappedBy = "weeklyOverview", fetch = EAGER, cascade = CascadeType.ALL)
     @Fetch(value = FetchMode.JOIN)
     private Set<WeeklyOverviewClassEntity> weeklyOverviewClasses = new HashSet<>();
@@ -43,4 +46,23 @@ public class WeeklyOverviewEntity extends BaseEntity<WeeklyOverviewEntity> {
     @ManyToOne(optional = false)
     @JoinColumn(name = "FK_STUDENT_UUID", nullable = false)
     private UserEntity student;
+
+    public WeeklyOverviewClassEntity getwWeeklyOverviewClassByName(String name) {
+        for(WeeklyOverviewClassEntity weeklyOverviewClassEntity : weeklyOverviewClasses) {
+            if(weeklyOverviewClassEntity.getClazz().getName().equals(name)) {
+                return weeklyOverviewClassEntity;
+            }
+        }
+        return null;
+    }
+
+    public WeeklyOverviewReflectionClassEntity getWeeklyOverviewReflectionClassByName(String name) {
+        for(WeeklyOverviewReflectionClassEntity weeklyOverviewReflectionClassEntity : reflexionClasses) {
+            if(weeklyOverviewReflectionClassEntity.getClazz().getName().equals(name)) {
+                return weeklyOverviewReflectionClassEntity;
+            }
+        }
+
+        return null;
+    }
 }

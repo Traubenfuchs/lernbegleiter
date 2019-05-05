@@ -40,7 +40,7 @@
 
 <div class="container">
   <div *ngIf="isLoggedInWithStudentAuthority()">
-    <button [routerLink]="['/student/'+loginService.getUserUuid()+'/weekly-overview/'+weekInYear]">Wöchentliche
+    <button [routerLink]="['/student/'+loginService.getUserUuid()+'/weekly-overview/'+weekInYear+year]">Wöchentliche
       Übersicht
     </button>
     <button (click)="loginService.logout()">logout</button>

@@ -9,6 +9,8 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -32,4 +34,10 @@ public class WeeklyOverviewClassEntity extends BaseEntity<WeeklyOverviewClassEnt
     @OneToMany(mappedBy = "weeklyOverviewClass", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Fetch(value = FetchMode.JOIN)
     private Set<WeeklyOverviewClassDayEntity> days = new HashSet<>();
+
+    public ArrayList<WeeklyOverviewClassDayEntity> getDaysOrdered() {
+        ArrayList<WeeklyOverviewClassDayEntity> result = new ArrayList<>(days);
+        result.sort(Comparator.comparing(WeeklyOverviewClassDayEntity::getDayOfWeek));
+        return result;
+    }
 }

@@ -10,15 +10,16 @@ import {GrowlService} from "../../../services/growl.service";
 })
 export class HomeComponent implements OnInit {
   public weekInYear: number
+  public year: number = new Date().getFullYear()
 
-  welcomeHeader = 'Lernbegleiter';
-  contextMessage = 'Dein Wochenplaner';
+  welcomeHeader = 'Lernbegleiter'
+  contextMessage = 'Dein Wochenplaner'
 
-  gradesUrl = '/management/grades';
-  studentsUrl = '/management/students';
-  newStudentUrl = '/management/student/new';
-  classesUrl = '/management/classes';
-  learningModuledUrl = '/management/learning-modules';
+  gradesUrl = '/management/grades'
+  studentsUrl = '/management/students'
+  newStudentUrl = '/management/student/new'
+  classesUrl = '/management/classes'
+  learningModuledUrl = '/management/learning-modules'
 
   constructor(public loginService: LoginService, public router: Router, private growlService: GrowlService) {
     this.weekInYear = HomeComponent.getWeekNumber();

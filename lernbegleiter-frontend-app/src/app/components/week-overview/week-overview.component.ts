@@ -12,6 +12,7 @@ import { UuidResponse } from 'src/app/data/UuidResponse';
 export class WeekOverviewComponent implements OnInit {
 
   public week: number
+  public year: number
   public studentUuid
   public weeklyOverview: WeeklyOverview = new WeeklyOverview()
 
@@ -19,13 +20,12 @@ export class WeekOverviewComponent implements OnInit {
     this.router.routeReuseStrategy.shouldReuseRoute = function () {
       return false;
     };
-
-
   }
 
   ngOnInit() {
     this.studentUuid = this.route.snapshot.paramMap.get("studentUUID")
     this.week = parseInt(this.route.snapshot.paramMap.get("week"))
+    this.year = parseInt(this.route.snapshot.paramMap.get("year"))
     this.loadWeeklyOverview()
   }
 
@@ -33,7 +33,7 @@ export class WeekOverviewComponent implements OnInit {
     console.log('Loading weekly overview...')
     this.http
       .get<WeeklyOverview>(
-        `api/student/${this.studentUuid}/weekly-overview/${this.week}`,
+        `api/student/${this.studentUuid}/weekly-overview/${this.week}/${this.year}`,
         { observe: 'body' })
       .subscribe(weeklyOverview => {
         console.log('Loaded weekly overview.')
@@ -51,7 +51,15 @@ export class WeekOverviewComponent implements OnInit {
       })
   }
 
-  goToWeekRelative(offset: number) { // student/:studentUUID/weekly-overview/:week
-    this.router.navigate([`student//${this.studentUuid}/weekly-overview/${this.week + offset}`])
+  goToWeekRelative(offset: number) { // student/:studentUUID/weekly-overview/:week/:year
+    this.week += offset
+    if (this.week > 52) {
+      this.week = 1
+      this.year = this.year + 1
+    } else if (this.week < 1) {
+      this.week = 52
+      this.year = this.year - 1
+    }
+    this.router.navigate([`student//${this.studentUuid}/weekly-overview/${this.week + offset}/${this.year}`])
   }
 }

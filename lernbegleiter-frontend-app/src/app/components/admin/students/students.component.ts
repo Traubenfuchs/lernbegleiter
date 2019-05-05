@@ -11,6 +11,7 @@ export class StudentsComponent implements OnInit {
 
   public students: Student[]
   public currentWeek: number = new Date()['getWeekNumber']()
+  public year: number = new Date().getFullYear()
   isLoadingStudent: boolean = true
 
   constructor(private http: HttpClient) {

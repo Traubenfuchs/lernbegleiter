@@ -15,24 +15,18 @@ public class WeeklyOverviewController {
     @Autowired
     private WeeklyOverviewService weeklyOverviewService;
 
-    @GetMapping("student/{studentUuid}/weekly-overview/{calendarWeek}")
-    public WeeklyOverviewDto get(@PathVariable String studentUuid, @PathVariable Integer calendarWeek) {
-        return weeklyOverviewService.adaptStudentsWeeklyOverview(studentUuid, calendarWeek);
-    }
-
-    @PatchMapping("student/{studentUui}/weekly-overview/{calendarWeek}")
-    public void patch(
+    @GetMapping("student/{studentUuid}/weekly-overview/{calendarWeek}/{year}")
+    public WeeklyOverviewDto get(
             @PathVariable String studentUuid,
             @PathVariable Integer calendarWeek,
+            @PathVariable Short year) {
+        return weeklyOverviewService.adaptStudentsWeeklyOverview(studentUuid, calendarWeek, year);
+    }
+
+    @PatchMapping("student/{studentUuid}/weekly-overview")
+    public void patch(
+            @PathVariable String studentUuid,
             @RequestBody WeeklyOverviewDto weeklyOverviewDto) {
-        if(!Objects.equals(calendarWeek, weeklyOverviewDto.getCalendarWeek())) {
-            throw new HttpClientErrorException(HttpStatus.FORBIDDEN, "" +
-                    "CalendarWeek in path (<" +
-                    calendarWeek +
-                    ">) does not match calendarWeek in requestBody (<" +
-                    weeklyOverviewDto.getCalendarWeek() +
-                    ">)");
-        }
 
         weeklyOverviewService.patch(studentUuid, weeklyOverviewDto);
     }

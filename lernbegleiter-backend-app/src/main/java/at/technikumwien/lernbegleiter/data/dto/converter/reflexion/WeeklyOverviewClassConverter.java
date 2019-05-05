@@ -15,9 +15,10 @@ public class WeeklyOverviewClassConverter extends DtoEntityConverter<WeeklyOverv
     public void applyToDto(WeeklyOverviewClassEntity weeklyOverviewClassEntity, WeeklyOverviewClassDto weeklyOverviewClassDto) {
         weeklyOverviewClassDto
                 .setColor(weeklyOverviewClassEntity.getColor())
-                .setDays(weeklyOverviewClassDayConverter.toDtoSet(weeklyOverviewClassEntity.getDays()))
+                .setDays(weeklyOverviewClassDayConverter.toDtoList(weeklyOverviewClassEntity.getDaysOrdered()))
                 .setName(weeklyOverviewClassEntity.getClazz().getName())
                 .setUuid(weeklyOverviewClassEntity.getUuid());
+
     }
 
     @Override
