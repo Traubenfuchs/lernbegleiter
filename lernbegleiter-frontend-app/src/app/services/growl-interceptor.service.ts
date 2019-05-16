@@ -23,7 +23,7 @@ export class GrowlInterceptor implements HttpInterceptor {
           }
         }),
         catchError((error: HttpErrorResponse) => {
-          this.growlService.addMessage(new GrowlMessage('Hier könnte Ihre Werbung stehen!', Severity.ERROR, 6000)); // TODO: add message from server response
+          this.growlService.addMessage(new GrowlMessage('Hier könnte Ihre Werbung stehen!', Severity.ERROR, 6000));
           return throwError(error);
         })
     )

@@ -40,32 +40,40 @@
         <tr *ngFor="let c of weeklyOverview.weeklyOverviewClasses">
           <td>{{c.name}}</td>
           <td *ngFor="let dayNumIter of [].constructor(5); index as dayNum">
-            <textarea [(ngModel)]="c.days[dayNum].studentComment" placeholder='Kommentar'></textarea>
+            <textarea class="form-control" [(ngModel)]="c.days[dayNum].studentComment" placeholder='Kommentar'></textarea>
           </td>
         </tr>
       </table>
     </div>
   </div>
 
-  <p>Wochenreflexion</p>
-  <table>
-    <tr>
-      <th></th>
-      <th *ngFor="let rc of weeklyOverview.reflexionClasses">{{rc.shortName}}</th>
-    </tr>
-    <tr>
-      <td>Fortschritte</td>
-      <td *ngFor="let rc of weeklyOverview.reflexionClasses"><textarea [(ngModel)]="rc.progress" placeholder='Schüler Kommentar'></textarea>
-      </td>
-    </tr>
-    <tr>
-      <td>verbesserungswürdig</td>
-      <td *ngFor="let rc of weeklyOverview.reflexionClasses"><textarea [(ngModel)]="rc.improvements"
-                                                                       placeholder='Lehrer Kommentar'></textarea></td>
-    </tr>
-  </table>
+  <div class="card mt-3">
+    <div class="card-header">
+      <h5 class="card-title">Wochenreflexion</h5>
+      <p class="card-text">Hier kannst du deine Woche reflektieren.</p>
+    </div>
+    <table class="lernbegleiter-table">
+      <thead>
+      <tr>
+        <th></th>
+        <th *ngFor="let rc of weeklyOverview.reflexionClasses">{{rc.shortName}}</th>
+      </tr>
+      </thead>
+      <tr>
+        <td>Fortschritte</td>
+        <td *ngFor="let rc of weeklyOverview.reflexionClasses">
+          <textarea class="form-control" [(ngModel)]="rc.progress" placeholder='Schüler Kommentar'></textarea>
+        </td>
+      </tr>
+      <tr>
+        <td>verbesserungswürdig</td>
+        <td *ngFor="let rc of weeklyOverview.reflexionClasses">
+          <textarea class="form-control" [(ngModel)]="rc.improvements" placeholder='Lehrer Kommentar'></textarea></td>
+      </tr>
+    </table>
 
-  <textarea [(ngModel)]="weeklyOverview.furtherSteps" placeholder="Weitere Schritte"></textarea>
-  <button (click)='saveWeeklyOverview()'>speichern</button>
+    <textarea class="form-control" [(ngModel)]="weeklyOverview.furtherSteps" placeholder="Weitere Schritte"></textarea>
+  </div>
+  <button class="btn btn-success w-100 my-3" (click)='saveWeeklyOverview()'>Speichern</button>
 
 </div>
