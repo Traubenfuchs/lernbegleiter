@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { WeeklyOverview } from './../../data/weekly-overview/WeeklyOverview';
 import { Component, OnInit } from '@angular/core';
 import { UuidResponse } from 'src/app/data/UuidResponse';
+import { LearningModuleStudent } from 'src/app/data/LearningModuleStudent';
 
 @Component({
   selector: 'app-week-overview',
@@ -15,6 +16,7 @@ export class WeekOverviewComponent implements OnInit {
   public year: number
   public studentUuid
   public weeklyOverview: WeeklyOverview = new WeeklyOverview()
+  public learningModuleStudents: LearningModuleStudent[] = []
 
   constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute) {
     this.router.routeReuseStrategy.shouldReuseRoute = function () {
@@ -27,6 +29,40 @@ export class WeekOverviewComponent implements OnInit {
     this.week = parseInt(this.route.snapshot.paramMap.get("week"))
     this.year = parseInt(this.route.snapshot.paramMap.get("year"))
     this.loadWeeklyOverview()
+    this.loadLearningModuleStudents()
+  }
+
+  loadLearningModuleStudents() {
+    console.log('Loading loadLearningModuleStudents...')
+    this.http
+      .get<LearningModuleStudent[]>(
+        `api/xxx/${this.studentUuid}/learningModuleStudent`,
+        { observe: 'body' })
+      .subscribe(learningModuleStudents => {
+        console.log('Loaded loadLearningModuleStudents.')
+        this.learningModuleStudents = learningModuleStudents
+      })
+  }
+
+  finishLearningModule(uuid: string) {
+    console.log('Finishing learningModule...')
+
+    this.http.post<UuidResponse>(`api/learningModuleStudent/${uuid}`, undefined)
+      .subscribe(uuidResponse => {
+        this.loadLearningModuleStudents()
+        console.log('Finished learningModule.')
+        //this.router.navigate([`management/class/${this.classUuid}`])
+      })
+  }
+  finishSubModule(uuid: string) {
+    console.log('Finishing subModule...')
+
+    this.http.post<UuidResponse>(`api/subModuleStudent/${uuid}`, undefined)
+      .subscribe(uuidResponse => {
+        this.loadLearningModuleStudents()
+        console.log('Finished subModule.')
+        //  this.router.navigate([`management/class/${this.classUuid}`])
+      })
   }
 
   loadWeeklyOverview() {

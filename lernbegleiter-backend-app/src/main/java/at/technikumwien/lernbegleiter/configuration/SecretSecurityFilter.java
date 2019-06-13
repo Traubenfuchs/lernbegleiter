@@ -30,13 +30,16 @@ public class SecretSecurityFilter implements Filter {
                 SecurityContextHolder.getContext().setAuthentication(ua);
             }
 
+
             chain.doFilter(request, response);
         } catch(ResponseStatusException ex) {
             HttpServletResponse hsres = (HttpServletResponse) response;
             hsres.setStatus(HttpStatus.UNAUTHORIZED.value());
             hsres.getWriter().write(ex.getMessage()); // TODO improve
-        } finally {
+        }  finally{
             SecurityContextHolder.getContext().setAuthentication(null);
         }
     }
+
 }
+
