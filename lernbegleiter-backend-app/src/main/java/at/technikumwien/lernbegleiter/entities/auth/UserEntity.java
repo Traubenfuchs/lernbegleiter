@@ -4,6 +4,8 @@ import at.technikumwien.lernbegleiter.entities.GradeEntity;
 import at.technikumwien.lernbegleiter.entities.base.BaseEntityCreationUpdateDate;
 import at.technikumwien.lernbegleiter.entities.modules.LearningModuleStudentEntity;
 import at.technikumwien.lernbegleiter.entities.modules.SubModuleStudentEntity;
+import at.technikumwien.lernbegleiter.entities.quiz.QuizEntity;
+import at.technikumwien.lernbegleiter.entities.quiz.attempts.QuizAttemptEntity;
 import at.technikumwien.lernbegleiter.entities.reflection.WeeklyOverviewEntity;
 import lombok.Data;
 import lombok.Getter;
@@ -72,4 +74,10 @@ public class UserEntity extends BaseEntityCreationUpdateDate<UserEntity> {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "student", fetch = EAGER)
     @Fetch(value= FetchMode.JOIN)
     private Set<SubModuleStudentEntity> subModuleStudents = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author", fetch = EAGER)
+    private Set<QuizEntity> quizes = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "student", fetch = EAGER)
+    private Set<QuizAttemptEntity> quizAttempts = new HashSet<>();
 }

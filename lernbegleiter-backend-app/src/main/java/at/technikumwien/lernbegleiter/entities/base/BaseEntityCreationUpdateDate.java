@@ -1,6 +1,5 @@
 package at.technikumwien.lernbegleiter.entities.base;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
