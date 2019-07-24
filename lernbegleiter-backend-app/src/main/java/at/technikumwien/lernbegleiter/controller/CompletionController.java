@@ -13,7 +13,7 @@ public class CompletionController {
     @Autowired
     private CompletionService completionService;
 
-    @GetMapping("xxx/{studentUuid}/learningModuleStudent")
+    @GetMapping("student/{studentUuid}/learningModuleStudent")
     public Set<LearningModuleStudentDto> loadAllCompletions(@PathVariable String studentUuid) {
         return completionService.getAll(studentUuid);
     }

@@ -40,6 +40,5 @@ public class SecretSecurityFilter implements Filter {
             SecurityContextHolder.getContext().setAuthentication(null);
         }
     }
-
 }
 

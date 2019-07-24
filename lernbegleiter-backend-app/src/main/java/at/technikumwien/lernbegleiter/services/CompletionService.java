@@ -51,14 +51,14 @@ public class CompletionService {
                     .setDueDate(learningModuleStudentEntity.getLearningModule().getDeadline())
                     .setFinishedAt(learningModuleStudentEntity.getFinishedAt())
                     .setName(learningModuleStudentEntity.getLearningModule().getName())
-                    .setSubModules(getsadf(learningModuleStudentEntity.getLearningModule().getUuid(), userEntity.getSubModuleStudents()));
+                    .setSubModules(getSubmodules(learningModuleStudentEntity.getLearningModule().getUuid(), userEntity.getSubModuleStudents()));
             result.add(learningModuleStudentDto);
         }
 
         return result;
     }
 
-    private Set<SubModuleStudentDto> getsadf(String learningModuleUuid, Set<SubModuleStudentEntity> entities) {
+    private Set<SubModuleStudentDto> getSubmodules(String learningModuleUuid, Set<SubModuleStudentEntity> entities) {
         Set<SubModuleStudentDto> result = new HashSet<>();
 
         for(var entity : entities) {

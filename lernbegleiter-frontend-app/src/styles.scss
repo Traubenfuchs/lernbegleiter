@@ -1,9 +1,0 @@
-/* You can add global styles to this file, and also import other style files */
-@import "~node_modules/bootstrap/scss/bootstrap.scss";
-
-.lernbegleiter-table {
-  @extend .table;
-  @extend .table-striped;
-  @extend .table-hover;
-  @extend .mb-3
-}

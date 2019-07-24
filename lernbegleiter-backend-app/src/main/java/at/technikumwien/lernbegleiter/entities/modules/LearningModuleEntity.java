@@ -28,7 +28,10 @@ public class LearningModuleEntity extends BaseEntityCreationUpdateDate<LearningM
   @OneToMany(mappedBy = "parent")
   private Set<SubModuleEntity> subModules = new HashSet<>();
 
-  @Column(name = "DATE_DEADLINE")
+  @Column(name = "DATE_START", nullable = false)
+  private LocalDate start;
+
+  @Column(name = "DATE_DEADLINE", nullable = false)
   private LocalDate deadline;
 
   @OneToMany(mappedBy = "learningModule")

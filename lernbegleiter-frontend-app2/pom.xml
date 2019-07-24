@@ -11,7 +11,7 @@
 
     <packaging>pom</packaging>
 
-    <artifactId>lernbegleiter-frontend-app</artifactId>
+    <artifactId>lernbegleiter-frontend-app2</artifactId>
 
     <profiles>
         <profile>

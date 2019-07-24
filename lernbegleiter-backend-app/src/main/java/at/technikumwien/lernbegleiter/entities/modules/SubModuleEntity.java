@@ -29,7 +29,10 @@ public class SubModuleEntity extends BaseEntityCreationUpdateDate<SubModuleEntit
   @Column(name = "NAME", nullable = false)
   private String name;
 
-  @Column(name="DATE_DEADLINE")
+  @Column(name = "DATE_START", nullable = false)
+  private LocalDate start;
+
+  @Column(name="DATE_DEADLINE", nullable = false)
   private LocalDate deadline;
 
   @OneToMany(mappedBy = "subModule")

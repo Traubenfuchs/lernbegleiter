@@ -17,11 +17,11 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <properties>
-        <java.version>11</java.version>
+        <java.version>12</java.version>
     </properties>
 
     <modules>
-        <module>lernbegleiter-frontend-app</module>
+        <module>lernbegleiter-frontend-app2</module>
         <module>lernbegleiter-backend-app</module>
     </modules>
 
