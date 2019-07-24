@@ -1,0 +1,5 @@
+<ul id="growl-message" class="list-unstyled text-center">
+  <li *ngFor="let message of messages" class="{{ message.severity }} shadow rounded-0 h-25 ease-slide-in-top">
+    {{ message.message }}
+  </li>
+</ul>

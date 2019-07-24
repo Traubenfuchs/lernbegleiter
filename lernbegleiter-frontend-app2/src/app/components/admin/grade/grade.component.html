@@ -1,0 +1,62 @@
+<div class="container">
+
+    <div class="card">
+    <div class="card-header">
+      <h5 class="card-title">Schüler</h5>
+      <p class="card-text">Schüler der Klasse</p>
+    </div>
+    <div class="card-body">
+      <table>
+        <tr>
+          <th>Vorname</th>
+          <th>Nachname</th>
+          <th>Email</th>
+          <th>Geburtsdatum</th>
+          <th></th>
+          <th></th>
+        </tr>
+        <tr *ngFor="let student of grade.students">
+          <td>{{student.firstName}}</td>
+          <td>{{student.familyName}}</td>
+          <td>{{student.email}}</td>
+          <td>{{student.birthday}}</td>
+          <td>
+            <button class="btn btn-secondary" [routerLink]="'/management/student/' + student.uuid">Bearbeiten</button>
+          </td>
+          <td>
+            <button class="btn btn-danger" (click)='deleteStudentFromGrade(student.uuid)'>von Klasse entfernen</button>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+  </div>
+  <div class="card mt-3">
+    <div class="card-header">
+      <h5 class="card-title">Fächer</h5>
+      <p class="card-text">Fächer der Klasse</p>
+    </div>
+    <div class="card-body">
+      <table class="lernbegleiter-table">
+        <tr>
+          <th>Name</th>
+          <th class="text-right">
+            <button class="btn btn-sm btn-success col-md-6" [routerLink]="'/management/class/new'">Anlegen</button>
+          </th>
+        </tr>
+        <tr *ngFor="let class of grade.classes">
+          <td>{{class.name}}</td>
+          <td class="text-right">
+            <div class="btn-group col-md-6 p-0">
+              <button class="btn btn-sm btn-danger" (click)='deleteClass(class.uuid)'>Löschen</button>
+              <button class="btn btn-sm btn-secondary"
+                [routerLink]="'/management/class/' + class.uuid">Bearbeiten</button>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+
+</div>

@@ -1,0 +1,18 @@
+@keyframes ease-slide-in-top {
+  0% {
+    transform: rotate(0) translateY(-370%);
+  }
+  100% {
+    transform: rotate(0);
+  }
+}
+
+@keyframes ease-slide-out-top {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-370%);
+    opacity: 0;
+  }
+}
