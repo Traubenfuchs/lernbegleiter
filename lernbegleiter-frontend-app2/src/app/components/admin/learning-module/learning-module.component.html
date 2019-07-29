@@ -1,49 +1,65 @@
 <div class="container">
-    <app-breadcrumb [breadcrumbs]="breadcrumbs"></app-breadcrumb>
-    <div class="card">
-        <div class="card-header">
-            <h5 class="card-title">{{ getCardHeaderForModule() }}</h5>
-            <p class="card-text">{{ getCardDescriptionForModule() }}</p>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col">
-                    <label for="nameInput">Name</label>
-                    <input id="nameInput" [(ngModel)]="learningModule.name" class="form-control" placeholder="xxx">
-                </div>
-                <div class="col">
-                    <label for="deadlineInput">Deadline</label>
-                    <input id="deadlineInput" type="date" [(ngModel)]="learningModule.deadline" class="form-control" placeholder="xxx">
-                </div>
-            </div>
-            <label for="descriptionInput">Beschreibung</label>
-            <input id="descriptionInput" [(ngModel)]="learningModule.description" class="form-control" placeholder="xxx">
-        </div>
-        <div class="card-footer">
-            <button class="btn btn-success w-100" (click)='saveClick()'>{{ isModuleNew() ? 'Anlegen' : 'Aktualisieren' }}</button>
-        </div>
+  <app-breadcrumb [breadcrumbs]="breadcrumbs"></app-breadcrumb>
+  <div class="card">
+    <div class="card-header">
+      <h5 class="card-title">{{ getCardHeaderForModule() }}</h5>
+      <p class="card-text">{{ getCardDescriptionForModule() }}</p>
     </div>
-    <div class="card">
-        <div class="card-body">
-            <button [routerLink]="'/management/learning-module/' + this.uuid + '/sub-module/new'">Submodul anlegen</button>
-            <table>
-                <thead class="sticky-top">
-                    <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Bearbeiten</th>
-                        <th scope="col">Löschen (TODO)</th>
-                    </tr>
-                </thead>
-                <tr *ngFor="let subModule of subModules">
-                    <td>{{subModule.name}}</td>
-                    <td>
-                        <button [routerLink]="'/management/learning-module/' + this.uuid + '/sub-module/' + subModule.uuid">bearbeiten</button>
-                    </td>
-                    <td>
-                        <button (click)='deleteSubModule(subModule.uuid)'>Löschen (TODO)</button>
-                    </td>
-                </tr>
-            </table>
+    <div class="card-body">
+      <div class="row">
+        <div class="col">
+          <label for="nameInput">Name</label>
+          <input id="nameInput" [(ngModel)]="learningModule.name" class="form-control" placeholder="Name">
         </div>
+        <div class="col">
+          <label for="deadlineInput">Deadline</label>
+          <input id="deadlineInput" type="date" [(ngModel)]="learningModule.deadline" class="form-control"
+            placeholder="Deadline">
+        </div>
+      </div>
+
+      <div class="row">
+          <div class="col">
+            <label for="startInput">Name</label>
+            <input id="startInput" type='date' [(ngModel)]="learningModule.start" class="form-control" placeholder="Startdatum">
+          </div>
+          <div class="col">
+              <label for="descriptionInput">Beschreibung</label>
+              <input id="descriptionInput" [(ngModel)]="learningModule.description" class="form-control" placeholder="Beschreibung">
+          </div>
+        </div>
+
+
+
+
     </div>
+    <div class="card-footer">
+      <button class="btn btn-success w-100"
+        (click)='saveClick()'>{{ isModuleNew() ? 'Anlegen' : 'Aktualisieren' }}</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <button [routerLink]="'/management/learning-module/' + this.uuid + '/sub-module/new'">Submodul anlegen</button>
+      <table>
+        <thead class="sticky-top">
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Bearbeiten</th>
+            <th scope="col">Löschen (TODO)</th>
+          </tr>
+        </thead>
+        <tr *ngFor="let subModule of subModules">
+          <td>{{subModule.name}}</td>
+          <td>
+            <button
+              [routerLink]="'/management/learning-module/' + this.uuid + '/sub-module/' + subModule.uuid">bearbeiten</button>
+          </td>
+          <td>
+            <button (click)='deleteSubModule(subModule.uuid)'>Löschen (TODO)</button>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
 </div>

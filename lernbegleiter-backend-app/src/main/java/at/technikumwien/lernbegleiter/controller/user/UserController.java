@@ -1,5 +1,6 @@
 package at.technikumwien.lernbegleiter.controller.user;
 
+import at.technikumwien.lernbegleiter.controller.BaseController;
 import at.technikumwien.lernbegleiter.data.requests.UserUpdateRequest;
 import at.technikumwien.lernbegleiter.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/user/{userUuid}")
-public class UserController {
+public class UserController  extends BaseController {
     @Autowired
     private UserService userService;
 

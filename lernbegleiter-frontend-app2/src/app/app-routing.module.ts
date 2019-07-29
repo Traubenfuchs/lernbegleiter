@@ -1,3 +1,4 @@
+
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LearningModulesComponent } from './components/admin/learning-modules/learning-modules.component';
@@ -14,6 +15,7 @@ import { GradeComponent } from './components/admin/grade/grade.component';
 import { StudentsComponent } from './components/admin/students/students.component';
 import { GradesComponent } from './components/admin/grades/grades.component';
 import { WeekOverviewComponent } from './components/week-overview/week-overview.component';
+import { ProfileEditComponent } from './components/general/profile-edit/profile-edit.component';
 
 
 const routes: Routes = [
@@ -37,6 +39,8 @@ const routes: Routes = [
   { path: 'management/class/:classUUID', component: ClassComponent }, // class = Fach
 
   { path: 'student/:studentUUID/weekly-overview/:week/:year', component: WeekOverviewComponent }, // class = Fach
+
+  {path:'user/:userUUID/profile',component:ProfileEditComponent}
 ]
 
 @NgModule({

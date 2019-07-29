@@ -37,32 +37,38 @@
     </div>
   </div>
 
-  <div class="card mt-3">
+  <div class="card mt-3" *ngIf="uuid !== 'new'">
     <div class="card-header">
       <h5 class="card-title">Lernmodule</h5>
       <p class="card-text">Liste der Lernmodule dieses Faches.</p>
     </div>
     <div class="card-body">
-        <table>
-            <tr>
-              <th>Name</th>
-              <th>Anfang</th>
-              <th>Deadline</th>
-              <th></th>
-              <th></th>
-            </tr>
-            <tr *ngFor="let learningModule of learningModules">
-              <td>{{learningModule.name}}</td>
-              <td>{{learningModule.start}}</td>
-              <td>{{learningModule.deadline}}</td>
-              <td>
-                <button class="btn btn-secondary" [routerLink]="'/management/learningModule/' + learningModule.uuid">Bearbeiten</button>
-              </td>
-              <td>
-                <button class="btn btn-danger" (click)='deleteLearningModuleFromClass(learningModule.uuid)'>von Klasse entfernen</button>
-              </td>
-            </tr>
-          </table>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Anfang</th>
+          <th>Deadline</th>
+          <th></th>
+          <th>
+            <button class="btn btn-sm btn-success col-md-6" [routerLink]="'/management/class/'+uuid+'/learning-module/new'">
+              Anlegen
+            </button>
+          </th>
+        </tr>
+        <tr *ngFor="let learningModule of learningModules">
+          <td>{{learningModule.name}}</td>
+          <td>{{learningModule.start}}</td>
+          <td>{{learningModule.deadline}}</td>
+          <td>
+            <button class="btn btn-secondary"
+              [routerLink]="'/management/learningModule/' + learningModule.uuid">Bearbeiten</button>
+          </td>
+          <td>
+            <button class="btn btn-danger" (click)='deleteLearningModuleFromClass(learningModule.uuid)'>von Klasse
+              entfernen</button>
+          </td>
+        </tr>
+      </table>
     </div>
   </div>
 

@@ -1,5 +1,6 @@
 package at.technikumwien.lernbegleiter.services;
 
+import at.technikumwien.lernbegleiter.components.AuthHelper;
 import at.technikumwien.lernbegleiter.data.dto.converter.reflexion.WeeklyOverviewConverter;
 import at.technikumwien.lernbegleiter.data.dto.reflexion.WeeklyOverviewClassDayDto;
 import at.technikumwien.lernbegleiter.data.dto.reflexion.WeeklyOverviewClassDto;
@@ -44,6 +45,8 @@ public class WeeklyOverviewService {
     private UserRepository userRepository;
     @Autowired
     private WeeklyOverviewConverter weeklyOverviewConverter;
+    @Autowired
+    private AuthHelper authHelper;
 
     public WeeklyOverviewDto adaptStudentsWeeklyOverview(
             @NonNull String studentUuid,
@@ -51,7 +54,7 @@ public class WeeklyOverviewService {
             @NonNull Short year
     ) {
         WeeklyOverviewEntity woe = adaptStudentsWeeklyOverviewEntity(studentUuid, calendarWeek, year);
-
+        authHelper.isAdminOrTeacherOrUuidOrThrow(woe.getStudent().getUuid());
         return weeklyOverviewConverter.toDTO(woe);
     }
 
@@ -151,6 +154,8 @@ public class WeeklyOverviewService {
                 studentUuid,
                 weeklyOverviewDto.getCalendarWeek(),
                 weeklyOverviewDto.getYear());
+
+        authHelper.isAdminOrTeacherOrUuidOrThrow(woe.getStudent().getUuid());
 
         woe.setFurtherSteps(weeklyOverviewDto.getFurtherSteps());
         woe.setMyWeeklyGoals(weeklyOverviewDto.getMyWeeklyGoals());

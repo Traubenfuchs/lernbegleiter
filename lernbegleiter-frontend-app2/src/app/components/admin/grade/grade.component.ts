@@ -10,17 +10,21 @@ import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 })
 export class GradeComponent implements OnInit {
   public grade: Grade = new Grade()
+  public uuid: string = 'new'
 
   constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute) { }
 
-  ngOnInit() { this.loadGrade() }
+  ngOnInit() {
+    this.uuid = this.route.snapshot.paramMap.get("gradeUUID")
+    this.loadGrade()
+  }
 
   loadGrade() {
-    console.log(`Loading grade ${this.route.snapshot.paramMap.get("gradeUUID")}`)
+    console.log(`Loading grade ${this.uuid}`)
 
-    this.http.get<Grade>(`api/grade/${this.route.snapshot.paramMap.get("gradeUUID")}`)
+    this.http.get<Grade>(`api/grade/${this.uuid}`)
       .subscribe(res => {
-        console.log(`Loaded grade ${this.route.snapshot.paramMap.get("gradeUUID")}`)
+        console.log(`Loaded grade ${this.uuid}`)
         this.grade = res
       })
   }
@@ -32,7 +36,7 @@ export class GradeComponent implements OnInit {
   deleteStudentFromGrade(studentUuid: string) {
     console.log(`Deleting student with uuid <${studentUuid}> from grade <${studentUuid}>.`)
 
-    this.http.delete<any>(`api/grade/${this.route.snapshot.paramMap.get("gradeUUID")}/student/${studentUuid}`)
+    this.http.delete<any>(`api/grade/${this.uuid}/student/${studentUuid}`)
       .subscribe(res => {
         console.log(`Student with uuid <${studentUuid}> deleted from grade <${studentUuid}>.`)
         this.loadGrade()

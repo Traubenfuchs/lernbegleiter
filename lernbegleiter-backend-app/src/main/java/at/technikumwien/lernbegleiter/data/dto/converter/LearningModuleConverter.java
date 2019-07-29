@@ -16,6 +16,7 @@ public class LearningModuleConverter extends DtoEntityConverter<LearningModuleEn
                 .setUuid(learningModuleEntity.getUuid())
                 .setName(learningModuleEntity.getName())
                 .setDeadline(learningModuleEntity.getDeadline())
+                .setStart(learningModuleEntity.getStart())
                 .setDescription(learningModuleEntity.getDescription())
                 .setLearningModules(subModuleConverter.toDtoSet(learningModuleEntity.getSubModules()))
         ;
@@ -27,6 +28,7 @@ public class LearningModuleConverter extends DtoEntityConverter<LearningModuleEn
                 .setUuid(learningModuleDto.getUuid())
                 .setName(learningModuleDto.getName())
                 .setDeadline(learningModuleDto.getDeadline())
+                .setStart(learningModuleDto.getStart())
                 .setDescription(learningModuleDto.getDescription())
         ;
     }

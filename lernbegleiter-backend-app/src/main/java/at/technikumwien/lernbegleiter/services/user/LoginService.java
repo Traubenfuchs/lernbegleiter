@@ -1,5 +1,6 @@
 package at.technikumwien.lernbegleiter.services.user;
 
+import at.technikumwien.lernbegleiter.components.PasswordHasher;
 import at.technikumwien.lernbegleiter.data.UserAuthentication;
 import at.technikumwien.lernbegleiter.data.requests.LoginRequest;
 import at.technikumwien.lernbegleiter.data.responses.LoginResponse;
@@ -7,7 +8,6 @@ import at.technikumwien.lernbegleiter.entities.auth.LoginEntity;
 import at.technikumwien.lernbegleiter.entities.auth.UserEntity;
 import at.technikumwien.lernbegleiter.repositories.auth.LoginRepository;
 import at.technikumwien.lernbegleiter.repositories.auth.UserRepository;
-import at.technikumwien.lernbegleiter.components.PasswordHasher;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,7 +33,7 @@ public class LoginService {
 
     public UserAuthentication getAuthenticationForSecretOrThrow(@NonNull String secret) {
         LoginEntity le = loginRepository.findBySecret(secret);
-        if(le == null) {
+        if (le == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid secret. Please login again.");
         }
         return userToAuthentication(le.getUser());
@@ -54,7 +54,7 @@ public class LoginService {
     public LoginResponse login(@NonNull @Valid LoginRequest loginRequest) {
         UserEntity userEntity = userRepository.findByEmail(loginRequest.getEmail());
 
-        checkSecurityOrThrow(loginRequest, userEntity);
+        checkPassword(loginRequest, userEntity);
 
         String newSecret = loginRepository.save(new LoginEntity()
                 .setSecret(UUID.randomUUID().toString())
@@ -68,8 +68,8 @@ public class LoginService {
                 ;
     }
 
-    private void checkSecurityOrThrow(LoginRequest loginRequest, UserEntity userEntity) {
-        if(userEntity == null ||
+    private void checkPassword(LoginRequest loginRequest, UserEntity userEntity) {
+        if (userEntity == null ||
                 !passwordHasher.checkHashedAndSaltedPassword(userEntity.getHashedAndSaltedPassword(), loginRequest.getPassword())
         ) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User does not exist or password is incorrect.");

@@ -30,6 +30,7 @@ export class ClassComponent implements OnInit {
 
     this.uuid = this.route.snapshot.paramMap.get("classUUID")
     this.loadGrades()
+    this.loadLearningModules()
     if (this.isClassNew()) {
       this.class.uuid = 'Automatisch'
       this.class.gradeName = sessionStorage.getItem('preferedGradeName')
@@ -41,9 +42,9 @@ export class ClassComponent implements OnInit {
   isClassNew = () => this.uuid === 'new'
 
   loadLearningModules = () => {
-    console.error("Not implemented")
     console.log('Loading LearningModules...')
-    this.http.get<LearningModule[]>(`api/class/${this.uuid}`)
+
+    this.http.get<LearningModule[]>(`api/class/${this.uuid}/learning-modules`)
       .subscribe(res=> {
         console.log('LearningModules loaded.')
         this.learningModules = res

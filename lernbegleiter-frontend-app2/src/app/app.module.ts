@@ -25,6 +25,7 @@ import { BreadcrumbComponent } from './components/general/breadcrumb/breadcrumb.
 import { GrowlComponent } from './components/general/growl/growl.component';
 import { GrowlInterceptor } from "./services/growl-interceptor.service";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ProfileEditComponent } from './components/general/profile-edit/profile-edit.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     LoaderComponent,
     BreadcrumbComponent,
     GrowlComponent,
+    ProfileEditComponent,
   ],
   imports: [
     BrowserModule,

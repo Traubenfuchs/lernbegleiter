@@ -9,7 +9,7 @@ import java.util.Set;
 
 @RequestMapping("api")
 @RestController
-public class CompletionController {
+public class CompletionController  extends BaseController{
     @Autowired
     private CompletionService completionService;
 

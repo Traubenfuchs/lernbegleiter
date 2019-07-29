@@ -1,6 +1,7 @@
 package at.technikumwien.lernbegleiter.components;
 
 import at.technikumwien.lernbegleiter.data.UserAuthentication;
+import lombok.NonNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -15,11 +16,23 @@ public class AuthHelper {
         return (UserAuthentication) SecurityContextHolder.getContext().getAuthentication();
     }
 
+    public void isAdminOrTeacherOrUuidOrThrow(@NonNull String userUuid) {
+        if (hasAnyRole("ADMIN", "TEACHER")) {
+            return;
+        }
+
+        currentUserHasUuidOrThrow(userUuid);
+    }
+
+    public void isAdminOrTeacherOrThrow() {
+        hasAnyRoleOrThrow("ADMIN", "TEACHER");
+    }
+
     public boolean hasAnyRole(String... roles) {
         Set<String> rights = getAuth().getRights();
 
-        for(String role : roles) {
-            if(rights.contains(role)) {
+        for (String role : roles) {
+            if (rights.contains(role)) {
                 return true;
             }
         }
@@ -27,7 +40,7 @@ public class AuthHelper {
     }
 
     public void hasAnyRoleOrThrow(String... roles) {
-        if(!hasAnyRole(roles)) {
+        if (!hasAnyRole(roles)) {
             throwResponseStatusException();
         }
     }
@@ -37,13 +50,13 @@ public class AuthHelper {
     }
 
     public void hasRoleOrThrow(String role) {
-        if(!hasRole(role)) {
+        if (!hasRole(role)) {
             throwResponseStatusException();
         }
     }
 
     public void currentUserHasUuidOrThrow(String uuid) {
-        if(!Objects.equals(getAuth().getUuid(), uuid)) {
+        if (!Objects.equals(getAuth().getUuid(), uuid)) {
             throwResponseStatusException();
         }
     }

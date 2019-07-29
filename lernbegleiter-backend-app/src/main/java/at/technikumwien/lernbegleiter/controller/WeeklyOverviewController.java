@@ -11,7 +11,7 @@ import java.util.Objects;
 
 @RequestMapping("api")
 @RestController
-public class WeeklyOverviewController {
+public class WeeklyOverviewController  extends BaseController{
     @Autowired
     private WeeklyOverviewService weeklyOverviewService;
 
