@@ -25,7 +25,7 @@
         <td>{{student.firstName}}</td>
         <td>{{student.familyName}}</td>
         <td>{{student.email}}</td>
-        <td>{{student.birthday}}</td>
+        <td>{{student.birthday | saneDate}}</td>
         <td>{{student.gradeName}}</td>
         <td>
           <button class="btn btn-sm btn-secondary"

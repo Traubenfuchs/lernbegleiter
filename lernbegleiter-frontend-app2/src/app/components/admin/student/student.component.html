@@ -1,9 +1,13 @@
 <div class="container">
   <app-breadcrumb [breadcrumbs]="breadcrumbs"></app-breadcrumb>
   <div class="card">
-    <div class="card-header">
+    <div class="card-header" *ngIf="uuid === 'new'">
       <h5 class="card-title">Neuen Schüler anlegen</h5>
       <p class="card-text">Hier kannst du einen neuen Schüler anlegen</p>
+    </div>
+    <div class="card-header" *ngIf="uuid !== 'new'">
+      <h5 class="card-title">Schüler bearbeiten</h5>
+      <p class="card-text">Hier kannst du den Schüler bearbeiten</p>
     </div>
     <div class="card-body">
       <div class="row">

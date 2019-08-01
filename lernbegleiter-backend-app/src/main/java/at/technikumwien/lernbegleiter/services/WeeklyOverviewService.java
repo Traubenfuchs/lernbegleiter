@@ -54,7 +54,7 @@ public class WeeklyOverviewService {
             @NonNull Short year
     ) {
         WeeklyOverviewEntity woe = adaptStudentsWeeklyOverviewEntity(studentUuid, calendarWeek, year);
-        authHelper.isAdminOrTeacherOrUuidOrThrow(woe.getStudent().getUuid());
+        authHelper.isAdminOrTeacherOrCurrentUserUuidOrThrow(woe.getStudent().getUuid());
         return weeklyOverviewConverter.toDTO(woe);
     }
 
@@ -155,7 +155,7 @@ public class WeeklyOverviewService {
                 weeklyOverviewDto.getCalendarWeek(),
                 weeklyOverviewDto.getYear());
 
-        authHelper.isAdminOrTeacherOrUuidOrThrow(woe.getStudent().getUuid());
+        authHelper.isAdminOrTeacherOrCurrentUserUuidOrThrow(woe.getStudent().getUuid());
 
         woe.setFurtherSteps(weeklyOverviewDto.getFurtherSteps());
         woe.setMyWeeklyGoals(weeklyOverviewDto.getMyWeeklyGoals());

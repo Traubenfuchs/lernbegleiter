@@ -40,7 +40,7 @@ const routes: Routes = [
 
   { path: 'student/:studentUUID/weekly-overview/:week/:year', component: WeekOverviewComponent }, // class = Fach
 
-  {path:'user/:userUUID/profile',component:ProfileEditComponent}
+  { path: 'user/:userUUID/profile', component: ProfileEditComponent }
 ]
 
 @NgModule({

@@ -26,6 +26,7 @@ import { GrowlComponent } from './components/general/growl/growl.component';
 import { GrowlInterceptor } from "./services/growl-interceptor.service";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProfileEditComponent } from './components/general/profile-edit/profile-edit.component';
+import { SaneDatePipe } from './pipes/sane-date.pipe';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { ProfileEditComponent } from './components/general/profile-edit/profile-
     BreadcrumbComponent,
     GrowlComponent,
     ProfileEditComponent,
+    SaneDatePipe,
   ],
   imports: [
     BrowserModule,

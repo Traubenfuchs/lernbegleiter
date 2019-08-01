@@ -1,11 +1,13 @@
 package at.technikumwien.lernbegleiter.data.requests;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.time.LocalDate;
 
 @Data
-public class UserUpdateRequest {
+@Accessors(chain = true)
+public class UserUpdateDto {
     private String password;
     private String email;
     private LocalDate birthday;

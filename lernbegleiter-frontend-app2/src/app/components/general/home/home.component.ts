@@ -21,11 +21,15 @@ export class HomeComponent implements OnInit {
   classesUrl = '/management/classes'
   learningModuledUrl = '/management/learning-modules'
 
+  getProfileUrl(): string {
+    return `user/${this.loginService.getUserUuid()}/profile`
+  }
+
   constructor(public loginService: LoginService, public router: Router, private growlService: GrowlService) {
     this.weekInYear = HomeComponent.getWeekNumber();
     const loginResponse = loginService.getLoginResponse();
-    if (!!loginResponse)
-      loginResponse.uuid
+    //if (!!loginResponse)
+      //loginResponse.uuid
   }
 
 

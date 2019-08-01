@@ -1,11 +1,11 @@
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable, throwError} from 'rxjs';
-import {catchError} from 'rxjs/operators';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
-import {LoginRequest} from '../data/LoginRequest';
-import {LoginResponse} from './../data/LoginResponse';
-import {Router} from '@angular/router';
+import { LoginRequest } from '../data/LoginRequest';
+import { LoginResponse } from './../data/LoginResponse';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +34,7 @@ export class LoginService {
     }, 100)
   }
 
-  public getUserUuid() {
+  public getUserUuid(): string {
     if (!!this.loginResponse) {
       return this.loginResponse.uuid
     }

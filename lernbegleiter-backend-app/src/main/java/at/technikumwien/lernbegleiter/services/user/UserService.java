@@ -1,15 +1,16 @@
 package at.technikumwien.lernbegleiter.services.user;
 
-import at.technikumwien.lernbegleiter.data.requests.UserUpdateRequest;
+import at.technikumwien.lernbegleiter.components.AuthHelper;
+import at.technikumwien.lernbegleiter.components.PasswordHasher;
+import at.technikumwien.lernbegleiter.data.requests.UserUpdateDto;
 import at.technikumwien.lernbegleiter.entities.auth.UserEntity;
 import at.technikumwien.lernbegleiter.repositories.auth.UserRepository;
-import at.technikumwien.lernbegleiter.components.PasswordHasher;
-import at.technikumwien.lernbegleiter.components.AuthHelper;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
@@ -26,50 +27,47 @@ public class UserService {
     private AuthHelper authHelper;
 
     @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
-    public boolean deleteByUuid(@NonNull String uuid) {
-        if(!userRepository.existsById(uuid)) {
+    public boolean deleteByUuid(@NonNull String userUuid) {
+        if (!userRepository.existsById(userUuid)) {
             return false;
         }
-        userRepository.deleteById(uuid);
+        userRepository.deleteById(userUuid);
         return true;
     }
 
-    public void update(@NonNull String uuid, @Valid @NonNull UserUpdateRequest uur) {
-        UserEntity ue = userRepository.getOne(uuid);
+    public void update(@NonNull String userUuid, @Valid @NonNull UserUpdateDto uur) {
+        authHelper.isAdminOrTeacherOrCurrentUserUuidOrThrow(userUuid);
 
-        if(authHelper.hasRole("STUDENT")) {
-            // Students can only change themselves
-            authHelper.currentUserHasUuidOrThrow(uuid);
-        }
+        UserEntity ue = userRepository.getOne(userUuid);
 
-        if(uur.getPassword() != null) {
-            enforceAtLeastStudent();
+        if (!StringUtils.isEmpty(uur.getPassword())) {
             ue.setHashedAndSaltedPassword(passwordHasher.hashAndSalt(uur.getPassword()));
         }
-        if(uur.getEmail() != null) {
-            enforceAtLeastStudent();
+        if (uur.getEmail() != null) {
             ue.setEmail(uur.getEmail());
         }
-
-        if(uur.getBirthday() != null) {
-            enforceAdminOrTeacher();
+        if (uur.getBirthday() != null) {
             ue.setBirthday(uur.getBirthday());
         }
-        if(uur.getFamilyName() != null) {
-            enforceAdminOrTeacher();
+        if (uur.getFamilyName() != null) {
             ue.setFamilyName(uur.getFamilyName());
         }
-        if(uur.getFirstName() != null) {
-            enforceAdminOrTeacher();
+        if (uur.getFirstName() != null) {
             ue.setFirstName(uur.getFirstName());
         }
     }
 
-    private void enforceAtLeastStudent() {
-        authHelper.hasAnyRoleOrThrow("STUDENT", "TEACHER", "ADMIN");
-    }
-
     private void enforceAdminOrTeacher() {
         authHelper.hasAnyRoleOrThrow("TEACHER", "ADMIN");
+    }
+
+    public UserUpdateDto get(@NonNull String userUuid) {
+        UserEntity ue = userRepository.getOne(userUuid);
+
+        return new UserUpdateDto()
+                .setBirthday(ue.getBirthday())
+                .setEmail(ue.getEmail())
+                .setFamilyName(ue.getFamilyName())
+                .setFirstName(ue.getFirstName());
     }
 }

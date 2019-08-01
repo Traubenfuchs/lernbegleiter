@@ -31,6 +31,9 @@
                     <li class="nav-item {{ isRouterSetTo([learningModuledUrl]) ? 'active' : '' }}">
                         <a [routerLink]="learningModuledUrl" (click)="updateContextMessage(learningModuledUrl)" class="nav-link">Module verwalten</a>
                     </li>
+                    <li class="nav-item {{ isRouterSetTo([getProfileUrl()]) ? 'active' : '' }}">
+                        <a [routerLink]="getProfileUrl()" (click)="updateContextMessage(getProfileUrl())" class="nav-link">Profil editieren</a>
+                    </li>
                 </ul>
             </div>
             <i (click)="loginService.logout()" class="fa fa-sign-out" style="cursor: pointer;"></i>

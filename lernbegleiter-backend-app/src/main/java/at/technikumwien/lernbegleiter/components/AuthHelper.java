@@ -16,7 +16,7 @@ public class AuthHelper {
         return (UserAuthentication) SecurityContextHolder.getContext().getAuthentication();
     }
 
-    public void isAdminOrTeacherOrUuidOrThrow(@NonNull String userUuid) {
+    public void isAdminOrTeacherOrCurrentUserUuidOrThrow(@NonNull String userUuid) {
         if (hasAnyRole("ADMIN", "TEACHER")) {
             return;
         }
