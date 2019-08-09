@@ -20,7 +20,9 @@ import static javax.persistence.FetchType.EAGER;
 @Table(name = "WEEKLY_OVERVIEW",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = {"FK_STUDENT_UUID", "CALENDAR_WEEK", "YEAR"})
-        })
+        },indexes = {
+        @Index(name="I_WEEKLY_OVERVIEW_FK_STUDENT_UUID", columnList = "FK_STUDENT_UUID")
+}    )
 @Entity
 public class WeeklyOverviewEntity extends BaseEntity<WeeklyOverviewEntity> {
     @Column(name = "CALENDAR_WEEK", nullable = false)

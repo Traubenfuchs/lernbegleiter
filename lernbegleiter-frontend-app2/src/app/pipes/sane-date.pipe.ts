@@ -17,7 +17,7 @@ export class SaneDatePipe implements PipeTransform {
 
   lp(input) {
     if (input < 10) {
-      return '0'+input
+      return '0' + input
     }
     return input
   }

@@ -1,0 +1,37 @@
+<div class="container">
+  <table class="lernbegleiter-table">
+    <thead class="sticky-top">
+      <tr>
+        <th scope="col">Vorname</th>
+        <th scope="col">Nachname</th>
+        <th scope="col">Email</th>
+        <th scope="col">Geburtstag</th>
+        <th scope="col">
+          <button class="btn btn-sm btn-success col-md-10 float-right"
+            [routerLink]="'/management/teacher/new'">Anlegen</button>
+        </th>
+      </tr>
+    </thead>
+    <ng-container *ngIf="isLoadingTeachers">
+      <tr *ngFor="let i2 of [].constructor(10)">
+        <td *ngFor="let i of [].constructor(6)">
+          <app-loader></app-loader>
+        </td>
+      </tr>
+    </ng-container>
+    <ng-container *ngIf="!isLoadingTeachers">
+      <tr *ngFor="let teacher of teachers">
+        <td>{{teacher.firstName}}</td>
+        <td>{{teacher.familyName}}</td>
+        <td>{{teacher.email}}</td>
+        <td>{{teacher.birthday | saneDate}}</td>
+        <td>
+          <button class="btn btn-sm btn-secondary col-md-10 float-right"
+            [routerLink]="'/management/teacher/' + teacher.uuid">
+            Bearbeiten
+          </button>
+        </td>
+      </tr>
+    </ng-container>
+  </table>
+</div>

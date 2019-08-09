@@ -13,7 +13,9 @@ import java.util.Set;
 @Accessors(chain = true)
 @Getter
 @Setter
-@Table(name = "QUIZ_QUESTION")
+@Table(name = "QUIZ_QUESTION",indexes = {
+        @Index(name="I_QUIZ_QUESTION_FK_QUIZ_UUID", columnList = "FK_QUIZ_UUID")
+})
 @Entity
 public class QuizQuestionEntity extends BaseEntityCreationUpdateDate<QuizQuestionEntity> {
     @Column(nullable = false, length = 1024*10)

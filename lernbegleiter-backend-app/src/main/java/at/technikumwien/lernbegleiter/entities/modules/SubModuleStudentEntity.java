@@ -13,7 +13,10 @@ import java.time.Instant;
 @Accessors(chain = true)
 @Getter
 @Setter
-@Table(name = "SUB_MODULE_STUDENT")
+@Table(name = "SUB_MODULE_STUDENT",indexes = {
+        @Index(name="I_SUB_MODULE_STUDENT_FK_SUB_MODULE_UUID", columnList = "FK_SUB_MODULE_UUID"),
+        @Index(name="I_SUB_MODULE_STUDENT_FK_STUDENT_UUID", columnList = "FK_STUDENT_UUID")
+})
 @Entity
 public class SubModuleStudentEntity extends BaseEntityCreationUpdateDate<SubModuleStudentEntity> {
   @ManyToOne(optional = false)

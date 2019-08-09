@@ -15,7 +15,10 @@ import java.util.Set;
 @Accessors(chain = true)
 @Getter
 @Setter
-@Table(name = "LEARNING_MODULE_STUDENT")
+@Table(name = "LEARNING_MODULE_STUDENT",indexes = {
+        @Index(name="I_LEARNING_MODULE_STUDENT_FK_LEARNING_MODULE_UUID", columnList = "FK_LEARNING_MODULE_UUID"),
+        @Index(name="I_LEARNING_MODULE_STUDENT_FK_STUDENT_UUID", columnList = "FK_STUDENT_UUID")
+})
 @Entity
 public class LearningModuleStudentEntity extends BaseEntityCreationUpdateDate<LearningModuleStudentEntity> {
   @ManyToOne(optional = false)

@@ -1,0 +1,54 @@
+<div class="container">
+  <div class="card">
+    <div class="card-header" *ngIf="uuid === 'new'">
+      <h5 class="card-title">Neuen Lehrer anlegen</h5>
+      <p class="card-text">Hier kannst du einen neuen Lehrer anlegen</p>
+    </div>
+    <div class="card-header" *ngIf="uuid !== 'new'">
+      <h5 class="card-title">Lehrer bearbeiten</h5>
+      <p class="card-text">Hier kannst du den Lehrer bearbeiten</p>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                <label for="uuidInput">UUID</label>
+                <input id="uuidInput" [(ngModel)]="teacher.uuid" class="form-control" placeholder="UUID" disabled>
+              </div>
+            <div class="col">
+              <label for="emailInput">E-Mail</label>
+              <input id="emailInput" [(ngModel)]="teacher.email" type="email" class="form-control"
+                placeholder="Email">
+            </div>
+          </div>
+      <div class="row">
+        <div class="col">
+          <label for="vornameInput">Vorname</label>
+          <input id="vornameInput" [(ngModel)]="teacher.firstName" type="text" class="form-control" placeholder="Vorname">
+        </div>
+        <div class="col">
+          <label for="nachnameInput">Nachname</label>
+          <input id="nachnameInput" [(ngModel)]="teacher.familyName" type="text" class="form-control"
+            placeholder="Nachname">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <label for="studentBirthday">Geburstag</label>
+          <input id="studentBirthday" [(ngModel)]="teacher.birthday" type="date" class="form-control"
+            placeholder="11.12.1992">
+        </div>
+        <div class="col">
+          <label for="studentPasswordInput">Neues Passwort</label>
+          <input id="studentPasswordInput" [(ngModel)]="teacher.password" class="form-control" type="password" placeholder="Neues Passwort">
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <div *ngIf="uuid !== 'new'" class="btn-group w-100">
+        <button (click)="updateTecher()" class="btn btn-secondary">Aktualisieren</button>
+        <button (click)="deleteTeacher()" class="btn btn-danger">Löschen</button>
+      </div>
+      <button (click)="createTeacher()" *ngIf="uuid === 'new'" class="btn btn-success w-100">Anlegen</button>
+    </div>
+  </div>
+</div>

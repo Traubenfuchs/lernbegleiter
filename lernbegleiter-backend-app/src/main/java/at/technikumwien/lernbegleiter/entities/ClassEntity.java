@@ -24,7 +24,9 @@ import static javax.persistence.FetchType.EAGER;
 @Accessors(chain = true)
 @Getter
 @Setter
-@Table(name = "CLASS")
+@Table(name = "CLASS",indexes = {
+        @Index(name="I_CLASS_FK_GRADE_UUID", columnList = "FK_GRADE_UUID")
+})
 @Entity
 public class ClassEntity extends BaseEntityCreationUpdateDate<ClassEntity> {
     @Column(name = "NAME", nullable = false)

@@ -15,7 +15,7 @@ export class StudentComponent implements OnInit {
   student: Student = new Student()
   uuid: string
   grades: Grade[] = []
-  selectedClass: string = ''
+  selectedClass = ''
   breadcrumbs: Breadcrumb[];
 
 

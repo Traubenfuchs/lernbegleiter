@@ -6,15 +6,14 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Accessors(chain = true)
 @Getter
 @Setter
-@Table(name = "QUIZ_RUN")
+@Table(name = "QUIZ_RUN",indexes = {
+        @Index(name="I_QUIZ_RUN_FK_QUIZ_UUID", columnList = "FK_QUIZ_UUID")
+})
 @Entity
 public class QuizRunEntity extends BaseEntityCreationUpdateDate<QuizRunEntity> {
     @ManyToOne(optional = false)

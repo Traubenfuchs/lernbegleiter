@@ -10,7 +10,9 @@ import javax.persistence.*;
 @Accessors(chain = true)
 @Getter
 @Setter
-@Table(name = "WEEKLY_OVERVIEW_CLASS_DAY")
+@Table(name = "WEEKLY_OVERVIEW_CLASS_DAY",indexes = {
+        @Index(name="I_WEEKLY_OVERVIEW_CLASS_DAY_FK_WEEKLY_OVERVIEW_CLASS_UUID", columnList = "FK_WEEKLY_OVERVIEW_CLASS_UUID")
+})
 @Entity
 public class WeeklyOverviewClassDayEntity extends BaseEntity<WeeklyOverviewClassDayEntity> {
     @Lob

@@ -25,7 +25,9 @@ import static javax.persistence.FetchType.LAZY;
 @Accessors(chain = true)
 @Getter
 @Setter
-@Table(name = "USERS")
+@Table(name = "USERS" ,indexes = {
+        @Index(name="I_USERS_FK_GRADE_UUID", columnList = "FK_GRADE_UUID")
+})
 @Entity
 public class UserEntity extends BaseEntityCreationUpdateDate<UserEntity> {
     @Column(name = "EMAIL", nullable = false, unique = true)

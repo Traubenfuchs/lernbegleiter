@@ -10,11 +10,9 @@ import { ClassesComponent } from './components/admin/classes/classes.component';
 import { GradeComponent } from './components/admin/grade/grade.component';
 import { GradesComponent } from './components/admin/grades/grades.component';
 import { LearningModuleComponent } from './components/admin/learning-module/learning-module.component';
-import { LearningModulesComponent } from './components/admin/learning-modules/learning-modules.component';
 import { StudentComponent } from './components/admin/student/student.component';
 import { StudentsComponent } from './components/admin/students/students.component';
 import { SubModuleComponent } from './components/admin/sub-module/sub-module.component';
-import { SubModulesComponent } from './components/admin/sub-modules/sub-modules.component';
 import { HomeComponent } from './components/general/home/home.component';
 import { LoginSuccessComponent } from './components/general/login-success/login-success.component';
 import { LoginComponent } from './components/general/login/login.component';
@@ -27,6 +25,8 @@ import { GrowlInterceptor } from "./services/growl-interceptor.service";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProfileEditComponent } from './components/general/profile-edit/profile-edit.component';
 import { SaneDatePipe } from './pipes/sane-date.pipe';
+import { TeachersComponent } from './components/admin/teachers/teachers.component';
+import { TeacherComponent } from './components/admin/teacher/teacher.component';
 
 @NgModule({
   declarations: [
@@ -39,9 +39,7 @@ import { SaneDatePipe } from './pipes/sane-date.pipe';
     GradeComponent,
     StudentComponent,
     LearningModuleComponent,
-    LearningModulesComponent,
     SubModuleComponent,
-    SubModulesComponent,
     ClassComponent,
     ClassesComponent,
     WeekOverviewComponent,
@@ -50,6 +48,8 @@ import { SaneDatePipe } from './pipes/sane-date.pipe';
     GrowlComponent,
     ProfileEditComponent,
     SaneDatePipe,
+    TeachersComponent,
+    TeacherComponent,
   ],
   imports: [
     BrowserModule,

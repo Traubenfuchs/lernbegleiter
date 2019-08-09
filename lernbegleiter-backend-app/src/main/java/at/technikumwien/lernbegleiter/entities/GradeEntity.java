@@ -10,15 +10,7 @@ import lombok.experimental.Accessors;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,7 +22,9 @@ import static javax.persistence.FetchType.EAGER;
 @Accessors(chain = true)
 @Getter
 @Setter
-@Table(name = "GRADE")
+@Table(name = "GRADE",indexes = {
+        @Index(name="I_GRADE_FK_HEADTEACHER_UUID", columnList = "FK_HEADTEACHER_UUID")
+})
 @Entity
 public class GradeEntity extends BaseEntityCreationUpdateDate<GradeEntity> {
 

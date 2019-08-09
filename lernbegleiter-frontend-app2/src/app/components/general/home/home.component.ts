@@ -20,6 +20,7 @@ export class HomeComponent implements OnInit {
   newStudentUrl = '/management/student/new'
   classesUrl = '/management/classes'
   learningModuledUrl = '/management/learning-modules'
+  teachersUrl = '/management/teachers'
 
   getProfileUrl(): string {
     return `user/${this.loginService.getUserUuid()}/profile`

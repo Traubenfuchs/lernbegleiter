@@ -12,7 +12,7 @@ import { UuidResponse } from 'src/app/data/UuidResponse';
 export class GradesComponent implements OnInit {
   grades: Grade[]
   newGradeName: string
-  isLoadingGrades: boolean = true
+  isLoadingGrades = true
 
   constructor(private http: HttpClient, public router: Router) { }
 

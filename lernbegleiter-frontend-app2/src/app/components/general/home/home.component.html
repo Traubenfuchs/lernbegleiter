@@ -25,12 +25,9 @@
                     <li class="nav-item {{ isRouterSetTo([studentsUrl, newStudentUrl]) ? 'active' : '' }}">
                         <a [routerLink]="studentsUrl" (click)="updateContextMessage(studentsUrl)" class="nav-link">Schüler verwalten</a>
                     </li>
-                    <li class="nav-item {{ isRouterSetTo([classesUrl]) ? 'active' : '' }}">
-                        <a [routerLink]="classesUrl" (click)="updateContextMessage(classesUrl)" class="nav-link">Fächer verwalten</a>
-                    </li>
-                    <li class="nav-item {{ isRouterSetTo([learningModuledUrl]) ? 'active' : '' }}">
-                        <a [routerLink]="learningModuledUrl" (click)="updateContextMessage(learningModuledUrl)" class="nav-link">Module verwalten</a>
-                    </li>
+                    <li class="nav-item {{ isRouterSetTo([teachersUrl]) ? 'active' : '' }}">
+                      <a [routerLink]="teachersUrl" (click)="updateContextMessage(teachersUrl)" class="nav-link">Lehrer editieren</a>
+                  </li>
                     <li class="nav-item {{ isRouterSetTo([getProfileUrl()]) ? 'active' : '' }}">
                         <a [routerLink]="getProfileUrl()" (click)="updateContextMessage(getProfileUrl())" class="nav-link">Profil editieren</a>
                     </li>

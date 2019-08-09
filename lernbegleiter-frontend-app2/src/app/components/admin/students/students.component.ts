@@ -8,11 +8,10 @@ import { Student } from 'src/app/data/Student';
   styleUrls: ['./students.component.scss']
 })
 export class StudentsComponent implements OnInit {
-
   public students: Student[]
   public currentWeek: number = new Date()['getWeekNumber']()
   public year: number = new Date().getFullYear()
-  isLoadingStudent: boolean = true
+  isLoadingStudent = true
 
   constructor(private http: HttpClient) {
   }
@@ -22,11 +21,12 @@ export class StudentsComponent implements OnInit {
   }
 
   loadStudents() {
+    this.isLoadingStudent = true
     this.http
       .get<Student[]>(`api/students`, { observe: 'body' })
       .subscribe(
         students => this.students = students,
-        (err) => console.log(err),
+        err => console.log(err),
         () => this.isLoadingStudent = false
       )
   }

@@ -17,7 +17,9 @@ import java.util.Set;
 @Accessors(chain = true)
 @Getter
 @Setter
-@Table(name = "QUIZ")
+@Table(name = "QUIZ",indexes = {
+        @Index(name="I_QUIZ_FK_AUTHOR_UUID", columnList = "FK_AUTHOR_UUID")
+})
 @Entity
 public class QuizEntity extends BaseEntityCreationUpdateDate<QuizEntity> {
     @Column(name = "MAX_RETRIES", nullable = false)

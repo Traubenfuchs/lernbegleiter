@@ -24,18 +24,28 @@
     </div>
 
     <div class="card-body">
-      <ul *ngFor="let grade of grades" class="list-group list-group-flush">
-        <li class="list-group-item">
-          <app-loader *ngIf="isLoadingGrades"></app-loader>
-          <div *ngIf="!isLoadingGrades">
-            <span>{{ grade.name }}</span> ({{ grade.students.length }})
-            <div class="btn-group float-right" role="group" aria-label="Basic example">
-              <button (click)='deleteGrade(grade.uuid)' type="button" class="btn btn-danger btn-sm">Löschen</button>
-              <button [routerLink]="['/management/grade/', grade.uuid]" type="button" class="btn btn-secondary btn-sm">Bearbeiten</button>
+      <ng-container *ngIf="isLoadingGrades">
+        <tr *ngFor="let i2 of [].constructor(10)">
+          <td *ngFor="let i of [].constructor(2)">
+            <app-loader></app-loader>
+          </td>
+        </tr>
+      </ng-container>
+      <ng-container *ngIf="!isLoadingGrades">
+        <ul *ngFor="let grade of grades" class="list-group list-group-flush">
+          <li class="list-group-item">
+            <app-loader *ngIf="isLoadingGrades"></app-loader>
+            <div *ngIf="!isLoadingGrades">
+              <span>{{ grade.name }}</span> ({{ grade.students.length }})
+              <div class="btn-group float-right" role="group" aria-label="Basic example">
+                <button (click)='deleteGrade(grade.uuid)' type="button" class="btn btn-danger btn-sm">Löschen</button>
+                <button [routerLink]="['/management/grade/', grade.uuid]" type="button"
+                  class="btn btn-secondary btn-sm">Bearbeiten</button>
+              </div>
             </div>
-          </div>
-        </li>
-      </ul>
+          </li>
+        </ul>
+      </ng-container>
     </div>
 
   </div>

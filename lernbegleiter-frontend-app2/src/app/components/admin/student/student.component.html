@@ -10,20 +10,28 @@
       <p class="card-text">Hier kannst du den Schüler bearbeiten</p>
     </div>
     <div class="card-body">
+        <div class="row">
+            <div class="col">
+              <label for="uuidInput">UUID</label>
+              <input id="uuidInput" [(ngModel)]="student.uuid" type="text" class="form-control" placeholder="UUID" disabled>
+            </div>
+            <div class="col">
+            </div>
+          </div>
       <div class="row">
         <div class="col">
           <label for="vornameInput">Vorname</label>
-          <input id="vornameInput" [(ngModel)]="student.firstName" type="text" class="form-control" placeholder="Max">
+          <input id="vornameInput" [(ngModel)]="student.firstName" type="text" class="form-control" placeholder="Vorname">
         </div>
         <div class="col">
           <label for="nachnameInput">Nachname</label>
-          <input id="nachnameInput" [(ngModel)]="student.familyName" type="text" class="form-control" placeholder="Mustermann">
+          <input id="nachnameInput" [(ngModel)]="student.familyName" type="text" class="form-control" placeholder="Nachname">
         </div>
       </div>
       <div class="row">
         <div class="col">
           <label for="emailInput">E-Mail</label>
-          <input id="emailInput" [(ngModel)]="student.email" type="email" class="form-control" placeholder="max@mustermann.com">
+          <input id="emailInput" [(ngModel)]="student.email" type="email" class="form-control" placeholder="E-Mail">
         </div>
         <div class="col">
           <label for="klassenSelect">Klasse</label>
@@ -34,12 +42,12 @@
       </div>
       <div class="row">
         <div class="col">
-          <label for="studentBirthday">Gebursttag (todo datepicker)</label>
-          <input id="studentBirthday" [(ngModel)]="student.birthday" type="date" class="form-control" placeholder="11.12.1992">
+          <label for="studentBirthday">Geburtstag</label>
+          <input id="studentBirthday" [(ngModel)]="student.birthday" type="date" class="form-control" placeholder="Geburtstag">
         </div>
         <div class="col">
-          <label for="studentPasswordInput">Passwort</label>
-          <input id="studentPasswordInput" [(ngModel)]="student.password" class="form-control" type="password">
+          <label for="studentPasswordInput">Neues Passwort</label>
+          <input id="studentPasswordInput" [(ngModel)]="student.password" class="form-control" type="password" placeholder="Neues Passwort">
         </div>
       </div>
     </div>

@@ -17,7 +17,10 @@ import java.util.Set;
 @Accessors(chain = true)
 @Getter
 @Setter
-@Table(name = "WEEKLY_OVERVIEW_CLASS")
+@Table(name = "WEEKLY_OVERVIEW_CLASS",indexes = {
+        @Index(name="I_WEEKLY_OVERVIEW_CLASS_FK_WEEKLY_OVERVIEW_UUID", columnList = "FK_WEEKLY_OVERVIEW_UUID"),
+        @Index(name="I_WEEKLY_OVERVIEW_CLASS_FK_CLASS_UUID", columnList = "FK_CLASS_UUID")
+})
 @Entity
 public class WeeklyOverviewClassEntity extends BaseEntity<WeeklyOverviewClassEntity> {
     @Column(name = "COLOR")
