@@ -31,7 +31,7 @@ export class LoginService {
         })).subscribe(v => {
           console.info('login check ok')
         })
-    }, 100)
+    }, 0)
   }
 
   public getUserUuid(): string {
@@ -72,6 +72,12 @@ export class LoginService {
 
   public loggedInAndStudent() {
     return !!this.loginResponse && this.loginResponse.rights.indexOf('STUDENT') > -1;
+  }
+  public loggedInAndTeacherOrAdmin() {
+    return !!this.loginResponse && (this.loginResponse.rights.indexOf('TEACHER') > -1 || this.loginResponse.rights.indexOf('ADMIN') > -1);
+  }
+  public loggedInAndAdmin() {
+    return !!this.loginResponse && this.loginResponse.rights.indexOf('ADMIN') > -1;
   }
 
   public loggedInAndAuthority() {

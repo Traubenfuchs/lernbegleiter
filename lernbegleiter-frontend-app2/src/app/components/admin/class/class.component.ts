@@ -45,7 +45,7 @@ export class ClassComponent implements OnInit {
     console.log('Loading LearningModules...')
 
     this.http.get<LearningModule[]>(`api/class/${this.uuid}/learning-modules`)
-      .subscribe(res=> {
+      .subscribe(res => {
         console.log('LearningModules loaded.')
         this.learningModules = res
       })
@@ -80,15 +80,18 @@ export class ClassComponent implements OnInit {
   updateClass() {
     console.log('updating class...')
     this.http.patch<UuidResponse>(`api/class/${this.uuid}`, this.class)
-      .subscribe(() => this.loadClass(),
-      );
-
+      .subscribe(() => {
+        this.loadClass()
+        console.log("udated class")
+        this.router.navigate([`management/classes/`])
+      });
   }
 
   createNewClass() {
     console.log('creating class...')
     this.http.post<UuidResponse>('api/class', this.class)
       .subscribe(uuidResponse => {
+        console.log("created class.")
         this.router.navigate([`management/class/${uuidResponse.uuid}`])
       })
   }

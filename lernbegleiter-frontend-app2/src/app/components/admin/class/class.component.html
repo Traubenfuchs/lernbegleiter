@@ -27,15 +27,14 @@
         </div>
       </div>
     </div>
-
     <div class="card-footer">
       <div *ngIf="uuid !== 'new'" class="btn-group w-100">
         <button (click)="saveClick()" class="btn btn-secondary">Aktualisieren</button>
         <button (click)="deleteClick()" class="btn btn-danger">Löschen</button>
       </div>
-      <button (click)="saveClick()" *ngIf="isClassNew()" class="btn btn-success w-100">Anlegen</button>
+      <button (click)="saveClick()" *ngIf="isClassNew()" class="btn btn-success">Anlegen</button>
     </div>
-  </div>
+  </div> <!-- ends card -->
 
   <div class="card mt-3" *ngIf="uuid !== 'new'">
     <div class="card-header">
@@ -50,7 +49,8 @@
           <th>Deadline</th>
           <th></th>
           <th>
-            <button class="btn btn-sm btn-success col-md-6" [routerLink]="'/management/class/'+uuid+'/learning-module/new'">
+            <button class="btn btn-sm btn-success"
+              [routerLink]="'/management/class/'+uuid+'/learning-module/new'">
               Anlegen
             </button>
           </th>
@@ -61,7 +61,7 @@
           <td>{{learningModule.deadline}}</td>
           <td>
             <button class="btn btn-secondary"
-              [routerLink]="'/management/learningModule/' + learningModule.uuid">Bearbeiten</button>
+              [routerLink]="'/management/class/'+uuid+'/learning-module/' + learningModule.uuid">Bearbeiten</button>
           </td>
           <td>
             <button class="btn btn-danger" (click)='deleteLearningModuleFromClass(learningModule.uuid)'>von Klasse
@@ -70,6 +70,6 @@
         </tr>
       </table>
     </div>
-  </div>
+  </div>  <!-- ends card -->
 
 </div>

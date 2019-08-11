@@ -1,5 +1,4 @@
 <div class="container">
-  <app-breadcrumb [breadcrumbs]="breadcrumbs"></app-breadcrumb>
   <div class="card">
     <div class="card-header">
       <h5 class="card-title">{{ getCardHeaderForModule() }}</h5>
@@ -19,18 +18,17 @@
       </div>
 
       <div class="row">
-          <div class="col">
-            <label for="startInput">Name</label>
-            <input id="startInput" type='date' [(ngModel)]="learningModule.start" class="form-control" placeholder="Startdatum">
-          </div>
-          <div class="col">
-              <label for="descriptionInput">Beschreibung</label>
-              <input id="descriptionInput" [(ngModel)]="learningModule.description" class="form-control" placeholder="Beschreibung">
-          </div>
+        <div class="col">
+          <label for="startInput">Start</label>
+          <input id="startInput" type='date' [(ngModel)]="learningModule.start" class="form-control"
+            placeholder="Startdatum">
         </div>
-
-
-
+        <div class="col">
+          <label for="descriptionInput">Beschreibung</label>
+          <input id="descriptionInput" [(ngModel)]="learningModule.description" class="form-control"
+            placeholder="Beschreibung">
+        </div>
+      </div>
 
     </div>
     <div class="card-footer">
@@ -40,25 +38,38 @@
   </div>
   <div class="card">
     <div class="card-body">
-      <button [routerLink]="'/management/learning-module/' + this.uuid + '/sub-module/new'">Submodul anlegen</button>
-      <table>
+      <table class="lernbegleiter-table">
         <thead class="sticky-top">
           <tr>
             <th scope="col">Name</th>
             <th scope="col">Bearbeiten</th>
             <th scope="col">Löschen (TODO)</th>
+            <th scope="col">
+              <button class="btn btn-sm btn-success col-md-10 float-right"
+                [routerLink]="'/management/learning-module/' + this.uuid + '/sub-module/new'">Submodul anlegen</button>
+            </th>
           </tr>
         </thead>
-        <tr *ngFor="let subModule of subModules">
-          <td>{{subModule.name}}</td>
-          <td>
-            <button
-              [routerLink]="'/management/learning-module/' + this.uuid + '/sub-module/' + subModule.uuid">bearbeiten</button>
-          </td>
-          <td>
-            <button (click)='deleteSubModule(subModule.uuid)'>Löschen (TODO)</button>
-          </td>
-        </tr>
+        <ng-container *ngIf="isLoadingSubModules">
+          <tr *ngFor="let i2 of [].constructor(5)">
+            <td *ngFor="let i of [].constructor(4)">
+              <app-loader></app-loader>
+            </td>
+          </tr>
+        </ng-container>
+        <ng-container *ngIf="!isLoadingSubModules">
+
+          <tr *ngFor="let subModule of subModules">
+            <td>{{subModule.name}}</td>
+            <td>
+              <button class="btn btn-sm btn-success"
+                [routerLink]="'/management/learning-module/' + this.uuid + '/sub-module/' + subModule.uuid">bearbeiten</button>
+            </td>
+            <td>
+              <button class="btn btn-sm btn-danger" (click)='deleteSubModule(subModule.uuid)'>Löschen (TODO)</button>
+            </td>
+          </tr>
+        </ng-container>
       </table>
     </div>
   </div>

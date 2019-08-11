@@ -12,7 +12,6 @@ export class HomeComponent implements OnInit {
   public weekInYear: number
   public year: number = new Date().getFullYear()
 
-  welcomeHeader = 'Lernbegleiter'
   contextMessage = 'Dein Wochenplaner'
 
   gradesUrl = '/management/grades'
@@ -24,6 +23,11 @@ export class HomeComponent implements OnInit {
 
   getProfileUrl(): string {
     return `user/${this.loginService.getUserUuid()}/profile`
+  }
+
+  // student/:studentUUID/weekly-overview/:week/:year
+  getWeeklyOverviewUrl(): string {
+    return '/student/' + this.loginService.getUserUuid() + '/weekly-overview/' + this.weekInYear + '/'+ this.year;
   }
 
   constructor(public loginService: LoginService, public router: Router, private growlService: GrowlService) {

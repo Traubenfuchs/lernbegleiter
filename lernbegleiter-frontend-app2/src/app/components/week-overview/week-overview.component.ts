@@ -1,9 +1,10 @@
-import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { WeeklyOverview } from './../../data/weekly-overview/WeeklyOverview';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UuidResponse } from 'src/app/data/UuidResponse';
-import { LearningModuleStudent } from 'src/app/data/LearningModuleStudent';
+
+import { ClassCompletion } from './../../data/ClassCompletion';
+import { WeeklyOverview } from './../../data/weekly-overview/WeeklyOverview';
 
 @Component({
   selector: 'app-week-overview',
@@ -16,31 +17,29 @@ export class WeekOverviewComponent implements OnInit {
   public year: number
   public studentUuid
   public weeklyOverview: WeeklyOverview = new WeeklyOverview()
-  public learningModuleStudents: LearningModuleStudent[] = []
+  public classCompletions: ClassCompletion[] = []
 
   constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute) {
-    this.router.routeReuseStrategy.shouldReuseRoute = function () {
-      return false;
-    };
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false
   }
 
   ngOnInit() {
     this.studentUuid = this.route.snapshot.paramMap.get("studentUUID")
     this.week = parseInt(this.route.snapshot.paramMap.get("week"))
     this.year = parseInt(this.route.snapshot.paramMap.get("year"))
-    this.loadWeeklyOverview()
     this.loadLearningModuleStudents()
+    this.loadWeeklyOverview()
   }
 
   loadLearningModuleStudents() {
     console.log('Loading loadLearningModuleStudents...')
     this.http
-      .get<LearningModuleStudent[]>(
+      .get<ClassCompletion[]>(
         `api/student/${this.studentUuid}/learningModuleStudent`,
         { observe: 'body' })
-      .subscribe(learningModuleStudents => {
+      .subscribe(ccs => {
         console.log('Loaded loadLearningModuleStudents.')
-        this.learningModuleStudents = learningModuleStudents
+        this.classCompletions = ccs
       })
   }
 

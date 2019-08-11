@@ -12,8 +12,18 @@ import java.util.Set;
 
 @Component
 public class AuthHelper {
-    public static UserAuthentication getAuth() {
+    public UserAuthentication getAuth() {
         return (UserAuthentication) SecurityContextHolder.getContext().getAuthentication();
+    }
+
+    public UserAuthentication getAuthOrThrow() {
+        UserAuthentication result = (UserAuthentication) SecurityContextHolder.getContext().getAuthentication();
+
+        if (result == null) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No Auth.");
+        }
+
+        return result;
     }
 
     public void isAdminOrTeacherOrCurrentUserUuidOrThrow(@NonNull String userUuid) {
@@ -29,7 +39,9 @@ public class AuthHelper {
     }
 
     public boolean hasAnyRole(String... roles) {
-        Set<String> rights = getAuth().getRights();
+        UserAuthentication ua = getAuthOrThrow();
+
+        Set<String> rights = ua.getRights();
 
         for (String role : roles) {
             if (rights.contains(role)) {
@@ -46,7 +58,7 @@ public class AuthHelper {
     }
 
     public boolean hasRole(String role) {
-        return getAuth().getRights().contains(role);
+        return getAuthOrThrow().getRights().contains(role);
     }
 
     public void hasRoleOrThrow(String role) {
@@ -56,7 +68,7 @@ public class AuthHelper {
     }
 
     public void currentUserHasUuidOrThrow(String uuid) {
-        if (!Objects.equals(getAuth().getUuid(), uuid)) {
+        if (!Objects.equals(getAuthOrThrow().getUuid(), uuid)) {
             throwResponseStatusException();
         }
     }

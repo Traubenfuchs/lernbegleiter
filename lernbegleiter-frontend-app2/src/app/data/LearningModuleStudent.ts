@@ -1,9 +1,10 @@
 import { SubModuleStudent } from './SubModuleStudent';
 
 export class LearningModuleStudent {
-	uuid: string
-	name: string
+	uuid = ''
+	name = ''
 	dueDate: Date
 	finishedAt: Date
-	subModules: SubModuleStudent[] = []
+  subModules: SubModuleStudent[] = []
+  className = ''
 }

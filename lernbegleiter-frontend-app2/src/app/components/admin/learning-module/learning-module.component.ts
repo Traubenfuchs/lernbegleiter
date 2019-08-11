@@ -12,11 +12,11 @@ import {Breadcrumb} from "../../../data/Breadcrumb";
   styleUrls: ['./learning-module.component.scss']
 })
 export class LearningModuleComponent implements OnInit {
-  learningModule: LearningModule;
-  uuid: string;
-  classUuid: string;
-  subModules: SubModule[] = [];
-  breadcrumbs: Breadcrumb[] = [];
+  learningModule: LearningModule
+  uuid: string
+  classUuid: string
+  subModules: SubModule[] = []
+  isLoadingSubModules = true
 
   constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute) {
     this.learningModule = {
@@ -30,11 +30,6 @@ export class LearningModuleComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.breadcrumbs = [
-      Breadcrumb.inactiveOf('/management/learning-modules', 'Übersicht'),
-      Breadcrumb.activeOf('Modul anlegen')
-    ];
-
     this.uuid = this.route.snapshot.paramMap.get("learningModuleUUID")
     this.classUuid = this.route.snapshot.paramMap.get("classUUID")
 
@@ -64,10 +59,12 @@ export class LearningModuleComponent implements OnInit {
 
   loadSubModules() {
     console.log("Loading subModules...")
+    this.isLoadingSubModules = true
     this.http.get<SubModule[]>(`api/learning-module/${this.uuid}/sub-modules`)
     .subscribe(subModules => {
       console.log("Loaded subModules...")
       this.subModules = subModules
+      this.isLoadingSubModules = false
     })
   }
 

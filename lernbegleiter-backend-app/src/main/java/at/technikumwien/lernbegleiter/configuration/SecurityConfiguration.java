@@ -1,5 +1,6 @@
 package at.technikumwien.lernbegleiter.configuration;
 
+import at.technikumwien.lernbegleiter.components.AuthHelper;
 import at.technikumwien.lernbegleiter.services.user.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -9,6 +10,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.access.ExceptionTranslationFilter;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 
 @EnableWebSecurity(debug = false)
@@ -17,13 +20,15 @@ import org.springframework.security.web.authentication.AnonymousAuthenticationFi
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private LoginService loginService;
-
+    @Autowired
+    private AuthHelper authHelper;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.addFilterBefore(new SecretSecurityFilter(loginService), AnonymousAuthenticationFilter.class);
+        http.addFilterBefore(new SecretSecurityFilter(loginService, authHelper), AnonymousAuthenticationFilter.class);
         http
                 .csrf().disable()
-                .sessionManagement().disable()
+               // .anonymous().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER).and()
                 .formLogin().disable()
                 .logout().disable()
                 .httpBasic().disable()

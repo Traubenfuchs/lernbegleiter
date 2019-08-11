@@ -1,44 +1,53 @@
 <div class="container">
-  <table class="lernbegleiter-table">
-    <thead class="sticky-top">
-    <tr>
-      <th scope="col">Vorname</th>
-      <th scope="col">Nachname</th>
-      <th scope="col">Email</th>
-      <th scope="col">Geburtstag</th>
-      <th scope="col">Klassenname</th>
-      <th scope="col">Wochenübersicht</th>
-      <th scope="col">
-        <button class="btn btn-sm btn-success col-md-10 float-right" [routerLink]="'/management/student/new'">Anlegen</button>
-      </th>
-    </tr>
-    </thead>
-    <ng-container *ngIf="isLoadingStudent">
-      <tr *ngFor="let i2 of [].constructor(10)">
-        <td *ngFor="let i of [].constructor(7)">
-          <app-loader></app-loader>
-        </td>
-      </tr>
-    </ng-container>
-    <ng-container *ngIf="!isLoadingStudent">
-      <tr *ngFor="let student of students">
-        <td>{{student.firstName}}</td>
-        <td>{{student.familyName}}</td>
-        <td>{{student.email}}</td>
-        <td>{{student.birthday | saneDate}}</td>
-        <td>{{student.gradeName}}</td>
-        <td>
-          <button class="btn btn-sm btn-secondary"
-                  [routerLink]="'/student/' + student.uuid + '/weekly-overview/' + currentWeek + '/' + year">
-            Wochenübersicht
-          </button>
-        </td>
-        <td>
-          <button class="btn btn-sm btn-secondary col-md-10 float-right" [routerLink]="'/management/student/' + student.uuid">
-            Bearbeiten
-          </button>
-        </td>
-      </tr>
-    </ng-container>
-  </table>
+  <div class="card">
+    <div class="card-header">
+      <input placeholder="Search" [(ngModel)]="filterWord" class="form-control" />
+    </div>
+    <div class="card-body">
+      <table class="lernbegleiter-table">
+        <thead class="sticky-top">
+          <tr>
+            <th scope="col">Vorname</th>
+            <th scope="col">Nachname</th>
+            <th scope="col">Email</th>
+            <th scope="col">Geburtstag</th>
+            <th scope="col">Klassenname</th>
+            <th scope="col">Wochenübersicht</th>
+            <th scope="col">
+              <button class="btn btn-sm btn-success col-md-10 float-right"
+                [routerLink]="'/management/student/new'">Anlegen</button>
+            </th>
+          </tr>
+        </thead>
+        <ng-container *ngIf="isLoadingStudent">
+          <tr *ngFor="let i2 of [].constructor(10)">
+            <td *ngFor="let i of [].constructor(7)">
+              <app-loader></app-loader>
+            </td>
+          </tr>
+        </ng-container>
+        <ng-container *ngIf="!isLoadingStudent">
+          <tr *ngFor="let student of displayedStudents">
+            <td>{{student.firstName}}</td>
+            <td>{{student.familyName}}</td>
+            <td>{{student.email}}</td>
+            <td>{{student.birthday | saneDate}}</td>
+            <td>{{student.gradeName}}</td>
+            <td>
+              <button class="btn btn-sm btn-secondary"
+                [routerLink]="'/student/' + student.uuid + '/weekly-overview/' + currentWeek + '/' + year">
+                Wochenübersicht
+              </button>
+            </td>
+            <td>
+              <button class="btn btn-sm btn-secondary float-right"
+                [routerLink]="'/management/student/' + student.uuid">
+                Bearbeiten
+              </button>
+            </td>
+          </tr>
+        </ng-container>
+      </table>
+    </div>
+  </div>
 </div>

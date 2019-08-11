@@ -7,7 +7,10 @@
       <input id="deadlineInput" type="date" [(ngModel)]="subModule.deadline" class="form-control" placeholder="xxx">
       <label for="descriptionInput">Beschreibung</label>
       <input id="descriptionInput" [(ngModel)]="subModule.description" class="form-control" placeholder="xxx">
-      <button (click)='saveClick()'>Anlegen / Aktualisieren</button>
+    </div>
+    <div class="card-footer">
+      <button *ngIf="isNew()" class="btn btn-sm btn-success" (click)='createSubModule()'>Anlegen</button>
+      <button *ngIf="!isNew()" class="btn btn-sm btn-success" (click)='updateSubModule()'>Aktualisieren</button>
     </div>
   </div>
 </div>

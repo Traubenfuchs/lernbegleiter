@@ -6,7 +6,7 @@
         <p class="card-text">Schüler der Klasse</p>
       </div>
       <div class="card-body">
-        <table>
+        <table class="lernbegleiter-table">
           <tr>
             <th>Vorname</th>
             <th>Nachname</th>
@@ -19,7 +19,7 @@
             <td>{{student.firstName}}</td>
             <td>{{student.familyName}}</td>
             <td>{{student.email}}</td>
-            <td>{{student.birthday}}</td>
+            <td>{{student.birthday | saneDate}}</td>
             <td>
               <button class="btn btn-secondary" [routerLink]="'/management/student/' + student.uuid">Bearbeiten</button>
             </td>

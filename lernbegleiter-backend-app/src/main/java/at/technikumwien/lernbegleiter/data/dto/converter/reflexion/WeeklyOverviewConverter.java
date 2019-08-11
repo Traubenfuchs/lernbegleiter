@@ -5,9 +5,15 @@ import at.technikumwien.lernbegleiter.data.dto.reflexion.WeeklyOverviewClassDto;
 import at.technikumwien.lernbegleiter.data.dto.reflexion.WeeklyOverviewDto;
 import at.technikumwien.lernbegleiter.data.dto.reflexion.WeeklyOverviewReflectionClassDto;
 import at.technikumwien.lernbegleiter.entities.reflection.WeeklyOverviewEntity;
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.temporal.ChronoField;
+import java.time.temporal.IsoFields;
+import java.util.Calendar;
 import java.util.Comparator;
 
 @Component
@@ -19,6 +25,11 @@ public class WeeklyOverviewConverter extends DtoEntityConverter<WeeklyOverviewEn
 
     @Override
     public void applyToDto(WeeklyOverviewEntity weeklyOverviewEntity, WeeklyOverviewDto weeklyOverviewDto) {
+        LocalDate firstDayOfWeek = LocalDate.of(weeklyOverviewEntity.getYear(), 2, 1)
+                .with(IsoFields.WEEK_OF_WEEK_BASED_YEAR, weeklyOverviewEntity.getCalendarWeek())
+                .with(ChronoField.DAY_OF_WEEK, DayOfWeek.MONDAY.getValue());
+       LocalDate lastDayOfWeek = firstDayOfWeek.with(ChronoField.DAY_OF_WEEK, DayOfWeek.FRIDAY.getValue());
+
         weeklyOverviewDto
                 .setFurtherSteps(weeklyOverviewEntity.getFurtherSteps())
                 .setCalendarWeek(weeklyOverviewEntity.getCalendarWeek())
@@ -26,7 +37,10 @@ public class WeeklyOverviewConverter extends DtoEntityConverter<WeeklyOverviewEn
                 .setMyWeeklyGoals(weeklyOverviewEntity.getMyWeeklyGoals())
                 .setReflexionClasses(weeklyOverviewReflectionClassConverter.toDtoList(weeklyOverviewEntity.getReflexionClasses()))
                 .setUuid(weeklyOverviewEntity.getUuid())
-                .setWeeklyOverviewClasses(weeklyOverviewClassConverter.toDtoList(weeklyOverviewEntity.getWeeklyOverviewClasses()));
+                .setWeeklyOverviewClasses(weeklyOverviewClassConverter.toDtoList(weeklyOverviewEntity.getWeeklyOverviewClasses()))
+                .setFirstDayOfWeek(firstDayOfWeek)
+                .setLastDayOfWeek(lastDayOfWeek)
+        ;
 
         weeklyOverviewDto.getReflexionClasses().sort(Comparator.comparing(WeeklyOverviewReflectionClassDto::getName));
         weeklyOverviewDto.getWeeklyOverviewClasses().sort(Comparator.comparing(WeeklyOverviewClassDto::getName));

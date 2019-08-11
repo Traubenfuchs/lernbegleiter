@@ -14,7 +14,7 @@ public class CompletionController  extends BaseController{
     private CompletionService completionService;
 
     @GetMapping("student/{studentUuid}/learningModuleStudent")
-    public Set<LearningModuleStudentDto> loadAllCompletions(@PathVariable String studentUuid) {
+    public Set<CompletionService.ClassCompletion> loadAllCompletions(@PathVariable String studentUuid) {
         return completionService.getAll(studentUuid);
     }
 

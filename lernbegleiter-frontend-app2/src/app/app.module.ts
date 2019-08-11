@@ -1,3 +1,4 @@
+import { SaneDateTimePipe } from './pipes/sane-date-time.pipe';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -48,6 +49,7 @@ import { TeacherComponent } from './components/admin/teacher/teacher.component';
     GrowlComponent,
     ProfileEditComponent,
     SaneDatePipe,
+    SaneDateTimePipe,
     TeachersComponent,
     TeacherComponent,
   ],

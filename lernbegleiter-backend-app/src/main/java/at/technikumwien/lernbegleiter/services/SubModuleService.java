@@ -1,8 +1,6 @@
 package at.technikumwien.lernbegleiter.services;
 
-import at.technikumwien.lernbegleiter.data.dto.LearningModuleDto;
 import at.technikumwien.lernbegleiter.data.dto.SubModuleDto;
-import at.technikumwien.lernbegleiter.data.dto.converter.LearningModuleConverter;
 import at.technikumwien.lernbegleiter.data.dto.converter.SubModuleConverter;
 import at.technikumwien.lernbegleiter.data.responses.UuidResponse;
 import at.technikumwien.lernbegleiter.entities.modules.LearningModuleEntity;
@@ -12,10 +10,12 @@ import at.technikumwien.lernbegleiter.repositories.modules.SubModuleRepository;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.Collection;
 
+@Transactional
 @Service
 public class SubModuleService {
     @Autowired
@@ -35,6 +35,15 @@ public class SubModuleService {
     ) {
         SubModuleEntity subModuleEntity = subModuleRepository.getOne(subModuleUuid);
         subModuleConverter.applyToEntity(subModuleDto, subModuleEntity);
+
+        LearningModuleEntity learningModuleEntity = subModuleEntity.getParent();
+        if (subModuleDto.getStart() == null) {
+            subModuleEntity.setStart(learningModuleEntity.getStart());
+        }
+        if (subModuleDto.getDeadline() == null) {
+            subModuleEntity.setDeadline(learningModuleEntity.getDeadline());
+        }
+
         subModuleEntity.setUuid(subModuleUuid);
     }
 
@@ -48,8 +57,17 @@ public class SubModuleService {
         subModuleConverter.applyToEntity(subModuleDto, subModuleEntity);
         subModuleEntity.generateUuid();
         subModuleEntity.setParent(learningModuleEntity);
-        subModuleRepository.save(subModuleEntity);
-        return null;
+
+        if (subModuleDto.getStart() == null) {
+            subModuleEntity.setStart(learningModuleEntity.getStart());
+        }
+        if (subModuleDto.getDeadline() == null) {
+            subModuleEntity.setDeadline(learningModuleEntity.getDeadline());
+        }
+
+        subModuleEntity = subModuleRepository.save(subModuleEntity);
+
+        return new UuidResponse(subModuleEntity.getUuid());
     }
 
     public void delete(@NonNull String subModuleUuid) {
