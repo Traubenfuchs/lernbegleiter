@@ -42,6 +42,7 @@
 
 
     <build>
+        <finalName>app</finalName>
         <pluginManagement>
             <plugins>
 
