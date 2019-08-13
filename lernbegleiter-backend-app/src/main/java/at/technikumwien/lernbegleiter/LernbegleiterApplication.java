@@ -13,7 +13,9 @@ import static org.springframework.context.annotation.ScopedProxyMode.TARGET_CLAS
 @EnableTransactionManagement(proxyTargetClass = true)
 @EnableScheduling
 public class LernbegleiterApplication {
+
     public static void main(String[] args) {
+        System.out.println(System.getenv("DB_HOST_AND_PORT"));
         SpringApplication.run(LernbegleiterApplication.class, args);
     }
 }
