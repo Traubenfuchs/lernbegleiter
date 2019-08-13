@@ -1,4 +1,5 @@
 FROM maven:latest
+COPY . .
 RUN mvn clean package -DskipTests
 
 FROM openjdk:12
