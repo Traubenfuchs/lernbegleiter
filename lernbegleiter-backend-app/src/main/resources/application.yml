@@ -17,3 +17,5 @@ spring:
     url: jdbc:mysql://${DB_HOST_AND_PORT}/lernbegleiter?createDatabaseIfNotExist=true&serverTimezone=UTC
     username: ${DB_USER}
     password: ${DB_PASSWORD}
+    hikari:
+      maximum-pool-size: 30
