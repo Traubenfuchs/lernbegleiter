@@ -17,8 +17,8 @@ import java.util.Set;
 @Accessors(chain = true)
 @Getter
 @Setter
-@Table(name = "QUIZ",indexes = {
-        @Index(name="I_QUIZ_FK_AUTHOR_UUID", columnList = "FK_AUTHOR_UUID")
+@Table(name = "QUIZ", indexes = {
+        @Index(name = "I_QUIZ_FK_AUTHOR_UUID", columnList = "FK_AUTHOR_UUID")
 })
 @Entity
 public class QuizEntity extends BaseEntityCreationUpdateDate<QuizEntity> {
@@ -29,7 +29,7 @@ public class QuizEntity extends BaseEntityCreationUpdateDate<QuizEntity> {
     @Column(length = 1024)
     private String description;
     @OneToMany(mappedBy = "quiz")
-    private Set<QuizQuestionEntity> questions;
+    private Set<QuizQuestionEntity> questions = new HashSet<>();
     @ManyToOne(optional = false)
     @JoinColumn(name = "FK_AUTHOR_UUID", nullable = false)
     private UserEntity author;

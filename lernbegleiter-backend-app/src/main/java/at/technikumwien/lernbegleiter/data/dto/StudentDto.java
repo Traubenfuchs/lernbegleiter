@@ -11,8 +11,7 @@ import java.time.LocalDate;
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class StudentDto {
-    private String uuid;
+public class StudentDto extends BaseDto<StudentDto> {
     private String email;
     private String firstName;
     private String familyName;

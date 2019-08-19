@@ -11,8 +11,7 @@ import java.util.Set;
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class GradeDto {
-    private String uuid;
+public class GradeDto extends BaseDto<GradeDto> {
     private String name;
     private Set<StudentDto> students;
     private Set<ClassDto> classes;

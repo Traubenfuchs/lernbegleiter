@@ -1,5 +1,6 @@
 package at.technikumwien.lernbegleiter.data.dto.reflexion;
 
+import at.technikumwien.lernbegleiter.data.dto.BaseDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,8 +14,7 @@ import java.util.List;
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class WeeklyOverviewDto {
-    private String uuid = "";
+public class WeeklyOverviewDto extends BaseDto<WeeklyOverviewDto> {
     private Integer calendarWeek;
     private Short year;
     private LocalDate firstDayOfWeek;

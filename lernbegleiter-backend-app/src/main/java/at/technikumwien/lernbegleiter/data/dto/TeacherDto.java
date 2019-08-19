@@ -6,12 +6,12 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.time.LocalDate;
+
 @Data
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class TeacherDto {
-    private String uuid;
+public class TeacherDto extends BaseDto<TeacherDto> {
     private String email;
     private String firstName;
     private String familyName;

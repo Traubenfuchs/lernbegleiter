@@ -13,8 +13,7 @@ import java.util.Set;
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class LearningModuleStudentDto {
-    private String uuid;
+public class LearningModuleStudentDto extends BaseDto<LearningModuleStudentDto> {
     private LocalDate dueDate;
     private Instant finishedAt;
     private String name;

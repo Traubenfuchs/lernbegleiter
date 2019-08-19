@@ -12,8 +12,7 @@ import java.time.LocalDate;
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class SubModuleStudentDto {
-    private String uuid;
+public class SubModuleStudentDto extends BaseDto<SubModuleStudentDto> {
     private LocalDate dueDate;
     private Instant finishedAt;
     private String name;

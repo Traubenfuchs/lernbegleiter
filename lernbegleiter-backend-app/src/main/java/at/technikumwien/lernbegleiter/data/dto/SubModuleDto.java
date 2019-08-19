@@ -11,8 +11,7 @@ import java.time.LocalDate;
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class SubModuleDto {
-    private String uuid;
+public class SubModuleDto extends BaseDto<SubModuleDto> {
     private String name;
     private LocalDate deadline;
     private LocalDate start;

@@ -12,8 +12,7 @@ import java.util.Set;
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class LearningModuleDto {
-    private String uuid;
+public class LearningModuleDto extends BaseDto<LearningModuleDto> {
     private String name;
     private Set<SubModuleDto> learningModules;
     private LocalDate deadline;
