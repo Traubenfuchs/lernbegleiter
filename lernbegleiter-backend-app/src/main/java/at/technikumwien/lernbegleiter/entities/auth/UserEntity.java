@@ -7,12 +7,9 @@ import at.technikumwien.lernbegleiter.entities.modules.SubModuleStudentEntity;
 import at.technikumwien.lernbegleiter.entities.quiz.QuizEntity;
 import at.technikumwien.lernbegleiter.entities.quiz.attempts.QuizAttemptEntity;
 import at.technikumwien.lernbegleiter.entities.reflection.WeeklyOverviewEntity;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -25,8 +22,8 @@ import static javax.persistence.FetchType.LAZY;
 @Accessors(chain = true)
 @Getter
 @Setter
-@Table(name = "USERS" ,indexes = {
-        @Index(name="I_USERS_FK_GRADE_UUID", columnList = "FK_GRADE_UUID")
+@Table(name = "USERS", indexes = {
+        @Index(name = "I_USERS_FK_GRADE_UUID", columnList = "FK_GRADE_UUID")
 })
 @Entity
 public class UserEntity extends BaseEntityCreationUpdateDate<UserEntity> {
@@ -43,7 +40,7 @@ public class UserEntity extends BaseEntityCreationUpdateDate<UserEntity> {
     @Lob
     private byte[] hashedAndSaltedPassword;
 
-    @ElementCollection
+    @ElementCollection(fetch = EAGER)
     @CollectionTable(name = "USER_RIGHTS", joinColumns = @JoinColumn(name = "FK_USER_UUID"))
     @Column(name = "RIGHT_NAME", nullable = false)
     private Set<String> rights = new HashSet<>();
@@ -51,35 +48,35 @@ public class UserEntity extends BaseEntityCreationUpdateDate<UserEntity> {
     /**
      * Grades this teacher is head teacher of
      */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "classTeacher", fetch = EAGER)
-    @Fetch(value= FetchMode.JOIN)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "classTeacher", fetch = LAZY)
+    //@Fetch(value = FetchMode.JOIN)
     private Set<GradeEntity> grades = new HashSet<>();
 
     /**
      * Grade this student belongs to
      */
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "FK_GRADE_UUID")
     private GradeEntity grade;
 
     /**
      * weekly overviews
      */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "student", fetch = EAGER)
-    @Fetch(value= FetchMode.JOIN)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "student", fetch = LAZY)
+    //@Fetch(value = FetchMode.JOIN)
     private Set<WeeklyOverviewEntity> weeklyOverviews = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "student", fetch = EAGER)
-    @Fetch(value= FetchMode.JOIN)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "student", fetch = LAZY)
+    //@Fetch(value = FetchMode.JOIN)
     private Set<LearningModuleStudentEntity> learningModulesStudents = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "student", fetch = EAGER)
-    @Fetch(value= FetchMode.JOIN)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "student", fetch = LAZY)
+    // @Fetch(value = FetchMode.JOIN)
     private Set<SubModuleStudentEntity> subModuleStudents = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author", fetch = EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author", fetch = LAZY)
     private Set<QuizEntity> quizes = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "student", fetch = EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "student", fetch = LAZY)
     private Set<QuizAttemptEntity> quizAttempts = new HashSet<>();
 }

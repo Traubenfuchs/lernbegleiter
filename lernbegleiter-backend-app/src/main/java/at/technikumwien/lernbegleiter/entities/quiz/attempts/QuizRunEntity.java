@@ -8,11 +8,14 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 
+/**
+ * Instances of a quiz
+ */
 @Accessors(chain = true)
 @Getter
 @Setter
-@Table(name = "QUIZ_RUN",indexes = {
-        @Index(name="I_QUIZ_RUN_FK_QUIZ_UUID", columnList = "FK_QUIZ_UUID")
+@Table(name = "QUIZ_RUN", indexes = {
+        @Index(name = "I_QUIZ_RUN_FK_QUIZ_UUID", columnList = "FK_QUIZ_UUID")
 })
 @Entity
 public class QuizRunEntity extends BaseEntityCreationUpdateDate<QuizRunEntity> {

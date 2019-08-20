@@ -1,9 +1,7 @@
 package at.technikumwien.lernbegleiter.entities.quiz.attempts;
 
-import at.technikumwien.lernbegleiter.entities.ClassEntity;
 import at.technikumwien.lernbegleiter.entities.auth.UserEntity;
 import at.technikumwien.lernbegleiter.entities.base.BaseEntityCreationUpdateDate;
-import at.technikumwien.lernbegleiter.entities.quiz.QuizEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -16,15 +14,15 @@ import java.util.Set;
 @Accessors(chain = true)
 @Getter
 @Setter
-@Table(name = "QUIZ_ATTEMPT",indexes = {
-        @Index(name="I_QUIZ_ATTEMPT_FK_QUIZ_UUID", columnList = "FK_QUIZ_UUID"),
-        @Index(name="I_QUIZ_ATTEMPT_FK_STUDENT_UUID", columnList = "FK_STUDENT_UUID")
+@Table(name = "QUIZ_ATTEMPT", indexes = {
+        @Index(name = "I_QUIZ_ATTEMPT_FK_QUIZ_RUN_UUID", columnList = "FK_QUIZ_RUN_UUID"),
+        @Index(name = "I_QUIZ_ATTEMPT_FK_STUDENT_UUID", columnList = "FK_STUDENT_UUID")
 })
 @Entity
 public class QuizAttemptEntity extends BaseEntityCreationUpdateDate<QuizAttemptEntity> {
     @ManyToOne(optional = false)
-    @JoinColumn(name = "FK_QUIZ_UUID", nullable = false)
-    private QuizEntity quiz;
+    @JoinColumn(name = "FK_QUIZ_RUN_UUID", nullable = false)
+    private QuizRunEntity quizRun;
     @OneToMany(mappedBy = "quizAttempt")
     private Set<QuizQuestionAttemptEntity> quizQuestionAttempts = new HashSet<>();
     @ManyToOne(optional = false)

@@ -15,7 +15,7 @@ import java.util.Set;
 @Table(name = "QUIZ_QUESTION", indexes = {
         @Index(name = "I_QUIZ_QUESTION_FK_QUIZ_UUID", columnList = "FK_QUIZ_UUID")
 }, uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"FK_QUIZ_UUID", "ORDER"})
+        @UniqueConstraint(name = "UC_QUIZ_QUESTION_ORDER", columnNames = {"FK_QUIZ_UUID", "ORDER"})
 })
 @Entity
 public class QuizQuestionEntity extends BaseEntityCreationUpdateDate<QuizQuestionEntity> {
