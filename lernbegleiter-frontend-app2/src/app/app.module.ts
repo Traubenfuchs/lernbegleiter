@@ -28,6 +28,10 @@ import { ProfileEditComponent } from './components/general/profile-edit/profile-
 import { SaneDatePipe } from './pipes/sane-date.pipe';
 import { TeachersComponent } from './components/admin/teachers/teachers.component';
 import { TeacherComponent } from './components/admin/teacher/teacher.component';
+import { QuizesComponent } from './components/quiz/quizes/quizes.component';
+import { QuizComponent } from './components/quiz/quiz/quiz.component';
+import { QuizRunsComponent } from './components/quiz/quiz-runs/quiz-runs.component';
+import { QuizRunComponent } from './components/quiz/quiz-run/quiz-run.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +56,10 @@ import { TeacherComponent } from './components/admin/teacher/teacher.component';
     SaneDateTimePipe,
     TeachersComponent,
     TeacherComponent,
+    QuizesComponent,
+    QuizComponent,
+    QuizRunsComponent,
+    QuizRunComponent,
   ],
   imports: [
     BrowserModule,
