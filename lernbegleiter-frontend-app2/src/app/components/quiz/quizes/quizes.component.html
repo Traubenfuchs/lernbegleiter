@@ -1,1 +1,26 @@
-<p>quizes works!</p>
+<div class="container">
+  <div class="card">
+
+    <div class="card-header">
+      <h5 class="card-title">Quizzes</h5>
+      <p class="card-text">Quizze der Klasse</p>
+    </div>
+
+    <div class="card-body">
+      <table class="lernbegleiter-table">
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th><button class="btn btn-sm btn-success" [routerLink]="'/management/quiz/new'">Anlegen</button></th>
+        </tr>
+        <tr *ngFor="let quiz of quizzes">
+          <td>{{quiz.name}}</td>
+          <td>{{quiz.quizType}}</td>
+          <td><button class="btn btn-secondary" [routerLink]="'/management/quiz/' + quiz.uuid">Bearbeiten</button></td>
+          <td></td>
+        </tr>
+      </table>
+    </div>
+
+  </div>
+</div>

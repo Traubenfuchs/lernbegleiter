@@ -20,7 +20,7 @@ export class QuizesComponent implements OnInit {
   loadQuizzes() {
     console.log('Loading Quizzes...')
 
-    this.http.get<Quiz[]>(`api/class/${this.uuid}/learning-modules`)
+    this.http.get<Quiz[]>(`api/quizzes`)
       .subscribe(res => {
         console.log('Quizzes loaded.')
         this.quizzes = res

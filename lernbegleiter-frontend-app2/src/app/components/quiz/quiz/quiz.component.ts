@@ -15,13 +15,19 @@ export class QuizComponent implements OnInit {
   constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.loadQuiz()
+    this.uuid = this.route.snapshot.paramMap.get("quizUUID")
+    if (this.uuid === 'new') {
+
+    } else {
+      this.loadQuiz()
+    }
+
   }
 
   loadQuiz() {
     console.log('Loading Quiz...')
 
-    this.http.get<Quiz>(`api/class/${this.uuid}/learning-modules`)
+    this.http.get<Quiz>(`api/quiz/${this.uuid}`)
       .subscribe(res => {
         console.log('Qiz loaded.')
         this.quiz = res

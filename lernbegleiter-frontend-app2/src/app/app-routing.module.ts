@@ -1,3 +1,6 @@
+import { QuizRunComponent } from './components/quiz/quiz-run/quiz-run.component';
+import { QuizComponent } from './components/quiz/quiz/quiz.component';
+import { QuizesComponent } from './components/quiz/quizes/quizes.component';
 
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -40,6 +43,10 @@ const routes: Routes = [
   { path: 'management/class/:classUUID', component: ClassComponent }, // class = Fach
 
   { path: 'student/:studentUUID/weekly-overview/:week/:year', component: WeekOverviewComponent }, // class = Fach
+
+  { path: 'management/quizzes', component: QuizesComponent },
+  { path: 'management/quiz/:quizUUID', component: QuizComponent },
+  { path: 'management/quiz-run/:quizRunUUID', component: QuizRunComponent },
 
   { path: 'user/:userUUID/profile', component: ProfileEditComponent }
 ]

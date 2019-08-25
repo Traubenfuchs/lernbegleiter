@@ -15,7 +15,13 @@ export class QuizRunComponent implements OnInit {
   constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.loadQuizRun()
+    this.uuid = this.route.snapshot.paramMap.get("quizRunUUID")
+    if (this.uuid === 'new') {
+
+    } else {
+      this.loadQuizRun()
+    }
+
   }
 
   loadQuizRun() {

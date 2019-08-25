@@ -20,13 +20,18 @@ export class HomeComponent implements OnInit {
   classesUrl = '/management/classes'
   learningModuledUrl = '/management/learning-modules'
   teachersUrl = '/management/teachers'
+  quizzesUrl = 'management/quizzes'
 
-  getProfileUrl(): string {
+  getQuizzesUrl() {
+    return this.quizzesUrl
+  }
+
+  getProfileUrl()  {
     return `user/${this.loginService.getUserUuid()}/profile`
   }
 
   // student/:studentUUID/weekly-overview/:week/:year
-  getWeeklyOverviewUrl(): string {
+  getWeeklyOverviewUrl() {
     return '/student/' + this.loginService.getUserUuid() + '/weekly-overview/' + this.weekInYear + '/'+ this.year;
   }
 
