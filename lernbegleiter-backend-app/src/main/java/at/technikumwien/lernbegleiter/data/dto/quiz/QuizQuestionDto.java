@@ -16,4 +16,5 @@ import java.util.Set;
 public class QuizQuestionDto extends BaseDto<QuizQuestionDto> {
     private String content;
     private Set<QuizAnswerDto> answers = new HashSet<>();
+    private Integer position;
 }

@@ -1,7 +1,7 @@
 <div class="container">
   <div class="card">
     <div class="card-header">
-      <input placeholder="Search" [(ngModel)]="filterWord" class="form-control" />
+      <input placeholder="Suche" [(ngModel)]="filterWord" class="form-control" />
     </div>
     <div class="card-body">
       <table class="lernbegleiter-table">
@@ -40,8 +40,7 @@
               </button>
             </td>
             <td>
-              <button class="btn btn-sm btn-secondary float-right"
-                [routerLink]="'/management/student/' + student.uuid">
+              <button class="btn btn-sm btn-secondary float-right" [routerLink]="'/management/student/' + student.uuid">
                 Bearbeiten
               </button>
             </td>

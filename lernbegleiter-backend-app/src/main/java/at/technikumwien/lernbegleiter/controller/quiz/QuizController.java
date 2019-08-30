@@ -7,7 +7,7 @@ import at.technikumwien.lernbegleiter.services.quiz.QuizManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Set;
 
 @RequestMapping("api")
 @RestController
@@ -16,20 +16,27 @@ public class QuizController extends BaseController {
     private QuizManagementService quizManagementService;
 
     @GetMapping("quizzes")
-    public List<QuizDto> get() {
+    public Set<QuizDto> get() {
         return quizManagementService.getAllQuizzes();
     }
 
+    @GetMapping("quiz/{quizUuid}")
+    public QuizDto get(@PathVariable String quizUuid) {
+        return quizManagementService.get(quizUuid);
+    }
+
     @PutMapping("quiz/{quizUuid}")
-    public UuidResponse put(@RequestBody QuizDto quizDto, @PathVariable String quizUuid) {
+    public void put(
+            @RequestBody QuizDto quizDto,
+            @PathVariable String quizUuid) {
         quizDto.setUuid(quizUuid);
-        return quizManagementService.put(quizDto);
+        quizManagementService.put(quizDto);
     }
 
     @PostMapping("quiz")
     public UuidResponse post(@RequestBody QuizDto quizDto) {
         quizDto.setUuid(null);
-        return quizManagementService.put(quizDto);
+        return quizManagementService.post(quizDto);
     }
 
     @DeleteMapping("quiz/{quizUuid}")

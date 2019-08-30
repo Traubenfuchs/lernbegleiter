@@ -11,13 +11,19 @@ public class QuizAnswerConverter extends DtoEntityConverter<QuizAnswerEntity, Qu
     public void applyToDto(QuizAnswerEntity quizAnswerEntity, QuizAnswerDto quizAnswerDto) {
         quizAnswerDto
                 .setContent(quizAnswerEntity.getContent())
+                .setCorrect(quizAnswerEntity.getCorrect())
+                .setPosition(quizAnswerEntity.getPosition())
                 .setUuid(quizAnswerEntity.getUuid());
     }
 
     @Override
     public void applyToEntity(QuizAnswerDto quizAnswerDto, QuizAnswerEntity quizAnswerEntity) {
+
+
         quizAnswerEntity
                 .setContent(quizAnswerDto.getContent())
+                .setCorrect(quizAnswerDto.getCorrect())
+                .setPosition(quizAnswerDto.getPosition())
                 .setUuid(quizAnswerDto.getUuid());
     }
 }

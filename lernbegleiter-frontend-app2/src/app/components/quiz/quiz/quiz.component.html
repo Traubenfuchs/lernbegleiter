@@ -1,19 +1,89 @@
-<p>Go to QuizRuns</p>
-<p>Daten des Quiz</p>
-<p>Fragen des Quiz</p>
-
 <div class="container">
-    <div class="card">
-        <div class="card-header">
-            <h5 class="card-title">Quiz</h5>
-            <p class="card-text">Quiz bearbeiten</p>
-          </div>
+  <div class="card">
+    <div class="card-header">
+      <h5 class="card-title">Quiz</h5>
+      <p class="card-text">Quiz bearbeiten</p>
     </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col">
+          <label for="authorInput">UUID</label>
+          <input id="authorInput" [(ngModel)]="uuid" type="text" class="form-control" placeholder="Automatisch"
+            disabled>
+        </div>
+        <div class="col">
+          <label for="authorInput">Author</label>
+          <input id="authorInput" [(ngModel)]="quiz.author.email" type="text" class="form-control"
+            placeholder="Automatisch" disabled>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <label for="nameInput">Name</label>
+          <input id="nameInput" [(ngModel)]="quiz.name" type="text" class="form-control" placeholder="Name">
+        </div>
+        <div class="col" style='visibility:hidden'>
+          <label for="nameInput">Name</label>
+          <input id="nameInput" [(ngModel)]="quiz.name" type="text" class="form-control" placeholder="Name">
+        </div>
+      </div> <!-- ends row-->
+      <div class="row">
+        <label for="descriptionInput">Beschreibung</label>
+        <textarea id="descriptionInput" [(ngModel)]="quiz.description" class="form-control"
+          placeholder="Beschreibung"></textarea>
+      </div><!-- ends row-->
+    </div> <!-- ends card-body -->
+    <div class="card-footer">
+      <div *ngIf="uuid !== 'new'" class="btn-group w-100">
+        <button (click)="update()" class="btn btn-secondary">Aktualisieren</button>
+        <button (click)="delete()" class="btn btn-danger">Löschen</button>
+      </div>
+      <button (click)="save()" *ngIf="uuid === 'new'" class="btn btn-success w-100">Anlegen</button>
+    </div> <!-- ends card-footer -->
+  </div> <!-- ends card -->
 
-    <div class="card mt-3">
-        <div class="card-header">
-            <h5 class="card-title">Fragen des Quiz</h5>
-            <p class="card-text">Fragen des Quiz bearbeiten</p>
-          </div>
+  <div class="card mt-3">
+    <div class="card-header">
+      <h5 class="card-title">Fragen des Quiz</h5>
+      <p class="card-text">Fragen des Quiz bearbeiten</p>
     </div>
+    <!--ends card header-->
+    <div class="card-body">
+      <button (click)="newQuestion()" class="btn btn-secondary btn-sm">Neue Frage</button>
+      <div *ngFor="let question of quiz.questions" class="card-body">
+
+        <div class="row">
+          <div class='col-11'>
+            <input placeholder='Frage' class="form-control" [(ngModel)]="question.content">
+          </div>
+          <div class='col-1'>
+            <button (click)="deleteQuestion(question.internalId)" class="btn btn-secondary">🗑️</button>
+          </div>
+        </div>
+
+        <button (click)="newAnswer(question)" class="btn btn-secondary btn-sm mt-1">Neue Antwort</button>
+        <div *ngFor="let answer of question.answers" class='mt-1'>
+          <div class="row">
+            <div class='col-10'>
+              <input placeholder='Antwort' class="form-control" [(ngModel)]="answer.content">
+            </div>
+            <div class='col-1'>
+                <button (click)="setToWrong(answer)" class="btn btn-secondary" *ngIf="answer.correct" >✔️</button>
+                <button (click)="setToRight(answer)" class="btn btn-secondary" *ngIf="!answer.correct" >❌</button>
+              </div>
+            <div class='col-1'>
+              <button (click)="deleteAnswer(answer.internalId, question)" class="btn btn-secondary">🗑️</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> <!-- ends card-body -->
+    <div class="card-footer">
+      <div *ngIf="uuid !== 'new'" class="btn-group w-100">
+        <button (click)="update()" class="btn btn-secondary">Aktualisieren</button>
+        <button (click)="delete()" class="btn btn-danger">Löschen</button>
+      </div>
+      <button (click)="save()" *ngIf="uuid === 'new'" class="btn btn-success w-100">Anlegen</button>
+    </div> <!-- ends card-footer -->
+  </div>
 </div>

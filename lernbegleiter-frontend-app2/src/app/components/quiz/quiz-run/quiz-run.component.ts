@@ -21,7 +21,6 @@ export class QuizRunComponent implements OnInit {
     } else {
       this.loadQuizRun()
     }
-
   }
 
   loadQuizRun() {
@@ -33,5 +32,4 @@ export class QuizRunComponent implements OnInit {
         this.quizRun = res
       })
   }
-
 }

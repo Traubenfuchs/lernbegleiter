@@ -3,12 +3,12 @@ import { QuizQuestion } from './QuizQuestion';
 import { QuizRun } from './QuizRun';
 
 export class Quiz {
-  uuid = ''
+  uuid: string
   name = ''
   description = ''
   questions: QuizQuestion[] = []
   author = new Teacher()
-  quizType = ''
-  expirationDate: Date
+  quizType: string
   quizRuns: QuizRun[] = []
+
 }

@@ -16,7 +16,11 @@ public class AuthHelper {
         return (UserAuthentication) SecurityContextHolder.getContext().getAuthentication();
     }
 
-    public UserAuthentication getAuthOrThrow() {
+    public static String getCurrentUserUUIDOrThrow() {
+        return getAuthOrThrow().getUuid();
+    }
+
+    public static UserAuthentication getAuthOrThrow() {
         UserAuthentication result = (UserAuthentication) SecurityContextHolder.getContext().getAuthentication();
 
         if (result == null) {

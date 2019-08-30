@@ -12,10 +12,9 @@ public class UuidGenerator implements IdentifierGenerator {
     public Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {
         BaseEntity<?> be = (BaseEntity) object;
 
-        if(be.getUuid() != null) {
-            return be.getUuid();
+        if (be.getUuid() == null || be.getUuid().length() == 0) {
+            return UUID.randomUUID().toString();
         }
-
-        return UUID.randomUUID().toString();
+        return be.getUuid();
     }
 }

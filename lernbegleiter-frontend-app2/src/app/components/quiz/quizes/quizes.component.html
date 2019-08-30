@@ -2,8 +2,7 @@
   <div class="card">
 
     <div class="card-header">
-      <h5 class="card-title">Quizzes</h5>
-      <p class="card-text">Quizze der Klasse</p>
+      <input placeholder="Suche" [(ngModel)]="filterWord" class="form-control" />
     </div>
 
     <div class="card-body">
@@ -16,6 +15,7 @@
         <tr *ngFor="let quiz of quizzes">
           <td>{{quiz.name}}</td>
           <td>{{quiz.quizType}}</td>
+          <td><button class="btn btn-secondary" [routerLink]="'/management/quiz/' + quiz.uuid + '/quizruns'">Quiz Runs</button></td>
           <td><button class="btn btn-secondary" [routerLink]="'/management/quiz/' + quiz.uuid">Bearbeiten</button></td>
           <td></td>
         </tr>

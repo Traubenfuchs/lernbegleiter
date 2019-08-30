@@ -11,6 +11,7 @@ import { Quiz } from './../../../data/quiz/Quiz';
 })
 export class QuizesComponent implements OnInit {
   quizzes: Quiz[] = []
+  filterWord = ''
   constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute) { }
 
   ngOnInit() {

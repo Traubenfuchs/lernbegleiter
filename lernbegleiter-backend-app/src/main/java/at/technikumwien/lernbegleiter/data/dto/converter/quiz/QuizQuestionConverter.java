@@ -15,15 +15,21 @@ public class QuizQuestionConverter extends DtoEntityConverter<QuizQuestionEntity
     public void applyToDto(QuizQuestionEntity quizQuestionEntity, QuizQuestionDto quizQuestionDto) {
         quizQuestionDto
                 .setAnswers(quizAnswerConverter.toDtoSet(quizQuestionEntity.getAnswers()))
+                .setPosition(quizQuestionEntity.getPosition())
                 .setContent(quizQuestionEntity.getContent())
+                .setUuid(quizQuestionEntity.getUuid())
         ;
     }
 
     @Override
     public void applyToEntity(QuizQuestionDto quizQuestionDto, QuizQuestionEntity quizQuestionEntity) {
+        quizAnswerConverter.applyOrCreateToEntityCollection(quizQuestionDto.getAnswers(), quizQuestionEntity.getAnswers());
+        quizQuestionEntity.getAnswers().forEach(qa -> qa.setQuizQuestion(quizQuestionEntity));
+
         quizQuestionEntity
-                //.setAnswers(quizAnswerConverter.toEntitySet(quizQuestionDto.getAnswers()))
+                .setPosition(quizQuestionDto.getPosition())
                 .setContent(quizQuestionDto.getContent())
+                .setUuid(quizQuestionDto.getUuid())
         ;
     }
 }

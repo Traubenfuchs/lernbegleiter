@@ -9,8 +9,9 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
-import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 // can be connected to class - only students of that class can take the quiz
@@ -28,16 +29,15 @@ public class QuizEntity extends BaseEntityCreationUpdateDate<QuizEntity> {
     private String name;
     @Column(length = 1024)
     private String description;
-    @OneToMany(mappedBy = "quiz")
-    private Set<QuizQuestionEntity> questions = new HashSet<>();
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
+    @OrderColumn(name = "POSITION")
+    private List<QuizQuestionEntity> questions = new ArrayList<>();
     @ManyToOne(optional = false)
     @JoinColumn(name = "FK_AUTHOR_UUID", nullable = false)
     private UserEntity author;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private QuizType quizType;
-    @Column(name = "EXPIRATION_DATE", nullable = false)
-    private Instant expirationDate;
     @OneToMany(mappedBy = "quiz")
     private Set<QuizRunEntity> quizRuns = new HashSet<>();
 }

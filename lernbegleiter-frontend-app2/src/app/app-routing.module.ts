@@ -1,3 +1,4 @@
+import { QuizRunsComponent } from './components/quiz/quiz-runs/quiz-runs.component';
 import { QuizRunComponent } from './components/quiz/quiz-run/quiz-run.component';
 import { QuizComponent } from './components/quiz/quiz/quiz.component';
 import { QuizesComponent } from './components/quiz/quizes/quizes.component';
@@ -46,6 +47,7 @@ const routes: Routes = [
 
   { path: 'management/quizzes', component: QuizesComponent },
   { path: 'management/quiz/:quizUUID', component: QuizComponent },
+  { path: 'management/quiz/:quizUUID/quiz-runs', component: QuizRunsComponent },
   { path: 'management/quiz-run/:quizRunUUID', component: QuizRunComponent },
 
   { path: 'user/:userUUID/profile', component: ProfileEditComponent }

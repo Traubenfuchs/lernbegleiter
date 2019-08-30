@@ -19,4 +19,8 @@ public class QuizAnswerEntity extends BaseEntityCreationUpdateDate<QuizAnswerEnt
     @ManyToOne(optional = false)
     @JoinColumn(name = "FK_QUIZ_ANSWER_UUID", nullable = false)
     private QuizQuestionEntity quizQuestion;
+    @Column(name = "CORRECT", nullable = false)
+    private Boolean correct;
+    @Column(name = "POSITION", nullable = false)
+    private Integer position;
 }

@@ -32,7 +32,7 @@ public abstract class BaseEntity<T extends BaseEntity<T>> {
 
     @Override
     public String toString() {
-        return "Entity of type<" + getClass().getName() + "> with uui<" + uuid + ">.";
+        return "Entity of type<" + getClass().getName() + "> with uuid<" + uuid + ">.";
     }
 
     @Override
@@ -42,7 +42,7 @@ public abstract class BaseEntity<T extends BaseEntity<T>> {
 
     @Override
     public final int hashCode() {
-        if(uuid == null) {
+        if (uuid == null) {
             return 0;
         }
         return uuid.hashCode();

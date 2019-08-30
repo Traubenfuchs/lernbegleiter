@@ -6,8 +6,8 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Accessors(chain = true)
 @Getter
@@ -15,7 +15,7 @@ import java.util.Set;
 @Table(name = "QUIZ_QUESTION", indexes = {
         @Index(name = "I_QUIZ_QUESTION_FK_QUIZ_UUID", columnList = "FK_QUIZ_UUID")
 }, uniqueConstraints = {
-        @UniqueConstraint(name = "UC_QUIZ_QUESTION_ORDER", columnNames = {"FK_QUIZ_UUID", "ORDER"})
+        @UniqueConstraint(name = "UC_QUIZ_QUESTION_POSITION", columnNames = {"FK_QUIZ_UUID", "POSITION"})
 })
 @Entity
 public class QuizQuestionEntity extends BaseEntityCreationUpdateDate<QuizQuestionEntity> {
@@ -24,8 +24,9 @@ public class QuizQuestionEntity extends BaseEntityCreationUpdateDate<QuizQuestio
     @ManyToOne(optional = false)
     @JoinColumn(name = "FK_QUIZ_UUID", nullable = false)
     private QuizEntity quiz;
-    @OneToMany(mappedBy = "quizQuestion")
-    private Set<QuizAnswerEntity> answers = new HashSet<>();
-    @Column(name = "ORDER", nullable = false)
-    private Integer order;
+    @OneToMany(mappedBy = "quizQuestion", cascade = CascadeType.ALL)
+    @OrderColumn(name = "POSITION")
+    private List<QuizAnswerEntity> answers = new ArrayList<>();
+    @Column(name = "POSITION", nullable = false)
+    private Integer position;
 }
