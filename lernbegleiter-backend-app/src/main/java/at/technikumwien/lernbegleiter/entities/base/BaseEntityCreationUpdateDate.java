@@ -15,7 +15,7 @@ import java.time.Instant;
 public abstract class BaseEntityCreationUpdateDate<T extends BaseEntityCreationUpdateDate<T>> extends BaseEntity<T> {
     @Column(name = "TS_CREATION", nullable = false)
     private Instant tsCreation;
-    @Column(name = "TS_UPDATE", nullable = false)
+    @Column(name = "TS_UPDATE", nullable = false, updatable = false)
     private Instant tsUpdate;
 
     @PrePersist
