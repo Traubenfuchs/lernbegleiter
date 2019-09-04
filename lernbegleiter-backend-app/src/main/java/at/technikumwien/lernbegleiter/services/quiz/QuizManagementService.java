@@ -7,6 +7,7 @@ import at.technikumwien.lernbegleiter.data.responses.UuidResponse;
 import at.technikumwien.lernbegleiter.entities.quiz.QuizEntity;
 import at.technikumwien.lernbegleiter.repositories.auth.UserRepository;
 import at.technikumwien.lernbegleiter.repositories.quiz.QuizRepository;
+import at.technikumwien.lernbegleiter.services.LobService;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,8 @@ public class QuizManagementService {
     private QuizRepository quizRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private LobService lobService;
 
     public Set<QuizDto> getAllQuizzes() {
         return quizConverter.toDtoSet(quizRepository.findAll());
@@ -38,6 +41,7 @@ public class QuizManagementService {
         quizConverterDeep.applyToEntity(quizDto, qe);
     }
 
+
     public UuidResponse post(@NonNull @Valid QuizDto quizDto) {
         QuizEntity qe = quizConverterDeep.toEntity(quizDto);
         qe.setAuthor(userRepository.getCurrentUser());
@@ -46,7 +50,7 @@ public class QuizManagementService {
     }
 
     public void delete(String quizUuid) {
-
+        quizRepository.deleteById(quizUuid);
     }
 
     public QuizDto get(String quizUuid) {

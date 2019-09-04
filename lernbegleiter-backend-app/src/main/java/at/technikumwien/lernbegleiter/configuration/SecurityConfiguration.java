@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.access.ExceptionTranslationFilter;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 
 @EnableWebSecurity(debug = false)
@@ -22,12 +21,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private LoginService loginService;
     @Autowired
     private AuthHelper authHelper;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.addFilterBefore(new SecretSecurityFilter(loginService, authHelper), AnonymousAuthenticationFilter.class);
         http
                 .csrf().disable()
-               // .anonymous().disable()
+                // .anonymous().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER).and()
                 .formLogin().disable()
                 .logout().disable()
@@ -35,6 +35,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logout().disable()
                 .authorizeRequests()
                 .antMatchers("/api/login").permitAll()
+                .antMatchers("/api/image/**").permitAll()
                 .antMatchers("/**").authenticated()
         ;
     }

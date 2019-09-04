@@ -1,8 +1,10 @@
 package at.technikumwien.lernbegleiter.data.dto.converter.quiz;
 
+import at.technikumwien.lernbegleiter.data.dto.LobDto;
 import at.technikumwien.lernbegleiter.data.dto.converter.DtoEntityConverter;
 import at.technikumwien.lernbegleiter.data.dto.quiz.QuizQuestionDto;
 import at.technikumwien.lernbegleiter.entities.quiz.QuizQuestionEntity;
+import at.technikumwien.lernbegleiter.services.LobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -10,6 +12,8 @@ import org.springframework.stereotype.Component;
 public class QuizQuestionConverter extends DtoEntityConverter<QuizQuestionEntity, QuizQuestionDto> {
     @Autowired
     private QuizAnswerConverter quizAnswerConverter;
+    @Autowired
+    private LobService lobService;
 
     @Override
     public void applyToDto(QuizQuestionEntity quizQuestionEntity, QuizQuestionDto quizQuestionDto) {
@@ -18,6 +22,8 @@ public class QuizQuestionConverter extends DtoEntityConverter<QuizQuestionEntity
                 .setPosition(quizQuestionEntity.getPosition())
                 .setContent(quizQuestionEntity.getContent())
                 .setUuid(quizQuestionEntity.getUuid())
+                .setLob(new LobDto()
+                        .setQuizPictureUUID(quizQuestionEntity.getFkLobUUID()))
         ;
     }
 
@@ -25,6 +31,8 @@ public class QuizQuestionConverter extends DtoEntityConverter<QuizQuestionEntity
     public void applyToEntity(QuizQuestionDto quizQuestionDto, QuizQuestionEntity quizQuestionEntity) {
         quizAnswerConverter.applyOrCreateToEntityCollection(quizQuestionDto.getAnswers(), quizQuestionEntity.getAnswers());
         quizQuestionEntity.getAnswers().forEach(qa -> qa.setQuizQuestion(quizQuestionEntity));
+
+        lobService.applyImage(quizQuestionDto.getLob(), quizQuestionEntity);
 
         quizQuestionEntity
                 .setPosition(quizQuestionDto.getPosition())

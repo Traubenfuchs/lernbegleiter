@@ -1,5 +1,7 @@
 package at.technikumwien.lernbegleiter.entities.quiz;
 
+import at.technikumwien.lernbegleiter.entities.EntityWithLob;
+import at.technikumwien.lernbegleiter.entities.LobEntity;
 import at.technikumwien.lernbegleiter.entities.base.BaseEntityCreationUpdateDate;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +20,7 @@ import java.util.List;
         @UniqueConstraint(name = "UC_QUIZ_QUESTION_POSITION", columnNames = {"FK_QUIZ_UUID", "POSITION"})
 })
 @Entity
-public class QuizQuestionEntity extends BaseEntityCreationUpdateDate<QuizQuestionEntity> {
+public class QuizQuestionEntity extends BaseEntityCreationUpdateDate<QuizQuestionEntity> implements EntityWithLob<QuizQuestionEntity> {
     @Column(nullable = false, length = 1024 * 10)
     private String content;
     @ManyToOne(optional = false)
@@ -29,4 +31,9 @@ public class QuizQuestionEntity extends BaseEntityCreationUpdateDate<QuizQuestio
     private List<QuizAnswerEntity> answers = new ArrayList<>();
     @Column(name = "POSITION", nullable = false)
     private Integer position;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "FK_LOB_UUID")
+    private LobEntity lob;
+    @Column(name = "FK_LOB_UUID", updatable = false, insertable = false)
+    private String fkLobUUID;
 }

@@ -23,6 +23,4 @@ public class QuizDto extends BaseDto<QuizDto> {
     private TeacherDto author;
     private QuizType quizType = QuizType.ONE_QUESTION_AT_A_TIME;
     private Set<QuizRunDto> quizRuns = new HashSet<>();
-    private String quizPictureUUID;
-    private String quizPictureUrlUUID;
 }

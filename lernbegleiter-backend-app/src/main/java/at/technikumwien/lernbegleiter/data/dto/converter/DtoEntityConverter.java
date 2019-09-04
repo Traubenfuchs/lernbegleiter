@@ -2,6 +2,7 @@ package at.technikumwien.lernbegleiter.data.dto.converter;
 
 import at.technikumwien.lernbegleiter.data.dto.BaseDto;
 import at.technikumwien.lernbegleiter.entities.base.BaseEntity;
+import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.ParameterizedType;
@@ -98,16 +99,38 @@ public abstract class DtoEntityConverter<ENTITY extends BaseEntity<ENTITY>, DTO 
         return result;
     }
 
+    // TODO make this mess more beautiful
     public void applyOrCreateToEntityCollection(Collection<DTO> dtoCollection, Collection<ENTITY> entityCollection) {
+        outer:
         for (DTO qqd : dtoCollection) {
             for (ENTITY qqe : entityCollection) {
-                if (Objects.equals(qqd.getUuid(), qqd.getUuid())) {
+                if (qqd.getUuid() != null && Objects.equals(qqd.getUuid(), qqe.getUuid())) {
                     applyToEntity(qqd, qqe);
-                    break;
+                    continue outer;
                 }
             }
+
+            ENTITY newEntity = toEntity(qqd);
+
             entityCollection
-                    .add(toEntity(qqd));
+                    .add(newEntity);
+        }
+
+        Iterator<ENTITY> entities = entityCollection.iterator();
+        outer:
+        while (entities.hasNext()) {
+            ENTITY entity = entities.next();
+            if (StringUtils.isEmpty(entity.getUuid())) {
+                continue;
+            }
+
+            for (DTO qqd : dtoCollection) {
+                if (Objects.equals(entity.getUuid(), qqd.getUuid())) {
+                    continue outer;
+                }
+            }
+
+            entities.remove();
         }
     }
 }

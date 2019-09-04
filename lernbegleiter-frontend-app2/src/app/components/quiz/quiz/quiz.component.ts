@@ -1,3 +1,4 @@
+import { Lob } from './../../../data/Lob';
 import { Severity } from './../../../data/Severity';
 import { GrowlMessage } from './../../../data/GrowlMessage';
 import { GrowlService } from './../../../services/growl.service';
@@ -19,7 +20,7 @@ export class QuizComponent implements OnInit {
   uuid = ''
   quiz = new Quiz()
 
-  constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute, private g:GrowlService) { }
+  constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute, private g: GrowlService) { }
 
   ngOnInit() {
     this.uuid = this.route.snapshot.paramMap.get("quizUUID")
@@ -35,11 +36,21 @@ export class QuizComponent implements OnInit {
 
     this.http.get<Quiz>(`api/quiz/${this.uuid}`)
       .subscribe(res => {
-        console.log('Qiz loaded.')
+        console.log('Quiz loaded.')
         this.quiz = res
         if (this.quiz.questions.length === 0) {
           this.newQuestion()
         }
+        this.quiz.questions.forEach(q => {
+          q.internalId = new Date().getTime() * Math.random()
+          if (!q.lob) {
+            q.lob = new Lob()
+          }
+
+          q.answers.forEach(a => a.internalId = q.internalId = new Date().getTime() * Math.random())
+          q.answers.sort((l, r) => l.position < r.position ? -1 : 1)
+        })
+        this.quiz.questions.sort((l, r) => l.position < r.position ? -1 : 1)
       })
   }
 
@@ -79,9 +90,9 @@ export class QuizComponent implements OnInit {
     for (i; i < this.quiz.questions.length; i++) {
       this.quiz.questions[i].position = i
     }
-    for (let question of this.quiz.questions) {
+    for (const question of this.quiz.questions) {
       i = 0
-      question.answers.forEach(a => a.position = i)
+      question.answers.forEach(a => a.position = i++)
     }
   }
 
@@ -101,7 +112,27 @@ export class QuizComponent implements OnInit {
       .subscribe(() => {
         this.router.navigate([`management/quiz/${this.uuid}`])
         this.g.addMessage(new GrowlMessage("Quiz wurde aktualisiert!", Severity.SUCCESS, 3000))
+        this.loadQuiz()
       })
+  }
+
+  deleteImageFromQuestion(question: QuizQuestion) {
+    question.lob.quizPictureFileName = undefined
+    question.lob.quizPictureUUID = undefined
+  }
+
+  onQuestionImageChange(ev: any, qq: QuizQuestion) {
+    qq.lob.quizPictureUUID = undefined
+    qq.lob.quizPictureFileName = ev.target.files[0].name
+    qq.lob.quizPictureBase64 = ''
+
+    const reader = new FileReader()
+
+    reader.onloadend = () => {
+      const b64 = reader.result['replace'](/^data:.+;base64,/, '')
+      qq.lob.quizPictureBase64 = b64
+    };
+    reader.readAsDataURL(ev.target.files[0])
   }
 
   delete() {

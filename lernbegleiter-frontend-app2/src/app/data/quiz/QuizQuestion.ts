@@ -1,4 +1,5 @@
 import { QuizAnswer } from './QuizAnswer';
+import { Lob } from '../Lob';
 
 export class QuizQuestion {
   uuid: string
@@ -6,4 +7,5 @@ export class QuizQuestion {
   answers: QuizAnswer[] = []
   internalId = new Date().getTime() * Math.random()
   position: number
+  lob: Lob = new Lob()
 }
