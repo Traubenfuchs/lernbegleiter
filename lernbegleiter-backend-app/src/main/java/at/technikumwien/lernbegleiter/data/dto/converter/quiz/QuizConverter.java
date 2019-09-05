@@ -16,6 +16,8 @@ public class QuizConverter extends DtoEntityConverter<QuizEntity, QuizDto> {
 
     @Override
     public void applyToDto(QuizEntity quizEntity, QuizDto quizDto) {
+        super.applyToDto(quizEntity, quizDto);
+
         quizDto
                 .setUuid(quizEntity.getUuid())
                 .setAuthor(teacherConverter.toDTO(quizEntity.getAuthor()))

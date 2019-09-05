@@ -2,6 +2,8 @@ package at.technikumwien.lernbegleiter.data.dto.converter;
 
 import at.technikumwien.lernbegleiter.data.dto.BaseDto;
 import at.technikumwien.lernbegleiter.entities.base.BaseEntity;
+import at.technikumwien.lernbegleiter.entities.base.BaseEntityCreationDate;
+import at.technikumwien.lernbegleiter.entities.base.BaseEntityCreationUpdateDate;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Constructor;
@@ -31,7 +33,14 @@ public abstract class DtoEntityConverter<ENTITY extends BaseEntity<ENTITY>, DTO 
         }
     }
 
-    public abstract void applyToDto(ENTITY entity, DTO dto);
+    public void applyToDto(ENTITY entity, DTO dto) {
+        if (entity instanceof BaseEntityCreationUpdateDate) {
+            dto.setTsUpdate(((BaseEntityCreationUpdateDate<?>) entity).getTsUpdate());
+            dto.setTsCreation(((BaseEntityCreationUpdateDate<?>) entity).getTsCreation());
+        } else if (entity instanceof BaseEntityCreationDate) {
+            dto.setTsCreation(((BaseEntityCreationDate<?>) entity).getTsCreation());
+        }
+    }
 
     public abstract void applyToEntity(DTO dto, ENTITY entity);
 
