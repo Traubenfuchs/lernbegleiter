@@ -48,7 +48,7 @@ const routes: Routes = [
   { path: 'management/quizzes', component: QuizesComponent },
   { path: 'management/quiz/:quizUUID', component: QuizComponent },
   { path: 'management/quiz/:quizUUID/quiz-runs', component: QuizRunsComponent },
-  { path: 'management/quiz-run/:quizRunUUID', component: QuizRunComponent },
+  { path: 'management/quiz/:quizUUID/quiz-run/:quizRunUUID', component: QuizRunComponent },
 
   { path: 'user/:userUUID/profile', component: ProfileEditComponent }
 ]

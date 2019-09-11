@@ -1,8 +1,8 @@
-import { BaseDto } from './../../../data/BaseDto';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { BaseDto } from './../../../data/BaseDto';
 import { Quiz } from './../../../data/quiz/Quiz';
 
 @Component({
@@ -12,11 +12,38 @@ import { Quiz } from './../../../data/quiz/Quiz';
 })
 export class QuizesComponent implements OnInit {
   quizzes: Quiz[] = []
-  filterWord = ''
+  displayedQuizzes: Quiz[] = []
+  _filterWord = ''
   constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.loadQuizzes()
+  }
+
+  get filterWord(): string {
+    return this._filterWord
+  }
+  set filterWord(newFilterWord: string) {
+    // this.valueChanged(this._filterWord, newFilterWord)
+    this._filterWord = newFilterWord
+    this.filterQuizzes()
+  }
+
+  filterQuizzes() {
+    const filterWords = this._filterWord.toUpperCase().split(" ")
+
+    this.displayedQuizzes = this.quizzes.filter(q =>
+      filterWords
+        .every(ufw =>
+        [q.author.familyName,
+        q.author.firstName,
+        q.author.email,
+        q.name,
+        q.quizType,
+        q.description
+        ].some(candidate => candidate.toUpperCase().indexOf(ufw) >= 0)
+      )
+    )
   }
 
   loadQuizzes() {
@@ -27,6 +54,7 @@ export class QuizesComponent implements OnInit {
         console.log('Quizzes loaded.')
         res.sort((l, r) => BaseDto.getTsUpdateAsNumber(l) > BaseDto.getTsUpdateAsNumber(r) ? -1 : 1)
         this.quizzes = res
+        this.filterQuizzes()
       })
   }
 }

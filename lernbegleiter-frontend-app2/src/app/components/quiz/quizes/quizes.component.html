@@ -13,11 +13,11 @@
           <th>Update</th>
           <th><button class="btn btn-sm btn-success" [routerLink]="'/management/quiz/new'">Anlegen</button></th>
         </tr>
-        <tr *ngFor="let quiz of quizzes">
+        <tr *ngFor="let quiz of displayedQuizzes">
           <td>{{quiz.name}}</td>
           <td>{{quiz.quizType}}</td>
           <td>{{quiz.tsUpdate | saneDateTime}}</td>
-          <td><button class="btn btn-secondary" [routerLink]="'/management/quiz/' + quiz.uuid + '/quizruns'">Quiz Runs</button></td>
+          <td><button class="btn btn-secondary" [routerLink]="'/management/quiz/' + quiz.uuid + '/quiz-runs'">Quiz Runs</button></td>
           <td><button class="btn btn-secondary" [routerLink]="'/management/quiz/' + quiz.uuid">Bearbeiten</button></td>
           <td></td>
         </tr>

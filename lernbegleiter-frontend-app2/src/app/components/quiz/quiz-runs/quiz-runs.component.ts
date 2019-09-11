@@ -10,20 +10,21 @@ import { QuizRun } from 'src/app/data/quiz/QuizRun';
 })
 export class QuizRunsComponent implements OnInit {
   quizRuns: QuizRun[] = []
+  quizUUID = ''
   constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.quizUUID = this.route.snapshot.paramMap.get("quizUUID")
     this.loadQuizRuns()
   }
 
   loadQuizRuns() {
     console.log('Loading QuizRuns...')
 
-    this.http.get<QuizRun[]>(`api/class/learning-modules`)
+    this.http.get<QuizRun[]>(`api/quiz/${this.quizUUID}/quiz-runs`)
       .subscribe(res => {
         console.log('QuizRuns loaded.')
         this.quizRuns = res
       })
   }
-
 }

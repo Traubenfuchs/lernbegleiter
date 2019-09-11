@@ -32,15 +32,19 @@ export class StudentsComponent implements OnInit {
   }
 
   filterStudents() {
-    const usedFilterWord = this._filterWord.toUpperCase()
+    const filterWords = this._filterWord.toUpperCase().split(" ")
 
-    this.displayedStudents = this.students.filter(s => {
-      return false
-        || s.email.toUpperCase().indexOf(usedFilterWord) >= 0
-        || s.firstName.toUpperCase().indexOf(usedFilterWord) >= 0
-        || s.familyName.toUpperCase().indexOf(usedFilterWord) >= 0
-        || s.gradeName.toUpperCase().indexOf(usedFilterWord) >= 0
-    })
+    this.displayedStudents = this.students
+      .filter(s =>
+      filterWords.every(ufw =>
+        [s.email,
+        s.firstName,
+        s.familyName,
+        s.familyName,
+        s.gradeName]
+          .some(candidate => candidate.toUpperCase().indexOf(ufw) >= 0)
+      )
+    )
   }
 
   loadStudents() {

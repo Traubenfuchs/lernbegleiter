@@ -26,14 +26,20 @@ public class QuizRunEntity extends BaseEntityCreationUpdateDate<QuizRunEntity> {
     @JoinColumn(name = "FK_QUIZ_UUID", nullable = false)
     private QuizEntity quiz;
 
-    @Column(name="NEXT_TIME_LIMIT")
+    @Column(name = "FK_QUIZ_UUID", updatable = false, insertable = false)
+    private String fkQuizUuid;
+
+    @Column(name = "NEXT_TIME_LIMIT")
     private Instant nextTimeLimit;
 
-    @ManyToOne(optional = false)
+    @Column(name = "STARTED_AT")
+    private Instant startedAt;
+
+    @ManyToOne()
     @JoinColumn(name = "FK_QUIZ_QUESTION_UUID")
     private QuizQuestionEntity currentQuestion = null;
 
-    @Column(name="STATE", nullable = false)
+    @Column(name = "STATE", nullable = false)
     @Enumerated(EnumType.STRING)
     private QuizRunState state;
 }

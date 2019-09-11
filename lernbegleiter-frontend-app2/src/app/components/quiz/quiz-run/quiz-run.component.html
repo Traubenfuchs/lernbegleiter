@@ -1,1 +1,30 @@
-<p>quiz-run works!</p>
+<div class="container">
+  <div class="card">
+    <div class="card-header" *ngIf="uuid === 'new'">
+      <h5 class="card-title">Quizlauf anlegen</h5>
+      <p class="card-text">Hier kannst du einen neuen Quizlauf anlegen</p>
+    </div>
+    <div class="card-header" *ngIf="uuid !== 'new'">
+        <h5 class="card-title">Quizlauf bearbeiten</h5>
+        <p class="card-text">Hier kannst du einen Quizlauf bearbeiten</p>
+      </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col">
+          <label for="uuidInput">UUID</label>
+          <input id="uuidInput" [(ngModel)]="uuid" type="text" class="form-control" placeholder="UUID" disabled>
+        </div>
+        <div class="col">
+            <label for="stateInput">Status</label>
+            <input id="stateInput" [(ngModel)]="quizRun.state" type="text" class="form-control" placeholder="Status" disabled>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+        <div *ngIf="uuid !== 'new'" class="btn-group w-100">
+          <button (click)="saveClick()" class="btn btn-secondary">Aktualisieren</button>
+      </div>
+        <button (click)="saveClick()" *ngIf="uuid === 'new'" class="btn btn-success w-100">Anlegen</button>
+      </div>
+  </div>
+</div>

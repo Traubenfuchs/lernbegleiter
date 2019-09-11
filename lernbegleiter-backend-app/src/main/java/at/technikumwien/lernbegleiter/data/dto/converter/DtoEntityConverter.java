@@ -34,6 +34,7 @@ public abstract class DtoEntityConverter<ENTITY extends BaseEntity<ENTITY>, DTO 
     }
 
     public void applyToDto(ENTITY entity, DTO dto) {
+        dto.setUuid(entity.getUuid());
         if (entity instanceof BaseEntityCreationUpdateDate) {
             dto.setTsUpdate(((BaseEntityCreationUpdateDate<?>) entity).getTsUpdate());
             dto.setTsCreation(((BaseEntityCreationUpdateDate<?>) entity).getTsCreation());
@@ -45,6 +46,9 @@ public abstract class DtoEntityConverter<ENTITY extends BaseEntity<ENTITY>, DTO 
     public abstract void applyToEntity(DTO dto, ENTITY entity);
 
     public DTO toDTO(ENTITY entity) {
+        if (entity == null) {
+            return null;
+        }
         try {
             DTO dto = dtoConstructor.newInstance();
             applyToDto(entity, dto);
@@ -55,6 +59,9 @@ public abstract class DtoEntityConverter<ENTITY extends BaseEntity<ENTITY>, DTO 
     }
 
     public ENTITY toEntity(DTO dto) {
+        if (dto == null) {
+            return null;
+        }
         try {
             ENTITY entity = entityConstructor.newInstance();
             applyToEntity(dto, entity);
