@@ -1,5 +1,6 @@
 package at.technikumwien.lernbegleiter.controller.quiz;
 
+import at.technikumwien.lernbegleiter.components.AuthHelper;
 import at.technikumwien.lernbegleiter.data.dto.quiz.QuizRunDto;
 import at.technikumwien.lernbegleiter.data.responses.UuidResponse;
 import at.technikumwien.lernbegleiter.services.QuizRunService;
@@ -13,11 +14,14 @@ import java.util.Collection;
 public class QuizRunController {
     @Autowired
     private QuizRunService quizRunService;
+    @Autowired
+    private AuthHelper authHelper;
 
     @PostMapping("quiz/{quizUUID}/quiz-run")
     public UuidResponse post(
             @PathVariable String quizUUID,
             @RequestBody QuizRunDto quizRunDto) {
+        authHelper.isAdminOrTeacherOrThrow();
         return quizRunService.post(quizUUID, quizRunDto);
     }
 
@@ -25,17 +29,32 @@ public class QuizRunController {
     public void put(
             @PathVariable String quizRunUUID,
             @RequestBody QuizRunDto quizRunDto) {
+        authHelper.isAdminOrTeacherOrThrow();
         quizRunDto.setUuid(quizRunUUID);
         quizRunService.put(quizRunDto);
     }
 
     @GetMapping("quiz/{quizUUID}/quiz-runs")
     public Collection<QuizRunDto> getRuns(@PathVariable String quizUUID) {
+        authHelper.isAdminOrTeacherOrThrow();
         return quizRunService.getRuns(quizUUID);
     }
 
-    @GetMapping("quiz-run/{quizRunUUID}")
+    @GetMapping({"quiz-run/{quizRunUUID}"})
     public QuizRunDto getRun(@PathVariable String quizRunUUID) {
-        return quizRunService.get(quizRunUUID);
+        QuizRunDto result = quizRunService.get(quizRunUUID);
+
+        if(authHelper.isStudent()) {
+            // students should not see answers (-:
+            result.getCurrentQuestion().getAnswers().stream().forEach(a->a.setCorrect(null));
+        }
+
+        return result;
+    }
+
+    @PostMapping("quiz-run/{quizRunUUID}:advance")
+    public void advance(@PathVariable String quizRunUUID) {
+        authHelper.isAdminOrTeacherOrThrow();
+        quizRunService.advance(quizRunUUID);
     }
 }

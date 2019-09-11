@@ -1,10 +1,18 @@
 package at.technikumwien.lernbegleiter.data.dto.converter.quiz;
 
+import at.technikumwien.lernbegleiter.data.QuizRunState;
 import at.technikumwien.lernbegleiter.data.dto.converter.DtoEntityConverter;
 import at.technikumwien.lernbegleiter.data.dto.quiz.QuizQuestionDto;
 import at.technikumwien.lernbegleiter.entities.quiz.QuizQuestionEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import java.time.Instant;
 
 @Component
 public class QuizQuestionConverter extends DtoEntityConverter<QuizQuestionEntity, QuizQuestionDto> {

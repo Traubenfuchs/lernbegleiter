@@ -29,4 +29,6 @@ public class QuizQuestionEntity extends BaseEntityCreationUpdateDate<QuizQuestio
     private List<QuizAnswerEntity> answers = new ArrayList<>();
     @Column(name = "POSITION", nullable = false)
     private Integer position;
+    @Column(name="TIME_LIMIT")
+    private Integer timeLimit = 40;
 }
