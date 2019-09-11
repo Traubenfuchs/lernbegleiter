@@ -18,7 +18,11 @@ import javax.persistence.*;
                 @Index(name = "I_QUIZ_QUESTION_ATTEMPT_FK_QUIZ_ATTEMPT_UUID", columnList = "FK_QUIZ_ATTEMPT_UUID"),
                 @Index(name = "I_QUIZ_QUESTION_ATTEMPT_FK_QUIZ_ANSWER_UUID", columnList = "FK_QUIZ_ANSWER_UUID"),
                 @Index(name = "I_QUIZ_QUESTION_ATTEMPT_FK_QUIZ_QUESTION_UUID", columnList = "FK_QUIZ_QUESTION_UUID")
-        }
+        }, uniqueConstraints = {
+    @UniqueConstraint(
+        name = "UC_QUIZ_QUESTION_ATTEMPT_FK_QUIZ_ATTEMPT_UUID_FK_QUIZ_ANSWER_UUID",
+        columnNames = {"FK_QUIZ_ATTEMPT_UUID", "FK_QUIZ_ANSWER_UUID"})
+}
 )
 @Entity
 public class QuizQuestionAttemptEntity extends BaseEntityCreationUpdateDate<QuizQuestionAttemptEntity> {

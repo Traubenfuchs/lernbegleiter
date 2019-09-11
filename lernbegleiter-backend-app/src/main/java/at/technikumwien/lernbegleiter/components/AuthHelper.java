@@ -80,4 +80,8 @@ public class AuthHelper {
     public void throwResponseStatusException() {
         throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You lack the required rights.");
     }
+
+  public boolean isStudent() {
+        return hasRole("STUDENT");
+  }
 }
