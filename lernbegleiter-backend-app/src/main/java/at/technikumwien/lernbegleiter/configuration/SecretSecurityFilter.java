@@ -15,6 +15,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 public class SecretSecurityFilter extends GenericFilterBean {
     private final LoginService loginService;
@@ -33,7 +34,7 @@ public class SecretSecurityFilter extends GenericFilterBean {
             String authorization = hsr.getHeader("Authorization");
 
             if (authorization != null) {
-                UserAuthentication ua = loginService.getAuthenticationForSecretOrThrow(authorization);
+                UserAuthentication ua = loginService.getAuthenticationForSecretOrThrowCached(authorization);
                 SecurityContextHolder.getContext().setAuthentication(ua);
             }
 
@@ -42,6 +43,10 @@ public class SecretSecurityFilter extends GenericFilterBean {
             HttpServletResponse hsres = (HttpServletResponse) response;
             hsres.setStatus(HttpStatus.UNAUTHORIZED.value());
             hsres.getWriter().write(ex.getMessage()); // TODO improve
+        } catch (ExecutionException e) {
+            HttpServletResponse hsres = (HttpServletResponse) response;
+            hsres.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            hsres.getWriter().write(e.getMessage()); // TODO improve
         } finally {
             SecurityContextHolder.getContext().setAuthentication(null);
         }

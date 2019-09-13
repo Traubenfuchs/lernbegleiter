@@ -8,6 +8,9 @@ import at.technikumwien.lernbegleiter.entities.quiz.QuizQuestionEntity;
 import at.technikumwien.lernbegleiter.entities.quiz.attempts.QuizRunEntity;
 import at.technikumwien.lernbegleiter.repositories.quiz.QuizRepository;
 import at.technikumwien.lernbegleiter.repositories.quiz.attempts.QuizRunRepository;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +22,8 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.validation.Valid;
 import java.time.Instant;
 import java.util.Collection;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 @Validated
 @Transactional
@@ -31,11 +36,31 @@ public class QuizRunService {
     @Autowired
     private QuizRepository quizRepository;
 
+    private final LoadingCache<String, QuizRunDto> cache;
+
+    public QuizRunService() {
+        cache = CacheBuilder
+                .newBuilder()
+                .maximumSize(100)
+                .expireAfterWrite(1, TimeUnit.SECONDS)
+                .build(new CacheLoader<>() {
+                    @Override
+                    public QuizRunDto load(String key) {
+                        return get(key);
+                    }
+                });
+    }
+
     public UuidResponse post(@NonNull String quizUUID, @NonNull @Valid QuizRunDto quizRunDto) {
         QuizRunEntity quizRunEntity = quizRunConverter.toEntity(quizRunDto);
         quizRunEntity.setState(QuizRunState.CREATED);
         quizRunEntity.setQuiz(quizRepository.getOne(quizUUID));
         return new UuidResponse(quizRunRepository.save(quizRunEntity).getUuid());
+    }
+
+    public QuizRunDto getCached(@NonNull String quizRunUUID) throws ExecutionException {
+        // return quizRunConverter.toDTO(quizRunRepository.getOne(quizRunUUID));
+        return cache.get(quizRunUUID);
     }
 
     public QuizRunDto get(@NonNull String quizRunUUID) {
@@ -55,6 +80,7 @@ public class QuizRunService {
         QuizRunEntity quizRunEntity = quizRunRepository.getOne(quizRunUUID);
         QuizQuestionEntity qqe;
         if (quizRunEntity.getState() == QuizRunState.CREATED) {
+            quizRunEntity.setStartedAt(Instant.now());
             qqe = quizRunEntity
                     .getQuiz()
                     .getQuestions()

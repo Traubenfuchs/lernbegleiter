@@ -11,9 +11,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Duration;
 import java.time.Instant;
-import java.util.List;
 import java.util.Set;
 
 @Slf4j
@@ -40,28 +38,33 @@ public class QuizRunStatePromoter {
         Set<QuizRunEntity> quizRunEntities = quizRunRepository.findByState(QuizRunState.WAITING_FOR_ANSWERS);
         quizRunEntities.forEach(quizRunEntity -> {
             QuizQuestionEntity currentQuestion = quizRunEntity.getCurrentQuestion();
-            long secondsSinceStart = Duration.between(quizRunEntity.getStartedAt(), Instant.now()).getSeconds();
-            if (secondsSinceStart < currentQuestion.getTimeLimit()) {
+            if (!Instant.now().isAfter(quizRunEntity.getNextTimeLimit())) {
                 return;
             }
+
             int currentPosition = currentQuestion.getPosition();
-            List<QuizQuestionEntity> quizQuestions = quizRunEntity.getQuiz().getQuestions();
-            quizQuestions.stream().filter(qq -> qq.getPosition() == currentPosition + 1).findFirst()
+            quizRunEntity
+                    .getQuiz()
+                    .getQuestions()
+                    .stream()
+                    .filter(qq -> qq.getPosition() == currentPosition + 1)
+                    .findFirst()
                     .ifPresentOrElse(
                             qq -> {
+                                log.info("Promoted quiz-run with uuid<{}> to state<WAITING_FOR_NEXT_QUESTION>", quizRunEntity.getUuid());
                                 quizRunEntity
                                         .setNextTimeLimit(null)
                                         .setState(QuizRunState.WAITING_FOR_NEXT_QUESTION);
-
                             },
                             () -> {
+                                log.info("Promoted quiz-run with uuid<{}> to state<DONE>", quizRunEntity.getUuid());
                                 quizRunEntity
                                         .setCurrentQuestion(null)
                                         .setNextTimeLimit(null)
                                         .setState(QuizRunState.DONE)
                                 ;
-                            });
-
+                            }
+                    );
         });
     }
 }

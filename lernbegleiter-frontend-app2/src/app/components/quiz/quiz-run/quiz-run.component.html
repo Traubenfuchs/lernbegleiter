@@ -1,13 +1,40 @@
 <div class="container">
-  <div class="card">
+
+  <div class="card" *ngIf="loginService.loggedInAndStudent()">
+
+    <div class="card-body">
+      <ng-container *ngIf="isWaitingForAnswer()">
+        <div>{{quizRun.currentQuestion.content}}</div>
+        <img [src]="'/api/img/' + quizRun.currentQuestion.lob.quizPictureUUID">
+        <div *ngFor="let question of quizRun.currentQuestion.answers">
+          <div>{{question.content}}</div>
+          <button (click)="flipAnswer(question)" class="btn btn-secondary">{{'✔️'}}</button>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="isWaitingForNextQuestion()">
+        <div>Bitte warte bis die nächste Frage freigeschalten wurde...</div>
+      </ng-container>
+
+      <ng-container *ngIf="isCreated()">
+        <div>Bitte warte bis das Quiz gestartet wurde...</div>
+      </ng-container>
+
+      <ng-container *ngIf="isDone()">
+        <div>Dieser Quizlauf ist vorbei.</div>
+      </ng-container>
+    </div>
+  </div>
+
+  <div class="card" *ngIf="loginService.loggedInAndTeacherOrAdmin()">
     <div class="card-header" *ngIf="uuid === 'new'">
       <h5 class="card-title">Quizlauf anlegen</h5>
       <p class="card-text">Hier kannst du einen neuen Quizlauf anlegen</p>
     </div>
     <div class="card-header" *ngIf="uuid !== 'new'">
-        <h5 class="card-title">Quizlauf bearbeiten</h5>
-        <p class="card-text">Hier kannst du einen Quizlauf bearbeiten</p>
-      </div>
+      <h5 class="card-title">Quizlauf bearbeiten</h5>
+      <p class="card-text">Hier kannst du einen Quizlauf bearbeiten</p>
+    </div>
     <div class="card-body">
       <div class="row">
         <div class="col">
@@ -15,16 +42,20 @@
           <input id="uuidInput" [(ngModel)]="uuid" type="text" class="form-control" placeholder="UUID" disabled>
         </div>
         <div class="col">
-            <label for="stateInput">Status</label>
-            <input id="stateInput" [(ngModel)]="quizRun.state" type="text" class="form-control" placeholder="Status" disabled>
+          <label for="stateInput">Status</label>
+          <input id="stateInput" [(ngModel)]="quizRun.state" type="text" class="form-control" placeholder="Status"
+            disabled>
         </div>
-      </div>
+      </div> <!-- ends row-->
+      <div class="row" *ngIf="isWaitingForNextQuestion() || isCreated()" >
+        <button (click)='advance()'class="btn">Nächste Frage aktivieren</button>
+      </div><!-- ends row-->
     </div>
     <div class="card-footer">
-        <div *ngIf="uuid !== 'new'" class="btn-group w-100">
+      <!--<div *ngIf="uuid !== 'new'" class="btn-group w-100">
           <button (click)="saveClick()" class="btn btn-secondary">Aktualisieren</button>
-      </div>
-        <button (click)="saveClick()" *ngIf="uuid === 'new'" class="btn btn-success w-100">Anlegen</button>
-      </div>
+      </div> -->
+      <button (click)="saveClick()" *ngIf="uuid === 'new'" class="btn btn-success w-100">Anlegen</button>
+    </div>
   </div>
 </div>

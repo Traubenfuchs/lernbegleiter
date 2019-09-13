@@ -8,6 +8,9 @@ import at.technikumwien.lernbegleiter.entities.auth.LoginEntity;
 import at.technikumwien.lernbegleiter.entities.auth.UserEntity;
 import at.technikumwien.lernbegleiter.repositories.auth.LoginRepository;
 import at.technikumwien.lernbegleiter.repositories.auth.UserRepository;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +22,8 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 @Transactional
 @Validated
@@ -30,6 +35,25 @@ public class LoginService {
     private LoginRepository loginRepository;
     @Autowired
     private PasswordHasher passwordHasher;
+
+    private final LoadingCache<String, UserAuthentication> cache;
+
+    public LoginService() {
+        cache = CacheBuilder
+                .newBuilder()
+                .maximumSize(500)
+                .expireAfterWrite(1, TimeUnit.SECONDS)
+                .build(new CacheLoader<>() {
+                    @Override
+                    public UserAuthentication load(String key) {
+                        return getAuthenticationForSecretOrThrow(key);
+                    }
+                });
+    }
+
+    public UserAuthentication getAuthenticationForSecretOrThrowCached(@NonNull String secret) throws ExecutionException {
+        return cache.get(secret);
+    }
 
     public UserAuthentication getAuthenticationForSecretOrThrow(@NonNull String secret) {
         LoginEntity le = loginRepository.findBySecret(secret);

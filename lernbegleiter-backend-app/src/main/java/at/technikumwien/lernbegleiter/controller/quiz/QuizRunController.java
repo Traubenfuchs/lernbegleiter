@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.concurrent.ExecutionException;
 
 @RequestMapping("api")
 @RestController
@@ -41,20 +42,21 @@ public class QuizRunController {
     }
 
     @GetMapping({"quiz-run/{quizRunUUID}"})
-    public QuizRunDto getRun(@PathVariable String quizRunUUID) {
-        QuizRunDto result = quizRunService.get(quizRunUUID);
+    public QuizRunDto getRun(@PathVariable String quizRunUUID) throws ExecutionException {
+        QuizRunDto result = quizRunService.getCached(quizRunUUID);
 
-        if(authHelper.isStudent()) {
+        if (authHelper.isStudent() && result.getCurrentQuestion() != null) {
             // students should not see answers (-:
-            result.getCurrentQuestion().getAnswers().stream().forEach(a->a.setCorrect(null));
+            result.getCurrentQuestion().getAnswers().stream().forEach(a -> a.setCorrect(null));
         }
 
         return result;
     }
 
     @PostMapping("quiz-run/{quizRunUUID}:advance")
-    public void advance(@PathVariable String quizRunUUID) {
+    public QuizRunDto advance(@PathVariable String quizRunUUID) throws ExecutionException {
         authHelper.isAdminOrTeacherOrThrow();
         quizRunService.advance(quizRunUUID);
+        return getRun(quizRunUUID);
     }
 }
