@@ -1,14 +1,16 @@
+import { browser } from 'protractor';
+import { QuizRunState } from './../../../data/quiz/QuizRunState';
+import { QuizAnswer } from './../../../data/quiz/QuizAnswer';
 
 import { QuizQuestion } from './../../../data/quiz/QuizQuestion';
 import { LoginService } from './../../../services/login.service';
 
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 
 import { QuizRun } from './../../../data/quiz/QuizRun';
 import { UuidResponse } from 'src/app/data/UuidResponse';
-import { QuizRunState } from 'src/app/data/quiz/QuizRunState';
 
 @Component({
   selector: 'app-quiz-run',
@@ -21,9 +23,14 @@ export class QuizRunComponent implements OnInit, OnDestroy {
   quizUuid = ''
   quizAttemptUuid = ''
   quizRun = new QuizRun()
-  quizRunStates = QuizRunState
+  _QuizRunState = QuizRunState
   intervalId: any
-  constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute, public loginService: LoginService) { }
+  constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute, public loginService: LoginService) {
+    this.route.params.subscribe(params => {
+      this.ngOnInit()
+    });
+
+  }
 
   ngOnDestroy(): void {
     console.log(`Clearing interval<${this.intervalId}> ...`)
@@ -33,8 +40,6 @@ export class QuizRunComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.uuid = this.route.snapshot.paramMap.get("quizRunUUID")
     this.quizUuid = this.route.snapshot.paramMap.get("quizUUID")
-
-    this.intervalId = setInterval(() => this.loadQuizRun(), 1000);
 
     if (this.uuid === 'new') {
 
@@ -48,6 +53,7 @@ export class QuizRunComponent implements OnInit, OnDestroy {
             this.quizAttemptUuid = uuidResponse.uuid;
           })
       }
+      this.intervalId = setInterval(() => this.loadQuizRun(), 1000);
       this.loadQuizRun()
     }
   }
@@ -63,11 +69,12 @@ export class QuizRunComponent implements OnInit, OnDestroy {
 
   loadQuizRun() {
     console.log('Loading QuizRun...')
-    this.http.get<QuizRun>(`api/quiz-run/${this.uuid}`)
+    this.http.get<QuizRun>(`api/quiz-run-${this.loginService.loggedInAndAdmin?'admin':'student'}/${this.uuid}`)
       .subscribe(res => {
         console.log('QuizRun loaded.')
         this.quizRun = res
-        if (this.isDone()) {
+
+        if (QuizRunState.DONE.toString() === QuizRunState[this.quizRun.state].toString()) {
           clearInterval(this.intervalId)
         }
       })
@@ -82,19 +89,13 @@ export class QuizRunComponent implements OnInit, OnDestroy {
       })
   }
 
-  flipAnswer(quizQuestion: QuizQuestion) {
-
+  flipAnswerTo(quizAnswer: QuizAnswer, correct: boolean) {
+    console.log('Setting quiz answer...')
+    this.http.post<QuizRun>(`api/quiz-run/${this.uuid}:advance`, {})
+      .subscribe(res => {
+        console.log('Set quiz answer.')
+        this.quizRun = res
+      })
   }
-  isCreated = () =>
-    QuizRunState[this.quizRun.state] == QuizRunState.CREATED.toString()
-
-  isDone = () =>
-    QuizRunState[this.quizRun.state] == QuizRunState.DONE.toString()
-
-  isWaitingForAnswer = () =>
-    QuizRunState[this.quizRun.state] == QuizRunState.WAITING_FOR_ANSWERS.toString()
-
-  isWaitingForNextQuestion = () =>
-    QuizRunState[this.quizRun.state] == QuizRunState.WAITING_FOR_NEXT_QUESTION.toString()
 
 }

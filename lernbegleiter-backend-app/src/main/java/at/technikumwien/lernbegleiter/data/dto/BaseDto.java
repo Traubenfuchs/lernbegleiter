@@ -18,4 +18,17 @@ public class BaseDto<T extends BaseDto<T>> {
         this.uuid = uuid;
         return (T) this;
     }
+
+    @Override
+    public final boolean equals(Object obj) {
+        return this == obj;
+    }
+
+    @Override
+    public final int hashCode() {
+        if (uuid == null) {
+            return 0;
+        }
+        return uuid.hashCode();
+    }
 }

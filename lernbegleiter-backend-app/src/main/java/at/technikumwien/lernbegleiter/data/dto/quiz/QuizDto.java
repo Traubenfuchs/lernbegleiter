@@ -4,14 +4,16 @@ import at.technikumwien.lernbegleiter.data.QuizType;
 import at.technikumwien.lernbegleiter.data.dto.BaseDto;
 import at.technikumwien.lernbegleiter.data.dto.TeacherDto;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor

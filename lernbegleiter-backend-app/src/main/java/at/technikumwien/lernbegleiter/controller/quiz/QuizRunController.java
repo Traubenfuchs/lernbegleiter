@@ -41,15 +41,16 @@ public class QuizRunController {
         return quizRunService.getRuns(quizUUID);
     }
 
-    @GetMapping({"quiz-run/{quizRunUUID}"})
-    public QuizRunDto getRun(@PathVariable String quizRunUUID) throws ExecutionException {
+    @GetMapping({"quiz-run-admin/{quizRunUUID}"})
+    public QuizRunDto getRunAdmin(@PathVariable String quizRunUUID) throws ExecutionException {
         QuizRunDto result = quizRunService.getCached(quizRunUUID);
+        return result;
+    }
 
-        if (authHelper.isStudent() && result.getCurrentQuestion() != null) {
-            // students should not see answers (-:
-            result.getCurrentQuestion().getAnswers().stream().forEach(a -> a.setCorrect(null));
-        }
-
+    @GetMapping({"quiz-run-student/{quizRunUUID}"})
+    public QuizRunDto getRunStudent(@PathVariable String quizRunUUID) throws ExecutionException {
+        QuizRunDto result = quizRunService.getCached(quizRunUUID);
+        result.getCurrentQuestion().getAnswers().stream().forEach(a -> a.setCorrect(null));
         return result;
     }
 
@@ -57,6 +58,6 @@ public class QuizRunController {
     public QuizRunDto advance(@PathVariable String quizRunUUID) throws ExecutionException {
         authHelper.isAdminOrTeacherOrThrow();
         quizRunService.advance(quizRunUUID);
-        return getRun(quizRunUUID);
+        return getRunAdmin(quizRunUUID);
     }
 }
