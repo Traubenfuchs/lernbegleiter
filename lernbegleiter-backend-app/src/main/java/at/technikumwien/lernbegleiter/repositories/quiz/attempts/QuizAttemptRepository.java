@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface QuizAttemptRepository extends JpaRepository<QuizAttemptEntity, String> {
+public interface QuizAttemptRepository extends JpaRepository<QuizAttemptEntity, String>, QuizAttemptRepositoryCustom {
     Optional<QuizAttemptEntity> findByFkQuizRunUUID(String fkQuizRunUUID);
 }

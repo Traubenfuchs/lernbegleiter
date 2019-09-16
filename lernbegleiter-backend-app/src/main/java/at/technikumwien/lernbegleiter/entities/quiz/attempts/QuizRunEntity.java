@@ -10,6 +10,10 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Instances of a quiz
@@ -42,4 +46,7 @@ public class QuizRunEntity extends BaseEntityCreationUpdateDate<QuizRunEntity> {
     @Column(name = "STATE", nullable = false)
     @Enumerated(EnumType.STRING)
     private QuizRunState state;
+
+    @OneToMany(mappedBy = "quizRun")
+    private Set<QuizAttemptEntity> attempts = new HashSet<>();
 }

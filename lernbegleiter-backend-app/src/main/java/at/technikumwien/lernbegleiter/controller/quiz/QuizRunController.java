@@ -3,6 +3,7 @@ package at.technikumwien.lernbegleiter.controller.quiz;
 import at.technikumwien.lernbegleiter.components.AuthHelper;
 import at.technikumwien.lernbegleiter.data.dto.quiz.QuizRunDto;
 import at.technikumwien.lernbegleiter.data.responses.UuidResponse;
+import at.technikumwien.lernbegleiter.services.QuizAttemptService;
 import at.technikumwien.lernbegleiter.services.QuizRunService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,8 @@ public class QuizRunController {
     private QuizRunService quizRunService;
     @Autowired
     private AuthHelper authHelper;
+    @Autowired
+    private QuizAttemptService quizAttemptService;
 
     @PostMapping("quiz/{quizUUID}/quiz-run")
     public UuidResponse post(
@@ -50,7 +53,7 @@ public class QuizRunController {
     @GetMapping({"quiz-run-student/{quizRunUUID}"})
     public QuizRunDto getRunStudent(@PathVariable String quizRunUUID) throws ExecutionException {
         QuizRunDto result = quizRunService.getCached(quizRunUUID);
-        result.getCurrentQuestion().getAnswers().stream().forEach(a -> a.setCorrect(null));
+        quizAttemptService.enrichWithAttemptData(result);
         return result;
     }
 

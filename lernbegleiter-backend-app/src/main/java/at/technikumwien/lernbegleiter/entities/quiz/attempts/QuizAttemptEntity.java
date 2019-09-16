@@ -29,11 +29,14 @@ public class QuizAttemptEntity extends BaseEntityCreationUpdateDate<QuizAttemptE
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "FK_QUIZ_RUN_UUID", nullable = false)
     private QuizRunEntity quizRun;
+
     @Column(name = "FK_QUIZ_RUN_UUID", updatable = false, insertable = false)
     private String fkQuizRunUUID;
+
     @OneToMany(mappedBy = "quizAttempt")
     @Fetch(FetchMode.JOIN)
     private Set<QuizQuestionAttemptEntity> quizQuestionAttempts = new HashSet<>();
+
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "FK_STUDENT_UUID", nullable = false)
     private UserEntity student;

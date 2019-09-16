@@ -9,7 +9,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class QuizQuestionAnswerAttempt {
+public class QuizQuestionAnswerAttemptDto {
     private String answer;
     private Boolean correct;
 }

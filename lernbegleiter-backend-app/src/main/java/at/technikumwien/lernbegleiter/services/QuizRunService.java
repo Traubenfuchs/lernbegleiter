@@ -5,8 +5,12 @@ import at.technikumwien.lernbegleiter.data.dto.converter.quiz.QuizRunConverter;
 import at.technikumwien.lernbegleiter.data.dto.quiz.QuizRunDto;
 import at.technikumwien.lernbegleiter.data.responses.UuidResponse;
 import at.technikumwien.lernbegleiter.entities.quiz.QuizQuestionEntity;
+import at.technikumwien.lernbegleiter.entities.quiz.attempts.QuizQuestionAnswerAttemptEntity;
+import at.technikumwien.lernbegleiter.entities.quiz.attempts.QuizQuestionAttemptEntity;
 import at.technikumwien.lernbegleiter.entities.quiz.attempts.QuizRunEntity;
 import at.technikumwien.lernbegleiter.repositories.quiz.QuizRepository;
+import at.technikumwien.lernbegleiter.repositories.quiz.attempts.QuizQuestionAnswerAttemptRepository;
+import at.technikumwien.lernbegleiter.repositories.quiz.attempts.QuizQuestionAttemptRepository;
 import at.technikumwien.lernbegleiter.repositories.quiz.attempts.QuizRunRepository;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
@@ -29,79 +33,102 @@ import java.util.concurrent.TimeUnit;
 @Transactional
 @Service
 public class QuizRunService {
-    @Autowired
-    private QuizRunRepository quizRunRepository;
-    @Autowired
-    private QuizRunConverter quizRunConverter;
-    @Autowired
-    private QuizRepository quizRepository;
+  @Autowired
+  private QuizRunRepository quizRunRepository;
+  @Autowired
+  private QuizRunConverter quizRunConverter;
+  @Autowired
+  private QuizRepository quizRepository;
+  @Autowired
+  private QuizQuestionAttemptRepository quizQuestionAttemptRepository;
+  @Autowired
+  private QuizQuestionAnswerAttemptRepository quizQuestionAnswerAttemptRepository;
 
-    private final LoadingCache<String, QuizRunDto> cache;
+  private final LoadingCache<String, QuizRunDto> cache;
 
-    public QuizRunService() {
-        cache = CacheBuilder
-                .newBuilder()
-                .maximumSize(100)
-                .expireAfterWrite(1, TimeUnit.SECONDS)
-                .build(new CacheLoader<>() {
-                    @Override
-                    public QuizRunDto load(String key) {
-                        return get(key);
-                    }
-                });
+  public QuizRunService() {
+    cache = CacheBuilder
+        .newBuilder()
+        .maximumSize(100)
+        .expireAfterWrite(1, TimeUnit.SECONDS)
+        .build(new CacheLoader<>() {
+          @Override
+          public QuizRunDto load(String key) {
+            return get(key);
+          }
+        });
+  }
+
+  public UuidResponse post(@NonNull String quizUUID, @NonNull @Valid QuizRunDto quizRunDto) {
+    QuizRunEntity quizRunEntity = quizRunConverter.toEntity(quizRunDto);
+    quizRunEntity.setState(QuizRunState.CREATED);
+    quizRunEntity.setQuiz(quizRepository.getOne(quizUUID));
+    return new UuidResponse(quizRunRepository.save(quizRunEntity).getUuid());
+  }
+
+  public QuizRunDto getCached(@NonNull String quizRunUUID) throws ExecutionException {
+    // return quizRunConverter.toDTO(quizRunRepository.getOne(quizRunUUID));
+    return cache.get(quizRunUUID);
+  }
+
+  public QuizRunDto get(@NonNull String quizRunUUID) {
+    return quizRunConverter.toDTO(quizRunRepository.getOne(quizRunUUID));
+  }
+
+  public Collection<QuizRunDto> getRuns(@NonNull String quizUUID) {
+    return quizRunConverter.toDtoSet(quizRunRepository.getByFkQuizUuid(quizUUID));
+  }
+
+  public void put(@NonNull @Valid QuizRunDto quizRunDto) {
+    QuizRunEntity qre = quizRunRepository.getOne(quizRunDto.getUuid());
+    quizRunConverter.applyToEntity(quizRunDto, qre);
+  }
+
+  public void advance(@NonNull String quizRunUUID) {
+    QuizRunEntity quizRunEntity = quizRunRepository.getOne(quizRunUUID);
+    QuizQuestionEntity qqe;
+    if (quizRunEntity.getState() == QuizRunState.CREATED) {
+      quizRunEntity.setStartedAt(Instant.now());
+      qqe = quizRunEntity
+          .getQuiz()
+          .getQuestions()
+          .stream()
+          .filter(question -> question.getPosition() == 0)
+          .findFirst()
+          .get();
+    } else if (quizRunEntity.getState() == QuizRunState.WAITING_FOR_NEXT_QUESTION) {
+      qqe = quizRunEntity
+          .getQuiz()
+          .getQuestions()
+          .stream()
+          .filter(question -> question.getPosition() == (quizRunEntity.getCurrentQuestion().getPosition() + 1))
+          .findFirst()
+          .get();
+    } else {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "State <" + quizRunEntity.getState() + "> can not be advanced!");
     }
 
-    public UuidResponse post(@NonNull String quizUUID, @NonNull @Valid QuizRunDto quizRunDto) {
-        QuizRunEntity quizRunEntity = quizRunConverter.toEntity(quizRunDto);
-        quizRunEntity.setState(QuizRunState.CREATED);
-        quizRunEntity.setQuiz(quizRepository.getOne(quizUUID));
-        return new UuidResponse(quizRunRepository.save(quizRunEntity).getUuid());
-    }
+    quizRunEntity
+        .getAttempts()
+        .forEach(quizRunAttempt -> {
 
-    public QuizRunDto getCached(@NonNull String quizRunUUID) throws ExecutionException {
-        // return quizRunConverter.toDTO(quizRunRepository.getOne(quizRunUUID));
-        return cache.get(quizRunUUID);
-    }
+          QuizQuestionAttemptEntity newQuizQuestionAttemptEntity =
+              quizQuestionAttemptRepository.save(
+                  new QuizQuestionAttemptEntity()
+                      .setQuizAttempt(quizRunAttempt)
+                      .setQuizQuestion(qqe));
 
-    public QuizRunDto get(@NonNull String quizRunUUID) {
-        return quizRunConverter.toDTO(quizRunRepository.getOne(quizRunUUID));
-    }
+          qqe.getAnswers().forEach(qqa -> {
+            quizQuestionAnswerAttemptRepository.save(
+                new QuizQuestionAnswerAttemptEntity()
+                    .setCorrect(false)
+                    .setQuizQuestionAttempt(newQuizQuestionAttemptEntity)
+                    .setQuizAnswer(qqa));
+          });
+        });
 
-    public Collection<QuizRunDto> getRuns(@NonNull String quizUUID) {
-        return quizRunConverter.toDtoSet(quizRunRepository.getByFkQuizUuid(quizUUID));
-    }
-
-    public void put(@NonNull @Valid QuizRunDto quizRunDto) {
-        QuizRunEntity qre = quizRunRepository.getOne(quizRunDto.getUuid());
-        quizRunConverter.applyToEntity(quizRunDto, qre);
-    }
-
-    public void advance(@NonNull String quizRunUUID) {
-        QuizRunEntity quizRunEntity = quizRunRepository.getOne(quizRunUUID);
-        QuizQuestionEntity qqe;
-        if (quizRunEntity.getState() == QuizRunState.CREATED) {
-            quizRunEntity.setStartedAt(Instant.now());
-            qqe = quizRunEntity
-                    .getQuiz()
-                    .getQuestions()
-                    .stream()
-                    .filter(question -> question.getPosition() == 0)
-                    .findFirst()
-                    .get();
-        } else if (quizRunEntity.getState() == QuizRunState.WAITING_FOR_NEXT_QUESTION) {
-            qqe = quizRunEntity
-                    .getQuiz()
-                    .getQuestions()
-                    .stream()
-                    .filter(question -> question.getPosition() == (quizRunEntity.getCurrentQuestion().getPosition() + 1))
-                    .findFirst()
-                    .get();
-        } else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "State <" + quizRunEntity.getState() + "> can not be advanced!");
-        }
-
-        quizRunEntity.setCurrentQuestion(qqe);
-        quizRunEntity.setNextTimeLimit(Instant.now().plusSeconds(qqe.getTimeLimit()));
-        quizRunEntity.setState(QuizRunState.WAITING_FOR_ANSWERS);
-    }
+    quizRunEntity.setCurrentQuestion(qqe);
+    quizRunEntity.setNextTimeLimit(Instant.now().plusSeconds(qqe.getTimeLimit()));
+    quizRunEntity.setState(QuizRunState.WAITING_FOR_ANSWERS);
+  }
 }

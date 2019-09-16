@@ -14,5 +14,5 @@ import java.util.List;
 public class QuizQuestionAttemptDto {
     private String question;
     private String questionImageUUID;
-    private List<QuizQuestionAnswerAttempt> answers;
+    private List<QuizQuestionAnswerAttemptDto> answers;
 }
