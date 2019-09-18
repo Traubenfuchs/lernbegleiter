@@ -21,19 +21,19 @@ public class QuizAnsweringController extends BaseController {
 
     }
 
-    @PostMapping("quiz-run/{quizRunUUID}:answer")
+    @PostMapping("quiz-attempt/{quizAttemptUUID}:answer")
     public void answer(
-            @PathVariable String quizRunUUID,
+            @PathVariable String quizAttemptUUID,
             @RequestBody AnswerRequest answerRequest) {
         quizAnsweringService.answer(
-                quizRunUUID,
-                answerRequest.getPosition(),
-                answerRequest.getTick());
+                quizAttemptUUID,
+                answerRequest.getQuizAnswerUuid(),
+                answerRequest.getCorrect());
     }
 
     @Data
-    static class AnswerRequest {
-        private Integer position;
-        private Boolean tick;
+    public static class AnswerRequest {
+        private String quizAnswerUuid;
+        private Boolean correct;
     }
 }

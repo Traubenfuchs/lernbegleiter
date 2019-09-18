@@ -3,12 +3,16 @@
     <div class="card-body">
       <table class="lernbegleiter-table">
         <tr>
-          <th>Created On</th>
-          <th><button class="btn btn-sm btn-success" [routerLink]="'/management/quiz/'+quizUUID+'/quiz-run/new'">Anlegen</button></th>
+          <th>Erzeugung</th>
+          <th>Status</th>
+          <th><button class="btn btn-sm btn-success"
+              [routerLink]="'/management/quiz/'+quizUUID+'/quiz-run/new'">Anlegen</button></th>
         </tr>
         <tr *ngFor="let quizRun of quizRuns">
           <td>{{quizRun.tsCreation | saneDateTime}}</td>
-          <td><button class="btn btn-secondary" [routerLink]="'/management/quiz/'+quizUUID+'/quiz-run/' + quizRun.uuid">Gehe zu Run</button>
+          <td>{{quizRun.state}}</td>
+          <td><button class="btn btn-secondary"
+              [routerLink]="'/management/quiz/'+quizUUID+'/quiz-run/' + quizRun.uuid">Gehe zu Run</button>
           </td>
         </tr>
       </table>

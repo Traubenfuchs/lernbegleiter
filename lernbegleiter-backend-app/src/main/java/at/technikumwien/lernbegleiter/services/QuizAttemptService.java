@@ -1,5 +1,6 @@
 package at.technikumwien.lernbegleiter.services;
 
+import at.technikumwien.lernbegleiter.data.QuizRunState;
 import at.technikumwien.lernbegleiter.data.dto.quiz.QuizAnswerDto;
 import at.technikumwien.lernbegleiter.data.dto.quiz.QuizRunDto;
 import at.technikumwien.lernbegleiter.entities.quiz.attempts.QuizQuestionAttemptEntity;
@@ -21,7 +22,7 @@ public class QuizAttemptService {
      * QuizQuestionAnswers inside the current quizQuestion in the given QuizRunDto
      */
     public void enrichWithAttemptData(@NonNull QuizRunDto quizRunDto) {
-        if (quizRunDto.getCurrentQuestion() == null) {
+        if (quizRunDto.getCurrentQuestion() == null || quizRunDto.getState() != QuizRunState.WAITING_FOR_ANSWERS) {
             return;
         }
 
@@ -32,7 +33,7 @@ public class QuizAttemptService {
         for (QuizAnswerDto answerDto : quizRunDto.getCurrentQuestion().getAnswers()) {
             boolean correct = quizQuestionAttemptEntity.getAnswers()
                     .stream()
-                    .filter(a -> a.getUuid().equals(answerDto.getUuid()))
+                    .filter(a -> a.getFkQuizAnswerUuid().equals(answerDto.getUuid()))
                     .findFirst()
                     .get()
                     .getCorrect();

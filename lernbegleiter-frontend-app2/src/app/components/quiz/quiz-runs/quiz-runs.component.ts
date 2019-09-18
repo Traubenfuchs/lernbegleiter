@@ -1,3 +1,4 @@
+import { BaseDto } from './../../../data/BaseDto';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -24,6 +25,7 @@ export class QuizRunsComponent implements OnInit {
     this.http.get<QuizRun[]>(`api/quiz/${this.quizUUID}/quiz-runs`)
       .subscribe(res => {
         console.log('QuizRuns loaded.')
+        res= res.sort((l, r) => BaseDto.getTsCreationAsNumber(l)>BaseDto.getTsCreationAsNumber(r)?-1:1)
         this.quizRuns = res
       })
   }

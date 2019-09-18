@@ -53,7 +53,10 @@ export class QuizRunComponent implements OnInit, OnDestroy {
             this.quizAttemptUuid = uuidResponse.uuid;
           })
       }
-      this.intervalId = setInterval(() => this.loadQuizRun(), 1000);
+      if (!this.intervalId) {
+        this.intervalId = setInterval(() => this.loadQuizRun(), 1000);
+      }
+
       this.loadQuizRun()
     }
   }
@@ -69,7 +72,7 @@ export class QuizRunComponent implements OnInit, OnDestroy {
 
   loadQuizRun() {
     console.log('Loading QuizRun...')
-    this.http.get<QuizRun>(`api/quiz-run-${this.loginService.loggedInAndAdmin?'admin':'student'}/${this.uuid}`)
+    this.http.get<QuizRun>(`api/quiz-run-${this.loginService.loggedInAndAdmin() ? 'admin' : 'student'}/${this.uuid}`)
       .subscribe(res => {
         console.log('QuizRun loaded.')
         this.quizRun = res
@@ -89,12 +92,14 @@ export class QuizRunComponent implements OnInit, OnDestroy {
       })
   }
 
-  flipAnswerTo(quizAnswer: QuizAnswer, correct: boolean) {
+  flipAnswerTo(quizAnswerUuid: string, correct: boolean) {
     console.log('Setting quiz answer...')
-    this.http.post<QuizRun>(`api/quiz-run/${this.uuid}:advance`, {})
+    this.http.post<any>(`api/quiz-attempt/${this.quizAttemptUuid}:answer`, {
+      quizAnswerUuid,
+      correct
+    })
       .subscribe(res => {
-        console.log('Set quiz answer.')
-        this.quizRun = res
+        this.loadQuizRun()
       })
   }
 

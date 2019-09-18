@@ -8,8 +8,8 @@
           <img [src]="'/api/image/' + quizRun.currentQuestion.lob.quizPictureUUID">
           <div *ngFor="let answer of quizRun.currentQuestion.answers">
             <div>{{answer.content}}</div>
-            <button (click)="flipAnswerTo(answer, false)" class="btn btn-secondary" *ngIf='answer.correct'>✔️</button>
-            <button (click)="flipAnswerTo(answer, true)" class="btn btn-secondary" *ngIf='!answer.correct'>❌</button>
+            <button (click)="flipAnswerTo(answer.uuid, false)" class="btn btn-secondary" *ngIf='answer.correct'>✔️</button>
+            <button (click)="flipAnswerTo(answer.uuid, true)" class="btn btn-secondary" *ngIf='!answer.correct'>❌</button>
           </div>
         </ng-container>
 
