@@ -2,4 +2,4 @@ FROM openjdk:13
 VOLUME /tmp
 COPY target/app.jar app.jar
 EXPOSE 8080
-ENTRYPOINT ["java","-XX:+UseG1GC","-jar","/app.jar"]
+ENTRYPOINT ["java","-XX:+UseG1GC","-XX:+UseStringDeduplication","-jar","/app.jar"]
