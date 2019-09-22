@@ -53,8 +53,11 @@
       <div *ngFor="let question of quiz.questions" class="card-body">
 
         <div class="row">
-          <div class='col-11'>
+          <div class='col-9'>
             <input placeholder='Frage' class="form-control" [(ngModel)]="question.content">
+          </div>
+          <div class='col-2'>
+              <input placeholder='Zeit zur Beantwortung' class="form-control" [(ngModel)]="question.timeLimit">
           </div>
           <div class='col-1'>
             <button (click)="deleteQuestion(question.internalId)" class="btn btn-secondary">🗑️</button>
@@ -75,6 +78,7 @@
             <button (click)='deleteImageFromQuestion(question)'>delete existing image</button>
           </div>
         </div>
+
 
         <button (click)="newAnswer(question)" class="btn btn-secondary btn-sm mt-1">Neue Antwort</button>
         <div *ngFor="let answer of question.answers" class='mt-1'>

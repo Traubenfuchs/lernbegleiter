@@ -1,5 +1,6 @@
 package at.technikumwien.lernbegleiter.repositories.quiz.attempts;
 
+import at.technikumwien.lernbegleiter.components.AuthHelper;
 import at.technikumwien.lernbegleiter.entities.quiz.attempts.QuizAttemptEntity;
 import at.technikumwien.lernbegleiter.repositories.auth.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class QuizAttemptRepositoryImpl implements QuizAttemptRepositoryCustom {
 
     @Override
     public QuizAttemptEntity createQuizAttemptIfNotExists(String quizRunUUID) {
-        return quizAttemptRepository.findByFkQuizRunUUID(quizRunUUID)
+        return quizAttemptRepository.findByFkQuizRunUUIDAndFkStudentUuid(quizRunUUID, AuthHelper.getCurrentUserUUIDOrThrow())
                 .orElseGet(() -> quizAttemptRepository.save(new QuizAttemptEntity()
                         .setQuizRun(quizRunRepository.getOne(quizRunUUID))
                         .setStudent(userRepository.getCurrentUser())));

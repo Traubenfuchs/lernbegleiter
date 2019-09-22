@@ -22,6 +22,7 @@ public class QuizQuestionConverter extends DtoEntityConverter<QuizQuestionEntity
                 .setPosition(quizQuestionEntity.getPosition())
                 .setContent(quizQuestionEntity.getContent())
                 .setUuid(quizQuestionEntity.getUuid())
+                .setTimeLimit(quizQuestionEntity.getTimeLimit())
                 .setLob(new LobDto()
                         .setQuizPictureUUID(quizQuestionEntity.getFkLobUUID()))
         ;
@@ -37,6 +38,7 @@ public class QuizQuestionConverter extends DtoEntityConverter<QuizQuestionEntity
         quizQuestionEntity
                 .setPosition(quizQuestionDto.getPosition())
                 .setContent(quizQuestionDto.getContent())
+                .setTimeLimit(quizQuestionDto.getTimeLimit())
                 .setUuid(quizQuestionDto.getUuid())
         ;
     }

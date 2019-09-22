@@ -24,6 +24,9 @@ export class StudentComponent implements OnInit {
       Breadcrumb.inactiveOf('/management/students', 'Übersicht'),
       Breadcrumb.activeOf('Neuer Schüler')
     ];
+    this.route.params.subscribe(params => {
+      this.ngOnInit()
+    });
   }
 
   ngOnInit() {

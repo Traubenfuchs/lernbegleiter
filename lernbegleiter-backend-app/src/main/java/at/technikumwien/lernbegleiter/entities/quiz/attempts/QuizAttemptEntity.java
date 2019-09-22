@@ -25,6 +25,17 @@ import java.util.Set;
                 columnNames = {"FK_QUIZ_RUN_UUID", "FK_STUDENT_UUID"})
 })
 @Entity
+@NamedEntityGraph(name = "QuizAttempt.allAnswers",
+        attributeNodes = {
+                @NamedAttributeNode("student"),
+                @NamedAttributeNode(value = "quizQuestionAttempts", subgraph = "QuizQuestionAttempt.answers")},
+        subgraphs = @NamedSubgraph(
+                name = "QuizQuestionAttempt.answers",
+                attributeNodes = {
+                        @NamedAttributeNode("answers")
+                }
+        )
+)
 public class QuizAttemptEntity extends BaseEntityCreationUpdateDate<QuizAttemptEntity> {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "FK_QUIZ_RUN_UUID", nullable = false)
@@ -40,4 +51,7 @@ public class QuizAttemptEntity extends BaseEntityCreationUpdateDate<QuizAttemptE
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "FK_STUDENT_UUID", nullable = false)
     private UserEntity student;
+
+    @Column(name = "FK_STUDENT_UUID", updatable = false, insertable = false)
+    private String fkStudentUuid;
 }

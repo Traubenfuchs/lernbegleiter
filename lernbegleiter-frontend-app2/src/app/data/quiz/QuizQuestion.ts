@@ -8,4 +8,5 @@ export class QuizQuestion {
   internalId = new Date().getTime() * Math.random()
   position: number
   lob: Lob = new Lob()
+  timeLimit = 40
 }

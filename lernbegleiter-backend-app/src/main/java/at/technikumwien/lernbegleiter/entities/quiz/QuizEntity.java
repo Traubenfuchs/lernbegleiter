@@ -22,6 +22,13 @@ import java.util.Set;
         @Index(name = "I_QUIZ_FK_AUTHOR_UUID", columnList = "FK_AUTHOR_UUID")
 })
 @Entity
+@NamedEntityGraphs({
+        @NamedEntityGraph(name = "Quiz.allAnswers",
+                attributeNodes = {
+                        @NamedAttributeNode(value = "questions", subgraph = "QuizQuestionEntity.allAnswers")},
+                subgraphs = @NamedSubgraph(name = "QuizQuestionEntity.allAnswers",
+                        attributeNodes = @NamedAttributeNode("answers")))
+})
 public class QuizEntity extends BaseEntityCreationUpdateDate<QuizEntity> {
     @Column(name = "MAX_RETRIES", nullable = false)
     private Integer maxRetries;

@@ -1,3 +1,4 @@
+import { QuizResult } from './../../../data/quiz/QuizResult';
 import { browser } from 'protractor';
 import { QuizRunState } from './../../../data/quiz/QuizRunState';
 import { QuizAnswer } from './../../../data/quiz/QuizAnswer';
@@ -11,6 +12,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 
 import { QuizRun } from './../../../data/quiz/QuizRun';
 import { UuidResponse } from 'src/app/data/UuidResponse';
+import { QuizResultEntry } from 'src/app/data/quiz/QuizResultEntry';
 
 @Component({
   selector: 'app-quiz-run',
@@ -22,6 +24,7 @@ export class QuizRunComponent implements OnInit, OnDestroy {
   uuid = ''
   quizUuid = ''
   quizAttemptUuid = ''
+  quizResult = new QuizResult()
   quizRun = new QuizRun()
   _QuizRunState = QuizRunState
   intervalId: any
@@ -29,7 +32,6 @@ export class QuizRunComponent implements OnInit, OnDestroy {
     this.route.params.subscribe(params => {
       this.ngOnInit()
     });
-
   }
 
   ngOnDestroy(): void {
@@ -54,10 +56,14 @@ export class QuizRunComponent implements OnInit, OnDestroy {
           })
       }
       if (!this.intervalId) {
-        this.intervalId = setInterval(() => this.loadQuizRun(), 1000);
+        this.intervalId = setInterval(() => {
+          this.loadQuizRun()
+          this.loadQuizResult()
+        }, 1000);
       }
 
       this.loadQuizRun()
+      this.loadQuizResult()
     }
   }
 
@@ -67,6 +73,18 @@ export class QuizRunComponent implements OnInit, OnDestroy {
       .subscribe(uuidResponse => {
         console.log('Created Quiz Run. Refreshing route.')
         this.router.navigate([`management/quiz/${this.quizUuid}/quiz-run/${uuidResponse.uuid}`])
+      });
+  }
+
+  loadQuizResult() {
+    if (!this.loginService.loggedInAndTeacherOrAdmin()) {
+      return
+    }
+    console.log('Loading QuizResult...')
+    this.http.get<QuizResult>(`api/quiz/${this.quizUuid}/quiz-run/${this.uuid}/quiz-result`)
+      .subscribe(res => {
+        console.log('Loaded QuizResult.')
+        this.quizResult = res
       });
   }
 

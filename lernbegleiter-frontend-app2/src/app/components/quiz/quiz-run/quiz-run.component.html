@@ -1,32 +1,34 @@
 <div class="container">
 
-    <div class="card" *ngIf="loginService.loggedInAndStudent()">
+  <div class="card" *ngIf="loginService.loggedInAndStudent()">
 
-      <div class="card-body">
-        <ng-container *ngIf="_QuizRunState.WAITING_FOR_ANSWERS == _QuizRunState[quizRun.state]">
-          <div>{{quizRun.currentQuestion.content}}</div>
-          <img [src]="'/api/image/' + quizRun.currentQuestion.lob.quizPictureUUID">
-          <div *ngFor="let answer of quizRun.currentQuestion.answers">
-            <div>{{answer.content}}</div>
-            <button (click)="flipAnswerTo(answer.uuid, false)" class="btn btn-secondary" *ngIf='answer.correct'>✔️</button>
-            <button (click)="flipAnswerTo(answer.uuid, true)" class="btn btn-secondary" *ngIf='!answer.correct'>❌</button>
-          </div>
-        </ng-container>
+    <div class="card-body">
+      <ng-container *ngIf="_QuizRunState.WAITING_FOR_ANSWERS == _QuizRunState[quizRun.state]">
+        <div>{{quizRun.currentQuestion.content}}</div>
+        <img *ngIf="quizRun.currentQuestion.lob.quizPictureUUID"  [src]="'/api/image/' + quizRun.currentQuestion.lob.quizPictureUUID">
+        <div *ngFor="let answer of quizRun.currentQuestion.answers">
+          <div>{{answer.content}}</div>
+          <button (click)="flipAnswerTo(answer.uuid, false)" class="btn btn-secondary"
+            *ngIf='answer.correct'>✔️</button>
+          <button (click)="flipAnswerTo(answer.uuid, true)" class="btn btn-secondary" *ngIf='!answer.correct'>❌</button>
+        </div>
+      </ng-container>
 
-        <ng-container *ngIf="_QuizRunState.WAITING_FOR_NEXT_QUESTION == _QuizRunState[quizRun.state]">
-          <div>Bitte warte bis die nächste Frage freigeschalten wurde...</div>
-        </ng-container>
+      <ng-container *ngIf="_QuizRunState.WAITING_FOR_NEXT_QUESTION == _QuizRunState[quizRun.state]">
+        <div>Bitte warte bis die nächste Frage freigeschalten wurde...</div>
+      </ng-container>
 
-        <ng-container *ngIf="_QuizRunState.CREATED == _QuizRunState[quizRun.state]">
-          <div>Bitte warte bis das Quiz gestartet wurde...</div>
-        </ng-container>
+      <ng-container *ngIf="_QuizRunState.CREATED == _QuizRunState[quizRun.state]">
+        <div>Bitte warte bis das Quiz gestartet wurde...</div>
+      </ng-container>
 
-        <ng-container *ngIf="_QuizRunState.DONE == _QuizRunState[quizRun.state]">
-          <div>Dieser Quizlauf ist vorbei.</div>
-        </ng-container>
-      </div>
+      <ng-container *ngIf="_QuizRunState.DONE == _QuizRunState[quizRun.state]">
+        <div>Dieser Quizlauf ist vorbei.</div>
+      </ng-container>
     </div>
+  </div>
 
+  <ng-container *ngIf="loginService.loggedInAndTeacherOrAdmin()">
     <div class="card" *ngIf="loginService.loggedInAndTeacherOrAdmin()">
       <div class="card-header" *ngIf="uuid === 'new'">
         <h5 class="card-title">Quizlauf anlegen</h5>
@@ -48,11 +50,13 @@
               disabled>
           </div>
         </div> <!-- ends row-->
-        <div class="row mt-3" *ngIf="_QuizRunState.CREATED ==_QuizRunState[quizRun.state] || _QuizRunState.WAITING_FOR_NEXT_QUESTION == _QuizRunState[quizRun.state]" >
-            <div class="col">
-          <button (click)='advance()'class="btn btn-success" *ngIf="_QuizRunState.WAITING_FOR_NEXT_QUESTION">Nächste Frage aktivieren</button>
-          <button (click)='advance()'class="btn btn-success" *ngIf="_QuizRunState.CREATED">Quiz starten</button>
-            </div>
+        <div class="row mt-3"
+          *ngIf="_QuizRunState.CREATED ==_QuizRunState[quizRun.state] || _QuizRunState.WAITING_FOR_NEXT_QUESTION == _QuizRunState[quizRun.state]">
+          <div class="col">
+            <button (click)='advance()' class="btn btn-success" *ngIf="_QuizRunState.WAITING_FOR_NEXT_QUESTION">Nächste
+              Frage aktivieren</button>
+            <button (click)='advance()' class="btn btn-success" *ngIf="_QuizRunState.CREATED">Quiz starten</button>
+          </div>
         </div><!-- ends row-->
       </div>
       <div class="card-footer">
@@ -62,4 +66,19 @@
         <button (click)="saveClick()" *ngIf="uuid === 'new'" class="btn btn-success w-100">Anlegen</button>
       </div>
     </div>
-  </div>
+
+    <div class="card" class="card mt-3" *ngIf="uuid !== 'new' && loginService.loggedInAndTeacherOrAdmin()">
+      <div class="card-header">
+        <h5 class="card-title">Quizergebnisse</h5>
+        <p class="card-text">Hier kannst du die Quizergebnisse sehen</p>
+      </div>
+      <div class="card-body">
+        <div *ngFor="let line of quizResult.entries">
+          <div>{{line.name}}</div>
+          <div>{{line.points}}</div>
+        </div>
+      </div>
+    </div>
+
+  </ng-container>
+</div>
