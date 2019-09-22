@@ -83,6 +83,7 @@ export class QuizRunComponent implements OnInit, OnDestroy {
     console.log('Loading QuizResult...')
     this.http.get<QuizResult>(`api/quiz/${this.quizUuid}/quiz-run/${this.uuid}/quiz-result`)
       .subscribe(res => {
+        res.entries = res.entries.sort((l,r)=>l.points < r.points?-1:1)
         console.log('Loaded QuizResult.')
         this.quizResult = res
       });
