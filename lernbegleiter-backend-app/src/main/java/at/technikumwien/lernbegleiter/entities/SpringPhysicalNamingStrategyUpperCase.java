@@ -4,8 +4,6 @@ import org.hibernate.boot.model.naming.Identifier;
 import org.hibernate.boot.model.naming.PhysicalNamingStrategy;
 import org.hibernate.engine.jdbc.env.spi.JdbcEnvironment;
 
-import java.util.Locale;
-
 
 public class SpringPhysicalNamingStrategyUpperCase implements PhysicalNamingStrategy {
 
@@ -58,9 +56,6 @@ public class SpringPhysicalNamingStrategyUpperCase implements PhysicalNamingStra
      * @return an identifier instance
      */
     protected Identifier getIdentifier(String name, boolean quoted, JdbcEnvironment jdbcEnvironment) {
-        if (isCaseInsensitive(jdbcEnvironment)) {
-            name = name.toLowerCase(Locale.ROOT);
-        }
         return new Identifier(name, quoted);
     }
 
