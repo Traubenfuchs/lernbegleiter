@@ -11,6 +11,8 @@ spring:
           batch_versioned_data: true
     show-sql: false
     hibernate:
+      naming:
+        physical-strategy: at.technikumwien.lernbegleiter.entities.SpringPhysicalNamingStrategyUpperCase
       ddl-auto: update
     database-platform: org.hibernate.dialect.MySQL8Dialect
   datasource:
@@ -19,3 +21,4 @@ spring:
     password: ${DB_PASSWORD}
     hikari:
       maximum-pool-size: 30
+
