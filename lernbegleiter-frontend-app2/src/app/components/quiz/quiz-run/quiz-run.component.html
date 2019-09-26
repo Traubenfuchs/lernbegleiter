@@ -55,12 +55,12 @@
         <div class="row mt-3"
           *ngIf="_QuizRunState.CREATED ==_QuizRunState[quizRun.state] || _QuizRunState.WAITING_FOR_NEXT_QUESTION == _QuizRunState[quizRun.state]">
           <div class="col">
-            <button (click)='advance()' class="btn btn-success" *ngIf="_QuizRunState.WAITING_FOR_NEXT_QUESTION">Nächste
+            <button (click)='advance()' class="btn btn-success" *ngIf="_QuizRunState.WAITING_FOR_NEXT_QUESTION == _QuizRunState[quizRun.state]">Nächste
               Frage aktivieren</button>
-            <button (click)='advance()' class="btn btn-success" *ngIf="_QuizRunState.CREATED">Quiz starten</button>
+            <button (click)='advance()' class="btn btn-success" *ngIf="_QuizRunState.CREATED == _QuizRunState[quizRun.state]">Quiz starten</button>
           </div>
         </div><!-- ends row-->
-        <div class="row mt-3" *ngIf="_QuizRunState.WAITING_FOR_ANSWERS ==_QuizRunState[quizRun.state]">
+        <div class="row mt-3" *ngIf="timeLeft > 0">
           <div class="col">
             <div>Zeit übrig: {{timeLeft}}</div>
           </div>
