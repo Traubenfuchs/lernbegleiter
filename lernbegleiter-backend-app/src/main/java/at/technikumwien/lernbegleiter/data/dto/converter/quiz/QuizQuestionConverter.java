@@ -10,36 +10,36 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class QuizQuestionConverter extends DtoEntityConverter<QuizQuestionEntity, QuizQuestionDto> {
-    @Autowired
-    private QuizAnswerConverter quizAnswerConverter;
-    @Autowired
-    private LobService lobService;
+  @Autowired
+  private QuizAnswerConverter quizAnswerConverter;
+  @Autowired
+  private LobService lobService;
 
-    @Override
-    public void applyToDto(QuizQuestionEntity quizQuestionEntity, QuizQuestionDto quizQuestionDto) {
-        quizQuestionDto
-                .setAnswers(quizAnswerConverter.toDtoSet(quizQuestionEntity.getAnswers()))
-                .setPosition(quizQuestionEntity.getPosition())
-                .setContent(quizQuestionEntity.getContent())
-                .setUuid(quizQuestionEntity.getUuid())
-                .setTimeLimit(quizQuestionEntity.getTimeLimit())
-                .setLob(new LobDto()
-                        .setQuizPictureUUID(quizQuestionEntity.getFkLobUUID()))
-        ;
-    }
+  @Override
+  public void applyToDto(QuizQuestionEntity quizQuestionEntity, QuizQuestionDto quizQuestionDto) {
+    quizQuestionDto
+        .setAnswers(quizAnswerConverter.toDtoSet(quizQuestionEntity.getAnswers()))
+        .setPosition(quizQuestionEntity.getPosition())
+        .setContent(quizQuestionEntity.getContent())
+        .setUuid(quizQuestionEntity.getUuid())
+        .setTimeLimit(quizQuestionEntity.getTimeLimit())
+        .setLob(new LobDto()
+            .setQuizPictureUUID(quizQuestionEntity.getFkLobUUID()))
+    ;
+  }
 
-    @Override
-    public void applyToEntity(QuizQuestionDto quizQuestionDto, QuizQuestionEntity quizQuestionEntity) {
-        quizAnswerConverter.applyOrCreateToEntityCollection(quizQuestionDto.getAnswers(), quizQuestionEntity.getAnswers());
-        quizQuestionEntity.getAnswers().forEach(qa -> qa.setQuizQuestion(quizQuestionEntity));
+  @Override
+  public void applyToEntity(QuizQuestionDto quizQuestionDto, QuizQuestionEntity quizQuestionEntity) {
+    quizAnswerConverter.applyOrCreateToEntityCollection(quizQuestionDto.getAnswers(), quizQuestionEntity.getAnswers());
+    quizQuestionEntity.getAnswers().forEach(qa -> qa.setQuizQuestion(quizQuestionEntity));
 
-        lobService.applyImage(quizQuestionDto.getLob(), quizQuestionEntity);
+    lobService.applyImage(quizQuestionDto.getLob(), quizQuestionEntity);
 
-        quizQuestionEntity
-                .setPosition(quizQuestionDto.getPosition())
-                .setContent(quizQuestionDto.getContent())
-                .setTimeLimit(quizQuestionDto.getTimeLimit())
-                .setUuid(quizQuestionDto.getUuid())
-        ;
-    }
+    quizQuestionEntity
+        .setPosition(quizQuestionDto.getPosition())
+        .setContent(quizQuestionDto.getContent())
+        .setTimeLimit(quizQuestionDto.getTimeLimit())
+        .setUuid(quizQuestionDto.getUuid())
+    ;
+  }
 }

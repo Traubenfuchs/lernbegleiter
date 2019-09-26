@@ -10,16 +10,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class AuthenticationController  extends BaseController {
-    @Autowired
-    private LoginService loginService;
+public class AuthenticationController extends BaseController {
+  @Autowired
+  private LoginService loginService;
 
-    @PostMapping("api/login")
-    public LoginResponse login(@RequestBody LoginRequest loginRequest) {
-        return loginService.login(loginRequest);
-    }
+  @PostMapping("api/login")
+  public LoginResponse login(@RequestBody LoginRequest loginRequest) {
+    return loginService.login(loginRequest);
+  }
 
-    @PostMapping("api/login/check")
-    public void login() {
-    }
+  @PostMapping("api/login/check")
+  public void login() {
+  }
 }

@@ -13,7 +13,7 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class QuizAnswerDto extends BaseDto<QuizAnswerDto> {
-    private String content;
-    private Boolean correct;
-    private Integer position;
+  private String content;
+  private Boolean correct;
+  private Integer position;
 }

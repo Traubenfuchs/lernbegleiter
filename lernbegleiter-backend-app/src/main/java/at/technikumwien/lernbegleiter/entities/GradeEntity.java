@@ -6,7 +6,14 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Index;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,26 +26,26 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @Setter
 @Table(name = "GRADE", indexes = {
-        @Index(name = "I_GRADE_FK_HEADTEACHER_UUID", columnList = "FK_HEADTEACHER_UUID")
+    @Index(name = "I_GRADE_FK_HEADTEACHER_UUID", columnList = "FK_HEADTEACHER_UUID")
 })
 @Entity
 public class GradeEntity extends BaseEntityCreationUpdateDate<GradeEntity> {
 
-    @Column(name = "NAME", nullable = false, unique = true)
-    private String name;
+  @Column(name = "NAME", nullable = false, unique = true)
+  private String name;
 
-    /**
-     * Students that belong to this class
-     */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "grade", fetch = LAZY)
-    // @Fetch(value = FetchMode.JOIN)
-    private Set<UserEntity> students = new HashSet<>();
+  /**
+   * Students that belong to this class
+   */
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "grade", fetch = LAZY)
+  // @Fetch(value = FetchMode.JOIN)
+  private Set<UserEntity> students = new HashSet<>();
 
-    @ManyToOne
-    @JoinColumn(name = "FK_HEADTEACHER_UUID")
-    private UserEntity classTeacher;
+  @ManyToOne
+  @JoinColumn(name = "FK_HEADTEACHER_UUID")
+  private UserEntity classTeacher;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "grade", fetch = LAZY)
-    // @Fetch(value = FetchMode.JOIN)
-    private Set<ClassEntity> classes = new HashSet<>();
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "grade", fetch = LAZY)
+  // @Fetch(value = FetchMode.JOIN)
+  private Set<ClassEntity> classes = new HashSet<>();
 }

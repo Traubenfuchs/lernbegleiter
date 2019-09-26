@@ -21,39 +21,39 @@ import java.util.Set;
 @Transactional
 @Service
 public class QuizManagementService {
-    @Autowired
-    private QuizConverterDeep quizConverterDeep;
-    @Autowired
-    private QuizConverter quizConverter;
-    @Autowired
-    private QuizRepository quizRepository;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private LobService lobService;
+  @Autowired
+  private QuizConverterDeep quizConverterDeep;
+  @Autowired
+  private QuizConverter quizConverter;
+  @Autowired
+  private QuizRepository quizRepository;
+  @Autowired
+  private UserRepository userRepository;
+  @Autowired
+  private LobService lobService;
 
-    public Set<QuizDto> getAllQuizzes() {
-        return quizConverter.toDtoSet(quizRepository.findAll());
-    }
+  public Set<QuizDto> getAllQuizzes() {
+    return quizConverter.toDtoSet(quizRepository.findAll());
+  }
 
-    public void put(@NonNull @Valid QuizDto quizDto) {
-        QuizEntity qe = quizRepository.getOne(quizDto.getUuid());
-        quizConverterDeep.applyToEntity(quizDto, qe);
-    }
+  public void put(@NonNull @Valid QuizDto quizDto) {
+    QuizEntity qe = quizRepository.getOne(quizDto.getUuid());
+    quizConverterDeep.applyToEntity(quizDto, qe);
+  }
 
 
-    public UuidResponse post(@NonNull @Valid QuizDto quizDto) {
-        QuizEntity qe = quizConverterDeep.toEntity(quizDto);
-        qe.setAuthor(userRepository.getCurrentUser());
-        qe = quizRepository.save(qe);
-        return new UuidResponse(qe.getUuid());
-    }
+  public UuidResponse post(@NonNull @Valid QuizDto quizDto) {
+    QuizEntity qe = quizConverterDeep.toEntity(quizDto);
+    qe.setAuthor(userRepository.getCurrentUser());
+    qe = quizRepository.save(qe);
+    return new UuidResponse(qe.getUuid());
+  }
 
-    public void delete(String quizUuid) {
-        quizRepository.deleteById(quizUuid);
-    }
+  public void delete(String quizUuid) {
+    quizRepository.deleteById(quizUuid);
+  }
 
-    public QuizDto get(String quizUuid) {
-        return quizConverterDeep.toDTO(quizRepository.getOne(quizUuid));
-    }
+  public QuizDto get(String quizUuid) {
+    return quizConverterDeep.toDTO(quizRepository.getOne(quizUuid));
+  }
 }

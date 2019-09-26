@@ -14,7 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GradeDto extends BaseDto<GradeDto> {
-    private String name;
-    private Set<StudentDto> students;
-    private Set<ClassDto> classes;
+  private String name;
+  private Set<StudentDto> students;
+  private Set<ClassDto> classes;
 }

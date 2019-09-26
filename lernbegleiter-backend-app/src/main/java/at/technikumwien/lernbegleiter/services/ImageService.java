@@ -21,44 +21,44 @@ import java.util.concurrent.ExecutionException;
 
 @Service
 public class ImageService {
-    @Autowired
-    private LobRepository lobRepository;
+  @Autowired
+  private LobRepository lobRepository;
 
-    @Autowired
-    private HttpServletResponse httpServletResponse;
+  @Autowired
+  private HttpServletResponse httpServletResponse;
 
-    private LoadingCache<String, CachedImage> cache;
+  private LoadingCache<String, CachedImage> cache;
 
-    public ImageService() {
-        cache = CacheBuilder
-                .newBuilder()
-                .maximumWeight(1024L * 1000L * 1000L * 20) // 20 mb
-                .weigher((Weigher<String, CachedImage>) (key, value) -> value.getBytes().length)
-                .build(new CacheLoader<>() {
-                    @Override
-                    public CachedImage load(String key) {
-                        LobEntity le = lobRepository.getOne(key);
-                        return new CachedImage(le.getBytes(), le.getFilename());
-                    }
-                });
+  public ImageService() {
+    cache = CacheBuilder
+        .newBuilder()
+        .maximumWeight(1024L * 1000L * 1000L * 20) // 20 mb
+        .weigher((Weigher<String, CachedImage>) (key, value) -> value.getBytes().length)
+        .build(new CacheLoader<>() {
+          @Override
+          public CachedImage load(String key) {
+            LobEntity le = lobRepository.getOne(key);
+            return new CachedImage(le.getBytes(), le.getFilename());
+          }
+        });
+  }
+
+  public void writeToResponse(String imageUUID) throws ExecutionException, IOException {
+    CachedImage ci = cache.get(imageUUID);
+    try (ByteArrayInputStream bais = new ByteArrayInputStream(ci.bytes)) {
+      httpServletResponse.setContentType(MediaType.IMAGE_JPEG_VALUE);
+      httpServletResponse.setHeader("Cache-Control", "31536000");
+      httpServletResponse.setHeader("Content-Type", "image/jpeg");
+      httpServletResponse.setHeader("Content-Disposition", "inline; filename=\"" + ci.filename + "\"");
+      IOUtils.copy(bais, httpServletResponse.getOutputStream());
     }
+  }
 
-    public void writeToResponse(String imageUUID) throws ExecutionException, IOException {
-        CachedImage ci = cache.get(imageUUID);
-        try (ByteArrayInputStream bais = new ByteArrayInputStream(ci.bytes)) {
-            httpServletResponse.setContentType(MediaType.IMAGE_JPEG_VALUE);
-            httpServletResponse.setHeader("Cache-Control", "31536000");
-            httpServletResponse.setHeader("Content-Type", "image/jpeg");
-            httpServletResponse.setHeader("Content-Disposition", "inline; filename=\"" + ci.filename + "\"");
-            IOUtils.copy(bais, httpServletResponse.getOutputStream());
-        }
-    }
-
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    static class CachedImage {
-        private byte[] bytes;
-        private String filename;
-    }
+  @Getter
+  @Setter
+  @AllArgsConstructor
+  static class CachedImage {
+    private byte[] bytes;
+    private String filename;
+  }
 }

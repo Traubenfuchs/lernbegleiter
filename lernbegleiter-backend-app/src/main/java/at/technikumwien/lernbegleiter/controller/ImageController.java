@@ -14,11 +14,11 @@ import java.util.concurrent.ExecutionException;
 @RequestMapping("api")
 @RestController
 public class ImageController {
-    @Autowired
-    private ImageService imageService;
+  @Autowired
+  private ImageService imageService;
 
-    @GetMapping("image/{imageUUID}")
-    public void getImage(@PathVariable String imageUUID) throws IOException, ExecutionException {
-        imageService.writeToResponse(imageUUID);
-    }
+  @GetMapping("image/{imageUUID}")
+  public void getImage(@PathVariable String imageUUID) throws IOException, ExecutionException {
+    imageService.writeToResponse(imageUUID);
+  }
 }

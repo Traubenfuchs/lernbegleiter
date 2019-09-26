@@ -9,7 +9,7 @@ import { GrowlService } from "../../../services/growl.service";
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  public weekInYear: number
+  public weekInYear = HomeComponent.getWeekNumber();
   public year: number = new Date().getFullYear()
 
   contextMessage = 'Dein Wochenplaner'
@@ -26,20 +26,16 @@ export class HomeComponent implements OnInit {
     return this.quizzesUrl
   }
 
-  getProfileUrl()  {
+  getProfileUrl() {
     return `user/${this.loginService.getUserUuid()}/profile`
   }
 
-  // student/:studentUUID/weekly-overview/:week/:year
   getWeeklyOverviewUrl() {
-    return '/student/' + this.loginService.getUserUuid() + '/weekly-overview/' + this.weekInYear + '/'+ this.year;
+    return '/student/' + this.loginService.getUserUuid() + '/weekly-overview/' + this.weekInYear + '/' + this.year;
   }
 
   constructor(public loginService: LoginService, public router: Router, private growlService: GrowlService) {
-    this.weekInYear = HomeComponent.getWeekNumber();
-    const loginResponse = loginService.getLoginResponse();
-    //if (!!loginResponse)
-      //loginResponse.uuid
+
   }
 
 
@@ -53,24 +49,8 @@ export class HomeComponent implements OnInit {
     return Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7)
   }
 
-  isLoggedInWithAnyAuthority(): boolean {
-    return this.loginService.loggedInAndAuthority()
-  }
-
-  isLoggedInWithStudentAuthority(): boolean {
-    return this.loginService.loggedInAndStudent();
-  }
-
   isRouterSetTo(pages: string[]): boolean {
-    let isRouterSetTo = false;
-
-    pages.forEach(p => {
-      if (this.router.url === p) {
-        isRouterSetTo = true;
-      }
-    });
-
-    return isRouterSetTo;
+    return pages.some(p => p === this.router.url)
   }
 
   updateContextMessage(url: string) {

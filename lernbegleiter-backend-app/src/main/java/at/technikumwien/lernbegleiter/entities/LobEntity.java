@@ -7,7 +7,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Index;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -19,42 +26,42 @@ import java.util.Base64;
 @Setter
 @Entity
 @Table(name = "LOBS", indexes = {
-        @Index(name = "I_FK_OWNER_UUID", columnList = "FK_OWNER_UUID")
+    @Index(name = "I_FK_OWNER_UUID", columnList = "FK_OWNER_UUID")
 })
 public class LobEntity extends BaseEntityCreationUpdateDate<LobEntity> {
-    private final static Base64.Decoder decoder = Base64.getDecoder();
+  private final static Base64.Decoder decoder = Base64.getDecoder();
 
-    public LobEntity(String bytesAsBase64String) {
-        setBytes(decoder.decode(bytesAsBase64String));
+  public LobEntity(String bytesAsBase64String) {
+    setBytes(decoder.decode(bytesAsBase64String));
+  }
+
+  @Column(name = "MD5", nullable = false)
+  private String md5;
+  @Column(name = "BYTES", nullable = false)
+  @Lob
+  private byte[] bytes;
+  @Column(name = "FILENAME")
+  private String filename;
+  @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  @JoinColumn(name = "FK_OWNER_UUID")
+  private UserEntity owner;
+  @Column(name = "FK_OWNER_UUID", insertable = false, updatable = false)
+  private String fkOwnerUuid;
+
+  public LobEntity setBytes(byte[] bytes) {
+    if (bytes == null) {
+      md5 = null;
+    } else {
+      MessageDigest md = null;
+      try {
+        md = MessageDigest.getInstance("MD5");
+      } catch (NoSuchAlgorithmException e) {
+        throw new RuntimeException("Can not happen.");
+      }
+      md5 = new String(md.digest(bytes), StandardCharsets.UTF_8);
     }
+    this.bytes = bytes;
 
-    @Column(name = "MD5", nullable = false)
-    private String md5;
-    @Column(name = "BYTES", nullable = false)
-    @Lob
-    private byte[] bytes;
-    @Column(name = "FILENAME")
-    private String filename;
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "FK_OWNER_UUID")
-    private UserEntity owner;
-    @Column(name = "FK_OWNER_UUID", insertable = false, updatable = false)
-    private String fkOwnerUuid;
-
-    public LobEntity setBytes(byte[] bytes) {
-        if (bytes == null) {
-            md5 = null;
-        } else {
-            MessageDigest md = null;
-            try {
-                md = MessageDigest.getInstance("MD5");
-            } catch (NoSuchAlgorithmException e) {
-                throw new RuntimeException("Can not happen.");
-            }
-            md5 = new String(md.digest(bytes), StandardCharsets.UTF_8);
-        }
-        this.bytes = bytes;
-
-        return this;
-    }
+    return this;
+  }
 }

@@ -16,7 +16,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @NoArgsConstructor
 public class QuizRunDto extends BaseDto<QuizRunDto> {
-    private Instant nextTimeLimit;
-    private QuizQuestionDto currentQuestion;
-    private QuizRunState state;
+  private Instant nextTimeLimit;
+  private QuizQuestionDto currentQuestion;
+  private QuizRunState state;
 }

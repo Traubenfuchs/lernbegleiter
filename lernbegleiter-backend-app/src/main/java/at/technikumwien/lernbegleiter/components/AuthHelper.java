@@ -12,76 +12,76 @@ import java.util.Set;
 
 @Component
 public class AuthHelper {
-    public UserAuthentication getAuth() {
-        return (UserAuthentication) SecurityContextHolder.getContext().getAuthentication();
+  public UserAuthentication getAuth() {
+    return (UserAuthentication) SecurityContextHolder.getContext().getAuthentication();
+  }
+
+  public static String getCurrentUserUUIDOrThrow() {
+    return getAuthOrThrow().getUuid();
+  }
+
+  public static UserAuthentication getAuthOrThrow() {
+    UserAuthentication result = (UserAuthentication) SecurityContextHolder.getContext().getAuthentication();
+
+    if (result == null) {
+      throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No Auth.");
     }
 
-    public static String getCurrentUserUUIDOrThrow() {
-        return getAuthOrThrow().getUuid();
+    return result;
+  }
+
+  public void isAdminOrTeacherOrCurrentUserUuidOrThrow(@NonNull String userUuid) {
+    if (hasAnyRole("ADMIN", "TEACHER")) {
+      return;
     }
 
-    public static UserAuthentication getAuthOrThrow() {
-        UserAuthentication result = (UserAuthentication) SecurityContextHolder.getContext().getAuthentication();
+    currentUserHasUuidOrThrow(userUuid);
+  }
 
-        if (result == null) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "No Auth.");
-        }
+  public void isAdminOrTeacherOrThrow() {
+    hasAnyRoleOrThrow("ADMIN", "TEACHER");
+  }
 
-        return result;
+  public boolean hasAnyRole(String... roles) {
+    UserAuthentication ua = getAuthOrThrow();
+
+    Set<String> rights = ua.getRights();
+
+    for (String role : roles) {
+      if (rights.contains(role)) {
+        return true;
+      }
     }
+    return false;
+  }
 
-    public void isAdminOrTeacherOrCurrentUserUuidOrThrow(@NonNull String userUuid) {
-        if (hasAnyRole("ADMIN", "TEACHER")) {
-            return;
-        }
-
-        currentUserHasUuidOrThrow(userUuid);
+  public void hasAnyRoleOrThrow(String... roles) {
+    if (!hasAnyRole(roles)) {
+      throwResponseStatusException();
     }
+  }
 
-    public void isAdminOrTeacherOrThrow() {
-        hasAnyRoleOrThrow("ADMIN", "TEACHER");
+  public boolean hasRole(String role) {
+    return getAuthOrThrow().getRights().contains(role);
+  }
+
+  public void hasRoleOrThrow(String role) {
+    if (!hasRole(role)) {
+      throwResponseStatusException();
     }
+  }
 
-    public boolean hasAnyRole(String... roles) {
-        UserAuthentication ua = getAuthOrThrow();
-
-        Set<String> rights = ua.getRights();
-
-        for (String role : roles) {
-            if (rights.contains(role)) {
-                return true;
-            }
-        }
-        return false;
+  public void currentUserHasUuidOrThrow(String uuid) {
+    if (!Objects.equals(getAuthOrThrow().getUuid(), uuid)) {
+      throwResponseStatusException();
     }
+  }
 
-    public void hasAnyRoleOrThrow(String... roles) {
-        if (!hasAnyRole(roles)) {
-            throwResponseStatusException();
-        }
-    }
-
-    public boolean hasRole(String role) {
-        return getAuthOrThrow().getRights().contains(role);
-    }
-
-    public void hasRoleOrThrow(String role) {
-        if (!hasRole(role)) {
-            throwResponseStatusException();
-        }
-    }
-
-    public void currentUserHasUuidOrThrow(String uuid) {
-        if (!Objects.equals(getAuthOrThrow().getUuid(), uuid)) {
-            throwResponseStatusException();
-        }
-    }
-
-    public void throwResponseStatusException() {
-        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You lack the required rights.");
-    }
+  public void throwResponseStatusException() {
+    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You lack the required rights.");
+  }
 
   public boolean isStudent() {
-        return hasRole("STUDENT");
+    return hasRole("STUDENT");
   }
 }

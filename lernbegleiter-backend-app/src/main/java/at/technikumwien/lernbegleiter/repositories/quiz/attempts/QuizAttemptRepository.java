@@ -10,8 +10,8 @@ import java.util.Set;
 
 @Repository
 public interface QuizAttemptRepository extends JpaRepository<QuizAttemptEntity, String>, QuizAttemptRepositoryCustom {
-    Optional<QuizAttemptEntity> findByFkQuizRunUUIDAndFkStudentUuid(String fkQuizRunUUID, String fkStudentUuid);
+  Optional<QuizAttemptEntity> findByFkQuizRunUUIDAndFkStudentUuid(String fkQuizRunUUID, String fkStudentUuid);
 
-    @EntityGraph(value = "QuizAttempt.allAnswers", type = EntityGraph.EntityGraphType.FETCH)
-    Set<QuizAttemptEntity> findAllAnswersByFkQuizRunUUID(String fkQUizRunUUID);
+  @EntityGraph(value = "QuizAttempt.allAnswers", type = EntityGraph.EntityGraphType.FETCH)
+  Set<QuizAttemptEntity> findAllAnswersByFkQuizRunUUID(String fkQUizRunUUID);
 }

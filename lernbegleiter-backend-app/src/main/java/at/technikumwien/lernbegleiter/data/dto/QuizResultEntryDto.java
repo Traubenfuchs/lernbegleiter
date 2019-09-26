@@ -12,10 +12,10 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class QuizResultEntryDto {
-    private String name;
-    private Integer points = 0;
+  private String name;
+  private Integer points = 0;
 
-    public void incrementPoints() {
-        this.points++;
-    }
+  public void incrementPoints() {
+    this.points++;
+  }
 }

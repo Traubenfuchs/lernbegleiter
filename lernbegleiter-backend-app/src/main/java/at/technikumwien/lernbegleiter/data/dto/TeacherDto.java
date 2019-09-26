@@ -14,9 +14,9 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TeacherDto extends BaseDto<TeacherDto> {
-    private String email;
-    private String firstName;
-    private String familyName;
-    private LocalDate birthday;
-    private String password;
+  private String email;
+  private String firstName;
+  private String familyName;
+  private LocalDate birthday;
+  private String password;
 }

@@ -16,8 +16,8 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LearningModuleStudentDto extends BaseDto<LearningModuleStudentDto> {
-    private LocalDate dueDate;
-    private Instant finishedAt;
-    private String name;
-    private Set<SubModuleStudentDto> subModules;
+  private LocalDate dueDate;
+  private Instant finishedAt;
+  private String name;
+  private Set<SubModuleStudentDto> subModules;
 }

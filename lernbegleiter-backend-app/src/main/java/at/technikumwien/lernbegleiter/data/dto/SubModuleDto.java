@@ -14,8 +14,8 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SubModuleDto extends BaseDto<SubModuleDto> {
-    private String name;
-    private LocalDate deadline;
-    private LocalDate start;
-    private String description;
+  private String name;
+  private LocalDate deadline;
+  private LocalDate start;
+  private String description;
 }

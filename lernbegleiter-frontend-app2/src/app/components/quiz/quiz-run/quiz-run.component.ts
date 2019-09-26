@@ -1,3 +1,4 @@
+import { BaseDto } from './../../../data/BaseDto';
 import { QuizResult } from './../../../data/quiz/QuizResult';
 import { browser } from 'protractor';
 import { QuizRunState } from './../../../data/quiz/QuizRunState';
@@ -28,6 +29,8 @@ export class QuizRunComponent implements OnInit, OnDestroy {
   quizRun = new QuizRun()
   _QuizRunState = QuizRunState
   intervalId: any
+  timeLeftIntervalId: any
+  timeLeft = 0
   constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute, public loginService: LoginService) {
     this.route.params.subscribe(params => {
       this.ngOnInit()
@@ -35,13 +38,28 @@ export class QuizRunComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log(`Clearing interval<${this.intervalId}> ...`)
+    console.log(`Clearing quiz-run interval<${this.intervalId}> ...`)
     clearInterval(this.intervalId)
+    clearInterval(this.timeLeftIntervalId)
   }
 
   ngOnInit() {
     this.uuid = this.route.snapshot.paramMap.get("quizRunUUID")
     this.quizUuid = this.route.snapshot.paramMap.get("quizUUID")
+
+    this.timeLeftIntervalId = setInterval(() => {
+      if (!this.quizRun || !this.quizRun.nextTimeLimit) {
+        this.timeLeft = 0
+        return
+      }
+      const diff = Date.parse(this.quizRun.nextTimeLimit.toString()) - new Date().getTime()
+      if (diff < 0) {
+        this.timeLeft = 0
+        return
+      }
+
+      this.timeLeft = Math.round(diff * 100) / 100000
+    }, 100)
 
     if (this.uuid === 'new') {
 
@@ -83,7 +101,7 @@ export class QuizRunComponent implements OnInit, OnDestroy {
     console.log('Loading QuizResult...')
     this.http.get<QuizResult>(`api/quiz/${this.quizUuid}/quiz-run/${this.uuid}/quiz-result`)
       .subscribe(res => {
-        res.entries = res.entries.sort((l,r)=>l.points < r.points?-1:1)
+        res.entries = res.entries.sort((l, r) => l.points < r.points ? -1 : 1)
         console.log('Loaded QuizResult.')
         this.quizResult = res
       });
@@ -113,13 +131,11 @@ export class QuizRunComponent implements OnInit, OnDestroy {
 
   flipAnswerTo(quizAnswerUuid: string, correct: boolean) {
     console.log('Setting quiz answer...')
-    this.http.post<any>(`api/quiz-attempt/${this.quizAttemptUuid}:answer`, {
+    this.http.post<QuizRun>(`api/quiz-run/${this.uuid}/quiz-attempt/${this.quizAttemptUuid}:answer`, {
       quizAnswerUuid,
       correct
+    }).subscribe(res => {
+      this.quizRun = res
     })
-      .subscribe(res => {
-        this.loadQuizRun()
-      })
   }
-
 }

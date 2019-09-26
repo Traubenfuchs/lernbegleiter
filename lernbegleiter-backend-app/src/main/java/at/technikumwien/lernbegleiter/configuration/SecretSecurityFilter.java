@@ -18,38 +18,41 @@ import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
 public class SecretSecurityFilter extends GenericFilterBean {
-    private final LoginService loginService;
-    private final AuthHelper authHelper;
+  private final LoginService loginService;
+  private final AuthHelper authHelper;
 
-    public SecretSecurityFilter(LoginService loginService, AuthHelper authHelper) {
-        this.loginService = loginService;
-        this.authHelper = authHelper;
+  public SecretSecurityFilter(LoginService loginService, AuthHelper authHelper) {
+    this.loginService = loginService;
+    this.authHelper = authHelper;
+  }
+
+  @Override
+  public void doFilter(
+      ServletRequest request,
+      ServletResponse response,
+      FilterChain chain) throws IOException, ServletException {
+    HttpServletRequest hsr = (HttpServletRequest) request;
+
+    try {
+      String authorization = hsr.getHeader("Authorization");
+
+      if (authorization != null) {
+        UserAuthentication ua = loginService.getAuthenticationForSecretOrThrowCached(authorization);
+        SecurityContextHolder.getContext().setAuthentication(ua);
+      }
+
+      chain.doFilter(request, response);
+    } catch (ResponseStatusException ex) {
+      HttpServletResponse hsres = (HttpServletResponse) response;
+      hsres.setStatus(HttpStatus.UNAUTHORIZED.value());
+      hsres.getWriter().write(ex.getMessage()); // TODO improve
+    } catch (ExecutionException e) {
+      HttpServletResponse hsres = (HttpServletResponse) response;
+      hsres.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+      hsres.getWriter().write(e.getMessage()); // TODO improve
+    } finally {
+      SecurityContextHolder.getContext().setAuthentication(null);
     }
-
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest hsr = (HttpServletRequest) request;
-
-        try {
-            String authorization = hsr.getHeader("Authorization");
-
-            if (authorization != null) {
-                UserAuthentication ua = loginService.getAuthenticationForSecretOrThrowCached(authorization);
-                SecurityContextHolder.getContext().setAuthentication(ua);
-            }
-
-            chain.doFilter(request, response);
-        } catch (ResponseStatusException ex) {
-            HttpServletResponse hsres = (HttpServletResponse) response;
-            hsres.setStatus(HttpStatus.UNAUTHORIZED.value());
-            hsres.getWriter().write(ex.getMessage()); // TODO improve
-        } catch (ExecutionException e) {
-            HttpServletResponse hsres = (HttpServletResponse) response;
-            hsres.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-            hsres.getWriter().write(e.getMessage()); // TODO improve
-        } finally {
-            SecurityContextHolder.getContext().setAuthentication(null);
-        }
-    }
+  }
 }
 

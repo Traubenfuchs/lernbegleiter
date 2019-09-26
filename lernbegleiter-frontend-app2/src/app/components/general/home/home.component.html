@@ -3,7 +3,7 @@
   <div>{{router.navigate(['/login'])}}</div>
 </div>
 
-<div *ngIf="isLoggedInWithAnyAuthority()" class="jumbotron jumbotron-fluid">
+<div *ngIf="loginService.loggedInAndAuthority()" class="jumbotron jumbotron-fluid">
   <div class="container">
 
     <div class="d-flex justify-content-between align-items-end">
@@ -20,7 +20,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse" id="navbarNav" *ngIf="loginService.loggedInAndTeacherOrAdmin()" >
+      <div class="collapse navbar-collapse" id="navbarNav" *ngIf="loginService.loggedInAndTeacherOrAdmin()">
         <ul class="navbar-nav">
           <li class="nav-item {{ isRouterSetTo([gradesUrl]) ? 'active' : '' }} ">
             <a [routerLink]="gradesUrl" (click)="updateContextMessage(gradesUrl)" class="nav-link">Klassen</a>
@@ -32,26 +32,29 @@
             <a [routerLink]="teachersUrl" (click)="updateContextMessage(teachersUrl)" class="nav-link">Lehrer</a>
           </li>
           <li class="nav-item {{ isRouterSetTo([getProfileUrl()]) ? 'active' : '' }}">
-            <a [routerLink]="getProfileUrl()" (click)="updateContextMessage(getProfileUrl())" class="nav-link">Profil</a>
+            <a [routerLink]="getProfileUrl()" (click)="updateContextMessage(getProfileUrl())"
+              class="nav-link">Profil</a>
           </li>
           <li class="nav-item {{ isRouterSetTo([getQuizzesUrl()]) ? 'active' : '' }}">
-            <a [routerLink]="getQuizzesUrl()" (click)="updateContextMessage(getQuizzesUrl())" class="nav-link">Quizze</a>
+            <a [routerLink]="getQuizzesUrl()" (click)="updateContextMessage(getQuizzesUrl())"
+              class="nav-link">Quizze</a>
           </li>
         </ul>
       </div>
 
-      <div class="collapse navbar-collapse" id="navbarNav" *ngIf="loginService.loggedInAndStudent()" >
-          <ul class="navbar-nav">
+      <div class="collapse navbar-collapse" id="navbarNav" *ngIf="loginService.loggedInAndStudent()">
+        <ul class="navbar-nav">
 
-            <li class="nav-item {{ isRouterSetTo([getProfileUrl()]) ? 'active' : '' }}">
-                <a [routerLink]="getProfileUrl()" (click)="updateContextMessage(getProfileUrl())" class="nav-link">Profil
-                  editieren</a>
-              </li>
-            <li class="nav-item {{ isRouterSetTo([getWeeklyOverviewUrl()]) ? 'active' : '' }}">
-              <a [routerLink]="getWeeklyOverviewUrl()" (click)="updateContextMessage(getWeeklyOverviewUrl())" class="nav-link">Wochenübersicht</a>
-            </li>
-          </ul>
-        </div>
+          <li class="nav-item {{ isRouterSetTo([getProfileUrl()]) ? 'active' : '' }}">
+            <a [routerLink]="getProfileUrl()" (click)="updateContextMessage(getProfileUrl())" class="nav-link">Profil
+              editieren</a>
+          </li>
+          <li class="nav-item {{ isRouterSetTo([getWeeklyOverviewUrl()]) ? 'active' : '' }}">
+            <a [routerLink]="getWeeklyOverviewUrl()" (click)="updateContextMessage(getWeeklyOverviewUrl())"
+              class="nav-link">Wochenübersicht</a>
+          </li>
+        </ul>
+      </div>
 
       <i (click)="loginService.logout()" class="fa fa-sign-out" style="cursor: pointer;"></i>
     </nav>

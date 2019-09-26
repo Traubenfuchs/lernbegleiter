@@ -8,9 +8,9 @@ import java.time.LocalDate;
 @Data
 @Accessors(chain = true)
 public class UserUpdateDto {
-    private String password;
-    private String email;
-    private LocalDate birthday;
-    private String firstName;
-    private String familyName;
+  private String password;
+  private String email;
+  private LocalDate birthday;
+  private String firstName;
+  private String familyName;
 }

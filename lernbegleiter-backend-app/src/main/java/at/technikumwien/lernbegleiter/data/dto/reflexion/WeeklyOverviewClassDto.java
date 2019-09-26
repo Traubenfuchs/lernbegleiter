@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class WeeklyOverviewClassDto extends BaseDto<WeeklyOverviewClassDto> {
-    private String name = "";
-    private String color = "";
-    private List<WeeklyOverviewClassDayDto> days = new ArrayList<>();
+  private String name = "";
+  private String color = "";
+  private List<WeeklyOverviewClassDayDto> days = new ArrayList<>();
 }

@@ -17,37 +17,40 @@ import java.util.stream.Collectors;
 @Validated
 @Service
 public class GradeService {
-    @Autowired
-    private GradeRepository gradeRepository;
-    @Autowired
-    private GradeConverter gradeConverter;
+  @Autowired
+  private GradeRepository gradeRepository;
+  @Autowired
+  private GradeConverter gradeConverter;
 
-    public GradeDto getOne(String uuid) {
-        return gradeConverter.toDTO(gradeRepository.getOne(uuid));
-    }
+  public GradeDto getOne(String uuid) {
+    return gradeConverter.toDTO(gradeRepository.getOne(uuid));
+  }
 
-    public Set<GradeDto> getAll() {
-        return gradeConverter.toDtoSet(gradeRepository.findAll());
-    }
+  public Set<GradeDto> getAll() {
+    return gradeConverter.toDtoSet(gradeRepository.findAll());
+  }
 
-    public String create(CreateGradeRequest createGradeRequest) {
-        return gradeRepository.save(
-                new GradeEntity()
-                        .setName(createGradeRequest.getName())
-                        .generateUuid())
-                .getUuid();
-    }
+  public String create(CreateGradeRequest createGradeRequest) {
+    return gradeRepository.save(
+        new GradeEntity()
+            .setName(createGradeRequest.getName())
+            .generateUuid())
+        .getUuid();
+  }
 
-    public void delete(String uuid) {
-        gradeRepository.deleteById(uuid);
-    }
+  public void delete(String uuid) {
+    gradeRepository.deleteById(uuid);
+  }
 
-    public void deleteStudentFromGrade(String studentUuid, String gradeUuid) {
-        GradeEntity ge = gradeRepository.getOne(gradeUuid);
+  public void deleteStudentFromGrade(String studentUuid, String gradeUuid) {
+    GradeEntity ge = gradeRepository.getOne(gradeUuid);
 
-        ge.setStudents(
-                ge.getStudents().stream()
-                        .filter(student ->{ student.setGrade(null); return !student.getUuid().equals(studentUuid);})
-                        .collect(Collectors.toSet()));
-    }
+    ge.setStudents(
+        ge.getStudents().stream()
+            .filter(student -> {
+              student.setGrade(null);
+              return !student.getUuid().equals(studentUuid);
+            })
+            .collect(Collectors.toSet()));
+  }
 }

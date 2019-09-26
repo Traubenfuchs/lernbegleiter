@@ -8,5 +8,5 @@ import java.util.Set;
 
 @Repository
 public interface LearningModuleRepository extends JpaRepository<LearningModuleEntity, String> {
-    Set<LearningModuleEntity> findByClazzUuid(String classUuid);
+  Set<LearningModuleEntity> findByClazzUuid(String classUuid);
 }

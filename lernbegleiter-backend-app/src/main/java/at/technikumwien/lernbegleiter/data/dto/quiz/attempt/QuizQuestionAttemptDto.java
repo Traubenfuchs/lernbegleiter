@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class QuizQuestionAttemptDto {
-    private String question;
-    private String questionImageUUID;
-    private List<QuizQuestionAnswerAttemptDto> answers;
+  private String question;
+  private String questionImageUUID;
+  private List<QuizQuestionAnswerAttemptDto> answers;
 }

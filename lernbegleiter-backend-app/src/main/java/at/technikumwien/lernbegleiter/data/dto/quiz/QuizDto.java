@@ -18,11 +18,11 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class QuizDto extends BaseDto<QuizDto> {
-    private Integer maxRetries = 0;
-    private String name;
-    private String description;
-    private Set<QuizQuestionDto> questions = new HashSet<>();
-    private TeacherDto author;
-    private QuizType quizType = QuizType.ONE_QUESTION_AT_A_TIME;
-    private Set<QuizRunDto> quizRuns = new HashSet<>();
+  private Integer maxRetries = 0;
+  private String name;
+  private String description;
+  private Set<QuizQuestionDto> questions = new HashSet<>();
+  private TeacherDto author;
+  private QuizType quizType = QuizType.ONE_QUESTION_AT_A_TIME;
+  private Set<QuizRunDto> quizRuns = new HashSet<>();
 }

@@ -8,5 +8,5 @@ import java.util.Set;
 
 @Repository
 public interface ClassRepository extends JpaRepository<ClassEntity, String> {
-    Set<ClassEntity> findByGrade(String gradeUuid);
+  Set<ClassEntity> findByGrade(String gradeUuid);
 }

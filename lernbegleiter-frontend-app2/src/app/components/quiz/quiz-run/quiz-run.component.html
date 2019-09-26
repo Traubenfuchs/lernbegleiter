@@ -5,7 +5,9 @@
     <div class="card-body">
       <ng-container *ngIf="_QuizRunState.WAITING_FOR_ANSWERS == _QuizRunState[quizRun.state]">
         <div>{{quizRun.currentQuestion.content}}</div>
-        <img *ngIf="quizRun.currentQuestion.lob.quizPictureUUID"  [src]="'/api/image/' + quizRun.currentQuestion.lob.quizPictureUUID">
+        <div>Zeit übrig: {{timeLeft}}</div>
+        <img *ngIf="quizRun.currentQuestion.lob.quizPictureUUID"
+          [src]="'/api/image/' + quizRun.currentQuestion.lob.quizPictureUUID">
         <div *ngFor="let answer of quizRun.currentQuestion.answers">
           <div>{{answer.content}}</div>
           <button (click)="flipAnswerTo(answer.uuid, false)" class="btn btn-secondary"
@@ -58,6 +60,11 @@
             <button (click)='advance()' class="btn btn-success" *ngIf="_QuizRunState.CREATED">Quiz starten</button>
           </div>
         </div><!-- ends row-->
+        <div class="row mt-3" *ngIf="_QuizRunState.WAITING_FOR_ANSWERS ==_QuizRunState[quizRun.state]">
+          <div class="col">
+            <div>Zeit übrig: {{timeLeft}}</div>
+          </div>
+        </div>
       </div>
       <div class="card-footer">
         <!--<div *ngIf="uuid !== 'new'" class="btn-group w-100">

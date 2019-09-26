@@ -17,9 +17,9 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class QuizQuestionDto extends BaseDto<QuizQuestionDto> {
-    private String content;
-    private Set<QuizAnswerDto> answers = new HashSet<>();
-    private Integer position;
-    private LobDto lob;
-    private Integer timeLimit;
+  private String content;
+  private Set<QuizAnswerDto> answers = new HashSet<>();
+  private Integer position;
+  private LobDto lob;
+  private Integer timeLimit;
 }

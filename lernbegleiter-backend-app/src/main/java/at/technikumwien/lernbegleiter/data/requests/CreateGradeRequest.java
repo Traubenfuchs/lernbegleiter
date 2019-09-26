@@ -8,7 +8,7 @@ import javax.validation.constraints.NotEmpty;
 @Data
 @Accessors(chain = true)
 public class CreateGradeRequest {
-    @NotEmpty
-    private String name;
+  @NotEmpty
+  private String name;
 
 }

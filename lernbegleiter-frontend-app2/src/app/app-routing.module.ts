@@ -5,7 +5,6 @@ import { QuizesComponent } from './components/quiz/quizes/quizes.component';
 
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './components/general/home/home.component';
 import { LoginComponent } from './components/general/login/login.component';
 import { LoginSuccessComponent } from './components/general/login-success/login-success.component';
 import { ClassComponent } from './components/admin/class/class.component';
@@ -20,7 +19,6 @@ import { WeekOverviewComponent } from './components/week-overview/week-overview.
 import { ProfileEditComponent } from './components/general/profile-edit/profile-edit.component';
 import { TeachersComponent } from './components/admin/teachers/teachers.component';
 import { TeacherComponent } from './components/admin/teacher/teacher.component';
-
 
 const routes: Routes = [
   { path: '', children: [] },

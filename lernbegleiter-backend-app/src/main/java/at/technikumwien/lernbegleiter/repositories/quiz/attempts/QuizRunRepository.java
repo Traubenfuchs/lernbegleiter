@@ -9,7 +9,7 @@ import java.util.Set;
 
 @Repository
 public interface QuizRunRepository extends JpaRepository<QuizRunEntity, String> {
-    Set<QuizRunEntity> getByFkQuizUuid(String fkQuizUuid);
+  Set<QuizRunEntity> getByFkQuizUuid(String fkQuizUuid);
 
-    Set<QuizRunEntity> findByState(QuizRunState quizRunState);
+  Set<QuizRunEntity> findByState(QuizRunState quizRunState);
 }

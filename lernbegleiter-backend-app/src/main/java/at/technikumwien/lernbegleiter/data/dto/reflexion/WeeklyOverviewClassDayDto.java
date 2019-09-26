@@ -13,6 +13,6 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class WeeklyOverviewClassDayDto extends BaseDto<WeeklyOverviewClassDayDto> {
-    private String teacherComment = "";
-    private String studentComment = "";
+  private String teacherComment = "";
+  private String studentComment = "";
 }

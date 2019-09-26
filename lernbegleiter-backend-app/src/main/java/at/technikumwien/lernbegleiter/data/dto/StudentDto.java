@@ -14,10 +14,10 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StudentDto extends BaseDto<StudentDto> {
-    private String email;
-    private String firstName;
-    private String familyName;
-    private LocalDate birthday;
-    private String password;
-    private String gradeName;
+  private String email;
+  private String firstName;
+  private String familyName;
+  private LocalDate birthday;
+  private String password;
+  private String gradeName;
 }

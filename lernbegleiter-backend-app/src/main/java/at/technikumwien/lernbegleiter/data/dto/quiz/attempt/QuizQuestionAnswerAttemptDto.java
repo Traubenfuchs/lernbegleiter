@@ -10,6 +10,6 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class QuizQuestionAnswerAttemptDto {
-    private String answer;
-    private Boolean correct;
+  private String answer;
+  private Boolean correct;
 }

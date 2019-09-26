@@ -19,55 +19,55 @@ import javax.validation.Valid;
 @Validated
 @Service
 public class UserService {
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private PasswordHasher passwordHasher;
-    @Autowired
-    private AuthHelper authHelper;
+  @Autowired
+  private UserRepository userRepository;
+  @Autowired
+  private PasswordHasher passwordHasher;
+  @Autowired
+  private AuthHelper authHelper;
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
-    public boolean deleteByUuid(@NonNull String userUuid) {
-        if (!userRepository.existsById(userUuid)) {
-            return false;
-        }
-        userRepository.deleteById(userUuid);
-        return true;
+  @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
+  public boolean deleteByUuid(@NonNull String userUuid) {
+    if (!userRepository.existsById(userUuid)) {
+      return false;
     }
+    userRepository.deleteById(userUuid);
+    return true;
+  }
 
-    public void update(@NonNull String userUuid, @Valid @NonNull UserUpdateDto uur) {
-        authHelper.isAdminOrTeacherOrCurrentUserUuidOrThrow(userUuid);
+  public void update(@NonNull String userUuid, @Valid @NonNull UserUpdateDto uur) {
+    authHelper.isAdminOrTeacherOrCurrentUserUuidOrThrow(userUuid);
 
-        UserEntity ue = userRepository.getOne(userUuid);
+    UserEntity ue = userRepository.getOne(userUuid);
 
-        if (!StringUtils.isEmpty(uur.getPassword())) {
-            ue.setHashedAndSaltedPassword(passwordHasher.hashAndSalt(uur.getPassword()));
-        }
-        if (uur.getEmail() != null) {
-            ue.setEmail(uur.getEmail());
-        }
-        if (uur.getBirthday() != null) {
-            ue.setBirthday(uur.getBirthday());
-        }
-        if (uur.getFamilyName() != null) {
-            ue.setFamilyName(uur.getFamilyName());
-        }
-        if (uur.getFirstName() != null) {
-            ue.setFirstName(uur.getFirstName());
-        }
+    if (!StringUtils.isEmpty(uur.getPassword())) {
+      ue.setHashedAndSaltedPassword(passwordHasher.hashAndSalt(uur.getPassword()));
     }
-
-    private void enforceAdminOrTeacher() {
-        authHelper.hasAnyRoleOrThrow("TEACHER", "ADMIN");
+    if (uur.getEmail() != null) {
+      ue.setEmail(uur.getEmail());
     }
-
-    public UserUpdateDto get(@NonNull String userUuid) {
-        UserEntity ue = userRepository.getOne(userUuid);
-
-        return new UserUpdateDto()
-                .setBirthday(ue.getBirthday())
-                .setEmail(ue.getEmail())
-                .setFamilyName(ue.getFamilyName())
-                .setFirstName(ue.getFirstName());
+    if (uur.getBirthday() != null) {
+      ue.setBirthday(uur.getBirthday());
     }
+    if (uur.getFamilyName() != null) {
+      ue.setFamilyName(uur.getFamilyName());
+    }
+    if (uur.getFirstName() != null) {
+      ue.setFirstName(uur.getFirstName());
+    }
+  }
+
+  private void enforceAdminOrTeacher() {
+    authHelper.hasAnyRoleOrThrow("TEACHER", "ADMIN");
+  }
+
+  public UserUpdateDto get(@NonNull String userUuid) {
+    UserEntity ue = userRepository.getOne(userUuid);
+
+    return new UserUpdateDto()
+        .setBirthday(ue.getBirthday())
+        .setEmail(ue.getEmail())
+        .setFamilyName(ue.getFamilyName())
+        .setFirstName(ue.getFirstName());
+  }
 }

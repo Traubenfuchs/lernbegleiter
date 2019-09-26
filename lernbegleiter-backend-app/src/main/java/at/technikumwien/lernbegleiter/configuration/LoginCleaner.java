@@ -11,19 +11,19 @@ import java.time.Instant;
 
 @Configuration
 public class LoginCleaner {
-    @Autowired
-    private LoginRepository loginRepository;
-    @Lazy
-    @Autowired
-    private LoginCleaner self;
+  @Autowired
+  private LoginRepository loginRepository;
+  @Lazy
+  @Autowired
+  private LoginCleaner self;
 
-    @Scheduled(fixedDelay = 1000 * 60 * 60, initialDelay = 60000)
-    public void scheduledClean() {
-        self.clean();
-    }
+  @Scheduled(fixedDelay = 1000 * 60 * 60)
+  public void scheduledClean() {
+    self.clean();
+  }
 
-    @Transactional
-    public void clean() {
-        loginRepository.deleteByTsCreationBefore(Instant.now().minusSeconds(5 * 60 * 60 * 24));
-    }
+  @Transactional
+  public void clean() {
+    loginRepository.deleteByTsCreationBefore(Instant.now().minusSeconds(5 * 60 * 60 * 24));
+  }
 }

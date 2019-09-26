@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SubModuleStudentDto extends BaseDto<SubModuleStudentDto> {
-    private LocalDate dueDate;
-    private Instant finishedAt;
-    private String name;
+  private LocalDate dueDate;
+  private Instant finishedAt;
+  private String name;
 }

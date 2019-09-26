@@ -7,29 +7,29 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class LearningModuleConverter extends DtoEntityConverter<LearningModuleEntity, LearningModuleDto> {
-    @Autowired
-    private SubModuleConverter subModuleConverter;
+  @Autowired
+  private SubModuleConverter subModuleConverter;
 
-    @Override
-    public void applyToDto(LearningModuleEntity learningModuleEntity, LearningModuleDto learningModuleDto) {
-        learningModuleDto
-                .setUuid(learningModuleEntity.getUuid())
-                .setName(learningModuleEntity.getName())
-                .setDeadline(learningModuleEntity.getDeadline())
-                .setStart(learningModuleEntity.getStart())
-                .setDescription(learningModuleEntity.getDescription())
-                .setLearningModules(subModuleConverter.toDtoSet(learningModuleEntity.getSubModules()))
-        ;
-    }
+  @Override
+  public void applyToDto(LearningModuleEntity learningModuleEntity, LearningModuleDto learningModuleDto) {
+    learningModuleDto
+        .setUuid(learningModuleEntity.getUuid())
+        .setName(learningModuleEntity.getName())
+        .setDeadline(learningModuleEntity.getDeadline())
+        .setStart(learningModuleEntity.getStart())
+        .setDescription(learningModuleEntity.getDescription())
+        .setLearningModules(subModuleConverter.toDtoSet(learningModuleEntity.getSubModules()))
+    ;
+  }
 
-    @Override
-    public void applyToEntity(LearningModuleDto learningModuleDto, LearningModuleEntity learningModuleEntity) {
-        learningModuleEntity
-                .setUuid(learningModuleDto.getUuid())
-                .setName(learningModuleDto.getName())
-                .setDeadline(learningModuleDto.getDeadline())
-                .setStart(learningModuleDto.getStart())
-                .setDescription(learningModuleDto.getDescription())
-        ;
-    }
+  @Override
+  public void applyToEntity(LearningModuleDto learningModuleDto, LearningModuleEntity learningModuleEntity) {
+    learningModuleEntity
+        .setUuid(learningModuleDto.getUuid())
+        .setName(learningModuleDto.getName())
+        .setDeadline(learningModuleDto.getDeadline())
+        .setStart(learningModuleDto.getStart())
+        .setDescription(learningModuleDto.getDescription())
+    ;
+  }
 }

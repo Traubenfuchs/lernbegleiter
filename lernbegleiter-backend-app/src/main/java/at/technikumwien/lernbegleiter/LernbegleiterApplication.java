@@ -14,8 +14,8 @@ import static org.springframework.context.annotation.ScopedProxyMode.TARGET_CLAS
 @EnableScheduling
 public class LernbegleiterApplication {
 
-    public static void main(String[] args) {
-        System.out.println(System.getenv("DB_HOST_AND_PORT"));
-        SpringApplication.run(LernbegleiterApplication.class, args);
-    }
+  public static void main(String[] args) {
+    System.out.println(System.getenv("DB_HOST_AND_PORT"));
+    SpringApplication.run(LernbegleiterApplication.class, args);
+  }
 }

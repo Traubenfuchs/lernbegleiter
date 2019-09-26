@@ -1,9 +1,9 @@
 package at.technikumwien.lernbegleiter.services.user;
 
+import at.technikumwien.lernbegleiter.components.PasswordHasher;
 import at.technikumwien.lernbegleiter.data.requests.RegistrationRequest;
 import at.technikumwien.lernbegleiter.entities.auth.UserEntity;
 import at.technikumwien.lernbegleiter.repositories.auth.UserRepository;
-import at.technikumwien.lernbegleiter.components.PasswordHasher;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,30 +18,30 @@ import javax.validation.Valid;
 @Validated
 @Service
 public class RegistrationService {
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private PasswordHasher passwordHasher;
+  @Autowired
+  private UserRepository userRepository;
+  @Autowired
+  private PasswordHasher passwordHasher;
 
-    public String register(@NonNull @Valid RegistrationRequest request) {
-        String email = request.getEmail();
+  public String register(@NonNull @Valid RegistrationRequest request) {
+    String email = request.getEmail();
 
-        if(userRepository.existsByEmail(email)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email<" + email + "> already in use.");
-        }
-
-        byte[] hashedAndSaltedPassword = passwordHasher.hashAndSalt(request.getPassword());
-
-        UserEntity userEntity = new UserEntity()
-                .setEmail(email)
-                .setHashedAndSaltedPassword(hashedAndSaltedPassword)
-                .setBirthday(request.getBirthday())
-                .setFirstName(request.getFirstName())
-                .setFamilyName(request.getFamilyName())
-                .generateUuid();
-
-        userEntity = userRepository.save(userEntity);
-
-        return userEntity.getUuid();
+    if (userRepository.existsByEmail(email)) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email<" + email + "> already in use.");
     }
+
+    byte[] hashedAndSaltedPassword = passwordHasher.hashAndSalt(request.getPassword());
+
+    UserEntity userEntity = new UserEntity()
+        .setEmail(email)
+        .setHashedAndSaltedPassword(hashedAndSaltedPassword)
+        .setBirthday(request.getBirthday())
+        .setFirstName(request.getFirstName())
+        .setFamilyName(request.getFamilyName())
+        .generateUuid();
+
+    userEntity = userRepository.save(userEntity);
+
+    return userEntity.getUuid();
+  }
 }

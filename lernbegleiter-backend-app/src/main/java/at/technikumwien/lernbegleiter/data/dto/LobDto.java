@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LobDto {
-    private String quizPictureBase64;
-    private String quizPictureUUID;
-    private String quizPictureFileName;
+  private String quizPictureBase64;
+  private String quizPictureUUID;
+  private String quizPictureFileName;
 }

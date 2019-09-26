@@ -17,12 +17,12 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class WeeklyOverviewDto extends BaseDto<WeeklyOverviewDto> {
-    private Integer calendarWeek;
-    private Short year;
-    private LocalDate firstDayOfWeek;
-    private LocalDate lastDayOfWeek;
-    private String myWeeklyGoals = "";
-    private String furtherSteps = "";
-    private List<WeeklyOverviewClassDto> weeklyOverviewClasses = new ArrayList<>();
-    private List<WeeklyOverviewReflectionClassDto> reflexionClasses = new ArrayList<>();
+  private Integer calendarWeek;
+  private Short year;
+  private LocalDate firstDayOfWeek;
+  private LocalDate lastDayOfWeek;
+  private String myWeeklyGoals = "";
+  private String furtherSteps = "";
+  private List<WeeklyOverviewClassDto> weeklyOverviewClasses = new ArrayList<>();
+  private List<WeeklyOverviewReflectionClassDto> reflexionClasses = new ArrayList<>();
 }

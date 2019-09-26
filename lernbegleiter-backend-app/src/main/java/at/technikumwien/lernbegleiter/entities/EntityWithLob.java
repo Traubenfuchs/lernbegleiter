@@ -6,5 +6,5 @@ package at.technikumwien.lernbegleiter.entities;
  * @param <T>
  */
 public interface EntityWithLob<T extends EntityWithLob<T>> {
-    T setLob(LobEntity lobEntity);
+  T setLob(LobEntity lobEntity);
 }

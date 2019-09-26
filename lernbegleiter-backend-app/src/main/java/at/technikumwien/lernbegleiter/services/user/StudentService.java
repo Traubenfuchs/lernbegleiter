@@ -22,51 +22,51 @@ import java.util.Set;
 @Validated
 @Service
 public class StudentService {
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private StudentConverter studentConverter;
+  @Autowired
+  private UserRepository userRepository;
+  @Autowired
+  private StudentConverter studentConverter;
 
-    public Collection<StudentDto> getAll() {
-        return studentConverter.toDtoList(userRepository.findByRightsContains("STUDENT"));
+  public Collection<StudentDto> getAll() {
+    return studentConverter.toDtoList(userRepository.findByRightsContains("STUDENT"));
+  }
+
+  public StudentDto get(@NonNull String userUuid) {
+    UserEntity userEntity = userRepository.getOne(userUuid);
+    if (!userEntity.getRights().contains("STUDENT")) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You are trying to get a user that is not a student.");
+    }
+    return studentConverter.toDTO(userEntity);
+  }
+
+  public void delete(@NonNull String userUuid) {
+    UserEntity userEntity = userRepository.getOne(userUuid);
+    if (!userEntity.getRights().contains("STUDENT")) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You are trying to delete a user that is not a student.");
+    }
+    userRepository.delete(userEntity);
+  }
+
+  public UuidResponse create(@Valid @NonNull StudentDto studentDto) {
+    UserEntity userEntity = studentConverter.toEntity(studentDto)
+        .generateUuid()
+        .setRights(Set.of("STUDENT"));
+    userEntity = userRepository.save(userEntity);
+    return new UuidResponse(userEntity.getUuid());
+  }
+
+  public void update(@NonNull String userUuid, @Valid @NonNull StudentDto studentDto) {
+    UserEntity userEntity = userRepository.getOne(userUuid);
+    if (!userEntity.getRights().contains("STUDENT")) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You are trying to update a user that is not a student.");
     }
 
-    public StudentDto get(@NonNull String userUuid) {
-        UserEntity userEntity = userRepository.getOne(userUuid);
-        if(!userEntity.getRights().contains("STUDENT")) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You are trying to get a user that is not a student.");
-        }
-        return studentConverter.toDTO(userEntity);
+    byte[] tmpHashedAndSaltedPassword = userEntity.getHashedAndSaltedPassword();
+
+    studentConverter.applyToEntity(studentDto, userEntity);
+
+    if (StringUtils.isEmpty(studentDto.getPassword())) {
+      userEntity.setHashedAndSaltedPassword(tmpHashedAndSaltedPassword);
     }
-
-    public void delete(@NonNull String userUuid) {
-        UserEntity userEntity = userRepository.getOne(userUuid);
-        if(!userEntity.getRights().contains("STUDENT")) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You are trying to delete a user that is not a student.");
-        }
-        userRepository.delete(userEntity);
-    }
-
-    public UuidResponse create(@Valid @NonNull StudentDto studentDto) {
-        UserEntity userEntity = studentConverter.toEntity(studentDto)
-                .generateUuid()
-                .setRights(Set.of("STUDENT"));
-        userEntity = userRepository.save(userEntity);
-        return new UuidResponse(userEntity.getUuid());
-    }
-
-    public void update(@NonNull String userUuid, @Valid @NonNull StudentDto studentDto) {
-        UserEntity userEntity = userRepository.getOne(userUuid);
-        if(!userEntity.getRights().contains("STUDENT")) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You are trying to update a user that is not a student.");
-        }
-
-        byte[] tmpHashedAndSaltedPassword = userEntity.getHashedAndSaltedPassword();
-
-        studentConverter.applyToEntity(studentDto, userEntity);
-
-        if(StringUtils.isEmpty(studentDto.getPassword())) {
-            userEntity.setHashedAndSaltedPassword(tmpHashedAndSaltedPassword);
-        }
-    }
+  }
 }

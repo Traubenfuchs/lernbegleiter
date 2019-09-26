@@ -18,63 +18,63 @@ import java.util.Collection;
 @Transactional
 @Service
 public class SubModuleService {
-    @Autowired
-    private SubModuleRepository subModuleRepository;
-    @Autowired
-    private SubModuleConverter subModuleConverter;
-    @Autowired
-    private LearningModuleRepository learningModuleRepository;
+  @Autowired
+  private SubModuleRepository subModuleRepository;
+  @Autowired
+  private SubModuleConverter subModuleConverter;
+  @Autowired
+  private LearningModuleRepository learningModuleRepository;
 
-    public Collection<SubModuleDto> getAllByLearningModule(@NonNull String learningModuleUuid) {
-        return subModuleConverter.toDtoSet(subModuleRepository.findByParentUuid(learningModuleUuid));
+  public Collection<SubModuleDto> getAllByLearningModule(@NonNull String learningModuleUuid) {
+    return subModuleConverter.toDtoSet(subModuleRepository.findByParentUuid(learningModuleUuid));
+  }
+
+  public void update(
+      @NonNull String subModuleUuid,
+      @NonNull @Validated SubModuleDto subModuleDto
+  ) {
+    SubModuleEntity subModuleEntity = subModuleRepository.getOne(subModuleUuid);
+    subModuleConverter.applyToEntity(subModuleDto, subModuleEntity);
+
+    LearningModuleEntity learningModuleEntity = subModuleEntity.getParent();
+    if (subModuleDto.getStart() == null) {
+      subModuleEntity.setStart(learningModuleEntity.getStart());
+    }
+    if (subModuleDto.getDeadline() == null) {
+      subModuleEntity.setDeadline(learningModuleEntity.getDeadline());
     }
 
-    public void update(
-            @NonNull String subModuleUuid,
-            @NonNull @Validated SubModuleDto subModuleDto
-    ) {
-        SubModuleEntity subModuleEntity = subModuleRepository.getOne(subModuleUuid);
-        subModuleConverter.applyToEntity(subModuleDto, subModuleEntity);
+    subModuleEntity.setUuid(subModuleUuid);
+  }
 
-        LearningModuleEntity learningModuleEntity = subModuleEntity.getParent();
-        if (subModuleDto.getStart() == null) {
-            subModuleEntity.setStart(learningModuleEntity.getStart());
-        }
-        if (subModuleDto.getDeadline() == null) {
-            subModuleEntity.setDeadline(learningModuleEntity.getDeadline());
-        }
+  public UuidResponse create(
+      @NonNull String learningModuleUuid,
+      @NonNull @Validated SubModuleDto subModuleDto
+  ) {
+    LearningModuleEntity learningModuleEntity = learningModuleRepository.getOne(learningModuleUuid);
 
-        subModuleEntity.setUuid(subModuleUuid);
+    SubModuleEntity subModuleEntity = new SubModuleEntity();
+    subModuleConverter.applyToEntity(subModuleDto, subModuleEntity);
+    subModuleEntity.generateUuid();
+    subModuleEntity.setParent(learningModuleEntity);
+
+    if (subModuleDto.getStart() == null) {
+      subModuleEntity.setStart(learningModuleEntity.getStart());
+    }
+    if (subModuleDto.getDeadline() == null) {
+      subModuleEntity.setDeadline(learningModuleEntity.getDeadline());
     }
 
-    public UuidResponse create(
-            @NonNull String learningModuleUuid,
-            @NonNull @Validated SubModuleDto subModuleDto
-    ) {
-        LearningModuleEntity learningModuleEntity = learningModuleRepository.getOne(learningModuleUuid);
+    subModuleEntity = subModuleRepository.save(subModuleEntity);
 
-        SubModuleEntity subModuleEntity = new SubModuleEntity();
-        subModuleConverter.applyToEntity(subModuleDto, subModuleEntity);
-        subModuleEntity.generateUuid();
-        subModuleEntity.setParent(learningModuleEntity);
+    return new UuidResponse(subModuleEntity.getUuid());
+  }
 
-        if (subModuleDto.getStart() == null) {
-            subModuleEntity.setStart(learningModuleEntity.getStart());
-        }
-        if (subModuleDto.getDeadline() == null) {
-            subModuleEntity.setDeadline(learningModuleEntity.getDeadline());
-        }
+  public void delete(@NonNull String subModuleUuid) {
+    subModuleRepository.deleteById(subModuleUuid);
+  }
 
-        subModuleEntity = subModuleRepository.save(subModuleEntity);
-
-        return new UuidResponse(subModuleEntity.getUuid());
-    }
-
-    public void delete(@NonNull String subModuleUuid) {
-        subModuleRepository.deleteById(subModuleUuid);
-    }
-
-    public SubModuleDto getOne(String subModuleUuid) {
-        return subModuleConverter.toDTO(subModuleRepository.getOne(subModuleUuid));
-    }
+  public SubModuleDto getOne(String subModuleUuid) {
+    return subModuleConverter.toDTO(subModuleRepository.getOne(subModuleUuid));
+  }
 }

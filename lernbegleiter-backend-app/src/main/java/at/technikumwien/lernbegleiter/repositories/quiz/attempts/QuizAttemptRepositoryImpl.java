@@ -9,19 +9,19 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class QuizAttemptRepositoryImpl implements QuizAttemptRepositoryCustom {
-    @Lazy
-    @Autowired
-    private QuizAttemptRepository quizAttemptRepository;
-    @Autowired
-    private QuizRunRepository quizRunRepository;
-    @Autowired
-    private UserRepository userRepository;
+  @Lazy
+  @Autowired
+  private QuizAttemptRepository quizAttemptRepository;
+  @Autowired
+  private QuizRunRepository quizRunRepository;
+  @Autowired
+  private UserRepository userRepository;
 
-    @Override
-    public QuizAttemptEntity createQuizAttemptIfNotExists(String quizRunUUID) {
-        return quizAttemptRepository.findByFkQuizRunUUIDAndFkStudentUuid(quizRunUUID, AuthHelper.getCurrentUserUUIDOrThrow())
-                .orElseGet(() -> quizAttemptRepository.save(new QuizAttemptEntity()
-                        .setQuizRun(quizRunRepository.getOne(quizRunUUID))
-                        .setStudent(userRepository.getCurrentUser())));
-    }
+  @Override
+  public QuizAttemptEntity createQuizAttemptIfNotExists(String quizRunUUID) {
+    return quizAttemptRepository.findByFkQuizRunUUIDAndFkStudentUuid(quizRunUUID, AuthHelper.getCurrentUserUUIDOrThrow())
+        .orElseGet(() -> quizAttemptRepository.save(new QuizAttemptEntity()
+            .setQuizRun(quizRunRepository.getOne(quizRunUUID))
+            .setStudent(userRepository.getCurrentUser())));
+  }
 }

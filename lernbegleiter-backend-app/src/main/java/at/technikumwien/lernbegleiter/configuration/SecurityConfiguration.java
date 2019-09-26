@@ -17,31 +17,31 @@ import org.springframework.security.web.authentication.AnonymousAuthenticationFi
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, proxyTargetClass = true)
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-    @Autowired
-    private LoginService loginService;
-    @Autowired
-    private AuthHelper authHelper;
+  @Autowired
+  private LoginService loginService;
+  @Autowired
+  private AuthHelper authHelper;
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.addFilterBefore(new SecretSecurityFilter(loginService, authHelper), AnonymousAuthenticationFilter.class);
-        http
-                .csrf().disable()
-                // .anonymous().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER).and()
-                .formLogin().disable()
-                .logout().disable()
-                .httpBasic().disable()
-                .logout().disable()
-                .authorizeRequests()
-                .antMatchers("/api/login").permitAll()
-                .antMatchers("/api/image/**").permitAll()
-                .antMatchers("/**").authenticated()
-        ;
-    }
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.addFilterBefore(new SecretSecurityFilter(loginService, authHelper), AnonymousAuthenticationFilter.class);
+    http
+        .csrf().disable()
+        // .anonymous().disable()
+        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER).and()
+        .formLogin().disable()
+        .logout().disable()
+        .httpBasic().disable()
+        .logout().disable()
+        .authorizeRequests()
+        .antMatchers("/api/login").permitAll()
+        .antMatchers("/api/image/**").permitAll()
+        .antMatchers("/**").authenticated()
+    ;
+  }
 
-    @Bean
-    GrantedAuthorityDefaults grantedAuthorityDefaults() {
-        return new GrantedAuthorityDefaults(""); // Remove the ROLE_ prefix
-    }
+  @Bean
+  GrantedAuthorityDefaults grantedAuthorityDefaults() {
+    return new GrantedAuthorityDefaults(""); // Remove the ROLE_ prefix
+  }
 }

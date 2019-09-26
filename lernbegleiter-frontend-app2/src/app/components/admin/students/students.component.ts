@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { Student } from 'src/app/data/Student';
+import {HttpClient} from '@angular/common/http';
+import {Component, OnInit} from '@angular/core';
+import {Student} from 'src/app/data/Student';
 
 @Component({
   selector: 'app-students',
@@ -25,6 +25,7 @@ export class StudentsComponent implements OnInit {
   get filterWord(): string {
     return this._filterWord
   }
+
   set filterWord(newFilterWord: string) {
     // this.valueChanged(this._filterWord, newFilterWord)
     this._filterWord = newFilterWord
@@ -34,23 +35,23 @@ export class StudentsComponent implements OnInit {
   filterStudents() {
     const filterWords = this._filterWord.toUpperCase().split(" ")
 
-    this.displayedStudents = this.students
-      .filter(s =>
-      filterWords.every(ufw =>
-        [s.email,
-        s.firstName,
-        s.familyName,
-        s.familyName,
-        s.gradeName]
-          .some(candidate => candidate.toUpperCase().indexOf(ufw) >= 0)
+    this.displayedStudents =
+      this.students.filter(s =>
+        filterWords.every(filterWord =>
+          [s.email,
+            s.firstName,
+            s.familyName,
+            s.familyName,
+            s.gradeName]
+            .some(candidate => candidate.toUpperCase().indexOf(filterWord) >= 0)
+        )
       )
-    )
   }
 
   loadStudents() {
     this.isLoadingStudent = true
     this.http
-      .get<Student[]>(`api/students`, { observe: 'body' })
+      .get<Student[]>(`api/students`, {observe: 'body'})
       .subscribe(
         students => {
           this.students = students

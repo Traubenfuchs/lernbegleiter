@@ -8,5 +8,5 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 public class UuidResponse {
-    private String uuid;
+  private String uuid;
 }

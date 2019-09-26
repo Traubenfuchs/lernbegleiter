@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface QuizRepository extends JpaRepository<QuizEntity, String> {
-    @EntityGraph(value = "Quiz.allAnswers", type = EntityGraph.EntityGraphType.FETCH)
-    QuizEntity getByUuid(String uuid);
+  @EntityGraph(value = "Quiz.allAnswers", type = EntityGraph.EntityGraphType.FETCH)
+  QuizEntity getByUuid(String uuid);
 }

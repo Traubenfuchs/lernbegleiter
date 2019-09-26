@@ -8,24 +8,24 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class WeeklyOverviewClassConverter extends DtoEntityConverter<WeeklyOverviewClassEntity, WeeklyOverviewClassDto> {
-    @Autowired
-    private WeeklyOverviewClassDayConverter weeklyOverviewClassDayConverter;
+  @Autowired
+  private WeeklyOverviewClassDayConverter weeklyOverviewClassDayConverter;
 
-    @Override
-    public void applyToDto(WeeklyOverviewClassEntity weeklyOverviewClassEntity, WeeklyOverviewClassDto weeklyOverviewClassDto) {
-        weeklyOverviewClassDto
-                .setColor(weeklyOverviewClassEntity.getColor())
-                .setDays(weeklyOverviewClassDayConverter.toDtoList(weeklyOverviewClassEntity.getDaysOrdered()))
-                .setName(weeklyOverviewClassEntity.getClazz().getName())
-                .setUuid(weeklyOverviewClassEntity.getUuid());
+  @Override
+  public void applyToDto(WeeklyOverviewClassEntity weeklyOverviewClassEntity, WeeklyOverviewClassDto weeklyOverviewClassDto) {
+    weeklyOverviewClassDto
+        .setColor(weeklyOverviewClassEntity.getColor())
+        .setDays(weeklyOverviewClassDayConverter.toDtoList(weeklyOverviewClassEntity.getDaysOrdered()))
+        .setName(weeklyOverviewClassEntity.getClazz().getName())
+        .setUuid(weeklyOverviewClassEntity.getUuid());
 
-    }
+  }
 
-    @Override
-    public void applyToEntity(WeeklyOverviewClassDto weeklyOverviewClassDto, WeeklyOverviewClassEntity weeklyOverviewClassEntity) {
-        weeklyOverviewClassEntity
-                .setColor(weeklyOverviewClassDto.getColor())
-                .setDays(weeklyOverviewClassDayConverter.toEntitySet(weeklyOverviewClassDto.getDays()))
-                .setUuid(weeklyOverviewClassDto.getUuid());
-    }
+  @Override
+  public void applyToEntity(WeeklyOverviewClassDto weeklyOverviewClassDto, WeeklyOverviewClassEntity weeklyOverviewClassEntity) {
+    weeklyOverviewClassEntity
+        .setColor(weeklyOverviewClassDto.getColor())
+        .setDays(weeklyOverviewClassDayConverter.toEntitySet(weeklyOverviewClassDto.getDays()))
+        .setUuid(weeklyOverviewClassDto.getUuid());
+  }
 }

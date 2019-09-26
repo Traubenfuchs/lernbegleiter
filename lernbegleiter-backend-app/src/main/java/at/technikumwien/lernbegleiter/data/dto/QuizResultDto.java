@@ -15,5 +15,5 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class QuizResultDto {
-    private List<QuizResultEntryDto> entries = new ArrayList<>();
+  private List<QuizResultEntryDto> entries = new ArrayList<>();
 }

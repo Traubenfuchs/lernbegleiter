@@ -43,6 +43,8 @@ public class QuizRunService {
   private QuizQuestionAttemptRepository quizQuestionAttemptRepository;
   @Autowired
   private QuizQuestionAnswerAttemptRepository quizQuestionAnswerAttemptRepository;
+  @Autowired
+  private QuizAttemptService quizAttemptService;
 
   private final LoadingCache<String, QuizRunDto> cache;
 
@@ -60,15 +62,21 @@ public class QuizRunService {
   }
 
   public UuidResponse post(@NonNull String quizUUID, @NonNull @Valid QuizRunDto quizRunDto) {
-    QuizRunEntity quizRunEntity = quizRunConverter.toEntity(quizRunDto);
-    quizRunEntity.setState(QuizRunState.CREATED);
-    quizRunEntity.setQuiz(quizRepository.getOne(quizUUID));
+    QuizRunEntity quizRunEntity = quizRunConverter
+        .toEntity(quizRunDto)
+        .setState(QuizRunState.CREATED)
+        .setQuiz(quizRepository.getOne(quizUUID));
     return new UuidResponse(quizRunRepository.save(quizRunEntity).getUuid());
   }
 
-  public QuizRunDto getCached(@NonNull String quizRunUUID) throws ExecutionException {
-    // return quizRunConverter.toDTO(quizRunRepository.getOne(quizRunUUID));
+  public QuizRunDto getCachedForAdmin(@NonNull String quizRunUUID) throws ExecutionException {
     return cache.get(quizRunUUID);
+  }
+
+  public QuizRunDto getCachedForStudent(@NonNull String quizRunUUID) throws ExecutionException {
+    QuizRunDto result = cache.get(quizRunUUID);
+    quizAttemptService.enrichWithAttemptData(result);
+    return result;
   }
 
   public QuizRunDto get(@NonNull String quizRunUUID) {
@@ -127,8 +135,9 @@ public class QuizRunService {
           });
         });
 
-    quizRunEntity.setCurrentQuestion(qqe);
-    quizRunEntity.setNextTimeLimit(Instant.now().plusSeconds(qqe.getTimeLimit()));
-    quizRunEntity.setState(QuizRunState.WAITING_FOR_ANSWERS);
+    quizRunEntity
+        .setCurrentQuestion(qqe)
+        .setNextTimeLimit(Instant.now().plusSeconds(qqe.getTimeLimit()))
+        .setState(QuizRunState.WAITING_FOR_ANSWERS);
   }
 }

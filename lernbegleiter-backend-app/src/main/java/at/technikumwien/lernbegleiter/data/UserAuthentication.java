@@ -14,56 +14,56 @@ import java.util.Set;
 @Data
 public class UserAuthentication implements Authentication {
 
-    private String uuid;
-    private Set<String> rights;
-    private Collection<SimpleGrantedAuthority> sgas;
+  private String uuid;
+  private Set<String> rights;
+  private Collection<SimpleGrantedAuthority> sgas;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(sgas != null) {
-            return sgas;
-        }
-
-        sgas = new ArrayList<>(rights.size());
-
-        if(rights == null) {
-            return sgas;
-        }
-
-        for(String right : rights) {
-            sgas.add(new SimpleGrantedAuthority(right));
-        }
-
-        return sgas;
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    if (sgas != null) {
+      return sgas;
     }
 
-    @Override
-    public Object getCredentials() {
-        throw new RuntimeException("Not implemented.");
+    sgas = new ArrayList<>(rights.size());
+
+    if (rights == null) {
+      return sgas;
     }
 
-    @Override
-    public Object getDetails() {
-        throw new RuntimeException("Not implemented.");
+    for (String right : rights) {
+      sgas.add(new SimpleGrantedAuthority(right));
     }
 
-    @Override
-    public Object getPrincipal() {
-        return uuid;
-    }
+    return sgas;
+  }
 
-    @Override
-    public boolean isAuthenticated() {
-        return true;
-    }
+  @Override
+  public Object getCredentials() {
+    throw new RuntimeException("Not implemented.");
+  }
 
-    @Override
-    public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
-        throw new RuntimeException("Not implemented.");
-    }
+  @Override
+  public Object getDetails() {
+    throw new RuntimeException("Not implemented.");
+  }
 
-    @Override
-    public String getName() {
-        return uuid;
-    }
+  @Override
+  public Object getPrincipal() {
+    return uuid;
+  }
+
+  @Override
+  public boolean isAuthenticated() {
+    return true;
+  }
+
+  @Override
+  public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
+    throw new RuntimeException("Not implemented.");
+  }
+
+  @Override
+  public String getName() {
+    return uuid;
+  }
 }

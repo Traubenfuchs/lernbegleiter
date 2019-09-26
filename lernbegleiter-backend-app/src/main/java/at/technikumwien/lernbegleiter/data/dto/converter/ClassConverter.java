@@ -9,30 +9,30 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ClassConverter extends DtoEntityConverter<ClassEntity, ClassDto> {
-    @Autowired
-    private LearningModuleConverter learningModuleConverter;
-    @Autowired
-    private GradeRepository gradeRepository;
+  @Autowired
+  private LearningModuleConverter learningModuleConverter;
+  @Autowired
+  private GradeRepository gradeRepository;
 
-    @Override
-    public void applyToDto(ClassEntity classEntity, ClassDto classDto) {
-        GradeEntity ge = classEntity.getGrade();
-        String gradeName = ge == null?null:ge.getName();
+  @Override
+  public void applyToDto(ClassEntity classEntity, ClassDto classDto) {
+    GradeEntity ge = classEntity.getGrade();
+    String gradeName = ge == null ? null : ge.getName();
 
-        classDto
-                .setUuid(classEntity.getUuid())
-                .setName(classEntity.getName())
-                .setGradeName(gradeName)
-                .setLearningModules(learningModuleConverter.toDtoSet(classEntity.getModules()))
-        ;
-    }
+    classDto
+        .setUuid(classEntity.getUuid())
+        .setName(classEntity.getName())
+        .setGradeName(gradeName)
+        .setLearningModules(learningModuleConverter.toDtoSet(classEntity.getModules()))
+    ;
+  }
 
-    @Override
-    public void applyToEntity(ClassDto classDto, ClassEntity classEntity) {
-        classEntity
-                .setUuid(classDto.getUuid())
-                .setName(classDto.getName())
-                .setGrade(gradeRepository.findByName(classDto.getGradeName()))
-        ;
-    }
+  @Override
+  public void applyToEntity(ClassDto classDto, ClassEntity classEntity) {
+    classEntity
+        .setUuid(classDto.getUuid())
+        .setName(classDto.getName())
+        .setGrade(gradeRepository.findByName(classDto.getGradeName()))
+    ;
+  }
 }
