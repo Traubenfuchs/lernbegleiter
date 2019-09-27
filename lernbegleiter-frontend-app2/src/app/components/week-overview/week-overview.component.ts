@@ -20,11 +20,14 @@ export class WeekOverviewComponent implements OnInit {
   public classCompletions: ClassCompletion[] = []
 
   constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute) {
-    this.router.routeReuseStrategy.shouldReuseRoute = () => false
+    //this.router.routeReuseStrategy.shouldReuseRoute = () => false
+    this.studentUuid = this.route.snapshot.paramMap.get("studentUUID")
+    this.route.params.subscribe(params => {
+      this.ngOnInit()
+    });
   }
 
   ngOnInit() {
-    this.studentUuid = this.route.snapshot.paramMap.get("studentUUID")
     this.week = parseInt(this.route.snapshot.paramMap.get("week"))
     this.year = parseInt(this.route.snapshot.paramMap.get("year"))
     this.loadLearningModuleStudents()
@@ -35,8 +38,7 @@ export class WeekOverviewComponent implements OnInit {
     console.log('Loading loadLearningModuleStudents...')
     this.http
       .get<ClassCompletion[]>(
-        `api/student/${this.studentUuid}/learningModuleStudent`,
-        { observe: 'body' })
+        `api/student/${this.studentUuid}/learningModuleStudent`)
       .subscribe(ccs => {
         console.log('Loaded loadLearningModuleStudents.')
         this.classCompletions = ccs
@@ -68,8 +70,7 @@ export class WeekOverviewComponent implements OnInit {
     console.log('Loading weekly overview...')
     this.http
       .get<WeeklyOverview>(
-        `api/student/${this.studentUuid}/weekly-overview/${this.week}/${this.year}`,
-        { observe: 'body' })
+        `api/student/${this.studentUuid}/weekly-overview/${this.week}/${this.year}`)
       .subscribe(weeklyOverview => {
         console.log('Loaded weekly overview.')
         this.weeklyOverview = weeklyOverview

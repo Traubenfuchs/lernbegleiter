@@ -21,23 +21,13 @@ export class HomeComponent implements OnInit {
   learningModuledUrl = '/management/learning-modules'
   teachersUrl = '/management/teachers'
   quizzesUrl = 'management/quizzes'
-
-  getQuizzesUrl() {
-    return this.quizzesUrl
-  }
-
-  getProfileUrl() {
-    return `user/${this.loginService.getUserUuid()}/profile`
-  }
-
-  getWeeklyOverviewUrl() {
-    return '/student/' + this.loginService.getUserUuid() + '/weekly-overview/' + this.weekInYear + '/' + this.year;
-  }
+  profileUrl;
+  weeklyOverviewUrl;
 
   constructor(public loginService: LoginService, public router: Router, private growlService: GrowlService) {
-
+    this.profileUrl = `user/${this.loginService.getUserUuid()}/profile`
+    this.weeklyOverviewUrl = '/student/' + this.loginService.getUserUuid() + '/weekly-overview/' + this.weekInYear + '/'+ this.year
   }
-
 
   ngOnInit(): void {
   }
@@ -51,23 +41,5 @@ export class HomeComponent implements OnInit {
 
   isRouterSetTo(pages: string[]): boolean {
     return pages.some(p => p === this.router.url)
-  }
-
-  updateContextMessage(url: string) {
-    this.contextMessage = "DEFAULT MESSAGE -> CHANGEME!"
-
-    switch (url) {
-      case this.gradesUrl:
-        this.contextMessage = `Hier kannst du die Klassen verwalten.`;
-        break;
-      case this.studentsUrl:
-        this.contextMessage = `Hier kannst du die Schüler verwalten.`;
-        break;
-      case this.classesUrl:
-        this.contextMessage = `Hier kannst du die Fächer verwalten.`;
-        break;
-      case this.learningModuledUrl:
-        this.contextMessage = `Hier kannst du die Module verwalten.`
-    }
   }
 }
