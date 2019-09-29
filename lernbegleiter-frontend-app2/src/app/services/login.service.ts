@@ -50,24 +50,22 @@ export class LoginService {
     return this.loginResponse;
   }
 
-  public loginWithUnPw(email: string, password: string, success: LoginSuccessCallback, error: LoginErrorCallback): Observable<LoginResponse> {
+  public loginWithUnPw(email: string, password: string, success: LoginSuccessCallback, error: LoginErrorCallback) {
     return this.loginWithRequest({ email, password }, success, error);
   }
 
-  public loginWithRequest(loginRequest: LoginRequest, success: LoginSuccessCallback, error: LoginErrorCallback): Observable<LoginResponse> {
-    const result = this.http
+  public loginWithRequest(loginRequest: LoginRequest, success: LoginSuccessCallback, error: LoginErrorCallback) {
+    this.http
       .post<LoginResponse>(this.loginUrl, loginRequest)
-      .pipe(catchError(res => {
-        this.logout()
-        error(res);
-        return throwError(res.error || 'Server error');
-      }));
-    result.subscribe(v => {
-      this.loginResponse = v
-      localStorage.setItem('loginResponse', JSON.stringify(this.loginResponse))
-      success(v);
-    })
-    return result;
+      .subscribe(
+        rsp => {
+          this.loginResponse = rsp
+          localStorage.setItem('loginResponse', JSON.stringify(this.loginResponse))
+          success(rsp)
+        },
+        err => {
+          error(err)
+        })
   }
 
   public loggedInAndStudent() {

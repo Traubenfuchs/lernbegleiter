@@ -12,10 +12,12 @@ import { LoginService } from 'src/app/services/login.service';
 export class LoginComponent implements OnInit {
   response = 'default text';
   loginFormgroup: FormGroup;
+  errorMessage: string = null
 
   constructor(private loginService: LoginService,
     private router: Router,
     private formbuilder: FormBuilder) {
+    console.log("sad!!!" + Math.random())
   }
 
 
@@ -28,6 +30,7 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
+    this.errorMessage = null
     this.loginService.loginWithUnPw(
       this.loginFormgroup.get('username').value,
       this.loginFormgroup.get('password').value,
@@ -36,6 +39,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/login-success'])
       },
       err => {
+        this.errorMessage = err.error.message
       });
   }
 }
