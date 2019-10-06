@@ -10,13 +10,7 @@ import lombok.experimental.Accessors;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Index;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,26 +23,26 @@ import static javax.persistence.FetchType.EAGER;
 @Getter
 @Setter
 @Table(name = "CLASS", indexes = {
-    @Index(name = "I_CLASS_FK_GRADE_UUID", columnList = "FK_GRADE_UUID")
+        @Index(name = "I_CLASS_FK_GRADE_UUID", columnList = "FK_GRADE_UUID")
 })
 @Entity
 public class ClassEntity extends BaseEntityCreationUpdateDate<ClassEntity> {
-  @Column(name = "NAME", nullable = false)
-  private String name;
+    @Column(name = "NAME", nullable = false)
+    private String name;
 
-  @OneToMany(mappedBy = "clazz", fetch = EAGER)
-  @Fetch(value = FetchMode.JOIN)
-  private Set<LearningModuleEntity> modules = new HashSet<>();
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "clazz", fetch = EAGER)
+    @Fetch(value = FetchMode.JOIN)
+    private Set<LearningModuleEntity> modules = new HashSet<>();
 
-  @OneToMany(mappedBy = "clazz", fetch = EAGER)
-  @Fetch(value = FetchMode.JOIN)
-  private Set<WeeklyOverviewReflectionClassEntity> weeklyOverviewReflectionClasses = new HashSet<>();
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "clazz", fetch = EAGER)
+    @Fetch(value = FetchMode.JOIN)
+    private Set<WeeklyOverviewReflectionClassEntity> weeklyOverviewReflectionClasses = new HashSet<>();
 
-  @OneToMany(mappedBy = "clazz", fetch = EAGER)
-  @Fetch(value = FetchMode.JOIN)
-  private Set<WeeklyOverviewClassEntity> weeklyOverviewClasses = new HashSet<>();
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "clazz", fetch = EAGER)
+    @Fetch(value = FetchMode.JOIN)
+    private Set<WeeklyOverviewClassEntity> weeklyOverviewClasses = new HashSet<>();
 
-  @ManyToOne
-  @JoinColumn(name = "FK_GRADE_UUID")
-  private GradeEntity grade;
+    @ManyToOne
+    @JoinColumn(name = "FK_GRADE_UUID")
+    private GradeEntity grade;
 }

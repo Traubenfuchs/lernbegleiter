@@ -8,7 +8,6 @@ import lombok.experimental.Accessors;
 
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -16,8 +15,8 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LearningModuleStudentDto extends BaseDto<LearningModuleStudentDto> {
-  private LocalDate dueDate;
-  private Instant finishedAt;
-  private String name;
-  private Set<SubModuleStudentDto> subModules;
+    private LocalDate dueDate;
+    private Instant finishedAt;
+    private String name;
+    private Boolean late;
 }

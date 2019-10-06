@@ -8,6 +8,5 @@ export class Quiz extends BaseDto {
   description = ''
   questions: QuizQuestion[] = []
   author = new Teacher()
-  quizType: string
   quizRuns: QuizRun[] = []
 }

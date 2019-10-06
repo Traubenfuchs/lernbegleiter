@@ -18,16 +18,14 @@ export class ClassComponent implements OnInit {
   uuid: string
   grades: Grade[] = []
   learningModules: LearningModule[] = []
-  breadcrumbs: Breadcrumb[] = []
 
-  constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute) { }
+  constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute) {
+    this.route.params.subscribe(params => {
+      this.ngOnInit()
+    });
+   }
 
   ngOnInit() {
-    this.breadcrumbs = [
-      Breadcrumb.inactiveOf('/management/classes', 'Übersicht'),
-      Breadcrumb.activeOf(this.isClassNew() ? 'Neues Fach' : 'Fach bearbeiten')
-    ];
-
     this.uuid = this.route.snapshot.paramMap.get("classUUID")
     this.loadGrades()
     this.loadLearningModules()
@@ -99,7 +97,7 @@ export class ClassComponent implements OnInit {
   deleteClick() {
     console.log('deleting class...')
     this.http
-      .delete<any>(`api/class/${this.uuid}`, { observe: 'body' })
+      .delete<any>(`api/class/${this.uuid}`)
       .subscribe(_ => {
         this.router.navigate(['management/classes'])
       })
@@ -108,7 +106,12 @@ export class ClassComponent implements OnInit {
   getCardHeaderForClass = () => this.isClassNew() ? 'Neues Fach anlegen' : ' Fach bearbeiten'
   getCardDescriptionForClass = () => this.isClassNew() ? 'Hier kannst du ein neues Fach anlegen.' : 'Hier kannst du das ausgewählte Fach bearbeiten.';
 
-  deleteLearningModuleFromClass() {
-    console.error("deleteLearningModuleFromClass not implemented ")
+  deleteLearningModule(uuid: string) {
+    console.log('deleting learning module...')
+    this.http
+      .delete<any>(`api/learning-module/${uuid}`)
+      .subscribe(_ => {
+        this.ngOnInit()
+      })
   }
 }

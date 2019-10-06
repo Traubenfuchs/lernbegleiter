@@ -6,4 +6,5 @@ export class QuizRun extends BaseDto {
   nextTimeLimit: Date
   currentQuestion: QuizQuestion
   state: QuizRunState
+  quizRunType: string
 }

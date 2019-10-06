@@ -10,7 +10,7 @@
         </tr>
         <tr *ngFor="let quizRun of quizRuns">
           <td>{{quizRun.tsCreation | saneDateTime}}</td>
-          <td>{{quizRun.state}}</td>
+          <td>{{quizRun.state | quizRunState}}</td>
           <td><button class="btn btn-secondary"
               [routerLink]="'/management/quiz/'+quizUUID+'/quiz-run/' + quizRun.uuid">Gehe zu Run</button>
           </td>

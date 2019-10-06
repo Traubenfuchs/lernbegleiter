@@ -16,14 +16,8 @@ export class StudentComponent implements OnInit {
   uuid: string
   grades: Grade[] = []
   selectedClass = ''
-  breadcrumbs: Breadcrumb[];
-
 
   constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute) {
-    this.breadcrumbs = [
-      Breadcrumb.inactiveOf('/management/students', 'Übersicht'),
-      Breadcrumb.activeOf('Neuer Schüler')
-    ];
     this.route.params.subscribe(params => {
       this.ngOnInit()
     });
@@ -75,7 +69,7 @@ export class StudentComponent implements OnInit {
   loadStudent() {
     console.log('Loading student...')
     this.http
-    .get<Student>(`api/student/${this.uuid}`, {observe: 'body'})
+    .get<Student>(`api/student/${this.uuid}`)
     .subscribe(student => {
       console.log('Loaded student.')
       this.student = student
@@ -85,7 +79,7 @@ export class StudentComponent implements OnInit {
   deleteClick() {
     console.log('Deleting student...')
     this.http
-    .delete<any>(`api/student/${this.uuid}`, {observe: 'body'})
+    .delete<any>(`api/student/${this.uuid}`)
     .subscribe(_ => {
       console.log('Deleted student.')
       this.router.navigate(['management/students'])

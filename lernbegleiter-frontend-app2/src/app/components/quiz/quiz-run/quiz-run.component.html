@@ -44,7 +44,7 @@
         <div class="row">
           <div class="col">
             <label for="uuidInput">UUID</label>
-            <input id="uuidInput" [(ngModel)]="uuid" type="text" class="form-control" placeholder="UUID" disabled>
+            <input id="uuidInput" [(ngModel)]="quizRun.uuid" type="text" class="form-control" placeholder="UUID" disabled>
           </div>
           <div class="col">
             <label for="stateInput">Status</label>
@@ -52,12 +52,29 @@
               disabled>
           </div>
         </div> <!-- ends row-->
+        <div class="row">
+          <div class="col">
+            <label for="typeInput">Quiz-Typ</label>
+            <select id="typeInput" [(ngModel)]="quizRun.quizRunType" class="form-control">
+              <option value="ONE_QUESTION_AT_A_TIME">Einzelne Frage mit Timelimit</option>
+              <option value="FREE_ANSWERING">freies Antworten / take home</option>
+            </select>
+          </div>
+          <div class="col">
+            <ng-container *ngIf="quizRun.quizRunType === 'FREE_ANSWERING'">
+              <label for="nextTimeLimitInput">Quiz endet am & um</label>
+              <input id="nextTimeLimitInput" [(ngModel)]="quizRun.nextTimeLimit" type="datetime-local" class="form-control">
+            </ng-container>
+          </div>
+        </div><!-- ends row-->
         <div class="row mt-3"
           *ngIf="_QuizRunState.CREATED ==_QuizRunState[quizRun.state] || _QuizRunState.WAITING_FOR_NEXT_QUESTION == _QuizRunState[quizRun.state]">
           <div class="col">
-            <button (click)='advance()' class="btn btn-success" *ngIf="_QuizRunState.WAITING_FOR_NEXT_QUESTION == _QuizRunState[quizRun.state]">Nächste
+            <button (click)='advance()' class="btn btn-success"
+              *ngIf="_QuizRunState.WAITING_FOR_NEXT_QUESTION == _QuizRunState[quizRun.state]">Nächste
               Frage aktivieren</button>
-            <button (click)='advance()' class="btn btn-success" *ngIf="_QuizRunState.CREATED == _QuizRunState[quizRun.state]">Quiz starten</button>
+            <button (click)='advance()' class="btn btn-success"
+              *ngIf="_QuizRunState.CREATED == _QuizRunState[quizRun.state]">Quiz starten</button>
           </div>
         </div><!-- ends row-->
         <div class="row mt-3" *ngIf="timeLeft > 0">

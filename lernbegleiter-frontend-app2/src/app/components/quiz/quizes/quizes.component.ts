@@ -39,7 +39,6 @@ export class QuizesComponent implements OnInit {
         q.author.firstName,
         q.author.email,
         q.name,
-        q.quizType,
         q.description
         ].some(candidate => candidate.toUpperCase().indexOf(ufw) >= 0)
       )

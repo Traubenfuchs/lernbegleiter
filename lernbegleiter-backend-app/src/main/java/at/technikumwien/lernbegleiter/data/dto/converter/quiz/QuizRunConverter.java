@@ -8,21 +8,22 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class QuizRunConverter extends DtoEntityConverter<QuizRunEntity, QuizRunDto> {
-  @Autowired
-  private QuizQuestionConverter quizQuestionConverter;
+    @Autowired
+    private QuizQuestionConverter quizQuestionConverter;
 
-  @Override
-  public void applyToDto(QuizRunEntity quizRunEntity, QuizRunDto quizRunDto) {
-    super.applyToDto(quizRunEntity, quizRunDto);
-    quizRunDto
-        .setCurrentQuestion(quizQuestionConverter.toDTO(quizRunEntity.getCurrentQuestion()))
-        .setNextTimeLimit(quizRunEntity.getNextTimeLimit())
-        .setState(quizRunEntity.getState())
-    ;
-  }
+    @Override
+    public void applyToDto(QuizRunEntity quizRunEntity, QuizRunDto quizRunDto) {
+        super.applyToDto(quizRunEntity, quizRunDto);
+        quizRunDto
+                .setCurrentQuestion(quizQuestionConverter.toDTO(quizRunEntity.getCurrentQuestion()))
+                .setNextTimeLimit(quizRunEntity.getNextTimeLimit())
+                .setState(quizRunEntity.getState())
+                .setQuizRunType(quizRunEntity.getQuizRunType())
+        ;
+    }
 
-  @Override
-  public void applyToEntity(QuizRunDto quizRunDto, QuizRunEntity quizRunEntity) {
-
-  }
+    @Override
+    public void applyToEntity(QuizRunDto quizRunDto, QuizRunEntity quizRunEntity) {
+        quizRunEntity.setQuizRunType(quizRunDto.getQuizRunType());
+    }
 }

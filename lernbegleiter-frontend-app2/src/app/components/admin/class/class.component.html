@@ -55,15 +55,14 @@
         </tr>
         <tr *ngFor="let learningModule of learningModules">
           <td>{{learningModule.name}}</td>
-          <td>{{learningModule.start}}</td>
-          <td>{{learningModule.deadline}}</td>
+          <td>{{learningModule.start | saneDate}}</td>
+          <td>{{learningModule.deadline | saneDate}}</td>
           <td>
             <button class="btn btn-secondary"
               [routerLink]="'/management/class/'+uuid+'/learning-module/' + learningModule.uuid">Bearbeiten</button>
           </td>
           <td>
-            <button class="btn btn-danger" (click)='deleteLearningModuleFromClass(learningModule.uuid)'>von Klasse
-              entfernen</button>
+            <button class="btn btn-danger" (click)='deleteLearningModule(learningModule.uuid)'>Löschen</button>
           </td>
         </tr>
       </table>

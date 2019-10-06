@@ -4,7 +4,8 @@ export class LearningModuleStudent {
 	uuid = ''
 	name = ''
 	dueDate: Date
-	finishedAt: Date
+  finishedAt: Date
+  late = false
   subModules: SubModuleStudent[] = []
   className = ''
 }

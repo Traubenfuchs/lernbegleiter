@@ -14,9 +14,6 @@ import at.technikumwien.lernbegleiter.entities.reflection.WeeklyOverviewClassEnt
 import at.technikumwien.lernbegleiter.entities.reflection.WeeklyOverviewEntity;
 import at.technikumwien.lernbegleiter.entities.reflection.WeeklyOverviewReflectionClassEntity;
 import at.technikumwien.lernbegleiter.repositories.auth.UserRepository;
-import at.technikumwien.lernbegleiter.repositories.reflection.WeeklyOverviewClassDayRepository;
-import at.technikumwien.lernbegleiter.repositories.reflection.WeeklyOverviewClassRepository;
-import at.technikumwien.lernbegleiter.repositories.reflection.WeeklyOverviewReflectionRepository;
 import at.technikumwien.lernbegleiter.repositories.reflection.WeeklyOverviewRepository;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +22,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.temporal.IsoFields;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -33,162 +34,168 @@ import java.util.stream.Collectors;
 @Validated
 @Service
 public class WeeklyOverviewService {
-  @Autowired
-  private WeeklyOverviewClassDayRepository weeklyOverviewClassDayRepository;
-  @Autowired
-  private WeeklyOverviewClassRepository weeklyOverviewClassRepository;
-  @Autowired
-  private WeeklyOverviewRepository weeklyOverviewRepository;
-  @Autowired
-  private WeeklyOverviewReflectionRepository weeklyOverviewReflectionRepository;
-  @Autowired
-  private UserRepository userRepository;
-  @Autowired
-  private WeeklyOverviewConverter weeklyOverviewConverter;
-  @Autowired
-  private AuthHelper authHelper;
+    @Autowired
+    private WeeklyOverviewRepository weeklyOverviewRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private WeeklyOverviewConverter weeklyOverviewConverter;
+    @Autowired
+    private AuthHelper authHelper;
 
-  public WeeklyOverviewDto adaptStudentsWeeklyOverview(
-      @NonNull String studentUuid,
-      @NonNull Integer calendarWeek,
-      @NonNull Short year
-  ) {
-    WeeklyOverviewEntity woe = adaptStudentsWeeklyOverviewEntity(studentUuid, calendarWeek, year);
-    authHelper.isAdminOrTeacherOrCurrentUserUuidOrThrow(woe.getStudent().getUuid());
-    return weeklyOverviewConverter.toDTO(woe);
-  }
-
-  public WeeklyOverviewEntity adaptStudentsWeeklyOverviewEntity(
-      @NonNull String studentUuid,
-      @NonNull Integer calendarWeek,
-      @NonNull Short year
-  ) {
-    WeeklyOverviewEntity woe = findByStudentUuidAndAndCalendarWeek(studentUuid, calendarWeek, year);
-
-    GradeEntity grade = woe.getStudent().getGrade();
-    Set<ClassEntity> classes = grade.getClasses();
-
-    Set<WeeklyOverviewReflectionClassEntity> reflectionClasses = woe.getReflexionClasses();
-    prepareReflectionClasses(woe, reflectionClasses, classes);
-
-    Set<WeeklyOverviewClassEntity> weeklyOverviewClasses = woe.getWeeklyOverviewClasses();
-    prepareWeeklyOverviewClasses(woe, weeklyOverviewClasses, classes);
-
-    return weeklyOverviewRepository.save(woe);
-  }
-
-  private void prepareReflectionClasses(
-      WeeklyOverviewEntity woe,
-      Set<WeeklyOverviewReflectionClassEntity> reflectionClasses,
-      Set<ClassEntity> classes
-  ) {
-    Set<String> classNames = classes.stream().map(ClassEntity::getName).collect(Collectors.toSet());
-    reflectionClasses.removeIf(wrce -> !classNames.contains(wrce.getClazz().getName()));
-
-    Set<String> existingClassNames = reflectionClasses.stream().map(x -> x.getClazz().getName()).collect(Collectors.toSet());
-
-    classes.stream()
-        .filter(s -> !existingClassNames.contains(s.getName()))
-        .forEach(classEntity -> reflectionClasses.add(
-            new WeeklyOverviewReflectionClassEntity()
-                .generateUuid()
-                .setClazz(classEntity)
-                .setWeeklyOverview(woe)
-        ));
-  }
-
-  private void prepareWeeklyOverviewClasses(
-      WeeklyOverviewEntity woe,
-      Set<WeeklyOverviewClassEntity> weeklyOverviewClasses,
-      Set<ClassEntity> classes
-  ) {
-    Set<String> classNames = classes.stream().map(ClassEntity::getName).collect(Collectors.toSet());
-    weeklyOverviewClasses.removeIf(woce -> !classNames.contains(woce.getClazz().getName()));
-
-    Set<String> existingClassNames = weeklyOverviewClasses.stream().map(x -> x.getClazz().getName()).collect(Collectors.toSet());
-
-    classes.stream()
-        .filter(s -> !existingClassNames.contains(s.getName()))
-        .forEach(classEntity -> {
-
-          WeeklyOverviewClassEntity woce = new WeeklyOverviewClassEntity()
-              .generateUuid()
-              .setClazz(classEntity)
-              .setWeeklyOverview(woe);
-
-          for (int i = 0; i < 5; i++) {
-            woce.getDays().add(new WeeklyOverviewClassDayEntity()
-                .generateUuid()
-                .setWeeklyOverviewClass(woce)
-                .setDayOfWeek(i)
-            );
-          }
-
-          weeklyOverviewClasses.add(woce);
-        });
-  }
-
-  private WeeklyOverviewEntity findByStudentUuidAndAndCalendarWeek(
-      String studentUuid,
-      Integer calendarWeek,
-      Short year
-  ) {
-    UserEntity userEntity = userRepository.getOne(studentUuid);
-
-    WeeklyOverviewEntity weeklyOverviewEntity = weeklyOverviewRepository.findByStudentUuidAndAndCalendarWeek(studentUuid, calendarWeek);
-    if (weeklyOverviewEntity == null) {
-      weeklyOverviewEntity = new WeeklyOverviewEntity()
-          .setStudent(userEntity)
-          .setCalendarWeek(calendarWeek)
-          .setYear(year)
-          .generateUuid();
+    public WeeklyOverviewDto adaptStudentsWeeklyOverview(
+            @NonNull String studentUuid,
+            @NonNull Integer calendarWeek,
+            @NonNull Short year
+    ) {
+        WeeklyOverviewEntity woe = adaptStudentsWeeklyOverviewEntity(studentUuid, calendarWeek, year);
+        authHelper.isAdminOrTeacherOrCurrentUserUuidOrThrow(woe.getStudent().getUuid());
+        return weeklyOverviewConverter.toDTO(woe);
     }
-    return weeklyOverviewEntity;
-  }
 
-  public void patch(
-      @NonNull String studentUuid,
-      @NonNull @Valid WeeklyOverviewDto weeklyOverviewDto
-  ) {
-    WeeklyOverviewEntity woe = adaptStudentsWeeklyOverviewEntity(
-        studentUuid,
-        weeklyOverviewDto.getCalendarWeek(),
-        weeklyOverviewDto.getYear());
+    public WeeklyOverviewEntity adaptStudentsWeeklyOverviewEntity(
+            @NonNull String studentUuid,
+            @NonNull Integer calendarWeek,
+            @NonNull Short year
+    ) {
+        LocalDate sundayOfGivenWeek = LocalDate.ofYearDay(year, 50)
+                .with(IsoFields.WEEK_OF_WEEK_BASED_YEAR, calendarWeek)
+                .with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
 
-    authHelper.isAdminOrTeacherOrCurrentUserUuidOrThrow(woe.getStudent().getUuid());
+        LocalDate lastSunday = sundayOfGivenWeek.with(TemporalAdjusters.previous(DayOfWeek.SUNDAY));
 
-    woe.setFurtherSteps(weeklyOverviewDto.getFurtherSteps());
-    woe.setMyWeeklyGoals(weeklyOverviewDto.getMyWeeklyGoals());
+        WeeklyOverviewEntity woe = findByStudentUuidAndAndCalendarWeek(studentUuid, calendarWeek, year);
 
-    for (WeeklyOverviewClassDto weeklyOverviewClassDto : weeklyOverviewDto.getWeeklyOverviewClasses()) {
-      WeeklyOverviewClassEntity weeklyOverviewClassEntity = woe.getwWeeklyOverviewClassByName(weeklyOverviewClassDto.getName());
-      if (weeklyOverviewClassEntity == null) {
-        continue;
-      }
-      weeklyOverviewClassEntity.setColor(weeklyOverviewClassDto.getColor());
-      ArrayList<WeeklyOverviewClassDayEntity> orderedDays = weeklyOverviewClassEntity.getDaysOrdered();
+        GradeEntity grade = woe.getStudent().getGrade();
+        Set<ClassEntity> classes = grade.getClasses().stream()
+                .filter(clazz -> clazz.getModules().stream().anyMatch(module ->
+                        lastSunday.isBefore(module.getDeadline())
+                                && sundayOfGivenWeek.isAfter(module.getStart())
+                ))
+                .collect(Collectors.toSet());
 
-      int i = 0;
-      for (WeeklyOverviewClassDayDto weeklyOverviewClassDayDto : weeklyOverviewClassDto.getDays()) {
-        WeeklyOverviewClassDayEntity de = orderedDays.get(i);
-        if (de == null) {
-          continue;
+        Set<WeeklyOverviewReflectionClassEntity> reflectionClasses = woe.getReflexionClasses();
+        prepareReflectionClasses(woe, reflectionClasses, classes);
+
+        Set<WeeklyOverviewClassEntity> weeklyOverviewClasses = woe.getWeeklyOverviewClasses();
+        prepareWeeklyOverviewClasses(woe, weeklyOverviewClasses, classes);
+
+        return weeklyOverviewRepository.save(woe);
+    }
+
+    private void prepareReflectionClasses(
+            WeeklyOverviewEntity woe,
+            Set<WeeklyOverviewReflectionClassEntity> reflectionClasses,
+            Set<ClassEntity> classes
+    ) {
+        Set<String> classNames = classes.stream().map(ClassEntity::getName).collect(Collectors.toSet());
+        reflectionClasses.removeIf(wrce -> !classNames.contains(wrce.getClazz().getName()));
+
+        Set<String> existingClassNames = reflectionClasses.stream().map(x -> x.getClazz().getName()).collect(Collectors.toSet());
+
+        classes.stream()
+                .filter(s -> !existingClassNames.contains(s.getName()))
+                .forEach(classEntity -> reflectionClasses.add(
+                        new WeeklyOverviewReflectionClassEntity()
+                                .generateUuid()
+                                .setClazz(classEntity)
+                                .setWeeklyOverview(woe)
+                ));
+    }
+
+    private void prepareWeeklyOverviewClasses(
+            WeeklyOverviewEntity woe,
+            Set<WeeklyOverviewClassEntity> weeklyOverviewClasses,
+            Set<ClassEntity> classes
+    ) {
+        Set<String> classNames = classes.stream().map(ClassEntity::getName).collect(Collectors.toSet());
+        weeklyOverviewClasses.removeIf(woce -> !classNames.contains(woce.getClazz().getName()));
+
+        Set<String> existingClassNames = weeklyOverviewClasses.stream().map(x -> x.getClazz().getName()).collect(Collectors.toSet());
+
+        classes.stream()
+                .filter(s -> !existingClassNames.contains(s.getName()))
+                .forEach(classEntity -> {
+
+                    WeeklyOverviewClassEntity woce = new WeeklyOverviewClassEntity()
+                            .generateUuid()
+                            .setClazz(classEntity)
+                            .setWeeklyOverview(woe);
+
+                    // one for each work-day
+                    for (int i = 0; i < 5; i++) {
+                        woce.getDays().add(new WeeklyOverviewClassDayEntity()
+                                .generateUuid()
+                                .setWeeklyOverviewClass(woce)
+                                .setDayOfWeek(i)
+                        );
+                    }
+
+                    weeklyOverviewClasses.add(woce);
+                });
+    }
+
+    private WeeklyOverviewEntity findByStudentUuidAndAndCalendarWeek(
+            String studentUuid,
+            Integer calendarWeek,
+            Short year
+    ) {
+        UserEntity userEntity = userRepository.getOne(studentUuid);
+
+        WeeklyOverviewEntity weeklyOverviewEntity = weeklyOverviewRepository.findByStudentUuidAndAndCalendarWeek(studentUuid, calendarWeek);
+        if (weeklyOverviewEntity == null) {
+            weeklyOverviewEntity = new WeeklyOverviewEntity()
+                    .setStudent(userEntity)
+                    .setCalendarWeek(calendarWeek)
+                    .setYear(year)
+                    .generateUuid();
         }
-        de.setStudentComment(weeklyOverviewClassDayDto.getStudentComment());
-        de.setTeacherComment(weeklyOverviewClassDayDto.getTeacherComment());
-        i++;
-      }
+        return weeklyOverviewEntity;
     }
 
-    for (WeeklyOverviewReflectionClassDto weeklyOverviewReflectionClassDto : weeklyOverviewDto.getReflexionClasses()) {
-      WeeklyOverviewReflectionClassEntity weeklyOverviewReflectionClassEntity = woe.getWeeklyOverviewReflectionClassByName(weeklyOverviewReflectionClassDto.getName());
-      if (weeklyOverviewReflectionClassEntity == null) {
-        continue;
-      }
+    public void patch(
+            @NonNull String studentUuid,
+            @NonNull @Valid WeeklyOverviewDto weeklyOverviewDto
+    ) {
+        WeeklyOverviewEntity woe = adaptStudentsWeeklyOverviewEntity(
+                studentUuid,
+                weeklyOverviewDto.getCalendarWeek(),
+                weeklyOverviewDto.getYear());
 
-      weeklyOverviewReflectionClassEntity.setColor(weeklyOverviewReflectionClassDto.getColor());
-      weeklyOverviewReflectionClassEntity.setImprovements(weeklyOverviewReflectionClassDto.getImprovements());
-      weeklyOverviewReflectionClassEntity.setProgress(weeklyOverviewReflectionClassDto.getProgress());
+        authHelper.isAdminOrTeacherOrCurrentUserUuidOrThrow(woe.getStudent().getUuid());
+
+        woe.setFurtherSteps(weeklyOverviewDto.getFurtherSteps());
+        woe.setMyWeeklyGoals(weeklyOverviewDto.getMyWeeklyGoals());
+
+        for (WeeklyOverviewClassDto weeklyOverviewClassDto : weeklyOverviewDto.getWeeklyOverviewClasses()) {
+            WeeklyOverviewClassEntity weeklyOverviewClassEntity = woe.getwWeeklyOverviewClassByName(weeklyOverviewClassDto.getName());
+            if (weeklyOverviewClassEntity == null) {
+                continue;
+            }
+            weeklyOverviewClassEntity.setColor(weeklyOverviewClassDto.getColor());
+            ArrayList<WeeklyOverviewClassDayEntity> orderedDays = weeklyOverviewClassEntity.getDaysOrdered();
+
+            int i = 0;
+            for (WeeklyOverviewClassDayDto weeklyOverviewClassDayDto : weeklyOverviewClassDto.getDays()) {
+                WeeklyOverviewClassDayEntity de = orderedDays.get(i);
+                if (de == null) {
+                    continue;
+                }
+                de.setStudentComment(weeklyOverviewClassDayDto.getStudentComment());
+                de.setTeacherComment(weeklyOverviewClassDayDto.getTeacherComment());
+                i++;
+            }
+        }
+
+        for (WeeklyOverviewReflectionClassDto weeklyOverviewReflectionClassDto : weeklyOverviewDto.getReflexionClasses()) {
+            WeeklyOverviewReflectionClassEntity weeklyOverviewReflectionClassEntity = woe.getWeeklyOverviewReflectionClassByName(weeklyOverviewReflectionClassDto.getName());
+            if (weeklyOverviewReflectionClassEntity == null) {
+                continue;
+            }
+
+            weeklyOverviewReflectionClassEntity.setColor(weeklyOverviewReflectionClassDto.getColor());
+            weeklyOverviewReflectionClassEntity.setImprovements(weeklyOverviewReflectionClassDto.getImprovements());
+            weeklyOverviewReflectionClassEntity.setProgress(weeklyOverviewReflectionClassDto.getProgress());
+        }
     }
-  }
 }

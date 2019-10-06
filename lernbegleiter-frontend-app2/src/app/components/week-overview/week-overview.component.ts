@@ -5,6 +5,7 @@ import { UuidResponse } from 'src/app/data/UuidResponse';
 
 import { ClassCompletion } from './../../data/ClassCompletion';
 import { WeeklyOverview } from './../../data/weekly-overview/WeeklyOverview';
+import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-week-overview',
@@ -19,7 +20,7 @@ export class WeekOverviewComponent implements OnInit {
   public weeklyOverview: WeeklyOverview = new WeeklyOverview()
   public classCompletions: ClassCompletion[] = []
 
-  constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute) {
+  constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute, public loginService: LoginService) {
     //this.router.routeReuseStrategy.shouldReuseRoute = () => false
     this.studentUuid = this.route.snapshot.paramMap.get("studentUUID")
     this.route.params.subscribe(params => {
@@ -45,6 +46,16 @@ export class WeekOverviewComponent implements OnInit {
       })
   }
 
+  unfinishLearningModule(uuid: string) {
+    console.log('Unfinishing learningModule...')
+
+    this.http.post<UuidResponse>(`api/learningModuleStudent/${uuid}?complete=false`, undefined)
+      .subscribe(uuidResponse => {
+        this.loadLearningModuleStudents()
+        console.log('Unfinished learningModule.')
+      })
+  }
+
   finishLearningModule(uuid: string) {
     console.log('Finishing learningModule...')
 
@@ -52,7 +63,7 @@ export class WeekOverviewComponent implements OnInit {
       .subscribe(uuidResponse => {
         this.loadLearningModuleStudents()
         console.log('Finished learningModule.')
-        //this.router.navigate([`management/class/${this.classUuid}`])
+        this.ngOnInit()
       })
   }
   finishSubModule(uuid: string) {
@@ -62,7 +73,7 @@ export class WeekOverviewComponent implements OnInit {
       .subscribe(uuidResponse => {
         this.loadLearningModuleStudents()
         console.log('Finished subModule.')
-        //  this.router.navigate([`management/class/${this.classUuid}`])
+        this.ngOnInit()
       })
   }
 

@@ -1,19 +1,13 @@
-import { BaseDto } from './../../../data/BaseDto';
-import { QuizResult } from './../../../data/quiz/QuizResult';
-import { browser } from 'protractor';
-import { QuizRunState } from './../../../data/quiz/QuizRunState';
-import { QuizAnswer } from './../../../data/quiz/QuizAnswer';
-
-import { QuizQuestion } from './../../../data/quiz/QuizQuestion';
-import { LoginService } from './../../../services/login.service';
-
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-
-import { QuizRun } from './../../../data/quiz/QuizRun';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UuidResponse } from 'src/app/data/UuidResponse';
-import { QuizResultEntry } from 'src/app/data/quiz/QuizResultEntry';
+
+import { Quiz } from './../../../data/quiz/Quiz';
+import { QuizResult } from './../../../data/quiz/QuizResult';
+import { QuizRun } from './../../../data/quiz/QuizRun';
+import { QuizRunState } from './../../../data/quiz/QuizRunState';
+import { LoginService } from './../../../services/login.service';
 
 @Component({
   selector: 'app-quiz-run',
@@ -21,9 +15,9 @@ import { QuizResultEntry } from 'src/app/data/quiz/QuizResultEntry';
   styleUrls: ['./quiz-run.component.scss']
 })
 export class QuizRunComponent implements OnInit, OnDestroy {
-
   uuid = ''
   quizUuid = ''
+  quiz = new Quiz()
   quizAttemptUuid = ''
   quizResult = new QuizResult()
   quizRun = new QuizRun()
@@ -31,6 +25,7 @@ export class QuizRunComponent implements OnInit, OnDestroy {
   intervalId: any
   timeLeftIntervalId: any
   timeLeft = 0
+
   constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute, public loginService: LoginService) {
     this.route.params.subscribe(params => {
       this.ngOnInit()
@@ -62,7 +57,8 @@ export class QuizRunComponent implements OnInit, OnDestroy {
     }, 100)
 
     if (this.uuid === 'new') {
-
+      this.quizRun.quizRunType = 'FREE_ANSWERING'
+      this.quizRun.uuid='Automatisch'
     } else {
       if (this.loginService.loggedInAndStudent()) {
         console.log('Loading quizAttemptUuid...')
@@ -83,6 +79,16 @@ export class QuizRunComponent implements OnInit, OnDestroy {
       this.loadQuizRun()
       this.loadQuizResult()
     }
+  }
+
+  loadQuiz() {
+    console.log('Loading Quiz...')
+
+    this.http.get<Quiz>(`api/quiz/${this.uuid}`)
+      .subscribe(res => {
+        console.log('Quiz loaded.')
+        this.quiz = res
+      })
   }
 
   saveClick() {

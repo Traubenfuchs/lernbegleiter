@@ -14,7 +14,11 @@ export class SubModuleComponent implements OnInit {
   uuid: string
   learningModuleUuid: string
   subModule: SubModule = new SubModule()
-  constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute, private _location: Location) { }
+  constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute, private _location: Location) {
+    this.route.params.subscribe(params => {
+      this.ngOnInit()
+    });
+  }
 
   ngOnInit() {
     this.uuid = this.route.snapshot.paramMap.get("subModuleUUID")

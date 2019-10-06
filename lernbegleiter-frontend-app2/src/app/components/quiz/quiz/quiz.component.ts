@@ -20,7 +20,11 @@ export class QuizComponent implements OnInit {
   uuid = ''
   quiz = new Quiz()
 
-  constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute, private g: GrowlService) { }
+  constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute, private g: GrowlService) {
+    this.route.params.subscribe(params => {
+      this.ngOnInit()
+    });
+   }
 
   ngOnInit() {
     this.uuid = this.route.snapshot.paramMap.get("quizUUID")
@@ -77,12 +81,8 @@ export class QuizComponent implements OnInit {
     this.quiz.questions = this.quiz.questions.filter(q => q.internalId !== internalId)
   }
 
-  setToWrong(answer: QuizAnswer) {
-    answer.correct = false
-  }
-
-  setToRight(answer: QuizAnswer) {
-    answer.correct = true
+  swap(answer: QuizAnswer) {
+    answer.correct = !answer.correct
   }
 
   orderize() {

@@ -15,7 +15,7 @@
         </tr>
         <tr *ngFor="let quiz of displayedQuizzes">
           <td>{{quiz.name}}</td>
-          <td>{{quiz.quizType}}</td>
+          <td>{{quiz.quizType | quizType}}</td>
           <td>{{quiz.tsUpdate | saneDateTime}}</td>
           <td><button class="btn btn-secondary" [routerLink]="'/management/quiz/' + quiz.uuid + '/quiz-runs'">Quiz Runs</button></td>
           <td><button class="btn btn-secondary" [routerLink]="'/management/quiz/' + quiz.uuid">Bearbeiten</button></td>

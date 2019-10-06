@@ -32,6 +32,9 @@ import { QuizesComponent } from './components/quiz/quizes/quizes.component';
 import { QuizComponent } from './components/quiz/quiz/quiz.component';
 import { QuizRunsComponent } from './components/quiz/quiz-runs/quiz-runs.component';
 import { QuizRunComponent } from './components/quiz/quiz-run/quiz-run.component';
+import { QuizRunStatePipe } from './pipes/quiz-run-state.pipe';
+import { QuizTypePipe } from './pipes/quiz-type.pipe';
+import { BabyComponent } from './components/baby/baby.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +63,9 @@ import { QuizRunComponent } from './components/quiz/quiz-run/quiz-run.component'
     QuizComponent,
     QuizRunsComponent,
     QuizRunComponent,
+    QuizRunStatePipe,
+    QuizTypePipe,
+    BabyComponent,
   ],
   imports: [
     BrowserModule,

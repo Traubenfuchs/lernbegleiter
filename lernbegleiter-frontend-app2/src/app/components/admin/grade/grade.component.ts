@@ -43,6 +43,11 @@ export class GradeComponent implements OnInit {
       })
   }
   deleteClass(uuid: string) {
-    console.log('Not implemented yet!')
+    console.log('Deleting class...')
+    this.http.delete<any>(`api/class/${uuid}`)
+    .subscribe(res => {
+      console.log(`Class with uuid <${uuid}> deleted.`)
+      this.loadGrade()
+    })
   }
 }

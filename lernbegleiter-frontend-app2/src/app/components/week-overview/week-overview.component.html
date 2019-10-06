@@ -66,13 +66,13 @@
       <tr>
         <td>Fortschritte</td>
         <td *ngFor="let rc of weeklyOverview.reflexionClasses">
-          <textarea class="form-control" [(ngModel)]="rc.progress" placeholder='Schüler Kommentar'></textarea>
+          <textarea class="form-control" [(ngModel)]="rc.progress" placeholder='Schüler Kommentar' [disabled]='loginService.loggedInAndTeacherOrAdmin()'></textarea>
         </td>
       </tr>
       <tr>
         <td>verbesserungswürdig</td>
         <td *ngFor="let rc of weeklyOverview.reflexionClasses">
-          <textarea class="form-control" [(ngModel)]="rc.improvements" placeholder='Lehrer Kommentar'></textarea></td>
+          <textarea class="form-control" [(ngModel)]="rc.improvements" placeholder='Lehrer Kommentar' [disabled]='loginService.loggedInAndStudent()'></textarea></td>
       </tr>
     </table>
 
@@ -90,35 +90,25 @@
           <th>Module von Fach {{cc.className}}</th>
           <th>Deadline</th>
           <th>Abschluss</th>
+          <th>Aktion</th>
         </thead>
         <tr *ngFor="let lms of cc.learningModulesStudent">
-          <td>{{lms.name}}</td>
-          <td>{{lms.dueDate | saneDate}}</td>
-          <td>
-            <button class="btn btn-sm btn-success col-md-10" *ngIf="!lms.finishedAt"
-              (click)="finishLearningModule(lms.uuid)">abschließen</button>
-            <ng-container *ngIf="!!lms.finishedAt">{{lms.finishedAt | saneDateTime}}</ng-container>
+          <td style='width:25%'>{{lms.name}}</td>
+          <td style='width:25%'>{{lms.dueDate | saneDate}}</td>
+          <td  style='width:25%' [ngStyle]="{'color':lms.late?'red':'green'}">{{lms.finishedAt ? (lms.finishedAt | saneDateTime) : 'noch nicht abgeschlossen'}}</td>
+          <td style='width:25%'>
+            <button class="btn btn-sm btn-success btn-block" *ngIf="!lms.finishedAt"
+            (click)="finishLearningModule(lms.uuid)">abschließen</button>
+            <button class="btn btn-sm btn-warning btn-block" *ngIf="!!lms.finishedAt"
+            (click)="unfinishLearningModule(lms.uuid)">öffnen</button>
           </td>
         </tr>
       </table>
     </div>
-
-    <!-- <div *ngFor='let learningModuleStudent of learningModuleStudents'>
-      <div>Module Name: {{learningModuleStudent.name}}</div>
-      <div>Abzuschließen bis: {{learningModuleStudent.dueDate}}</div>
-      <div>Abgeschlossen: {{learningModuleStudent.finishedAt}}</div>
-      <button (click)="finishLearningModule(learningModuleStudent.uuid)"
-        [disabled]="!!learningModuleStudent.finishedAt">abschließen</button>
-      <div *ngFor='let subModule of learningModuleStudent.subModules'>
-        <div>SubModul Name: {{subModule.name}}</div>
-        <div>Abzuschließen bis: {{subModule.dueDate}}</div>
-        <div>Abgeschlossen: {{subModule.finishedAt}}</div>
-        <button (click)="finishSubModule(subModule.uuid)" [disabled]="!!subModule.finishedAt">abschließen</button>
-      </div>
-    </div>-->
 
   </div>
 
   <button class="btn btn-success w-100 my-3" (click)='saveWeeklyOverview()'>Speichern</button>
 
 </div>
+e
