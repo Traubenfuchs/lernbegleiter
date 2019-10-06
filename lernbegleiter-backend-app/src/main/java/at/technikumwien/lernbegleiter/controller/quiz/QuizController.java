@@ -24,11 +24,13 @@ public class QuizController extends BaseController {
 
   @GetMapping("quizzes")
   public Set<QuizDto> get() {
+    authHelper.isAdminOrTeacherOrThrow();
     return quizManagementService.getAllQuizzes();
   }
 
   @GetMapping("quiz/{quizUuid}")
   public QuizDto get(@PathVariable String quizUuid) {
+    authHelper.isAdminOrTeacherOrThrow();
     return quizManagementService.get(quizUuid);
   }
 
@@ -36,12 +38,14 @@ public class QuizController extends BaseController {
   public void put(
       @RequestBody QuizDto quizDto,
       @PathVariable String quizUuid) {
+    authHelper.isAdminOrTeacherOrThrow();
     quizDto.setUuid(quizUuid);
     quizManagementService.put(quizDto);
   }
 
   @PostMapping("quiz")
   public UuidResponse post(@RequestBody QuizDto quizDto) {
+    authHelper.isAdminOrTeacherOrThrow();
     quizDto.setUuid(null);
     return quizManagementService.post(quizDto);
   }

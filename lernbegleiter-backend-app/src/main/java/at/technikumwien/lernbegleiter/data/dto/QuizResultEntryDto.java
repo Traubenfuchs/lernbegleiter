@@ -15,7 +15,8 @@ public class QuizResultEntryDto {
   private String name;
   private Integer points = 0;
 
-  public void incrementPoints() {
+  public QuizResultEntryDto incrementPoints() {
     this.points++;
+    return this;
   }
 }

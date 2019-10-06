@@ -11,6 +11,7 @@ import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -51,6 +52,9 @@ public class QuizResultService {
 
       result.getEntries().add(quizResultEntryDto);
     }
+
+    result.getEntries().sort(Comparator.comparing(QuizResultEntryDto::getPoints));
+
     return result;
   }
 }
