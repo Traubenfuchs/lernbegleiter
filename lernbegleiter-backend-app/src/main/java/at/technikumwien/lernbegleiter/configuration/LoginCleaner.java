@@ -1,13 +1,12 @@
 package at.technikumwien.lernbegleiter.configuration;
 
-import at.technikumwien.lernbegleiter.repositories.auth.LoginRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.transaction.annotation.Transactional;
+import at.technikumwien.lernbegleiter.repositories.auth.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.context.annotation.*;
+import org.springframework.scheduling.annotation.*;
+import org.springframework.transaction.annotation.*;
 
-import java.time.Instant;
+import java.time.*;
 
 @Configuration
 public class LoginCleaner {

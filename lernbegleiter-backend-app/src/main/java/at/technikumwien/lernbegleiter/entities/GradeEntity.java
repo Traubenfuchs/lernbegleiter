@@ -1,23 +1,14 @@
 package at.technikumwien.lernbegleiter.entities;
 
-import at.technikumwien.lernbegleiter.entities.auth.UserEntity;
-import at.technikumwien.lernbegleiter.entities.base.BaseEntityCreationUpdateDate;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.Accessors;
+import at.technikumwien.lernbegleiter.entities.auth.*;
+import at.technikumwien.lernbegleiter.entities.base.*;
+import lombok.*;
+import lombok.experimental.*;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Index;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import java.util.HashSet;
-import java.util.Set;
+import javax.persistence.*;
+import java.util.*;
 
-import static javax.persistence.FetchType.LAZY;
+import static javax.persistence.FetchType.*;
 
 /**
  * GradeDto = Unterrichtsstufe / Schulklasse
@@ -26,7 +17,7 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @Setter
 @Table(name = "GRADE", indexes = {
-    @Index(name = "I_GRADE_FK_HEADTEACHER_UUID", columnList = "FK_HEADTEACHER_UUID")
+  @Index(name = "I_GRADE_FK_HEADTEACHER_UUID", columnList = "FK_HEADTEACHER_UUID")
 })
 @Entity
 public class GradeEntity extends BaseEntityCreationUpdateDate<GradeEntity> {

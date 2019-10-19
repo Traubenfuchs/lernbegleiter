@@ -1,9 +1,9 @@
 package at.technikumwien.lernbegleiter.data.dto.converter.quiz;
 
-import at.technikumwien.lernbegleiter.data.dto.quiz.QuizDto;
-import at.technikumwien.lernbegleiter.entities.quiz.QuizEntity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import at.technikumwien.lernbegleiter.data.dto.quiz.*;
+import at.technikumwien.lernbegleiter.entities.quiz.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
 
 @Component
 public class QuizConverterDeep extends QuizConverter {
@@ -16,8 +16,8 @@ public class QuizConverterDeep extends QuizConverter {
   public void applyToDto(QuizEntity quizEntity, QuizDto quizDto) {
     super.applyToDto(quizEntity, quizDto);
     quizDto
-        .setQuestions(quizQuestionConverter.toDtoSet(quizEntity.getQuestions()))
-        .setQuizRuns(quizRunConverter.toDtoSet(quizEntity.getQuizRuns()))
+      .setQuestions(quizQuestionConverter.toDtoSet(quizEntity.getQuestions()))
+      .setQuizRuns(quizRunConverter.toDtoSet(quizEntity.getQuizRuns()))
     ;
   }
 

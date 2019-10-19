@@ -1,9 +1,7 @@
 package at.technikumwien.lernbegleiter.data.dto.quiz.attempt;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
+import lombok.*;
+import lombok.experimental.*;
 
 @Data
 @Accessors(chain = true)

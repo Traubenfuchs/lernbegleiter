@@ -1,11 +1,8 @@
 package at.technikumwien.lernbegleiter.data.dto.quiz;
 
-import at.technikumwien.lernbegleiter.data.dto.BaseDto;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.Accessors;
+import at.technikumwien.lernbegleiter.data.dto.*;
+import lombok.*;
+import lombok.experimental.*;
 
 @Getter
 @Setter

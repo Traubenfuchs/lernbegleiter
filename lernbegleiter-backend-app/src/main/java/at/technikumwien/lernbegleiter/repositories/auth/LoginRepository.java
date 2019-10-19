@@ -1,10 +1,10 @@
 package at.technikumwien.lernbegleiter.repositories.auth;
 
-import at.technikumwien.lernbegleiter.entities.auth.LoginEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import at.technikumwien.lernbegleiter.entities.auth.*;
+import org.springframework.data.jpa.repository.*;
+import org.springframework.stereotype.*;
 
-import java.time.Instant;
+import java.time.*;
 
 @Repository
 public interface LoginRepository extends JpaRepository<LoginEntity, String> {

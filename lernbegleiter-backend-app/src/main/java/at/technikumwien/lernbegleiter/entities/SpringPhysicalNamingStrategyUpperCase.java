@@ -1,8 +1,7 @@
 package at.technikumwien.lernbegleiter.entities;
 
-import org.hibernate.boot.model.naming.Identifier;
-import org.hibernate.boot.model.naming.PhysicalNamingStrategy;
-import org.hibernate.engine.jdbc.env.spi.JdbcEnvironment;
+import org.hibernate.boot.model.naming.*;
+import org.hibernate.engine.jdbc.env.spi.*;
 
 
 public class SpringPhysicalNamingStrategyUpperCase implements PhysicalNamingStrategy {

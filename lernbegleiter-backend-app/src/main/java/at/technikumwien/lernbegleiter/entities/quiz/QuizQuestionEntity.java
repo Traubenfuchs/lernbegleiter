@@ -1,34 +1,20 @@
 package at.technikumwien.lernbegleiter.entities.quiz;
 
-import at.technikumwien.lernbegleiter.entities.EntityWithLob;
-import at.technikumwien.lernbegleiter.entities.LobEntity;
-import at.technikumwien.lernbegleiter.entities.base.BaseEntityCreationUpdateDate;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.Accessors;
+import at.technikumwien.lernbegleiter.entities.*;
+import at.technikumwien.lernbegleiter.entities.base.*;
+import lombok.*;
+import lombok.experimental.*;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Index;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.OrderColumn;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.*;
+import java.util.*;
 
 @Accessors(chain = true)
 @Getter
 @Setter
 @Table(name = "QUIZ_QUESTION", indexes = {
-    @Index(name = "I_QUIZ_QUESTION_FK_QUIZ_UUID", columnList = "FK_QUIZ_UUID")
+  @Index(name = "I_QUIZ_QUESTION_FK_QUIZ_UUID", columnList = "FK_QUIZ_UUID")
 }, uniqueConstraints = {
-    @UniqueConstraint(name = "UC_QUIZ_QUESTION_POSITION", columnNames = {"FK_QUIZ_UUID", "POSITION"})
+  @UniqueConstraint(name = "UC_QUIZ_QUESTION_POSITION", columnNames = {"FK_QUIZ_UUID", "POSITION"})
 })
 @Entity
 public class QuizQuestionEntity extends BaseEntityCreationUpdateDate<QuizQuestionEntity> implements EntityWithLob<QuizQuestionEntity> {
@@ -37,6 +23,8 @@ public class QuizQuestionEntity extends BaseEntityCreationUpdateDate<QuizQuestio
   @ManyToOne(optional = false)
   @JoinColumn(name = "FK_QUIZ_UUID", nullable = false)
   private QuizEntity quiz;
+  @Column(name = "FK_QUIZ_UUID", insertable = false, updatable = false)
+  private String fkQuizzUuid;
   @OneToMany(mappedBy = "quizQuestion", cascade = CascadeType.ALL)
   @OrderColumn(name = "POSITION")
   private List<QuizAnswerEntity> answers = new ArrayList<>();

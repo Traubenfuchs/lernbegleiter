@@ -1,14 +1,10 @@
 package at.technikumwien.lernbegleiter.data.dto.reflexion;
 
-import at.technikumwien.lernbegleiter.data.dto.BaseDto;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.Accessors;
+import at.technikumwien.lernbegleiter.data.dto.*;
+import lombok.*;
+import lombok.experimental.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Getter
 @Setter

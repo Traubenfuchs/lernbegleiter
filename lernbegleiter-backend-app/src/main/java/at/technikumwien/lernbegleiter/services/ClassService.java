@@ -1,18 +1,18 @@
 package at.technikumwien.lernbegleiter.services;
 
-import at.technikumwien.lernbegleiter.data.dto.ClassDto;
-import at.technikumwien.lernbegleiter.data.dto.converter.ClassConverter;
-import at.technikumwien.lernbegleiter.data.responses.UuidResponse;
-import at.technikumwien.lernbegleiter.entities.ClassEntity;
-import at.technikumwien.lernbegleiter.repositories.ClassRepository;
-import lombok.NonNull;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
+import at.technikumwien.lernbegleiter.data.dto.*;
+import at.technikumwien.lernbegleiter.data.dto.converter.*;
+import at.technikumwien.lernbegleiter.data.responses.*;
+import at.technikumwien.lernbegleiter.entities.*;
+import at.technikumwien.lernbegleiter.repositories.*;
+import lombok.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.*;
+import org.springframework.validation.annotation.*;
 
-import javax.validation.Valid;
-import java.util.Collection;
+import javax.validation.*;
+import java.util.*;
 
 @Transactional
 @Validated
@@ -37,7 +37,7 @@ public class ClassService {
 
   public UuidResponse create(@Valid @NonNull ClassDto classDto) {
     ClassEntity classEntity = classConverter.toEntity(classDto)
-        .generateUuid();
+      .generateUuid();
     classEntity = classRepository.save(classEntity);
     return new UuidResponse(classEntity.getUuid());
   }

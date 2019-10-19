@@ -1,21 +1,17 @@
 package at.technikumwien.lernbegleiter.configuration;
 
-import at.technikumwien.lernbegleiter.components.AuthHelper;
-import at.technikumwien.lernbegleiter.data.UserAuthentication;
-import at.technikumwien.lernbegleiter.services.user.LoginService;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.filter.GenericFilterBean;
-import org.springframework.web.server.ResponseStatusException;
+import at.technikumwien.lernbegleiter.components.*;
+import at.technikumwien.lernbegleiter.data.*;
+import at.technikumwien.lernbegleiter.services.user.*;
+import org.springframework.http.*;
+import org.springframework.security.core.context.*;
+import org.springframework.web.filter.*;
+import org.springframework.web.server.*;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.concurrent.ExecutionException;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import java.io.*;
+import java.util.concurrent.*;
 
 public class SecretSecurityFilter extends GenericFilterBean {
   private final LoginService loginService;
@@ -28,9 +24,9 @@ public class SecretSecurityFilter extends GenericFilterBean {
 
   @Override
   public void doFilter(
-      ServletRequest request,
-      ServletResponse response,
-      FilterChain chain) throws IOException, ServletException {
+    ServletRequest request,
+    ServletResponse response,
+    FilterChain chain) throws IOException, ServletException {
     HttpServletRequest hsr = (HttpServletRequest) request;
 
     try {

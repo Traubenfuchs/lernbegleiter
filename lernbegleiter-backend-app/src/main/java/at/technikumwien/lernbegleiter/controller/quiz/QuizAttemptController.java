@@ -1,12 +1,9 @@
 package at.technikumwien.lernbegleiter.controller.quiz;
 
-import at.technikumwien.lernbegleiter.data.responses.UuidResponse;
-import at.technikumwien.lernbegleiter.services.QuizAttemptService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import at.technikumwien.lernbegleiter.data.responses.*;
+import at.technikumwien.lernbegleiter.services.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("api")
 @RestController

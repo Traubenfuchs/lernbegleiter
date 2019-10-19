@@ -1,11 +1,12 @@
 package at.technikumwien.lernbegleiter.repositories.quiz.attempts;
 
-import at.technikumwien.lernbegleiter.components.AuthHelper;
-import at.technikumwien.lernbegleiter.entities.quiz.attempts.QuizAttemptEntity;
-import at.technikumwien.lernbegleiter.repositories.auth.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Repository;
+import at.technikumwien.lernbegleiter.components.*;
+import at.technikumwien.lernbegleiter.entities.quiz.attempts.*;
+import at.technikumwien.lernbegleiter.repositories.auth.*;
+import at.technikumwien.lernbegleiter.services.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.context.annotation.*;
+import org.springframework.stereotype.*;
 
 @Repository
 public class QuizAttemptRepositoryImpl implements QuizAttemptRepositoryCustom {
@@ -16,12 +17,20 @@ public class QuizAttemptRepositoryImpl implements QuizAttemptRepositoryCustom {
   private QuizRunRepository quizRunRepository;
   @Autowired
   private UserRepository userRepository;
+  @Lazy
+  @Autowired
+  private QuizRunService quizRunService;
 
   @Override
   public QuizAttemptEntity createQuizAttemptIfNotExists(String quizRunUUID) {
     return quizAttemptRepository.findByFkQuizRunUUIDAndFkStudentUuid(quizRunUUID, AuthHelper.getCurrentUserUUIDOrThrow())
-        .orElseGet(() -> quizAttemptRepository.save(new QuizAttemptEntity()
+      .orElseGet(() -> {
+        QuizAttemptEntity result = quizAttemptRepository.save(
+          new QuizAttemptEntity()
             .setQuizRun(quizRunRepository.getOne(quizRunUUID))
-            .setStudent(userRepository.getCurrentUser())));
+            .setStudent(userRepository.getCurrentUser()));
+        quizRunService.createQuestionAndAnswerAttemptsForQuizAttempt(result.getUuid());
+        return result;
+      });
   }
 }

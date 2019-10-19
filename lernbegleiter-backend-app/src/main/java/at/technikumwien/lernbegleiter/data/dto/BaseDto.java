@@ -1,10 +1,9 @@
 package at.technikumwien.lernbegleiter.data.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.Accessors;
+import lombok.*;
+import lombok.experimental.*;
 
-import java.time.Instant;
+import java.time.*;
 
 @Accessors(chain = true)
 @Setter

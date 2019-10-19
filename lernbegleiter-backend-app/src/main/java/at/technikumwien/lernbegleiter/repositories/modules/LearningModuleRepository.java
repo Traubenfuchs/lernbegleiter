@@ -1,10 +1,10 @@
 package at.technikumwien.lernbegleiter.repositories.modules;
 
-import at.technikumwien.lernbegleiter.entities.modules.LearningModuleEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import at.technikumwien.lernbegleiter.entities.modules.*;
+import org.springframework.data.jpa.repository.*;
+import org.springframework.stereotype.*;
 
-import java.util.Set;
+import java.util.*;
 
 @Repository
 public interface LearningModuleRepository extends JpaRepository<LearningModuleEntity, String> {

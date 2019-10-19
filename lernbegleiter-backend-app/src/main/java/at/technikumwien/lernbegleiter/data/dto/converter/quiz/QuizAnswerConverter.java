@@ -1,19 +1,19 @@
 package at.technikumwien.lernbegleiter.data.dto.converter.quiz;
 
-import at.technikumwien.lernbegleiter.data.dto.converter.DtoEntityConverter;
-import at.technikumwien.lernbegleiter.data.dto.quiz.QuizAnswerDto;
-import at.technikumwien.lernbegleiter.entities.quiz.QuizAnswerEntity;
-import org.springframework.stereotype.Component;
+import at.technikumwien.lernbegleiter.data.dto.converter.*;
+import at.technikumwien.lernbegleiter.data.dto.quiz.*;
+import at.technikumwien.lernbegleiter.entities.quiz.*;
+import org.springframework.stereotype.*;
 
 @Component
 public class QuizAnswerConverter extends DtoEntityConverter<QuizAnswerEntity, QuizAnswerDto> {
   @Override
   public void applyToDto(QuizAnswerEntity quizAnswerEntity, QuizAnswerDto quizAnswerDto) {
     quizAnswerDto
-        .setContent(quizAnswerEntity.getContent())
-        .setCorrect(quizAnswerEntity.getCorrect())
-        .setPosition(quizAnswerEntity.getPosition())
-        .setUuid(quizAnswerEntity.getUuid());
+      .setContent(quizAnswerEntity.getContent())
+      .setCorrect(quizAnswerEntity.getCorrect())
+      .setPosition(quizAnswerEntity.getPosition())
+      .setUuid(quizAnswerEntity.getUuid());
   }
 
   @Override
@@ -21,9 +21,9 @@ public class QuizAnswerConverter extends DtoEntityConverter<QuizAnswerEntity, Qu
 
 
     quizAnswerEntity
-        .setContent(quizAnswerDto.getContent())
-        .setCorrect(quizAnswerDto.getCorrect())
-        .setPosition(quizAnswerDto.getPosition())
-        .setUuid(quizAnswerDto.getUuid());
+      .setContent(quizAnswerDto.getContent())
+      .setCorrect(quizAnswerDto.getCorrect())
+      .setPosition(quizAnswerDto.getPosition())
+      .setUuid(quizAnswerDto.getUuid());
   }
 }

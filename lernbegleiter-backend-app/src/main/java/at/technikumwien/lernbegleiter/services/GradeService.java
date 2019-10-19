@@ -1,17 +1,17 @@
 package at.technikumwien.lernbegleiter.services;
 
-import at.technikumwien.lernbegleiter.data.dto.GradeDto;
-import at.technikumwien.lernbegleiter.data.dto.converter.GradeConverter;
-import at.technikumwien.lernbegleiter.data.requests.CreateGradeRequest;
-import at.technikumwien.lernbegleiter.entities.GradeEntity;
-import at.technikumwien.lernbegleiter.repositories.GradeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
+import at.technikumwien.lernbegleiter.data.dto.*;
+import at.technikumwien.lernbegleiter.data.dto.converter.*;
+import at.technikumwien.lernbegleiter.data.requests.*;
+import at.technikumwien.lernbegleiter.entities.*;
+import at.technikumwien.lernbegleiter.repositories.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.*;
+import org.springframework.validation.annotation.*;
 
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.*;
+import java.util.stream.*;
 
 @Transactional
 @Validated
@@ -32,10 +32,10 @@ public class GradeService {
 
   public String create(CreateGradeRequest createGradeRequest) {
     return gradeRepository.save(
-        new GradeEntity()
-            .setName(createGradeRequest.getName())
-            .generateUuid())
-        .getUuid();
+      new GradeEntity()
+        .setName(createGradeRequest.getName())
+        .generateUuid())
+      .getUuid();
   }
 
   public void delete(String uuid) {
@@ -46,11 +46,11 @@ public class GradeService {
     GradeEntity ge = gradeRepository.getOne(gradeUuid);
 
     ge.setStudents(
-        ge.getStudents().stream()
-            .filter(student -> {
-              student.setGrade(null);
-              return !student.getUuid().equals(studentUuid);
-            })
-            .collect(Collectors.toSet()));
+      ge.getStudents().stream()
+        .filter(student -> {
+          student.setGrade(null);
+          return !student.getUuid().equals(studentUuid);
+        })
+        .collect(Collectors.toSet()));
   }
 }

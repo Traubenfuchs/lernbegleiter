@@ -1,12 +1,9 @@
 package at.technikumwien.lernbegleiter.entities.base;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.PrePersist;
-import java.time.Instant;
+import javax.persistence.*;
+import java.time.*;
 
 @Getter
 @Setter

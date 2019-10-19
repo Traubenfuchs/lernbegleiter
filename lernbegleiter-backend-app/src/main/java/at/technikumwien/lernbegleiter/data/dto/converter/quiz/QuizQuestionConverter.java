@@ -1,12 +1,12 @@
 package at.technikumwien.lernbegleiter.data.dto.converter.quiz;
 
-import at.technikumwien.lernbegleiter.data.dto.LobDto;
-import at.technikumwien.lernbegleiter.data.dto.converter.DtoEntityConverter;
-import at.technikumwien.lernbegleiter.data.dto.quiz.QuizQuestionDto;
-import at.technikumwien.lernbegleiter.entities.quiz.QuizQuestionEntity;
-import at.technikumwien.lernbegleiter.services.LobService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import at.technikumwien.lernbegleiter.data.dto.*;
+import at.technikumwien.lernbegleiter.data.dto.converter.*;
+import at.technikumwien.lernbegleiter.data.dto.quiz.*;
+import at.technikumwien.lernbegleiter.entities.quiz.*;
+import at.technikumwien.lernbegleiter.services.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
 
 @Component
 public class QuizQuestionConverter extends DtoEntityConverter<QuizQuestionEntity, QuizQuestionDto> {
@@ -18,13 +18,13 @@ public class QuizQuestionConverter extends DtoEntityConverter<QuizQuestionEntity
   @Override
   public void applyToDto(QuizQuestionEntity quizQuestionEntity, QuizQuestionDto quizQuestionDto) {
     quizQuestionDto
-        .setAnswers(quizAnswerConverter.toDtoSet(quizQuestionEntity.getAnswers()))
-        .setPosition(quizQuestionEntity.getPosition())
-        .setContent(quizQuestionEntity.getContent())
-        .setUuid(quizQuestionEntity.getUuid())
-        .setTimeLimit(quizQuestionEntity.getTimeLimit())
-        .setLob(new LobDto()
-            .setQuizPictureUUID(quizQuestionEntity.getFkLobUUID()))
+      .setAnswers(quizAnswerConverter.toDtoSet(quizQuestionEntity.getAnswers()))
+      .setPosition(quizQuestionEntity.getPosition())
+      .setContent(quizQuestionEntity.getContent())
+      .setUuid(quizQuestionEntity.getUuid())
+      .setTimeLimit(quizQuestionEntity.getTimeLimit())
+      .setLob(new LobDto()
+        .setQuizPictureUUID(quizQuestionEntity.getFkLobUUID()))
     ;
   }
 
@@ -36,10 +36,10 @@ public class QuizQuestionConverter extends DtoEntityConverter<QuizQuestionEntity
     lobService.applyImage(quizQuestionDto.getLob(), quizQuestionEntity);
 
     quizQuestionEntity
-        .setPosition(quizQuestionDto.getPosition())
-        .setContent(quizQuestionDto.getContent())
-        .setTimeLimit(quizQuestionDto.getTimeLimit())
-        .setUuid(quizQuestionDto.getUuid())
+      .setPosition(quizQuestionDto.getPosition())
+      .setContent(quizQuestionDto.getContent())
+      .setTimeLimit(quizQuestionDto.getTimeLimit())
+      .setUuid(quizQuestionDto.getUuid())
     ;
   }
 }

@@ -1,16 +1,16 @@
 {
-	"configurations": [
-		{
-			"type": "java",
-			"name": "CodeLens (Launch) - LernbegleiterApplication",
-			"request": "launch",
-			"mainClass": "at.technikumwien.lernbegleiter.LernbegleiterApplication",
-			"projectName": "lernbegleiter-backend-app",
-			"env": {
-				"DB_HOST_AND_PORT":"127.0.0.1:3306",
-				"DB_PASSWORD":"abcdefgh12",
-				"DB_USER":"root"
-			},
-		}
-	]
+  "configurations": [
+    {
+      "type": "java",
+      "name": "CodeLens (Launch) - LernbegleiterApplication",
+      "request": "launch",
+      "mainClass": "at.technikumwien.lernbegleiter.LernbegleiterApplication",
+      "projectName": "lernbegleiter-backend-app",
+      "env": {
+        "DB_HOST_AND_PORT": "127.0.0.1:3306",
+        "DB_PASSWORD": "abcdefgh12",
+        "DB_USER": "root"
+      }
+    }
+  ]
 }

@@ -1,9 +1,9 @@
 package at.technikumwien.lernbegleiter.data.responses;
 
-import lombok.Data;
-import lombok.experimental.Accessors;
+import lombok.*;
+import lombok.experimental.*;
 
-import java.util.Set;
+import java.util.*;
 
 @Accessors(chain = true)
 @Data

@@ -1,8 +1,8 @@
 package at.technikumwien.lernbegleiter.data.requests;
 
-import lombok.Data;
+import lombok.*;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.*;
 
 @Data
 public class LoginRequest {

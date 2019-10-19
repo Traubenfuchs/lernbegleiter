@@ -1,24 +1,16 @@
 package at.technikumwien.lernbegleiter.entities.reflection;
 
-import at.technikumwien.lernbegleiter.entities.base.BaseEntity;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.Accessors;
+import at.technikumwien.lernbegleiter.entities.base.*;
+import lombok.*;
+import lombok.experimental.*;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Index;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Accessors(chain = true)
 @Getter
 @Setter
 @Table(name = "WEEKLY_OVERVIEW_CLASS_DAY", indexes = {
-    @Index(name = "I_WEEKLY_OVERVIEW_CLASS_DAY_FK_WEEKLY_OVERVIEW_CLASS_UUID", columnList = "FK_WEEKLY_OVERVIEW_CLASS_UUID")
+  @Index(name = "I_WEEKLY_OVERVIEW_CLASS_DAY_FK_WEEKLY_OVERVIEW_CLASS_UUID", columnList = "FK_WEEKLY_OVERVIEW_CLASS_UUID")
 })
 @Entity
 public class WeeklyOverviewClassDayEntity extends BaseEntity<WeeklyOverviewClassDayEntity> {

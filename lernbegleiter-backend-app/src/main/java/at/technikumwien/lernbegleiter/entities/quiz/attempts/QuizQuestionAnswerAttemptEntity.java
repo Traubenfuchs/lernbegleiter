@@ -1,25 +1,18 @@
 package at.technikumwien.lernbegleiter.entities.quiz.attempts;
 
-import at.technikumwien.lernbegleiter.entities.base.BaseEntityCreationUpdateDate;
-import at.technikumwien.lernbegleiter.entities.quiz.QuizAnswerEntity;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.Accessors;
+import at.technikumwien.lernbegleiter.entities.base.*;
+import at.technikumwien.lernbegleiter.entities.quiz.*;
+import lombok.*;
+import lombok.experimental.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Index;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Accessors(chain = true)
 @Getter
 @Setter
 @Table(name = "QUIZ_QUESTION_ANSWER_ATTEMPT", indexes = {
-    @Index(name = "I_QUIZ_QUESTION_ANSWER_ATTEMPT_QUIZ_QUESTION_ANSWER_ATTEMPT_UUID", columnList = "FK_QUIZ_QUESTION_ANSWER_ATTEMPT_UUID"),
-    @Index(name = "I_QUIZ_QUESTION_ANSWER_ATTEMPT_QUIZ_ANSWER_UUID", columnList = "FK_QUIZ_ANSWER_UUID")
+  @Index(name = "I_QUIZ_QUESTION_ANSWER_ATTEMPT_QUIZ_QUESTION_ANSWER_ATTEMPT_UUID", columnList = "FK_QUIZ_QUESTION_ANSWER_ATTEMPT_UUID"),
+  @Index(name = "I_QUIZ_QUESTION_ANSWER_ATTEMPT_QUIZ_ANSWER_UUID", columnList = "FK_QUIZ_ANSWER_UUID")
 })
 @Entity
 public class QuizQuestionAnswerAttemptEntity extends BaseEntityCreationUpdateDate<QuizQuestionAnswerAttemptEntity> {

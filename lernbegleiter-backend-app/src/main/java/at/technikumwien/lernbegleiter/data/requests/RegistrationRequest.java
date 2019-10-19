@@ -1,10 +1,10 @@
 package at.technikumwien.lernbegleiter.data.requests;
 
-import lombok.Data;
-import lombok.experimental.Accessors;
+import lombok.*;
+import lombok.experimental.*;
 
-import javax.validation.constraints.NotEmpty;
-import java.time.LocalDate;
+import javax.validation.constraints.*;
+import java.time.*;
 
 @Accessors(chain = true)
 @Data

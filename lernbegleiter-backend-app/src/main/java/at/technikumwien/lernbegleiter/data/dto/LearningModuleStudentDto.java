@@ -1,13 +1,9 @@
 package at.technikumwien.lernbegleiter.data.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.Accessors;
+import lombok.*;
+import lombok.experimental.*;
 
-import java.time.Instant;
-import java.time.LocalDate;
+import java.time.*;
 
 @Getter
 @Setter
@@ -15,8 +11,8 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LearningModuleStudentDto extends BaseDto<LearningModuleStudentDto> {
-    private LocalDate dueDate;
-    private Instant finishedAt;
-    private String name;
-    private Boolean late;
+  private LocalDate dueDate;
+  private Instant finishedAt;
+  private String name;
+  private Boolean late;
 }

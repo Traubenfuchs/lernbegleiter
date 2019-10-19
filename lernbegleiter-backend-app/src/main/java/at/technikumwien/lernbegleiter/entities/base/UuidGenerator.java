@@ -1,11 +1,11 @@
 package at.technikumwien.lernbegleiter.entities.base;
 
-import org.hibernate.HibernateException;
-import org.hibernate.engine.spi.SharedSessionContractImplementor;
-import org.hibernate.id.IdentifierGenerator;
+import org.hibernate.*;
+import org.hibernate.engine.spi.*;
+import org.hibernate.id.*;
 
-import java.io.Serializable;
-import java.util.UUID;
+import java.io.*;
+import java.util.*;
 
 public class UuidGenerator implements IdentifierGenerator {
   @Override

@@ -1,6 +1,6 @@
 package at.technikumwien.lernbegleiter.repositories.quiz.attempts;
 
-import at.technikumwien.lernbegleiter.entities.quiz.attempts.QuizAttemptEntity;
+import at.technikumwien.lernbegleiter.entities.quiz.attempts.*;
 
 public interface QuizAttemptRepositoryCustom {
 

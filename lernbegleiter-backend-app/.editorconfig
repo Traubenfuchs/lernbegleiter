@@ -1,13 +1,13 @@
 root = true
 
 [*]
-# charset = utf-8
+charset = utf-8
 # end_of_line = lf
-# indent_size = 4
+#indent_size = 6
 # indent_style = space
 # insert_final_newline = false
 # max_line_length = 120
-# tab_width = 4
+# tab_width = 2
 # ij_continuation_indent_size = 8
 # ij_formatter_off_tag = @formatter:off
 # ij_formatter_on_tag = @formatter:on
@@ -16,7 +16,7 @@ root = true
 # ij_wrap_on_typing = false
 
 [*.java]
-# indent_size = 2
+indent_size = 2
 # max_line_length = 100
 # ij_continuation_indent_size = 4
 # ij_java_align_consecutive_assignments = false
@@ -114,7 +114,7 @@ root = true
 # ij_java_generate_final_locals = false
 # ij_java_generate_final_parameters = false
 # ij_java_if_brace_force = always
-# ij_java_imports_layout = *,|,javax.**,java.**,|,$*
+ij_java_imports_layout = *, |, javax.**, java.**, |, $*
 # ij_java_indent_case_from_switch = true
 # ij_java_insert_inner_class_imports = false
 # ij_java_insert_override_annotation = true
@@ -249,7 +249,7 @@ root = true
 # ij_java_throws_list_wrap = off
 # ij_java_use_external_annotations = false
 # ij_java_use_fq_class_names = false
-# ij_java_use_single_class_imports = true
+ij_java_use_single_class_imports = false
 # ij_java_variable_annotation_wrap = off
 # ij_java_visibility = public
 # ij_java_while_brace_force = always
@@ -258,11 +258,11 @@ root = true
 # ij_java_wrap_first_method_in_call_chain = false
 # ij_java_wrap_long_lines = false
 
-[{skaffold.yaml,*.yml,*.yaml}]
-# indent_size = 2
+[{skaffold.yaml, *.yml, *.yaml}]
+indent_size = 2
 # ij_continuation_indent_size = 2
 # ij_yaml_keep_indents_on_empty_lines = false
 # ij_yaml_keep_line_breaks = true
 
-[{spring.handlers,spring.schemas,*.properties}]
+[{spring.handlers, spring.schemas, *.properties}]
 # ij_properties_align_group_field_declarations = false

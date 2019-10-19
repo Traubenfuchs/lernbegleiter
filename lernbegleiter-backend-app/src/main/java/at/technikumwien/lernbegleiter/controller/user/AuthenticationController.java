@@ -1,13 +1,11 @@
 package at.technikumwien.lernbegleiter.controller.user;
 
-import at.technikumwien.lernbegleiter.controller.BaseController;
-import at.technikumwien.lernbegleiter.data.requests.LoginRequest;
-import at.technikumwien.lernbegleiter.data.responses.LoginResponse;
-import at.technikumwien.lernbegleiter.services.user.LoginService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import at.technikumwien.lernbegleiter.controller.*;
+import at.technikumwien.lernbegleiter.data.requests.*;
+import at.technikumwien.lernbegleiter.data.responses.*;
+import at.technikumwien.lernbegleiter.services.user.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class AuthenticationController extends BaseController {

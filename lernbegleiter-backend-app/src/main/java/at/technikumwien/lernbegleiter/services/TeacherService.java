@@ -1,20 +1,19 @@
 package at.technikumwien.lernbegleiter.services;
 
-import at.technikumwien.lernbegleiter.data.dto.TeacherDto;
-import at.technikumwien.lernbegleiter.data.dto.converter.TeacherConverter;
-import at.technikumwien.lernbegleiter.data.responses.UuidResponse;
-import at.technikumwien.lernbegleiter.entities.auth.UserEntity;
-import at.technikumwien.lernbegleiter.repositories.auth.UserRepository;
-import lombok.NonNull;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import org.springframework.web.server.ResponseStatusException;
+import at.technikumwien.lernbegleiter.data.dto.*;
+import at.technikumwien.lernbegleiter.data.dto.converter.*;
+import at.technikumwien.lernbegleiter.data.responses.*;
+import at.technikumwien.lernbegleiter.entities.auth.*;
+import at.technikumwien.lernbegleiter.repositories.auth.*;
+import lombok.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.http.*;
+import org.springframework.stereotype.*;
+import org.springframework.util.*;
+import org.springframework.web.server.*;
 
-import javax.validation.Valid;
-import java.util.Collection;
-import java.util.Set;
+import javax.validation.*;
+import java.util.*;
 
 @Service
 public class TeacherService {
@@ -45,8 +44,8 @@ public class TeacherService {
 
   public Object create(@Valid @NonNull TeacherDto techerDto) {
     UserEntity userEntity = teacherConverter.toEntity(techerDto)
-        .generateUuid()
-        .setRights(Set.of("TEACHER"));
+      .generateUuid()
+      .setRights(Set.of("TEACHER"));
     userEntity = userRepository.save(userEntity);
     return new UuidResponse(userEntity.getUuid());
   }

@@ -1,25 +1,19 @@
 package at.technikumwien.lernbegleiter.entities.modules;
 
-import at.technikumwien.lernbegleiter.entities.auth.UserEntity;
-import at.technikumwien.lernbegleiter.entities.base.BaseEntityCreationUpdateDate;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.Accessors;
+import at.technikumwien.lernbegleiter.entities.auth.*;
+import at.technikumwien.lernbegleiter.entities.base.*;
+import lombok.*;
+import lombok.experimental.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Index;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import java.time.Instant;
+import javax.persistence.*;
+import java.time.*;
 
 @Accessors(chain = true)
 @Getter
 @Setter
 @Table(name = "LEARNING_MODULE_STUDENT", indexes = {
-    @Index(name = "I_LEARNING_MODULE_STUDENT_FK_LEARNING_MODULE_UUID", columnList = "FK_LEARNING_MODULE_UUID"),
-    @Index(name = "I_LEARNING_MODULE_STUDENT_FK_STUDENT_UUID", columnList = "FK_STUDENT_UUID")
+  @Index(name = "I_LEARNING_MODULE_STUDENT_FK_LEARNING_MODULE_UUID", columnList = "FK_LEARNING_MODULE_UUID"),
+  @Index(name = "I_LEARNING_MODULE_STUDENT_FK_STUDENT_UUID", columnList = "FK_STUDENT_UUID")
 })
 @Entity
 public class LearningModuleStudentEntity extends BaseEntityCreationUpdateDate<LearningModuleStudentEntity> {

@@ -1,18 +1,18 @@
 package at.technikumwien.lernbegleiter.services.user;
 
-import at.technikumwien.lernbegleiter.components.PasswordHasher;
-import at.technikumwien.lernbegleiter.data.requests.RegistrationRequest;
-import at.technikumwien.lernbegleiter.entities.auth.UserEntity;
-import at.technikumwien.lernbegleiter.repositories.auth.UserRepository;
-import lombok.NonNull;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.server.ResponseStatusException;
+import at.technikumwien.lernbegleiter.components.*;
+import at.technikumwien.lernbegleiter.data.requests.*;
+import at.technikumwien.lernbegleiter.entities.auth.*;
+import at.technikumwien.lernbegleiter.repositories.auth.*;
+import lombok.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.http.*;
+import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.*;
+import org.springframework.validation.annotation.*;
+import org.springframework.web.server.*;
 
-import javax.validation.Valid;
+import javax.validation.*;
 
 @Transactional
 @Validated
@@ -33,12 +33,12 @@ public class RegistrationService {
     byte[] hashedAndSaltedPassword = passwordHasher.hashAndSalt(request.getPassword());
 
     UserEntity userEntity = new UserEntity()
-        .setEmail(email)
-        .setHashedAndSaltedPassword(hashedAndSaltedPassword)
-        .setBirthday(request.getBirthday())
-        .setFirstName(request.getFirstName())
-        .setFamilyName(request.getFamilyName())
-        .generateUuid();
+      .setEmail(email)
+      .setHashedAndSaltedPassword(hashedAndSaltedPassword)
+      .setBirthday(request.getBirthday())
+      .setFirstName(request.getFirstName())
+      .setFamilyName(request.getFamilyName())
+      .generateUuid();
 
     userEntity = userRepository.save(userEntity);
 

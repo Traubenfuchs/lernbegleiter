@@ -1,12 +1,10 @@
 package at.technikumwien.lernbegleiter.repositories.quiz.attempts;
 
-import at.technikumwien.lernbegleiter.entities.quiz.attempts.QuizAttemptEntity;
-import org.springframework.data.jpa.repository.EntityGraph;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import at.technikumwien.lernbegleiter.entities.quiz.attempts.*;
+import org.springframework.data.jpa.repository.*;
+import org.springframework.stereotype.*;
 
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Repository
 public interface QuizAttemptRepository extends JpaRepository<QuizAttemptEntity, String>, QuizAttemptRepositoryCustom {

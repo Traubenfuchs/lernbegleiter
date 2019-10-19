@@ -1,14 +1,12 @@
 package at.technikumwien.lernbegleiter.components;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.*;
 
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.spec.InvalidKeySpecException;
-import java.util.Arrays;
+import javax.crypto.*;
+import javax.crypto.spec.*;
+import java.security.*;
+import java.security.spec.*;
+import java.util.*;
 
 @Component
 public class PasswordHasher {
@@ -84,7 +82,7 @@ public class PasswordHasher {
   public boolean checkHashedAndSaltedPassword(byte[] hashedAndSaltedCorrectPassword, String challengingPassword) {
     if (hashedAndSaltedCorrectPassword.length != arraySize) {
       throw new IllegalArgumentException("" + "Given array hashedAndSaltedCorrectPassword is not of length<"
-          + arraySize + "> but<" + hashedAndSaltedCorrectPassword.length + ">.");
+        + arraySize + "> but<" + hashedAndSaltedCorrectPassword.length + ">.");
     }
 
     byte[] extractedSalt = new byte[saltSizeInBytes];

@@ -1,20 +1,14 @@
 package at.technikumwien.lernbegleiter.entities.quiz;
 
-import at.technikumwien.lernbegleiter.data.dto.QuizResultDto;
-import at.technikumwien.lernbegleiter.data.dto.QuizResultEntryDto;
-import at.technikumwien.lernbegleiter.entities.quiz.attempts.QuizAttemptEntity;
-import at.technikumwien.lernbegleiter.entities.quiz.attempts.QuizQuestionAnswerAttemptEntity;
-import at.technikumwien.lernbegleiter.entities.quiz.attempts.QuizQuestionAttemptEntity;
-import at.technikumwien.lernbegleiter.repositories.quiz.QuizRepository;
-import at.technikumwien.lernbegleiter.repositories.quiz.attempts.QuizAttemptRepository;
-import lombok.NonNull;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import at.technikumwien.lernbegleiter.data.dto.*;
+import at.technikumwien.lernbegleiter.entities.quiz.attempts.*;
+import at.technikumwien.lernbegleiter.repositories.quiz.*;
+import at.technikumwien.lernbegleiter.repositories.quiz.attempts.*;
+import lombok.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class QuizResultService {
@@ -34,7 +28,7 @@ public class QuizResultService {
     for (QuizAttemptEntity quizAttemptEntity : quizAttempts) {
       QuizResultEntryDto quizResultEntryDto = new QuizResultEntryDto();
       String name = quizAttemptEntity.getStudent().getFirstName() + " " +
-          quizAttemptEntity.getStudent().getFamilyName();
+        quizAttemptEntity.getStudent().getFamilyName();
       quizResultEntryDto.setName(name);
 
       question:

@@ -1,21 +1,20 @@
 package at.technikumwien.lernbegleiter.services.quiz;
 
-import at.technikumwien.lernbegleiter.data.dto.converter.quiz.QuizConverter;
-import at.technikumwien.lernbegleiter.data.dto.converter.quiz.QuizConverterDeep;
-import at.technikumwien.lernbegleiter.data.dto.quiz.QuizDto;
-import at.technikumwien.lernbegleiter.data.responses.UuidResponse;
-import at.technikumwien.lernbegleiter.entities.quiz.QuizEntity;
-import at.technikumwien.lernbegleiter.repositories.auth.UserRepository;
-import at.technikumwien.lernbegleiter.repositories.quiz.QuizRepository;
-import at.technikumwien.lernbegleiter.services.LobService;
-import lombok.NonNull;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
+import at.technikumwien.lernbegleiter.data.dto.converter.quiz.*;
+import at.technikumwien.lernbegleiter.data.dto.quiz.*;
+import at.technikumwien.lernbegleiter.data.responses.*;
+import at.technikumwien.lernbegleiter.entities.quiz.*;
+import at.technikumwien.lernbegleiter.repositories.auth.*;
+import at.technikumwien.lernbegleiter.repositories.quiz.*;
+import at.technikumwien.lernbegleiter.services.*;
+import lombok.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.*;
+import org.springframework.validation.annotation.*;
 
-import javax.validation.Valid;
-import java.util.Set;
+import javax.validation.*;
+import java.util.*;
 
 @Validated
 @Transactional

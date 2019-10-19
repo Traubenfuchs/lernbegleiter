@@ -1,21 +1,11 @@
 package at.technikumwien.lernbegleiter.data.dto.converter;
 
-import at.technikumwien.lernbegleiter.data.dto.BaseDto;
-import at.technikumwien.lernbegleiter.entities.base.BaseEntity;
-import at.technikumwien.lernbegleiter.entities.base.BaseEntityCreationDate;
-import at.technikumwien.lernbegleiter.entities.base.BaseEntityCreationUpdateDate;
-import org.springframework.util.StringUtils;
+import at.technikumwien.lernbegleiter.data.dto.*;
+import at.technikumwien.lernbegleiter.entities.base.*;
+import org.springframework.util.*;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.lang.reflect.*;
+import java.util.*;
 
 public abstract class DtoEntityConverter<ENTITY extends BaseEntity<ENTITY>, DTO extends BaseDto<DTO>> {
   private final Constructor<ENTITY> entityConstructor;
@@ -135,7 +125,7 @@ public abstract class DtoEntityConverter<ENTITY extends BaseEntity<ENTITY>, DTO 
       ENTITY newEntity = toEntity(qqd);
 
       entityCollection
-          .add(newEntity);
+        .add(newEntity);
     }
 
     Iterator<ENTITY> entities = entityCollection.iterator();

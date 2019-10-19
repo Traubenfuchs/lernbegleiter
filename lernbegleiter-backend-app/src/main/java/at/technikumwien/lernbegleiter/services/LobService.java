@@ -1,19 +1,18 @@
 package at.technikumwien.lernbegleiter.services;
 
-import at.technikumwien.lernbegleiter.components.AuthHelper;
-import at.technikumwien.lernbegleiter.data.dto.LobDto;
-import at.technikumwien.lernbegleiter.data.responses.UuidResponse;
-import at.technikumwien.lernbegleiter.entities.EntityWithLob;
-import at.technikumwien.lernbegleiter.entities.LobEntity;
-import at.technikumwien.lernbegleiter.repositories.LobRepository;
-import lombok.NonNull;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
+import at.technikumwien.lernbegleiter.components.*;
+import at.technikumwien.lernbegleiter.data.dto.*;
+import at.technikumwien.lernbegleiter.data.responses.*;
+import at.technikumwien.lernbegleiter.entities.*;
+import at.technikumwien.lernbegleiter.repositories.*;
+import lombok.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.*;
+import org.springframework.util.*;
 
-import javax.annotation.Nullable;
-import java.security.NoSuchAlgorithmException;
+import javax.annotation.*;
+import java.security.*;
 
 @Transactional
 @Service
@@ -23,9 +22,9 @@ public class LobService {
 
   public UuidResponse store(String filename, @NonNull byte[] bytes) throws NoSuchAlgorithmException {
     LobEntity lobEntity = new LobEntity()
-        .generateUuid()
-        .setBytes(bytes)
-        .setFilename(filename);
+      .generateUuid()
+      .setBytes(bytes)
+      .setFilename(filename);
 
     if (StringUtils.isEmpty(filename)) {
       lobEntity.setFilename(lobEntity.getUuid() + ".jpg");
@@ -55,8 +54,8 @@ public class LobService {
     }
 
     LobEntity le = new LobEntity(lob.getQuizPictureBase64())
-        .setFilename(lob.getQuizPictureFileName())
-        .setFkOwnerUuid(AuthHelper.getCurrentUserUUIDOrThrow());
+      .setFilename(lob.getQuizPictureFileName())
+      .setFkOwnerUuid(AuthHelper.getCurrentUserUUIDOrThrow());
 
     le = lobRepository.save(le);
 

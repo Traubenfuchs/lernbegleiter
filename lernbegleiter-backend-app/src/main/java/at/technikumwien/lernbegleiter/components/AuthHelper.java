@@ -1,14 +1,13 @@
 package at.technikumwien.lernbegleiter.components;
 
-import at.technikumwien.lernbegleiter.data.UserAuthentication;
-import lombok.NonNull;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-import org.springframework.web.server.ResponseStatusException;
+import at.technikumwien.lernbegleiter.data.*;
+import lombok.*;
+import org.springframework.http.*;
+import org.springframework.security.core.context.*;
+import org.springframework.stereotype.*;
+import org.springframework.web.server.*;
 
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Component
 public class AuthHelper {

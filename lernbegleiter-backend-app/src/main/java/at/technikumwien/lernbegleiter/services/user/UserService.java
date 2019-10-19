@@ -1,19 +1,18 @@
 package at.technikumwien.lernbegleiter.services.user;
 
-import at.technikumwien.lernbegleiter.components.AuthHelper;
-import at.technikumwien.lernbegleiter.components.PasswordHasher;
-import at.technikumwien.lernbegleiter.data.requests.UserUpdateDto;
-import at.technikumwien.lernbegleiter.entities.auth.UserEntity;
-import at.technikumwien.lernbegleiter.repositories.auth.UserRepository;
-import lombok.NonNull;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
-import org.springframework.validation.annotation.Validated;
+import at.technikumwien.lernbegleiter.components.*;
+import at.technikumwien.lernbegleiter.data.requests.*;
+import at.technikumwien.lernbegleiter.entities.auth.*;
+import at.technikumwien.lernbegleiter.repositories.auth.*;
+import lombok.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.security.access.prepost.*;
+import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.*;
+import org.springframework.util.*;
+import org.springframework.validation.annotation.*;
 
-import javax.validation.Valid;
+import javax.validation.*;
 
 @Transactional
 @Validated
@@ -65,9 +64,9 @@ public class UserService {
     UserEntity ue = userRepository.getOne(userUuid);
 
     return new UserUpdateDto()
-        .setBirthday(ue.getBirthday())
-        .setEmail(ue.getEmail())
-        .setFamilyName(ue.getFamilyName())
-        .setFirstName(ue.getFirstName());
+      .setBirthday(ue.getBirthday())
+      .setEmail(ue.getEmail())
+      .setFamilyName(ue.getFamilyName())
+      .setFirstName(ue.getFirstName());
   }
 }

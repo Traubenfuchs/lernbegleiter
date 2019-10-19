@@ -1,24 +1,14 @@
 package at.technikumwien.lernbegleiter.entities;
 
-import at.technikumwien.lernbegleiter.entities.auth.UserEntity;
-import at.technikumwien.lernbegleiter.entities.base.BaseEntityCreationUpdateDate;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.Accessors;
+import at.technikumwien.lernbegleiter.entities.auth.*;
+import at.technikumwien.lernbegleiter.entities.base.*;
+import lombok.*;
+import lombok.experimental.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Index;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
+import javax.persistence.*;
+import java.nio.charset.*;
+import java.security.*;
+import java.util.*;
 
 @NoArgsConstructor
 @Accessors(chain = true)
@@ -26,7 +16,7 @@ import java.util.Base64;
 @Setter
 @Entity
 @Table(name = "LOBS", indexes = {
-    @Index(name = "I_FK_OWNER_UUID", columnList = "FK_OWNER_UUID")
+  @Index(name = "I_FK_OWNER_UUID", columnList = "FK_OWNER_UUID")
 })
 public class LobEntity extends BaseEntityCreationUpdateDate<LobEntity> {
   private final static Base64.Decoder decoder = Base64.getDecoder();

@@ -1,14 +1,11 @@
 package at.technikumwien.lernbegleiter.data;
 
-import lombok.Data;
-import lombok.experimental.Accessors;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import lombok.*;
+import lombok.experimental.*;
+import org.springframework.security.core.*;
+import org.springframework.security.core.authority.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Set;
+import java.util.*;
 
 @Accessors(chain = true)
 @Data

@@ -1,29 +1,23 @@
 package at.technikumwien.lernbegleiter.services.user;
 
-import at.technikumwien.lernbegleiter.components.PasswordHasher;
-import at.technikumwien.lernbegleiter.data.UserAuthentication;
-import at.technikumwien.lernbegleiter.data.requests.LoginRequest;
-import at.technikumwien.lernbegleiter.data.responses.LoginResponse;
-import at.technikumwien.lernbegleiter.entities.auth.LoginEntity;
-import at.technikumwien.lernbegleiter.entities.auth.UserEntity;
-import at.technikumwien.lernbegleiter.repositories.auth.LoginRepository;
-import at.technikumwien.lernbegleiter.repositories.auth.UserRepository;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
-import lombok.NonNull;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.server.ResponseStatusException;
+import at.technikumwien.lernbegleiter.components.*;
+import at.technikumwien.lernbegleiter.data.*;
+import at.technikumwien.lernbegleiter.data.requests.*;
+import at.technikumwien.lernbegleiter.data.responses.*;
+import at.technikumwien.lernbegleiter.entities.auth.*;
+import at.technikumwien.lernbegleiter.repositories.auth.*;
+import com.google.common.cache.*;
+import lombok.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.http.*;
+import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.*;
+import org.springframework.validation.annotation.*;
+import org.springframework.web.server.*;
 
-import javax.validation.Valid;
-import java.util.HashSet;
-import java.util.UUID;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
+import javax.validation.*;
+import java.util.*;
+import java.util.concurrent.*;
 
 @Transactional
 @Validated
@@ -40,15 +34,15 @@ public class LoginService {
 
   public LoginService() {
     cache = CacheBuilder
-        .newBuilder()
-        .maximumSize(500)
-        .expireAfterWrite(1, TimeUnit.SECONDS)
-        .build(new CacheLoader<>() {
-          @Override
-          public UserAuthentication load(String key) {
-            return getAuthenticationForSecretOrThrow(key);
-          }
-        });
+      .newBuilder()
+      .maximumSize(500)
+      .expireAfterWrite(1, TimeUnit.SECONDS)
+      .build(new CacheLoader<>() {
+        @Override
+        public UserAuthentication load(String key) {
+          return getAuthenticationForSecretOrThrow(key);
+        }
+      });
   }
 
   public UserAuthentication getAuthenticationForSecretOrThrowCached(@NonNull String secret) throws ExecutionException {
@@ -65,8 +59,8 @@ public class LoginService {
 
   private UserAuthentication userToAuthentication(UserEntity userEntity) {
     return new UserAuthentication()
-        .setUuid(userEntity.getUuid())
-        .setRights(new HashSet<>(userEntity.getRights()));
+      .setUuid(userEntity.getUuid())
+      .setRights(new HashSet<>(userEntity.getRights()));
   }
 
   /**
@@ -81,20 +75,20 @@ public class LoginService {
     checkPassword(loginRequest, userEntity);
 
     String newSecret = loginRepository.save(new LoginEntity()
-        .setSecret(UUID.randomUUID().toString())
-        .setUser(userEntity)
+      .setSecret(UUID.randomUUID().toString())
+      .setUser(userEntity)
     ).getSecret();
 
     return new LoginResponse()
-        .setSecret(newSecret)
-        .setRights(new HashSet<>(userEntity.getRights()))
-        .setUuid(userEntity.getUuid())
-        ;
+      .setSecret(newSecret)
+      .setRights(new HashSet<>(userEntity.getRights()))
+      .setUuid(userEntity.getUuid())
+      ;
   }
 
   private void checkPassword(LoginRequest loginRequest, UserEntity userEntity) {
     if (userEntity == null ||
-        !passwordHasher.checkHashedAndSaltedPassword(userEntity.getHashedAndSaltedPassword(), loginRequest.getPassword())
+      !passwordHasher.checkHashedAndSaltedPassword(userEntity.getHashedAndSaltedPassword(), loginRequest.getPassword())
     ) {
       throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User does not exist or password is incorrect.");
     }

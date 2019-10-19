@@ -1,14 +1,12 @@
 package at.technikumwien.lernbegleiter.services;
 
-import at.technikumwien.lernbegleiter.data.QuizRunState;
-import at.technikumwien.lernbegleiter.data.dto.quiz.QuizAnswerDto;
-import at.technikumwien.lernbegleiter.data.dto.quiz.QuizRunDto;
-import at.technikumwien.lernbegleiter.entities.quiz.attempts.QuizQuestionAttemptEntity;
-import at.technikumwien.lernbegleiter.repositories.quiz.attempts.QuizAttemptRepository;
-import at.technikumwien.lernbegleiter.repositories.quiz.attempts.QuizQuestionAttemptRepository;
-import lombok.NonNull;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import at.technikumwien.lernbegleiter.data.*;
+import at.technikumwien.lernbegleiter.data.dto.quiz.*;
+import at.technikumwien.lernbegleiter.entities.quiz.attempts.*;
+import at.technikumwien.lernbegleiter.repositories.quiz.attempts.*;
+import lombok.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
 
 @Service
 public class QuizAttemptService {
@@ -27,16 +25,16 @@ public class QuizAttemptService {
     }
 
     QuizQuestionAttemptEntity quizQuestionAttemptEntity = quizQuestionAttemptRepository.findByFkQuizAttemptUuidAndFkQuizQuestionUuid(
-        createQuizAttemptIfNotExists(quizRunDto.getUuid()),
-        quizRunDto.getCurrentQuestion().getUuid());
+      createQuizAttemptIfNotExists(quizRunDto.getUuid()),
+      quizRunDto.getCurrentQuestion().getUuid());
 
     for (QuizAnswerDto answerDto : quizRunDto.getCurrentQuestion().getAnswers()) {
       boolean correct = quizQuestionAttemptEntity.getAnswers()
-          .stream()
-          .filter(a -> a.getFkQuizAnswerUuid().equals(answerDto.getUuid()))
-          .findFirst()
-          .get()
-          .getCorrect();
+        .stream()
+        .filter(a -> a.getFkQuizAnswerUuid().equals(answerDto.getUuid()))
+        .findFirst()
+        .get()
+        .getCorrect();
 
       answerDto.setCorrect(correct);
     }

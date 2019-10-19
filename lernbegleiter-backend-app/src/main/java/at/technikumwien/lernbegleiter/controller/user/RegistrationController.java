@@ -1,13 +1,11 @@
 package at.technikumwien.lernbegleiter.controller.user;
 
-import at.technikumwien.lernbegleiter.controller.BaseController;
-import at.technikumwien.lernbegleiter.data.requests.RegistrationRequest;
-import at.technikumwien.lernbegleiter.services.user.RegistrationService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import at.technikumwien.lernbegleiter.controller.*;
+import at.technikumwien.lernbegleiter.data.requests.*;
+import at.technikumwien.lernbegleiter.services.user.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.security.access.prepost.*;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class RegistrationController extends BaseController {

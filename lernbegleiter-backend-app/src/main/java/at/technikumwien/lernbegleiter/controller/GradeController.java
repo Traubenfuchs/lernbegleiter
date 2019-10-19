@@ -1,22 +1,15 @@
 package at.technikumwien.lernbegleiter.controller;
 
-import at.technikumwien.lernbegleiter.data.dto.GradeDto;
-import at.technikumwien.lernbegleiter.data.requests.CreateGradeRequest;
-import at.technikumwien.lernbegleiter.data.responses.UuidResponse;
-import at.technikumwien.lernbegleiter.services.GradeService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import at.technikumwien.lernbegleiter.data.dto.*;
+import at.technikumwien.lernbegleiter.data.requests.*;
+import at.technikumwien.lernbegleiter.data.responses.*;
+import at.technikumwien.lernbegleiter.services.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.http.*;
+import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import java.util.Set;
+import javax.validation.*;
+import java.util.*;
 
 @RequestMapping("api")
 @RestController
@@ -52,8 +45,8 @@ public class GradeController extends BaseController {
   @DeleteMapping("grade/{gradeUuid}/student/{studentUuid}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void deleteStudentFromGrade(
-      @PathVariable String gradeUuid,
-      @PathVariable String studentUuid
+    @PathVariable String gradeUuid,
+    @PathVariable String studentUuid
   ) {
     authHelper.isAdminOrTeacherOrThrow();
     gradeService.deleteStudentFromGrade(studentUuid, gradeUuid);

@@ -1,15 +1,11 @@
 package at.technikumwien.lernbegleiter.data.dto.quiz;
 
-import at.technikumwien.lernbegleiter.data.QuizRunState;
-import at.technikumwien.lernbegleiter.data.QuizRunType;
-import at.technikumwien.lernbegleiter.data.dto.BaseDto;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.Accessors;
+import at.technikumwien.lernbegleiter.data.*;
+import at.technikumwien.lernbegleiter.data.dto.*;
+import lombok.*;
+import lombok.experimental.*;
 
-import java.time.Instant;
+import java.time.*;
 
 @Getter
 @Setter
@@ -17,8 +13,8 @@ import java.time.Instant;
 @AllArgsConstructor
 @NoArgsConstructor
 public class QuizRunDto extends BaseDto<QuizRunDto> {
-    private Instant nextTimeLimit;
-    private QuizQuestionDto currentQuestion;
-    private QuizRunState state;
-    private QuizRunType quizRunType;
+  private Instant nextTimeLimit;
+  private QuizQuestionDto currentQuestion;
+  private QuizRunState state;
+  private QuizRunType quizRunType;
 }

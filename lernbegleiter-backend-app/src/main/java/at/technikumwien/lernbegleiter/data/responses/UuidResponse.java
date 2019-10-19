@@ -1,8 +1,7 @@
 package at.technikumwien.lernbegleiter.data.responses;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.experimental.Accessors;
+import lombok.*;
+import lombok.experimental.*;
 
 @AllArgsConstructor
 @Data
