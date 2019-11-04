@@ -9,4 +9,6 @@ export class QuizQuestion {
   position: number
   lob: Lob = new Lob()
   timeLimit = 40
+  answeredCorrectly: boolean = undefined
+  answerCount: number
 }

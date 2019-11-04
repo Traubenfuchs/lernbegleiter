@@ -1,5 +1,6 @@
 package at.technikumwien.lernbegleiter.data.dto.converter.quiz;
 
+import at.technikumwien.lernbegleiter.data.*;
 import at.technikumwien.lernbegleiter.data.dto.converter.*;
 import at.technikumwien.lernbegleiter.data.dto.quiz.*;
 import at.technikumwien.lernbegleiter.entities.quiz.attempts.*;
@@ -20,9 +21,15 @@ public class QuizRunConverter extends DtoEntityConverter<QuizRunEntity, QuizRunD
       .setNextTimeLimit(quizRunEntity.getNextTimeLimit())
       .setState(quizRunEntity.getState())
       .setQuizRunType(quizRunEntity.getQuizRunType())
+      .setQuestionCount(quizRunEntity.getQuestionCount())
       .setCurrentQuestions(
         switch (quizRunEntity.getQuizRunType()) {
-          case ONE_QUESTION_AT_A_TIME -> Set.of(quizQuestionConverter.toDTO(quizRunEntity.getCurrentQuestion()));
+          case ONE_QUESTION_AT_A_TIME -> {
+            if (quizRunEntity.getState() == QuizRunState.DONE) {
+              yield quizQuestionConverter.toDtoSet(quizRunEntity.getQuiz().getQuestions());
+            }
+            yield quizRunEntity.getCurrentQuestion() == null ? new HashSet<>() : Set.of(quizQuestionConverter.toDTO(quizRunEntity.getCurrentQuestion()));
+          }
           case FREE_ANSWERING -> quizQuestionConverter.toDtoSet(quizRunEntity.getQuiz().getQuestions());
         }
       )

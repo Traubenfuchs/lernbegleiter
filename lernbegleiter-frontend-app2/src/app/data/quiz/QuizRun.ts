@@ -7,4 +7,5 @@ export class QuizRun extends BaseDto {
   currentQuestions: QuizQuestion[] = []
   state: QuizRunState
   quizRunType: string
+  questionCount: number
 }

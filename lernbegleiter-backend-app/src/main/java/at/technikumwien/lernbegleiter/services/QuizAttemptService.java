@@ -7,8 +7,10 @@ import at.technikumwien.lernbegleiter.repositories.quiz.attempts.*;
 import lombok.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.*;
 import org.springframework.util.*;
 
+@Transactional(isolation = Isolation.SERIALIZABLE)
 @Service
 public class QuizAttemptService {
   @Autowired
@@ -21,8 +23,12 @@ public class QuizAttemptService {
    * QuizQuestionAnswers inside the current quizQuestion in the given QuizRunDto
    */
   public void enrichWithAttemptData(@NonNull QuizRunDto quizRunDto) {
-    if (
-      CollectionUtils.isEmpty(quizRunDto.getCurrentQuestions()) || quizRunDto.getState() != QuizRunState.WAITING_FOR_ANSWERS) {
+    //if (
+    // CollectionUtils.isEmpty(quizRunDto.getCurrentQuestions()) || quizRunDto.getState() != QuizRunState.WAITING_FOR_ANSWERS) {
+    //  return;
+    // }
+
+    if (CollectionUtils.isEmpty(quizRunDto.getCurrentQuestions())) {
       return;
     }
 
@@ -31,15 +37,28 @@ public class QuizAttemptService {
         createQuizAttemptIfNotExists(quizRunDto.getUuid()),
         currentQuestion.getUuid());
 
+      boolean questionAnsweredCorrectly = true;
+
       for (QuizAnswerDto answerDto : currentQuestion.getAnswers()) {
-        boolean correct = quizQuestionAttemptEntity.getAnswers()
+        boolean ticked = quizQuestionAttemptEntity.getAnswers()
           .stream()
           .filter(a -> a.getFkQuizAnswerUuid().equals(answerDto.getUuid()))
           .findFirst()
           .get()
           .getCorrect();
 
-        answerDto.setCorrect(correct);
+        if (quizRunDto.getState() == QuizRunState.DONE || quizRunDto.getState() == QuizRunState.WAITING_FOR_NEXT_QUESTION) {
+          boolean tickedCorrectly = answerDto.getCorrect().equals(ticked);
+          if (!tickedCorrectly) {
+            questionAnsweredCorrectly = false;
+          }
+          answerDto.setTickedCorrectly(answerDto.getCorrect().equals(ticked));
+          currentQuestion.setAnsweredCorrectly(questionAnsweredCorrectly);
+        }
+
+        if (quizRunDto.getState() == QuizRunState.WAITING_FOR_ANSWERS) {
+          answerDto.setCorrect(ticked);
+        }
       }
     }
   }

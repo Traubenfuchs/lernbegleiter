@@ -59,10 +59,12 @@ public class QuizRunService {
   }
 
   public UuidResponse post(@NonNull String quizUUID, @NonNull @Valid QuizRunDto quizRunDto) {
+    QuizEntity quizEntity = quizRepository.getOne(quizUUID);
     QuizRunEntity quizRunEntity = quizRunConverter
       .toEntity(quizRunDto)
       .setState(QuizRunState.CREATED)
-      .setQuiz(quizRepository.getOne(quizUUID));
+      .setQuiz(quizEntity)
+      .setQuestionCount(quizEntity.getQuestions().size());
     return new UuidResponse(quizRunRepository.save(quizRunEntity).getUuid());
   }
 
@@ -73,11 +75,14 @@ public class QuizRunService {
   public QuizRunDto getCachedForStudent(@NonNull String quizRunUUID) throws ExecutionException {
     QuizRunDto result = cache.get(quizRunUUID);
 
-    if (result.getState() == QuizRunState.WAITING_FOR_ANSWERS) {
-      // only while a quiz is getting answered should the correct answers be overwritten with the given answers
-      // while the quiz is not answered (=after answering / while waiting for next question / after quiz) the correct answers should be shown
-      quizAttemptService.enrichWithAttemptData(result);
+    if (result.getState() == QuizRunState.CREATED) {
+      result.setCurrentQuestions(new HashSet<>());
     }
+
+    // only while a quiz is getting answered should the correct answers be overwritten with the given answers
+    // while the quiz is not answered (=after answering / while waiting for next question / after quiz) the correct answers should be shown
+    quizAttemptService.enrichWithAttemptData(result);
+
 
     return result;
   }
@@ -140,8 +145,11 @@ public class QuizRunService {
     if (quizRunEntity.getState() == QuizRunState.CREATED) {
       quizRunEntity.setState(QuizRunState.WAITING_FOR_ANSWERS);
     } else if (quizRunEntity.getState() == QuizRunState.WAITING_FOR_ANSWERS) {
-      quizRunEntity.setState(QuizRunState.DONE);
+      quizRunEntity
+        .setState(QuizRunState.DONE)
+        .setNextTimeLimit(null);
     }
+    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "free-answering quizRun is in state" + quizRunEntity.getState() + ", can not advance that.");
   }
 
   /**

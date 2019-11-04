@@ -37,4 +37,12 @@ public class QuizQuestionEntity extends BaseEntityCreationUpdateDate<QuizQuestio
   private LobEntity lob;
   @Column(name = "FK_LOB_UUID", updatable = false, insertable = false)
   private String fkLobUUID;
+  @Column(name = "QUESTION_COUNT")
+  private Integer answerCount;
+
+  @Override
+  @PrePersist
+  public void prePersist() {
+    this.answerCount = getAnswers().size();
+  }
 }

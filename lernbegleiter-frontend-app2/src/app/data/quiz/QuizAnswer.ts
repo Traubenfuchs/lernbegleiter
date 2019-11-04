@@ -3,5 +3,6 @@ export class QuizAnswer {
   content = ''
   internalId = new Date().getTime() * Math.random()
   correct = false
+  tickedCorrectly = false
   position: number
 }

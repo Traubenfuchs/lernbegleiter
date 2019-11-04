@@ -17,4 +17,6 @@ public class QuizQuestionDto extends BaseDto<QuizQuestionDto> {
   private Integer position;
   private LobDto lob;
   private Integer timeLimit;
+  private Boolean answeredCorrectly;
+  private Integer answerCount;
 }

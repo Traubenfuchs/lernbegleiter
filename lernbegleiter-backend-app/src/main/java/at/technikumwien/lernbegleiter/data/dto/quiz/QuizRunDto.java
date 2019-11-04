@@ -18,4 +18,5 @@ public class QuizRunDto extends BaseDto<QuizRunDto> {
   private Set<QuizQuestionDto> currentQuestions;
   private QuizRunState state;
   private QuizRunType quizRunType;
+  private Integer questionCount;
 }

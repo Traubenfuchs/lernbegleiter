@@ -12,5 +12,6 @@ import lombok.experimental.*;
 public class QuizAnswerDto extends BaseDto<QuizAnswerDto> {
   private String content;
   private Boolean correct;
+  private Boolean tickedCorrectly;
   private Integer position;
 }

@@ -17,6 +17,9 @@ import { delay } from 'rxjs/operators';
 })
 export class QuizRunComponent implements OnInit, OnDestroy {
   destroyed = false
+  loadingQuizRun = false
+  loadingQuizResult = false
+
   uuid = ''
   quizUuid = ''
   quiz = new Quiz()
@@ -33,47 +36,67 @@ export class QuizRunComponent implements OnInit, OnDestroy {
     });
 
     const loadData = () => {
-      if (!this.uuid || this.uuid === '' || this.uuid === 'new' || this.destroyed) {
+      if (this.destroyed) {
         return
       }
 
-      combineLatest(this.loadQuizRun(), this.loadQuizResult())
-        .pipe(delay(900))
-        .subscribe(loadData, loadData)
+      setTimeout(loadData, 1000)
+
+      if (!this.uuid || this.uuid === '' || this.uuid === 'new') {
+        return;
+      }
+
+      this.loadQuizRun()
+      this.loadQuizResult()
+
     }
     loadData()
 
-    this.timeLeftIntervalId = setInterval(() => {
+    const updateTimer = () => {
+      if (this.destroyed) {
+        return;
+      }
+      setTimeout(updateTimer, 100)
+
       if (!this.quizRun || !this.quizRun.nextTimeLimit) {
-        this.timeLeft = '0'
+        this.timeLeft = undefined
         return
       }
-      const diff = Date.parse(this.quizRun.nextTimeLimit.toString()) - new Date().getTime()
+      const diff = new Date(this.quizRun.nextTimeLimit.toString()).getTime() - new Date().getTime()
       if (diff < 0) {
-        this.timeLeft = '0'
+        this.timeLeft = undefined
         return
       }
 
       const timeLeftSecs = Math.round(diff * 100) / 100000
 
-      if (timeLeftSecs < 120) {
+      if (timeLeftSecs < 0) {
+        this.timeLeft = undefined
+      } else if (timeLeftSecs < 120) {
         this.timeLeft = timeLeftSecs.toString()
+      } else if (timeLeftSecs < 60 * 60) {
+        this.timeLeft = `mehr als ${Math.floor(timeLeftSecs / 60)} Minuten`
+      } else if (timeLeftSecs < 60 * 60 * 24) {
+        this.timeLeft = `mehr als ${Math.floor(timeLeftSecs / 60 / 60)} Stunden`
       } else {
-        this.timeLeft = "mehr als zwei Minuten"
+        this.timeLeft = `mehr als ${Math.floor(timeLeftSecs / 60 / 60 / 24)} Tage`
       }
-    }, 100)
+    };
+    updateTimer();
   }
 
   ngOnDestroy(): void {
+    console.log("quiz-run-component ngOnDestroy called...")
     this.destroyed = true
-    clearInterval(this.timeLeftIntervalId)
   }
 
   ngOnInit() {
     this.uuid = this.route.snapshot.paramMap.get("quizRunUUID")
     this.quizUuid = this.route.snapshot.paramMap.get("quizUUID")
+    this.quizResult = new QuizResult()
+    this.quizRun = new QuizRun()
 
-    this.loadQuiz()
+    // this.loadQuiz()
 
     if (this.uuid === 'new') {
       this.quizRun.quizRunType = 'FREE_ANSWERING'
@@ -108,9 +131,16 @@ export class QuizRunComponent implements OnInit, OnDestroy {
   saveClick() {
     console.log('Creating Quiz Run...')
 
+    let nextTimeLimit: string;
+    try {
+      nextTimeLimit = new Date(this.quizRun.nextTimeLimit).toISOString();
+    } catch {
+      // ignore
+    }
+
     this.http.post<UuidResponse>(`api/quiz/${this.quizUuid}/quiz-run`, {
       quizRunType: this.quizRun.quizRunType,
-      nextTimeLimit: new Date(this.quizRun.nextTimeLimit).toISOString()
+      nextTimeLimit
     })
       .subscribe(uuidResponse => {
         console.log('Created Quiz Run. Refreshing route.')
@@ -122,27 +152,40 @@ export class QuizRunComponent implements OnInit, OnDestroy {
     if (!this.loginService.loggedInAndTeacherOrAdmin()) {
       return
     }
+    this.loadingQuizResult = true
     console.log('Loading QuizResult...')
     const result = this.http.get<QuizResult>(`api/quiz/${this.quizUuid}/quiz-run/${this.uuid}/quiz-result`)
     result.subscribe(res => {
       res.entries = res.entries.sort((l, r) => l.points < r.points ? -1 : 1)
       console.log('Loaded QuizResult.')
       this.quizResult = res
-    });
+    },
+      err => {
+
+      }, () => {
+        this.loadingQuizResult = false
+      });
 
     return result
   }
 
   loadQuizRun() {
     console.log('Loading QuizRun...')
+    this.loadingQuizRun = true
     const result = this.http.get<QuizRun>(`api/quiz-run-${this.loginService.loggedInAndAdmin() ? 'admin' : 'student'}/${this.uuid}`)
     result.subscribe(res => {
       console.log('QuizRun loaded.')
       this.quizRun = res
-      if (this.quizRun.nextTimeLimit && this.quizRun.nextTimeLimit.length > 15) {
-        this.quizRun.nextTimeLimit = this.quizRun.nextTimeLimit.substring(0, 16)
-      }
-    })
+      // if (this.quizRun.nextTimeLimit && this.quizRun.nextTimeLimit.length > 15) {
+      //   this.quizRun.nextTimeLimit = this.quizRun.nextTimeLimit.substring(0, 16)
+      // }
+    },
+      err => {
+
+      },
+      () => {
+        this.loadingQuizRun = false
+      })
     return result
   }
 
@@ -163,5 +206,9 @@ export class QuizRunComponent implements OnInit, OnDestroy {
     }).subscribe(res => {
       this.quizRun = res
     })
+  }
+
+  trackByFn(index, item) {
+    return item.uuid; // or item.id
   }
 }
