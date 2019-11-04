@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.*;
 import org.springframework.context.annotation.*;
 import org.springframework.scheduling.annotation.*;
 import org.springframework.transaction.annotation.*;
-import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.context.annotation.ScopedProxyMode.*;
 
@@ -13,9 +12,11 @@ import static org.springframework.context.annotation.ScopedProxyMode.*;
 @ComponentScan(scopedProxy = TARGET_CLASS)
 @EnableTransactionManagement(proxyTargetClass = true)
 @EnableScheduling
-@RestController
 public class LernbegleiterApplication {
   public static void main(String[] args) {
+    var x = """
+  x  x
+    """;
     SpringApplication.run(LernbegleiterApplication.class, args);
   }
 }

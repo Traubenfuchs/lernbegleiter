@@ -3,16 +3,18 @@
   <div class="card" *ngIf="loginService.loggedInAndStudent()">
 
     <div class="card-body">
+      <div>Zeit übrig: {{timeLeft}}</div>
       <ng-container *ngIf="_QuizRunState.WAITING_FOR_ANSWERS == _QuizRunState[quizRun.state]">
-        <div>{{quizRun.currentQuestion.content}}</div>
-        <div>Zeit übrig: {{timeLeft}}</div>
-        <img *ngIf="quizRun.currentQuestion.lob.quizPictureUUID"
-          [src]="'/api/image/' + quizRun.currentQuestion.lob.quizPictureUUID">
-        <div *ngFor="let answer of quizRun.currentQuestion.answers">
-          <div>{{answer.content}}</div>
-          <button (click)="flipAnswerTo(answer.uuid, false)" class="btn btn-secondary"
-            *ngIf='answer.correct'>✔️</button>
-          <button (click)="flipAnswerTo(answer.uuid, true)" class="btn btn-secondary" *ngIf='!answer.correct'>❌</button>
+        <div *ngFor="let question of quizRun.currentQuestions">
+          <div>{{question.content}}</div>
+          <img *ngIf="question.lob.quizPictureUUID" [src]="'/api/image/' + question.lob.quizPictureUUID">
+          <div *ngFor="let answer of question.answers">
+            <div>{{answer.content}}</div>
+            <button (click)="flipAnswerTo(answer.uuid, false)" class="btn btn-secondary"
+              *ngIf='answer.correct'>✔️</button>
+            <button (click)="flipAnswerTo(answer.uuid, true)" class="btn btn-secondary"
+              *ngIf='!answer.correct'>❌</button>
+          </div>
         </div>
       </ng-container>
 
@@ -44,7 +46,8 @@
         <div class="row">
           <div class="col">
             <label for="uuidInput">UUID</label>
-            <input id="uuidInput" [(ngModel)]="quizRun.uuid" type="text" class="form-control" placeholder="UUID" disabled>
+            <input id="uuidInput" [(ngModel)]="quizRun.uuid" type="text" class="form-control" placeholder="UUID"
+              disabled>
           </div>
           <div class="col">
             <label for="stateInput">Status</label>
@@ -55,7 +58,7 @@
         <div class="row">
           <div class="col">
             <label for="typeInput">Quiz-Typ</label>
-            <select id="typeInput" [(ngModel)]="quizRun.quizRunType" class="form-control">
+            <select id="typeInput" [(ngModel)]="quizRun.quizRunType" class="form-control" [disabled]='uuid !== "new" ? true : null'>
               <option value="ONE_QUESTION_AT_A_TIME">Einzelne Frage mit Timelimit</option>
               <option value="FREE_ANSWERING">freies Antworten / take home</option>
             </select>
@@ -63,7 +66,8 @@
           <div class="col">
             <ng-container *ngIf="quizRun.quizRunType === 'FREE_ANSWERING'">
               <label for="nextTimeLimitInput">Quiz endet am & um</label>
-              <input id="nextTimeLimitInput" [(ngModel)]="quizRun.nextTimeLimit" type="datetime-local" class="form-control">
+              <input id="nextTimeLimitInput" [(ngModel)]="quizRun.nextTimeLimit" type="datetime-local"
+                class="form-control" [attr.disabled]='uuid !== "new" ? true : null'>
             </ng-container>
           </div>
         </div><!-- ends row-->
@@ -77,7 +81,7 @@
               *ngIf="_QuizRunState.CREATED == _QuizRunState[quizRun.state]">Quiz starten</button>
           </div>
         </div><!-- ends row-->
-        <div class="row mt-3" *ngIf="timeLeft > 0">
+        <div class="row mt-3">
           <div class="col">
             <div>Zeit übrig: {{timeLeft}}</div>
           </div>

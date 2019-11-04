@@ -7,6 +7,7 @@ import at.technikumwien.lernbegleiter.repositories.quiz.attempts.*;
 import lombok.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
+import org.springframework.util.*;
 
 @Service
 public class QuizAttemptService {
@@ -20,23 +21,26 @@ public class QuizAttemptService {
    * QuizQuestionAnswers inside the current quizQuestion in the given QuizRunDto
    */
   public void enrichWithAttemptData(@NonNull QuizRunDto quizRunDto) {
-    if (quizRunDto.getCurrentQuestion() == null || quizRunDto.getState() != QuizRunState.WAITING_FOR_ANSWERS) {
+    if (
+      CollectionUtils.isEmpty(quizRunDto.getCurrentQuestions()) || quizRunDto.getState() != QuizRunState.WAITING_FOR_ANSWERS) {
       return;
     }
 
-    QuizQuestionAttemptEntity quizQuestionAttemptEntity = quizQuestionAttemptRepository.findByFkQuizAttemptUuidAndFkQuizQuestionUuid(
-      createQuizAttemptIfNotExists(quizRunDto.getUuid()),
-      quizRunDto.getCurrentQuestion().getUuid());
+    for (QuizQuestionDto currentQuestion : quizRunDto.getCurrentQuestions()) {
+      QuizQuestionAttemptEntity quizQuestionAttemptEntity = quizQuestionAttemptRepository.findByFkQuizAttemptUuidAndFkQuizQuestionUuid(
+        createQuizAttemptIfNotExists(quizRunDto.getUuid()),
+        currentQuestion.getUuid());
 
-    for (QuizAnswerDto answerDto : quizRunDto.getCurrentQuestion().getAnswers()) {
-      boolean correct = quizQuestionAttemptEntity.getAnswers()
-        .stream()
-        .filter(a -> a.getFkQuizAnswerUuid().equals(answerDto.getUuid()))
-        .findFirst()
-        .get()
-        .getCorrect();
+      for (QuizAnswerDto answerDto : currentQuestion.getAnswers()) {
+        boolean correct = quizQuestionAttemptEntity.getAnswers()
+          .stream()
+          .filter(a -> a.getFkQuizAnswerUuid().equals(answerDto.getUuid()))
+          .findFirst()
+          .get()
+          .getCorrect();
 
-      answerDto.setCorrect(correct);
+        answerDto.setCorrect(correct);
+      }
     }
   }
 

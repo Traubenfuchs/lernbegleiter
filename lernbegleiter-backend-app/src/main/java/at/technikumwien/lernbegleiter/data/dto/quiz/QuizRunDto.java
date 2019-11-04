@@ -6,6 +6,7 @@ import lombok.*;
 import lombok.experimental.*;
 
 import java.time.*;
+import java.util.*;
 
 @Getter
 @Setter
@@ -14,7 +15,7 @@ import java.time.*;
 @NoArgsConstructor
 public class QuizRunDto extends BaseDto<QuizRunDto> {
   private Instant nextTimeLimit;
-  private QuizQuestionDto currentQuestion;
+  private Set<QuizQuestionDto> currentQuestions;
   private QuizRunState state;
   private QuizRunType quizRunType;
 }

@@ -18,6 +18,6 @@ public class AuthenticationController extends BaseController {
   }
 
   @PostMapping("api/login/check")
-  public void login() {
+  public void check() {
   }
 }

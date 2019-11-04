@@ -1,8 +1,8 @@
-import {Observable} from 'rxjs';
-import {LoginService} from './login.service';
+import { Observable } from 'rxjs';
+import { LoginService } from './login.service';
 
-import {Injectable} from '@angular/core';
-import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'

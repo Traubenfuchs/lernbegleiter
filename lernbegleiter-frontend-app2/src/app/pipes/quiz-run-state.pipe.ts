@@ -11,7 +11,7 @@ export class QuizRunStatePipe implements PipeTransform {
     }
 
     if (value === 'WAITING_FOR_ANSWERS') {
-      return "Warten auf Antwortwn"
+      return "Warten auf Antworten"
     }
 
     if (value === 'WAITING_FOR_NEXT_QUESTION') {
