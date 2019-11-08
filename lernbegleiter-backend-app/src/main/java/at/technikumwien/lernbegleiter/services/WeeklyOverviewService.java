@@ -71,26 +71,25 @@ public class WeeklyOverviewService {
       ))
       .collect(Collectors.toSet());
 
-    Set<WeeklyOverviewReflectionClassEntity> reflectionClasses = woe.getReflexionClasses();
-    prepareReflectionClasses(woe, reflectionClasses, classes);
+    prepareReflectionClasses(woe, classes);
 
-    Set<WeeklyOverviewClassEntity> weeklyOverviewClasses = woe.getWeeklyOverviewClasses();
-    prepareWeeklyOverviewClasses(woe, weeklyOverviewClasses, classes);
+
+    prepareWeeklyOverviewClasses(woe, classes);
 
     return weeklyOverviewRepository.save(woe);
   }
 
   private void prepareReflectionClasses(
     WeeklyOverviewEntity woe,
-    Set<WeeklyOverviewReflectionClassEntity> reflectionClasses,
-    Set<ClassEntity> classes
+    Set<ClassEntity> currentlyExistingClasses
   ) {
-    Set<String> classNames = classes.stream().map(ClassEntity::getName).collect(Collectors.toSet());
+    Set<WeeklyOverviewReflectionClassEntity> reflectionClasses = woe.getReflexionClasses();
+    Set<String> classNames = currentlyExistingClasses.stream().map(ClassEntity::getName).collect(Collectors.toSet());
     reflectionClasses.removeIf(wrce -> !classNames.contains(wrce.getClazz().getName()));
 
     Set<String> existingClassNames = reflectionClasses.stream().map(x -> x.getClazz().getName()).collect(Collectors.toSet());
 
-    classes.stream()
+    currentlyExistingClasses.stream()
       .filter(s -> !existingClassNames.contains(s.getName()))
       .forEach(classEntity -> reflectionClasses.add(
         new WeeklyOverviewReflectionClassEntity()
@@ -101,15 +100,16 @@ public class WeeklyOverviewService {
 
   private void prepareWeeklyOverviewClasses(
     WeeklyOverviewEntity woe,
-    Set<WeeklyOverviewClassEntity> weeklyOverviewClasses,
-    Set<ClassEntity> classes
+    Set<ClassEntity> currentlyExistingClasses
   ) {
-    Set<String> classNames = classes.stream().map(ClassEntity::getName).collect(Collectors.toSet());
+    Set<WeeklyOverviewClassEntity> weeklyOverviewClasses = woe.getWeeklyOverviewClasses();
+
+    Set<String> classNames = currentlyExistingClasses.stream().map(ClassEntity::getName).collect(Collectors.toSet());
     weeklyOverviewClasses.removeIf(woce -> !classNames.contains(woce.getClazz().getName()));
 
     Set<String> existingClassNames = weeklyOverviewClasses.stream().map(x -> x.getClazz().getName()).collect(Collectors.toSet());
 
-    classes.stream()
+    currentlyExistingClasses.stream()
       .filter(s -> !existingClassNames.contains(s.getName()))
       .forEach(classEntity -> {
 
