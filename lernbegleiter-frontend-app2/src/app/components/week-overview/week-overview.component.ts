@@ -29,8 +29,8 @@ export class WeekOverviewComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.week = parseInt(this.route.snapshot.paramMap.get("week"))
-    this.year = parseInt(this.route.snapshot.paramMap.get("year"))
+    this.week = parseInt(this.route.snapshot.paramMap.get("week"), 10)
+    this.year = parseInt(this.route.snapshot.paramMap.get("year"), 10)
     this.loadLearningModuleStudents()
     this.loadWeeklyOverview()
   }

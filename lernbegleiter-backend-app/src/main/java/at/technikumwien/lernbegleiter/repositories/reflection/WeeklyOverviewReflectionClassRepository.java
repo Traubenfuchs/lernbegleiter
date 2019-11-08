@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.*;
 
 @Repository
-public interface WeeklyOverviewReflectionRepository extends JpaRepository<WeeklyOverviewReflectionClassEntity, String> {
+public interface WeeklyOverviewReflectionClassRepository extends JpaRepository<WeeklyOverviewReflectionClassEntity, String> {
 }

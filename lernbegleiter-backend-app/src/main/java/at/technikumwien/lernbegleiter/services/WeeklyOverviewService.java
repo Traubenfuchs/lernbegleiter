@@ -31,7 +31,13 @@ public class WeeklyOverviewService {
   @Autowired
   private WeeklyOverviewConverter weeklyOverviewConverter;
   @Autowired
+  private WeeklyOverviewReflectionClassRepository weeklyOverviewReflectionClassRepository;
+  @Autowired
   private AuthHelper authHelper;
+  @Autowired
+  private WeeklyOverviewClassRepository weeklyOverviewClassRepository;
+  @Autowired
+  private WeeklyOverviewClassDayRepository weeklyOverviewClassDayRepository;
 
   public WeeklyOverviewDto adaptStudentsWeeklyOverview(
     @NonNull String studentUuid,
@@ -43,6 +49,7 @@ public class WeeklyOverviewService {
     return weeklyOverviewConverter.toDTO(woe);
   }
 
+  @Transactional(propagation = Propagation.REQUIRES_NEW)
   public WeeklyOverviewEntity adaptStudentsWeeklyOverviewEntity(
     @NonNull String studentUuid,
     @NonNull Integer calendarWeek,
@@ -87,10 +94,9 @@ public class WeeklyOverviewService {
       .filter(s -> !existingClassNames.contains(s.getName()))
       .forEach(classEntity -> reflectionClasses.add(
         new WeeklyOverviewReflectionClassEntity()
-          .generateUuid()
           .setClazz(classEntity)
-          .setWeeklyOverview(woe)
-      ));
+          .setWeeklyOverview(woe))
+      );
   }
 
   private void prepareWeeklyOverviewClasses(
@@ -107,19 +113,16 @@ public class WeeklyOverviewService {
       .filter(s -> !existingClassNames.contains(s.getName()))
       .forEach(classEntity -> {
 
-        WeeklyOverviewClassEntity woce = new WeeklyOverviewClassEntity()
-          .generateUuid()
+        WeeklyOverviewClassEntity woce = new WeeklyOverviewClassEntity();
+
+        woce.setDays(
+          IntStream
+            .rangeClosed(0, 4)
+            .mapToObj(i -> new WeeklyOverviewClassDayEntity()
+              .setWeeklyOverviewClass(woce)
+              .setDayOfWeek(i)).collect(Collectors.toSet()))
           .setClazz(classEntity)
           .setWeeklyOverview(woe);
-
-        // one for each work-day
-        for (int i = 0; i < 5; i++) {
-          woce.getDays().add(new WeeklyOverviewClassDayEntity()
-            .generateUuid()
-            .setWeeklyOverviewClass(woce)
-            .setDayOfWeek(i)
-          );
-        }
 
         weeklyOverviewClasses.add(woce);
       });
@@ -171,8 +174,9 @@ public class WeeklyOverviewService {
         if (de == null) {
           continue;
         }
-        de.setStudentComment(weeklyOverviewClassDayDto.getStudentComment());
-        de.setTeacherComment(weeklyOverviewClassDayDto.getTeacherComment());
+        de
+          .setStudentComment(weeklyOverviewClassDayDto.getStudentComment())
+          .setTeacherComment(weeklyOverviewClassDayDto.getTeacherComment());
         i++;
       }
     }

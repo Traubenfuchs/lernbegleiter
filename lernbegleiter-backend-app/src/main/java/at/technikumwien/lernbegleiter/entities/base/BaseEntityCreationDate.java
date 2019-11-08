@@ -13,7 +13,7 @@ public abstract class BaseEntityCreationDate<T extends BaseEntityCreationDate<T>
   private Instant tsCreation;
 
   @PrePersist
-  public void prePersist() {
+  public final void prePersistTsCreation() {
     this.tsCreation = Instant.now();
   }
 }

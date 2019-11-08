@@ -9,7 +9,6 @@ import { LoginComponent } from './components/general/login/login.component';
 import { LoginSuccessComponent } from './components/general/login-success/login-success.component';
 import { ClassComponent } from './components/admin/class/class.component';
 import { ClassesComponent } from './components/admin/classes/classes.component';
-import { SubModuleComponent } from './components/admin/sub-module/sub-module.component';
 import { LearningModuleComponent } from './components/admin/learning-module/learning-module.component';
 import { StudentComponent } from './components/admin/student/student.component';
 import { GradeComponent } from './components/admin/grade/grade.component';
@@ -35,8 +34,6 @@ const routes: Routes = [
   { path: 'management/student/:studentUUID', component: StudentComponent },
 
   { path: 'management/class/:classUUID/learning-module/:learningModuleUUID', component: LearningModuleComponent },
-
-  { path: 'management/learning-module/:learningModuleUUID/sub-module/:subModuleUUID', component: SubModuleComponent },
 
   { path: 'management/classes', component: ClassesComponent }, // class = Fach
   { path: 'management/class/:classUUID', component: ClassComponent }, // class = Fach

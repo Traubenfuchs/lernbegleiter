@@ -40,9 +40,8 @@ public class QuizQuestionEntity extends BaseEntityCreationUpdateDate<QuizQuestio
   @Column(name = "QUESTION_COUNT")
   private Integer answerCount;
 
-  @Override
   @PrePersist
-  public void prePersist() {
+  public void perPersistAnswersSize() {
     this.answerCount = getAnswers().size();
   }
 }

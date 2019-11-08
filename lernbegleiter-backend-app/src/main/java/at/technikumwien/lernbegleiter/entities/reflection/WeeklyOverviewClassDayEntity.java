@@ -24,7 +24,7 @@ public class WeeklyOverviewClassDayEntity extends BaseEntity<WeeklyOverviewClass
   @Column(name = "DAY_OF_WEEK")
   private Integer dayOfWeek = -1;
 
-  @ManyToOne(optional = false, cascade = CascadeType.ALL)
+  @ManyToOne(optional = false)
   @JoinColumn(name = "FK_WEEKLY_OVERVIEW_CLASS_UUID", nullable = false)
   private WeeklyOverviewClassEntity weeklyOverviewClass;
 }

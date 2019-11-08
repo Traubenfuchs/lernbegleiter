@@ -38,11 +38,11 @@ public class WeeklyOverviewEntity extends BaseEntity<WeeklyOverviewEntity> {
   @Column(name = "YEAR", nullable = false)
   private Short year;
 
-  @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "weeklyOverview", fetch = EAGER)
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "weeklyOverview", fetch = EAGER)
   @Fetch(value = FetchMode.JOIN)
   private Set<WeeklyOverviewClassEntity> weeklyOverviewClasses = new HashSet<>();
 
-  @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "weeklyOverview", fetch = EAGER)
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "weeklyOverview", fetch = EAGER)
   @Fetch(value = FetchMode.JOIN)
   private Set<WeeklyOverviewReflectionClassEntity> reflexionClasses = new HashSet<>();
 

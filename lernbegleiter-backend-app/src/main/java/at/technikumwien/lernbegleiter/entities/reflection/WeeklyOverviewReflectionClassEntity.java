@@ -24,7 +24,7 @@ public class WeeklyOverviewReflectionClassEntity extends BaseEntity<WeeklyOvervi
   @Column(name = "IMPROVEMENTS", length = 10240)
   private String improvements;
 
-  @ManyToOne(cascade = CascadeType.REMOVE, optional = false)
+  @ManyToOne(optional = false)
   @JoinColumn(name = "FK_WEEKLY_OVERVIEW_UUID", nullable = false)
   private WeeklyOverviewEntity weeklyOverview;
 

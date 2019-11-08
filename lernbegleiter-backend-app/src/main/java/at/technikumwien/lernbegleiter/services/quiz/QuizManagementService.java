@@ -42,8 +42,9 @@ public class QuizManagementService {
 
 
   public UuidResponse post(@NonNull @Valid QuizDto quizDto) {
-    QuizEntity qe = quizConverterDeep.toEntity(quizDto);
-    qe.setAuthor(userRepository.getCurrentUser());
+    QuizEntity qe = quizConverterDeep
+      .toEntity(quizDto)
+      .setAuthor(userRepository.getCurrentUser());
     qe = quizRepository.save(qe);
     return new UuidResponse(qe.getUuid());
   }

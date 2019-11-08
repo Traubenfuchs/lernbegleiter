@@ -148,8 +148,9 @@ public class QuizRunService {
       quizRunEntity
         .setState(QuizRunState.DONE)
         .setNextTimeLimit(null);
+    } else {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "free-answering quizRun is in state" + quizRunEntity.getState() + ", can not advance that.");
     }
-    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "free-answering quizRun is in state" + quizRunEntity.getState() + ", can not advance that.");
   }
 
   /**

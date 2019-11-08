@@ -13,7 +13,6 @@ import { GradesComponent } from './components/admin/grades/grades.component';
 import { LearningModuleComponent } from './components/admin/learning-module/learning-module.component';
 import { StudentComponent } from './components/admin/student/student.component';
 import { StudentsComponent } from './components/admin/students/students.component';
-import { SubModuleComponent } from './components/admin/sub-module/sub-module.component';
 import { HomeComponent } from './components/general/home/home.component';
 import { LoginSuccessComponent } from './components/general/login-success/login-success.component';
 import { LoginComponent } from './components/general/login/login.component';
@@ -46,7 +45,6 @@ import { QuizTypePipe } from './pipes/quiz-type.pipe';
     GradeComponent,
     StudentComponent,
     LearningModuleComponent,
-    SubModuleComponent,
     ClassComponent,
     ClassesComponent,
     WeekOverviewComponent,
