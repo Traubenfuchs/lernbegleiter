@@ -50,22 +50,11 @@ public class WeeklyOverviewEntity extends BaseEntity<WeeklyOverviewEntity> {
   @JoinColumn(name = "FK_STUDENT_UUID", nullable = false)
   private UserEntity student;
 
-  public WeeklyOverviewClassEntity getwWeeklyOverviewClassByName(String name) {
-    for (WeeklyOverviewClassEntity weeklyOverviewClassEntity : weeklyOverviewClasses) {
-      if (weeklyOverviewClassEntity.getClazz().getName().equals(name)) {
-        return weeklyOverviewClassEntity;
-      }
-    }
-    return null;
+  public WeeklyOverviewClassEntity getWeeklyOverviewClassByUuid(String uuid) {
+    return weeklyOverviewClasses.stream().filter(woc -> woc.getUuid().equals(uuid)).findFirst().orElseGet(null);
   }
 
-  public WeeklyOverviewReflectionClassEntity getWeeklyOverviewReflectionClassByName(String name) {
-    for (WeeklyOverviewReflectionClassEntity weeklyOverviewReflectionClassEntity : reflexionClasses) {
-      if (weeklyOverviewReflectionClassEntity.getClazz().getName().equals(name)) {
-        return weeklyOverviewReflectionClassEntity;
-      }
-    }
-
-    return null;
+  public WeeklyOverviewReflectionClassEntity getWeeklyOverviewReflectionClassByUuid(String uuid) {
+    return reflexionClasses.stream().filter(rc -> rc.getUuid().equals(uuid)).findFirst().orElseGet(null);
   }
 }

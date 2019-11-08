@@ -4,15 +4,16 @@ import at.technikumwien.lernbegleiter.components.*;
 import at.technikumwien.lernbegleiter.data.dto.converter.reflexion.*;
 import at.technikumwien.lernbegleiter.data.dto.reflexion.*;
 import at.technikumwien.lernbegleiter.entities.*;
-import at.technikumwien.lernbegleiter.entities.auth.*;
 import at.technikumwien.lernbegleiter.entities.reflection.*;
 import at.technikumwien.lernbegleiter.repositories.auth.*;
 import at.technikumwien.lernbegleiter.repositories.reflection.*;
 import lombok.*;
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.http.*;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
 import org.springframework.validation.annotation.*;
+import org.springframework.web.server.*;
 
 import javax.validation.*;
 import java.time.*;
@@ -72,8 +73,6 @@ public class WeeklyOverviewService {
       .collect(Collectors.toSet());
 
     prepareReflectionClasses(woe, classes);
-
-
     prepareWeeklyOverviewClasses(woe, classes);
 
     return weeklyOverviewRepository.save(woe);
@@ -84,18 +83,17 @@ public class WeeklyOverviewService {
     Set<ClassEntity> currentlyExistingClasses
   ) {
     Set<WeeklyOverviewReflectionClassEntity> reflectionClasses = woe.getReflexionClasses();
-    Set<String> classNames = currentlyExistingClasses.stream().map(ClassEntity::getName).collect(Collectors.toSet());
-    reflectionClasses.removeIf(wrce -> !classNames.contains(wrce.getClazz().getName()));
+    Set<String> uuidsOfExistingClasses = currentlyExistingClasses.stream().map(ClassEntity::getUuid).collect(Collectors.toSet());
+    reflectionClasses.removeIf(wrce -> !uuidsOfExistingClasses.contains(wrce.getFkClassUuid()));
+    Set<String> currentlyMappedClassUuids = reflectionClasses.stream().map(x -> x.getFkClassUuid()).collect(Collectors.toSet());
 
-    Set<String> existingClassNames = reflectionClasses.stream().map(x -> x.getClazz().getName()).collect(Collectors.toSet());
-
-    currentlyExistingClasses.stream()
-      .filter(s -> !existingClassNames.contains(s.getName()))
-      .forEach(classEntity -> reflectionClasses.add(
+    reflectionClasses.addAll(currentlyExistingClasses.stream()
+      .filter(existingClass -> !currentlyMappedClassUuids.contains(existingClass.getUuid()))
+      .map(classEntity ->
         new WeeklyOverviewReflectionClassEntity()
           .setClazz(classEntity)
-          .setWeeklyOverview(woe))
-      );
+          .setWeeklyOverview(woe)
+      ).collect(Collectors.toList()));
   }
 
   private void prepareWeeklyOverviewClasses(
@@ -103,18 +101,14 @@ public class WeeklyOverviewService {
     Set<ClassEntity> currentlyExistingClasses
   ) {
     Set<WeeklyOverviewClassEntity> weeklyOverviewClasses = woe.getWeeklyOverviewClasses();
+    Set<String> uuidsOfExistingClasses = currentlyExistingClasses.stream().map(ClassEntity::getUuid).collect(Collectors.toSet());
+    weeklyOverviewClasses.removeIf(woce -> !uuidsOfExistingClasses.contains(woce.getFkClassUuid()));
+    Set<String> currentlyMappedClassUuids = weeklyOverviewClasses.stream().map(x -> x.getFkClassUuid()).collect(Collectors.toSet());
 
-    Set<String> classNames = currentlyExistingClasses.stream().map(ClassEntity::getName).collect(Collectors.toSet());
-    weeklyOverviewClasses.removeIf(woce -> !classNames.contains(woce.getClazz().getName()));
-
-    Set<String> existingClassNames = weeklyOverviewClasses.stream().map(x -> x.getClazz().getName()).collect(Collectors.toSet());
-
-    currentlyExistingClasses.stream()
-      .filter(s -> !existingClassNames.contains(s.getName()))
-      .forEach(classEntity -> {
-
+    weeklyOverviewClasses.addAll(currentlyExistingClasses.stream()
+      .filter(existingClass -> !currentlyMappedClassUuids.contains(existingClass.getUuid()))
+      .map(classEntity -> {
         WeeklyOverviewClassEntity woce = new WeeklyOverviewClassEntity();
-
         woce.setDays(
           IntStream
             .rangeClosed(0, 4)
@@ -123,9 +117,8 @@ public class WeeklyOverviewService {
               .setDayOfWeek(i)).collect(Collectors.toSet()))
           .setClazz(classEntity)
           .setWeeklyOverview(woe);
-
-        weeklyOverviewClasses.add(woce);
-      });
+        return woce;
+      }).collect(Collectors.toList()));
   }
 
   private WeeklyOverviewEntity findByStudentUuidAndAndCalendarWeek(
@@ -133,17 +126,23 @@ public class WeeklyOverviewService {
     Integer calendarWeek,
     Short year
   ) {
-    UserEntity userEntity = userRepository.getOne(studentUuid);
+    if (calendarWeek > 54 || calendarWeek < 0) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Given calendar week <" + calendarWeek + "> is out of range.");
+    }
+    if (year < 2019 || year > 2030) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Given year<" + year + "> is out of range.");
+    }
 
     WeeklyOverviewEntity weeklyOverviewEntity = weeklyOverviewRepository.findByStudentUuidAndAndCalendarWeek(studentUuid, calendarWeek);
-    if (weeklyOverviewEntity == null) {
-      weeklyOverviewEntity = new WeeklyOverviewEntity()
-        .setStudent(userEntity)
-        .setCalendarWeek(calendarWeek)
-        .setYear(year)
-        .generateUuid();
+    if (weeklyOverviewEntity != null) {
+      return weeklyOverviewEntity;
     }
-    return weeklyOverviewEntity;
+
+    return new WeeklyOverviewEntity()
+      .setStudent(userRepository.getOne(studentUuid))
+      .setCalendarWeek(calendarWeek)
+      .setYear(year)
+      .generateUuid();
   }
 
   public void patch(
@@ -157,24 +156,21 @@ public class WeeklyOverviewService {
 
     authHelper.isAdminOrTeacherOrCurrentUserUuidOrThrow(woe.getStudent().getUuid());
 
-    woe.setFurtherSteps(weeklyOverviewDto.getFurtherSteps());
-    woe.setMyWeeklyGoals(weeklyOverviewDto.getMyWeeklyGoals());
+    woe
+      .setFurtherSteps(weeklyOverviewDto.getFurtherSteps())
+      .setMyWeeklyGoals(weeklyOverviewDto.getMyWeeklyGoals());
 
     for (WeeklyOverviewClassDto weeklyOverviewClassDto : weeklyOverviewDto.getWeeklyOverviewClasses()) {
-      WeeklyOverviewClassEntity weeklyOverviewClassEntity = woe.getwWeeklyOverviewClassByName(weeklyOverviewClassDto.getName());
-      if (weeklyOverviewClassEntity == null) {
-        continue;
-      }
-      weeklyOverviewClassEntity.setColor(weeklyOverviewClassDto.getColor());
-      ArrayList<WeeklyOverviewClassDayEntity> orderedDays = weeklyOverviewClassEntity.getDaysOrdered();
+      ArrayList<WeeklyOverviewClassDayEntity> orderedDays = woe
+        .getWeeklyOverviewClassByUuid(weeklyOverviewClassDto.getUuid())
+        .setColor(weeklyOverviewClassDto.getColor())
+        .getDaysOrdered();
 
       int i = 0;
       for (WeeklyOverviewClassDayDto weeklyOverviewClassDayDto : weeklyOverviewClassDto.getDays()) {
-        WeeklyOverviewClassDayEntity de = orderedDays.get(i);
-        if (de == null) {
-          continue;
-        }
-        de
+        WeeklyOverviewClassDayEntity weeklyOverviewClassDayEntity = orderedDays.get(i);
+
+        weeklyOverviewClassDayEntity
           .setStudentComment(weeklyOverviewClassDayDto.getStudentComment())
           .setTeacherComment(weeklyOverviewClassDayDto.getTeacherComment());
         i++;
@@ -182,14 +178,11 @@ public class WeeklyOverviewService {
     }
 
     for (WeeklyOverviewReflectionClassDto weeklyOverviewReflectionClassDto : weeklyOverviewDto.getReflexionClasses()) {
-      WeeklyOverviewReflectionClassEntity weeklyOverviewReflectionClassEntity = woe.getWeeklyOverviewReflectionClassByName(weeklyOverviewReflectionClassDto.getName());
-      if (weeklyOverviewReflectionClassEntity == null) {
-        continue;
-      }
-
-      weeklyOverviewReflectionClassEntity.setColor(weeklyOverviewReflectionClassDto.getColor());
-      weeklyOverviewReflectionClassEntity.setImprovements(weeklyOverviewReflectionClassDto.getImprovements());
-      weeklyOverviewReflectionClassEntity.setProgress(weeklyOverviewReflectionClassDto.getProgress());
+      woe
+        .getWeeklyOverviewReflectionClassByUuid(weeklyOverviewReflectionClassDto.getUuid())
+        .setColor(weeklyOverviewReflectionClassDto.getColor())
+        .setImprovements(weeklyOverviewReflectionClassDto.getImprovements())
+        .setProgress(weeklyOverviewReflectionClassDto.getProgress());
     }
   }
 }

@@ -31,4 +31,7 @@ public class WeeklyOverviewReflectionClassEntity extends BaseEntity<WeeklyOvervi
   @ManyToOne(optional = false)
   @JoinColumn(name = "FK_CLASS_UUID", nullable = false)
   private ClassEntity clazz;
+
+  @Column(name = "FK_CLASS_UUID", insertable = false, updatable = false)
+  private String fkClassUuid;
 }
