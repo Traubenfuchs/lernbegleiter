@@ -12,9 +12,9 @@
 
             <div class="d-flex flex-wrap align-content-around" style="height: 105px;">
               <input id='usernameInput2' formControlName="username" class="form-control" name="username"
-                placeholder="Benutzername" required>
+                placeholder="Benutzername">
               <input id='passwordInput2' formControlName="password" class="form-control" name="password" type='password'
-                placeholder="Passwort" required>
+                placeholder="Passwort">
             </div>
             <div *ngIf="!!errorMessage" style='color:red'>
               {{errorMessage}}
@@ -22,7 +22,8 @@
 
           </div>
           <div class="card-footer">
-            <button class="btn btn-outline-primary float-right" (click)="login()" [disabled]="!loginFormgroup.valid">Login</button>
+            <button class="btn btn-outline-primary float-right" (click)="login()"
+              [disabled]="!loginFormgroup.valid">Login</button>
           </div>
         </div>
       </form>

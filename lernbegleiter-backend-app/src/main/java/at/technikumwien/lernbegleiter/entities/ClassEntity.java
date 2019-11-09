@@ -30,15 +30,15 @@ public class ClassEntity extends BaseEntityCreationUpdateDate<ClassEntity> {
   @Column(name = "NAME", nullable = false)
   private String name;
 
-  @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "clazz", fetch = EAGER)
+  @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "clazz", fetch = EAGER, orphanRemoval = true)
   @Fetch(value = FetchMode.JOIN)
   private Set<LearningModuleEntity> modules = new HashSet<>();
 
-  @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "clazz", fetch = EAGER)
+  @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "clazz", fetch = EAGER, orphanRemoval = true)
   @Fetch(value = FetchMode.JOIN)
   private Set<WeeklyOverviewReflectionClassEntity> weeklyOverviewReflectionClasses = new HashSet<>();
 
-  @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "clazz", fetch = EAGER)
+  @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "clazz", fetch = EAGER, orphanRemoval = true)
   @Fetch(value = FetchMode.JOIN)
   private Set<WeeklyOverviewClassEntity> weeklyOverviewClasses = new HashSet<>();
 

@@ -33,7 +33,7 @@ public class LearningModuleEntity extends BaseEntityCreationUpdateDate<LearningM
   @Column(name = "DATE_DEADLINE", nullable = false)
   private LocalDate deadline;
 
-  @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "learningModule")
+  @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "learningModule", orphanRemoval = true)
   private Set<LearningModuleStudentEntity> learningModuleStudents = new HashSet<>();
 
   @Column(name = "DESCRIPTION")

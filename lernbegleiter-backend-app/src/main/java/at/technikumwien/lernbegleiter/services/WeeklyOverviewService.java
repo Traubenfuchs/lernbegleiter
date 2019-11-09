@@ -82,7 +82,7 @@ public class WeeklyOverviewService {
     WeeklyOverviewEntity woe,
     Set<ClassEntity> currentlyExistingClasses
   ) {
-    Set<WeeklyOverviewReflectionClassEntity> reflectionClasses = woe.getReflexionClasses();
+    Set<WeeklyOverviewReflectionClassEntity> reflectionClasses = woe.getWeeklyOVerviewReflectionClasses();
     Set<String> uuidsOfExistingClasses = currentlyExistingClasses.stream().map(ClassEntity::getUuid).collect(Collectors.toSet());
     reflectionClasses.removeIf(wrce -> !uuidsOfExistingClasses.contains(wrce.getFkClassUuid()));
     Set<String> currentlyMappedClassUuids = reflectionClasses.stream().map(x -> x.getFkClassUuid()).collect(Collectors.toSet());

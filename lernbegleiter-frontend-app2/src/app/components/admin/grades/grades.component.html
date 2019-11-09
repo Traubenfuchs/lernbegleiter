@@ -1,52 +1,49 @@
-<div class="container">
+<div class="card">
+  <div class="card-header">
+    <h5 class="card-title">Neue Klasse anlegen</h5>
+    <p class="card-text">Hier kannst du eine neue Klasse anlegen</p>
 
-  <div class="card">
-    <div class="card-header">
-      <h5 class="card-title">Neue Klasse anlegen</h5>
-      <p class="card-text">Hier kannst du eine neue Klasse anlegen</p>
-
-      <div class="card-body">
-        <div class="input-group mb-3">
-          <input id="newClassName" class="form-control" placeholder="Klassenname" aria-label="Klassenname"
-            aria-describedby="basic-addon1" name='newGradeName' [(ngModel)]="newGradeName">
-          <div class="input-group-append">
-            <button id="basic-addon1" class="btn btn-success w-100" (click)='createGrade()'>Anlegen</button>
-          </div>
+    <div class="card-body">
+      <div class="input-group mb-3">
+        <input id="newClassName" class="form-control" placeholder="Klassenname" aria-label="Klassenname"
+          aria-describedby="basic-addon1" name='newGradeName' [(ngModel)]="newGradeName">
+        <div class="input-group-append">
+          <button id="basic-addon1" class="btn btn-success w-100" (click)='createGrade()'>Anlegen</button>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <div class="card mt-3">
-    <div class="card-header">
-      <h5 class="card-title">Klassenliste</h5>
-      <p class="card-text">Liste der Klassen</p>
-    </div>
-
-    <div class="card-body">
-      <ng-container *ngIf="isLoadingGrades">
-        <tr *ngFor="let i2 of [].constructor(10)">
-          <td *ngFor="let i of [].constructor(2)">
-            <app-loader></app-loader>
-          </td>
-        </tr>
-      </ng-container>
-      <ng-container *ngIf="!isLoadingGrades">
-        <ul *ngFor="let grade of grades" class="list-group list-group-flush">
-          <li class="list-group-item">
-            <app-loader *ngIf="isLoadingGrades"></app-loader>
-            <div *ngIf="!isLoadingGrades">
-              <span>{{ grade.name }}</span> ({{ grade.students.length }})
-              <div class="btn-group float-right" role="group" aria-label="Basic example">
-                <button (click)='deleteGrade(grade.uuid)' type="button" class="btn btn-danger btn-sm">Löschen</button>
-                <button [routerLink]="['/management/grade/', grade.uuid]" type="button"
-                  class="btn btn-secondary btn-sm">Bearbeiten</button>
-              </div>
-            </div>
-          </li>
-        </ul>
-      </ng-container>
-    </div>
-
+<div class="card mt-3">
+  <div class="card-header">
+    <h5 class="card-title">Klassenliste</h5>
+    <p class="card-text">Liste der Klassen</p>
   </div>
+
+  <div class="card-body">
+    <ng-container *ngIf="isLoadingGrades">
+      <tr *ngFor="let i2 of [].constructor(10)">
+        <td *ngFor="let i of [].constructor(2)">
+          <app-loader></app-loader>
+        </td>
+      </tr>
+    </ng-container>
+    <ng-container *ngIf="!isLoadingGrades">
+      <ul *ngFor="let grade of grades" class="list-group list-group-flush">
+        <li class="list-group-item">
+          <app-loader *ngIf="isLoadingGrades"></app-loader>
+          <div *ngIf="!isLoadingGrades">
+            <span>{{ grade.name }}</span> ({{ grade.students.length }})
+            <div class="btn-group float-right" role="group" aria-label="Basic example">
+              <button (click)='deleteGrade(grade.uuid)' type="button" class="btn btn-danger btn-sm">Löschen</button>
+              <button [routerLink]="['/management/grade/', grade.uuid]" type="button"
+                class="btn btn-secondary btn-sm">Bearbeiten</button>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </ng-container>
+  </div>
+
 </div>

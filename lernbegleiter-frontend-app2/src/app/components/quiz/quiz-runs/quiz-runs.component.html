@@ -1,23 +1,21 @@
-<div class="container">
-  <div class="card">
-    <div class="card-body">
-      <table class="lernbegleiter-table">
-        <tr>
-          <th>Erzeugung</th>
-          <th>Status</th>
-          <th>Typ</th>
-          <th><button class="btn btn-sm btn-success"
-              [routerLink]="'/management/quiz/'+quizUUID+'/quiz-run/new'">Anlegen</button></th>
-        </tr>
-        <tr *ngFor="let quizRun of quizRuns">
-          <td>{{quizRun.tsCreation | saneDateTime}}</td>
-          <td>{{quizRun.state | quizRunState}}</td>
-          <td>{{quizRun.quizRunType | quizType}}</td>
-          <td><button class="btn btn-secondary"
-              [routerLink]="'/management/quiz/'+quizUUID+'/quiz-run/' + quizRun.uuid">Gehe zu Run</button>
-          </td>
-        </tr>
-      </table>
-    </div>
+<div class="card">
+  <div class="card-body">
+    <table class="lernbegleiter-table">
+      <tr>
+        <th>Erzeugung</th>
+        <th>Status</th>
+        <th>Typ</th>
+        <th><button class="btn btn-sm btn-success"
+            [routerLink]="'/management/quiz/'+quizUUID+'/quiz-run/new'">Anlegen</button></th>
+      </tr>
+      <tr *ngFor="let quizRun of quizRuns">
+        <td>{{quizRun.tsCreation | saneDateTime}}</td>
+        <td>{{quizRun.state | quizRunState}}</td>
+        <td>{{quizRun.quizRunType | quizType}}</td>
+        <td><button class="btn btn-secondary"
+            [routerLink]="'/management/quiz/'+quizUUID+'/quiz-run/' + quizRun.uuid">Gehe zu Run</button>
+        </td>
+      </tr>
+    </table>
   </div>
 </div>

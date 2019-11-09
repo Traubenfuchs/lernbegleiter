@@ -1,3 +1,6 @@
+import { Validators, FormControl } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { LearningModule } from './../../../data/LearningModule';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -15,12 +18,47 @@ export class LearningModuleComponent implements OnInit {
   classUuid: string
   isLoadingSubModules = true
 
-  constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute) {
+  deadlineFormControl: FormControl;
+  learningModuleFormGroup: FormGroup;
+
+  constructor(
+    public router: Router,
+    public http: HttpClient,
+    private route: ActivatedRoute,
+    private formbuilder: FormBuilder) {
   }
 
   ngOnInit() {
     this.uuid = this.route.snapshot.paramMap.get("learningModuleUUID")
     this.classUuid = this.route.snapshot.paramMap.get("classUUID")
+
+    this.deadlineFormControl = new FormControl('', [Validators.required])
+    this.learningModuleFormGroup = this.formbuilder.group({
+      name: ['', [Validators.required]],
+      deadline: this.deadlineFormControl,
+      description: ['', []],
+      start: ['', [Validators.required]]
+    }, {
+      validator: fg => {
+        const startC = fg.controls.start;
+        const deadlineC = fg.controls.deadline;
+        const startV = startC.value
+        const deadlineV = deadlineC.value
+
+        if (deadlineC.errors && !deadlineC.errors.mustBeBefore) {
+          return;
+        }
+
+        if (!startV || !deadlineV) {
+          deadlineC.setErrors(null);
+          return
+        }
+
+        if (new Date(deadlineV).getTime() < new Date(startV).getTime()) {
+          deadlineC.setErrors({ mustBeBefore: true });
+        }
+      }
+    })
 
     if (this.isModuleNew()) {
       this.learningModule.uuid = 'Automatisch'
@@ -75,5 +113,9 @@ export class LearningModuleComponent implements OnInit {
 
   getCardDescriptionForModule() {
     return this.isModuleNew() ? 'Hier können Sie ein neues Modul anlegen.' : 'Hier können Sie ein Modul bearbeiten.';
+  }
+
+  valueMissing() {
+    return Object.values(this.learningModuleFormGroup.controls).some(c => !!c.errors && c.errors.required)
   }
 }

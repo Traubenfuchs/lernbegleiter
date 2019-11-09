@@ -29,7 +29,7 @@ public class WeeklyOverviewConverter extends DtoEntityConverter<WeeklyOverviewEn
       .setCalendarWeek(weeklyOverviewEntity.getCalendarWeek())
       .setYear(weeklyOverviewEntity.getYear())
       .setMyWeeklyGoals(weeklyOverviewEntity.getMyWeeklyGoals())
-      .setReflexionClasses(weeklyOverviewReflectionClassConverter.toDtoList(weeklyOverviewEntity.getReflexionClasses()))
+      .setReflexionClasses(weeklyOverviewReflectionClassConverter.toDtoList(weeklyOverviewEntity.getWeeklyOVerviewReflectionClasses()))
       .setUuid(weeklyOverviewEntity.getUuid())
       .setWeeklyOverviewClasses(weeklyOverviewClassConverter.toDtoList(weeklyOverviewEntity.getWeeklyOverviewClasses()))
       .setFirstDayOfWeek(firstDayOfWeek)
@@ -47,7 +47,7 @@ public class WeeklyOverviewConverter extends DtoEntityConverter<WeeklyOverviewEn
       .setCalendarWeek(weeklyOverviewDto.getCalendarWeek())
       .setYear(weeklyOverviewEntity.getYear())
       .setMyWeeklyGoals(weeklyOverviewDto.getMyWeeklyGoals())
-      .setReflexionClasses(weeklyOverviewReflectionClassConverter.toEntitySet(weeklyOverviewDto.getReflexionClasses()))
+      .setWeeklyOVerviewReflectionClasses(weeklyOverviewReflectionClassConverter.toEntitySet(weeklyOverviewDto.getReflexionClasses()))
       .setUuid(weeklyOverviewDto.getUuid())
       .setWeeklyOverviewClasses(weeklyOverviewClassConverter.toEntitySet(weeklyOverviewDto.getWeeklyOverviewClasses()));
   }

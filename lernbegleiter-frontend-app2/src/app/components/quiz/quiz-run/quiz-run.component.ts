@@ -35,22 +35,27 @@ export class QuizRunComponent implements OnInit, OnDestroy {
       this.ngOnInit()
     });
 
-    const loadData = () => {
+    const loadQuizRun = () => {
       if (this.destroyed) {
         return
       }
-
-      setTimeout(loadData, 1000)
-
-      if (!this.uuid || this.uuid === '' || this.uuid === 'new') {
-        return;
-      }
-
-      this.loadQuizRun()
-      this.loadQuizResult()
-
+      const promise = this.loadQuizRun();
+      if (promise) {
+        promise.subscribe(null, null, () => setTimeout(loadQuizRun, 100))
+      } else { setTimeout(loadQuizRun, 500) }
     }
-    loadData()
+    loadQuizRun()
+
+    const loadQuizResult = () => {
+      if (this.destroyed) {
+        return
+      }
+      const promise = this.loadQuizResult();
+      if (promise) {
+        promise.subscribe(null, null, () => setTimeout(loadQuizResult, 100))
+      } else { setTimeout(loadQuizResult, 500) }
+    }
+    loadQuizResult();
 
     const updateTimer = () => {
       if (this.destroyed) {
@@ -149,6 +154,9 @@ export class QuizRunComponent implements OnInit, OnDestroy {
   }
 
   loadQuizResult() {
+    if (!this.uuid || this.uuid === '' || this.uuid === 'new') {
+      return;
+    }
     if (!this.loginService.loggedInAndTeacherOrAdmin()) {
       return
     }
@@ -170,6 +178,9 @@ export class QuizRunComponent implements OnInit, OnDestroy {
   }
 
   loadQuizRun() {
+    if (!this.uuid || this.uuid === '' || this.uuid === 'new') {
+      return;
+    }
     console.log('Loading QuizRun...')
     this.loadingQuizRun = true
     const result = this.http.get<QuizRun>(`api/quiz-run-${this.loginService.loggedInAndAdmin() ? 'admin' : 'student'}/${this.uuid}`)

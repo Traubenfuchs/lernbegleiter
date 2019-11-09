@@ -45,7 +45,7 @@ public class ClassesController extends BaseController {
   }
 
   @DeleteMapping("class/{classUuid}")
-  public void update(
+  public void delete(
     @PathVariable String classUuid) {
     authHelper.isAdminOrTeacherOrThrow();
     classService.delete(classUuid);

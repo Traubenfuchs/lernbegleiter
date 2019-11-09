@@ -19,7 +19,6 @@ import { LoginComponent } from './components/general/login/login.component';
 import { SecurityInterceptor } from './services/security-interceptor.service';
 import { WeekOverviewComponent } from './components/week-overview/week-overview.component';
 import { LoaderComponent } from './components/general/loader/loader.component';
-import { BreadcrumbComponent } from './components/general/breadcrumb/breadcrumb.component';
 import { GrowlComponent } from './components/general/growl/growl.component';
 import { GrowlInterceptor } from "./services/growl-interceptor.service";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -49,7 +48,6 @@ import { QuizTypePipe } from './pipes/quiz-type.pipe';
     ClassesComponent,
     WeekOverviewComponent,
     LoaderComponent,
-    BreadcrumbComponent,
     GrowlComponent,
     ProfileEditComponent,
     SaneDatePipe,

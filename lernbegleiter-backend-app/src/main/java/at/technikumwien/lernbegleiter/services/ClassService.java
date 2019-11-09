@@ -11,6 +11,7 @@ import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
 import org.springframework.validation.annotation.*;
 
+import javax.persistence.*;
 import javax.validation.*;
 import java.util.*;
 
@@ -22,6 +23,8 @@ public class ClassService {
   private ClassRepository classRepository;
   @Autowired
   private ClassConverter classConverter;
+  @Autowired
+  private EntityManager em;
 
   public Collection<ClassDto> getAllForGrade(@NonNull String gradeUuid) {
     return classConverter.toDtoSet(classRepository.findByGrade(gradeUuid));
@@ -48,6 +51,18 @@ public class ClassService {
   }
 
   public void delete(@NonNull String classUuid) {
-    classRepository.deleteById(classUuid);
+    ClassEntity ce = classRepository.getOne(classUuid);
+    ce.getModules().forEach(m -> {
+      m.getLearningModuleStudents().clear();
+      em.remove(m);
+    });
+    ce.getWeeklyOverviewClasses().forEach(woc -> {
+      woc.getDays().clear();
+      woc.getWeeklyOverview().getWeeklyOverviewClasses().remove(woc);
+    });
+    ce.getWeeklyOverviewReflectionClasses().forEach(wor -> {
+      wor.getWeeklyOverview().getWeeklyOVerviewReflectionClasses().remove(wor);
+    });
+    em.remove(ce);
   }
 }

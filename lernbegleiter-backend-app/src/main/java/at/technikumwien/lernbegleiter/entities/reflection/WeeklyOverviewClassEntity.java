@@ -36,7 +36,7 @@ public class WeeklyOverviewClassEntity extends BaseEntity<WeeklyOverviewClassEnt
   @Column(name = "FK_CLASS_UUID", updatable = false, insertable = false)
   private String fkClassUuid;
 
-  @OneToMany(mappedBy = "weeklyOverviewClass", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "weeklyOverviewClass", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
   @Fetch(value = FetchMode.JOIN)
   private Set<WeeklyOverviewClassDayEntity> days = new HashSet<>();
 

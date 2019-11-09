@@ -38,13 +38,13 @@ public class WeeklyOverviewEntity extends BaseEntity<WeeklyOverviewEntity> {
   @Column(name = "YEAR", nullable = false)
   private Short year;
 
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "weeklyOverview", fetch = EAGER)
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "weeklyOverview", fetch = EAGER, orphanRemoval = true)
   @Fetch(value = FetchMode.JOIN)
   private Set<WeeklyOverviewClassEntity> weeklyOverviewClasses = new HashSet<>();
 
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "weeklyOverview", fetch = EAGER)
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "weeklyOverview", fetch = EAGER, orphanRemoval = true)
   @Fetch(value = FetchMode.JOIN)
-  private Set<WeeklyOverviewReflectionClassEntity> reflexionClasses = new HashSet<>();
+  private Set<WeeklyOverviewReflectionClassEntity> weeklyOVerviewReflectionClasses = new HashSet<>();
 
   @ManyToOne(optional = false)
   @JoinColumn(name = "FK_STUDENT_UUID", nullable = false)
@@ -55,6 +55,6 @@ public class WeeklyOverviewEntity extends BaseEntity<WeeklyOverviewEntity> {
   }
 
   public WeeklyOverviewReflectionClassEntity getWeeklyOverviewReflectionClassByUuid(String uuid) {
-    return reflexionClasses.stream().filter(rc -> rc.getUuid().equals(uuid)).findFirst().orElseGet(null);
+    return weeklyOVerviewReflectionClasses.stream().filter(rc -> rc.getUuid().equals(uuid)).findFirst().orElseGet(null);
   }
 }

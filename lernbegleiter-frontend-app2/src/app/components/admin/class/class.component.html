@@ -1,72 +1,69 @@
-<div class="container">
-  <div class="card">
+<div class="card">
 
-    <div class="card-header">
-      <h5 class="card-title">{{ getCardHeaderForClass() }}</h5>
-      <p class="card-text">{{ getCardDescriptionForClass() }}</p>
-    </div>
-    <div class="card-body">
-      <div class="row">
-        <div class="col">
-          <label for="uuidInput">Uuid</label>
-          <input id="uuidInput" [(ngModel)]="class.uuid" type="text" class="form-control" placeholder="UUID"
-            disabled="true">
-        </div>
-      </div>
-      <div class='row'>
-        <div class="col">
-          <label for="nameInput">Name</label>
-          <input id="nameInput" [(ngModel)]="class.name" type="text" class="form-control" placeholder="Name">
-        </div>
-        <div class="col">
-          <label for="klassenSelect">Klasse</label>
-          <select id="klassenSelect" [(ngModel)]="class.gradeName" class="form-control">
-            <option *ngFor="let grade of grades" [value]="grade.name">{{ grade.name }}</option>
-          </select>
-        </div>
+  <div class="card-header">
+    <h5 class="card-title">{{ getCardHeaderForClass() }}</h5>
+    <p class="card-text">{{ getCardDescriptionForClass() }}</p>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col">
+        <label for="uuidInput">Uuid</label>
+        <input id="uuidInput" [(ngModel)]="class.uuid" type="text" class="form-control" placeholder="UUID"
+          disabled="true">
       </div>
     </div>
-    <div class="card-footer">
-      <div *ngIf="uuid !== 'new'" class="btn-group w-100">
-        <button (click)="saveClick()" class="btn btn-secondary">Aktualisieren</button>
-        <button (click)="deleteClick()" class="btn btn-danger">Löschen</button>
+    <div class='row'>
+      <div class="col">
+        <label for="nameInput">Name</label>
+        <input id="nameInput" [(ngModel)]="class.name" type="text" class="form-control" placeholder="Name">
       </div>
-      <button (click)="saveClick()" *ngIf="isClassNew()" class="btn btn-success">Anlegen</button>
+      <div class="col">
+        <label for="klassenSelect">Klasse</label>
+        <select id="klassenSelect" [(ngModel)]="class.gradeName" class="form-control">
+          <option *ngFor="let grade of grades" [value]="grade.name">{{ grade.name }}</option>
+        </select>
+      </div>
     </div>
-  </div> <!-- ends card -->
+  </div>
+  <div class="card-footer">
+    <div *ngIf="uuid !== 'new'" class="btn-group w-100">
+      <button (click)="saveClick()" class="btn btn-secondary">Aktualisieren</button>
+      <button (click)="deleteClick()" class="btn btn-danger">Löschen</button>
+    </div>
+    <button (click)="saveClick()" *ngIf="isClassNew()" class="btn btn-success">Anlegen</button>
+  </div>
+</div> <!-- ends card -->
 
-  <div class="card mt-3" *ngIf="uuid !== 'new'">
-    <div class="card-header">
-      <h5 class="card-title">Lernmodule</h5>
-      <p class="card-text">Liste der Lernmodule dieses Faches.</p>
-    </div>
-    <div class="card-body">
-      <table class='lernbegleiter-table'>
-        <tr>
-          <th>Name</th>
-          <th>Anfang</th>
-          <th>Deadline</th>
-          <th></th>
-          <th>
-            <button class="btn btn-sm btn-success" [routerLink]="'/management/class/'+uuid+'/learning-module/new'">
-              Anlegen
-            </button>
-          </th>
-        </tr>
-        <tr *ngFor="let learningModule of learningModules">
-          <td>{{learningModule.name}}</td>
-          <td>{{learningModule.start | saneDate}}</td>
-          <td>{{learningModule.deadline | saneDate}}</td>
-          <td>
-            <button class="btn btn-secondary"
-              [routerLink]="'/management/class/'+uuid+'/learning-module/' + learningModule.uuid">Bearbeiten</button>
-          </td>
-          <td>
-            <button class="btn btn-danger" (click)='deleteLearningModule(learningModule.uuid)'>Löschen</button>
-          </td>
-        </tr>
-      </table>
-    </div>
-  </div> <!-- ends card -->
-
-</div>
+<div class="card mt-3" *ngIf="uuid !== 'new'">
+  <div class="card-header">
+    <h5 class="card-title">Lernmodule</h5>
+    <p class="card-text">Liste der Lernmodule dieses Faches.</p>
+  </div>
+  <div class="card-body">
+    <table class='lernbegleiter-table'>
+      <tr>
+        <th>Name</th>
+        <th>Anfang</th>
+        <th>Deadline</th>
+        <th></th>
+        <th>
+          <button class="btn btn-sm btn-success" [routerLink]="'/management/class/'+uuid+'/learning-module/new'">
+            Anlegen
+          </button>
+        </th>
+      </tr>
+      <tr *ngFor="let learningModule of learningModules">
+        <td>{{learningModule.name}}</td>
+        <td>{{learningModule.start | saneDate}}</td>
+        <td>{{learningModule.deadline | saneDate}}</td>
+        <td>
+          <button class="btn btn-secondary"
+            [routerLink]="'/management/class/'+uuid+'/learning-module/' + learningModule.uuid">Bearbeiten</button>
+        </td>
+        <td>
+          <button class="btn btn-danger" (click)='deleteLearningModule(learningModule.uuid)'>Löschen</button>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div> <!-- ends card -->

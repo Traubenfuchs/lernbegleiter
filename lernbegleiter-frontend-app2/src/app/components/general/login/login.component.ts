@@ -14,10 +14,10 @@ export class LoginComponent implements OnInit {
   loginFormgroup: FormGroup;
   errorMessage: string = null
 
-  constructor(private loginService: LoginService,
+  constructor(
+    private loginService: LoginService,
     private router: Router,
     private formbuilder: FormBuilder) {
-    console.log("sad!!!" + Math.random())
   }
 
 
@@ -25,8 +25,7 @@ export class LoginComponent implements OnInit {
     this.loginFormgroup = this.formbuilder.group({
       username: ['', [Validators.required]],
       password: ['', [Validators.required]]
-    }
-    )
+    })
   }
 
   login() {
