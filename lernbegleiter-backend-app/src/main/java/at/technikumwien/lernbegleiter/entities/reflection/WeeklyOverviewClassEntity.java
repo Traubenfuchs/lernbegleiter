@@ -22,9 +22,6 @@ import java.util.*;
 })
 @Entity
 public class WeeklyOverviewClassEntity extends BaseEntity<WeeklyOverviewClassEntity> {
-  @Column(name = "COLOR")
-  private String color;
-
   @ManyToOne(optional = false)
   @JoinColumn(name = "FK_WEEKLY_OVERVIEW_UUID", nullable = false)
   private WeeklyOverviewEntity weeklyOverview;

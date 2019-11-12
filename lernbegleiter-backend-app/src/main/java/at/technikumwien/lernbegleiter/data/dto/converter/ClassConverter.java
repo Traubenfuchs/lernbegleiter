@@ -22,6 +22,7 @@ public class ClassConverter extends DtoEntityConverter<ClassEntity, ClassDto> {
       .setUuid(classEntity.getUuid())
       .setName(classEntity.getName())
       .setGradeName(gradeName)
+      .setColor(classEntity.getColor())
       .setLearningModules(learningModuleConverter.toDtoSet(classEntity.getModules()))
     ;
   }
@@ -31,6 +32,7 @@ public class ClassConverter extends DtoEntityConverter<ClassEntity, ClassDto> {
     classEntity
       .setUuid(classDto.getUuid())
       .setName(classDto.getName())
+      .setColor(classDto.getColor())
       .setGrade(gradeRepository.findByName(classDto.getGradeName()))
     ;
   }

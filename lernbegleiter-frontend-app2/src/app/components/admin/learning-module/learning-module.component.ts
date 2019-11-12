@@ -13,7 +13,6 @@ import { UuidResponse } from 'src/app/data/UuidResponse';
   styleUrls: ['./learning-module.component.scss']
 })
 export class LearningModuleComponent implements OnInit {
-  learningModule = new LearningModule()
   uuid: string
   classUuid: string
   isLoadingSubModules = true
@@ -32,12 +31,13 @@ export class LearningModuleComponent implements OnInit {
     this.uuid = this.route.snapshot.paramMap.get("learningModuleUUID")
     this.classUuid = this.route.snapshot.paramMap.get("classUUID")
 
-    this.deadlineFormControl = new FormControl('', [Validators.required])
+    this.deadlineFormControl = new FormControl(undefined, [Validators.required])
     this.learningModuleFormGroup = this.formbuilder.group({
-      name: ['', [Validators.required]],
+      name: [undefined, [Validators.required]],
       deadline: this.deadlineFormControl,
-      description: ['', []],
-      start: ['', [Validators.required]]
+      description: [undefined, []],
+      start: [undefined, [Validators.required]],
+      color: [undefined, []]
     }, {
       validator: fg => {
         const startC = fg.controls.start;
@@ -60,19 +60,13 @@ export class LearningModuleComponent implements OnInit {
       }
     })
 
-    if (this.isModuleNew()) {
-      this.learningModule.uuid = 'Automatisch'
-    } else {
+    if (this.uuid !== 'new') {
       this.loadLearningModule()
     }
   }
 
-  isModuleNew() {
-    return this.uuid === 'new';
-  }
-
   saveClick() {
-    if (this.isModuleNew()) {
+    if (this.uuid === 'new') {
       this.createLearningModule()
     } else {
       this.updateLearningModule()
@@ -81,7 +75,7 @@ export class LearningModuleComponent implements OnInit {
 
   updateLearningModule() {
     console.log('Updating learningModule...')
-    this.http.put<UuidResponse>(`api/learning-module`, this.learningModule)
+    this.http.put<UuidResponse>(`api/learning-module`, this.formToData())
       .subscribe(uuidResponse => {
         console.log('Updated learningModule.')
         this.router.navigate([`management/class/${this.classUuid}`])
@@ -90,7 +84,7 @@ export class LearningModuleComponent implements OnInit {
 
   createLearningModule() {
     console.log('Creating learningModule...')
-    this.http.post<UuidResponse>(`api/class/${this.classUuid}/learning-module`, this.learningModule)
+    this.http.post<UuidResponse>(`api/class/${this.classUuid}/learning-module`, this.formToData())
       .subscribe(uuidResponse => {
         console.log('Created learningModule.')
         this.router.navigate([`management/class/${this.classUuid}`])
@@ -103,19 +97,36 @@ export class LearningModuleComponent implements OnInit {
       .get<LearningModule>(`api/learning-module/${this.uuid}`, { observe: 'body' })
       .subscribe(learningModule => {
         console.log('Loaded learningModule.')
-        this.learningModule = learningModule
+        const c = this.learningModuleFormGroup.controls
+        c.name.setValue(learningModule.name);
+        c.description.setValue(learningModule.description);
+        c.deadline.setValue(learningModule.deadline);
+        c.start.setValue(learningModule.start);
+        c.color.setValue(learningModule.color);
       })
   }
 
+  formToData() {
+    const result = new LearningModule()
+    const c = this.learningModuleFormGroup.controls
+    result.name = c.name.value
+    result.description = c.description.value
+    result.deadline = c.deadline.value
+    result.start = c.start.value
+    result.color = c.color.value
+
+    return result;
+  }
+
   getCardHeaderForModule() {
-    return this.isModuleNew() ? 'Modul anlegen' : 'Modul bearbeiten';
+    return this.uuid === 'new' ? 'Modul anlegen' : 'Modul bearbeiten';
   }
 
   getCardDescriptionForModule() {
-    return this.isModuleNew() ? 'Hier können Sie ein neues Modul anlegen.' : 'Hier können Sie ein Modul bearbeiten.';
+    return this.uuid === 'new' ? 'Hier können Sie ein neues Modul anlegen.' : 'Hier können Sie ein Modul bearbeiten.';
   }
-
   valueMissing() {
-    return Object.values(this.learningModuleFormGroup.controls).some(c => !!c.errors && c.errors.required)
+    const c = this.learningModuleFormGroup.controls
+    return [c.deadline, c.start, c.name].some(v => !v.value || v.value.length === 0)
   }
 }

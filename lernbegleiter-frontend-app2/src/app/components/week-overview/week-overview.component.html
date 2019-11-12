@@ -39,8 +39,8 @@
           <th>Freitag</th>
         </tr>
       </thead>
-      <tr *ngFor="let c of weeklyOverview.weeklyOverviewClasses">
-        <td>{{c.name}}</td>
+      <tr *ngFor="let c of weeklyOverview.weeklyOverviewClasses" [style.background-color]='c.color'>
+        <td style='text-shadow: 0px 0px 2px rgba(255, 255, 255, 1);'>{{c.name}}</td>
         <td *ngFor="let dayNumIter of [].constructor(5); index as dayNum">
           <textarea class="form-control" [(ngModel)]="c.days[dayNum].studentComment" placeholder='Kommentar'></textarea>
         </td>
@@ -63,16 +63,18 @@
     </thead>
     <tr>
       <td>Fortschritte</td>
-      <td *ngFor="let rc of weeklyOverview.reflexionClasses">
+      <td *ngFor="let rc of weeklyOverview.reflexionClasses" [style.background-color]='rc.color'>
         <textarea class="form-control" [(ngModel)]="rc.progress" placeholder='Schüler Kommentar'
           [disabled]='loginService.loggedInAndTeacherOrAdmin()'></textarea>
       </td>
     </tr>
     <tr>
       <td>verbesserungswürdig</td>
-      <td *ngFor="let rc of weeklyOverview.reflexionClasses">
+
+      <td *ngFor="let rc of weeklyOverview.reflexionClasses" [style.background-color]='rc.color'>
         <textarea class="form-control" [(ngModel)]="rc.improvements" placeholder='Lehrer Kommentar'
-          [disabled]='loginService.loggedInAndStudent()'></textarea></td>
+          [disabled]='loginService.loggedInAndStudent()'></textarea>
+      </td>
     </tr>
   </table>
 

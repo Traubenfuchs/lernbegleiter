@@ -45,4 +45,7 @@ public class ClassEntity extends BaseEntityCreationUpdateDate<ClassEntity> {
   @ManyToOne
   @JoinColumn(name = "FK_GRADE_UUID")
   private GradeEntity grade;
+
+  @Column(name = "color")
+  private String color;
 }

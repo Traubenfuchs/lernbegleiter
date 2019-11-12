@@ -13,6 +13,7 @@ public class LearningModuleConverter extends DtoEntityConverter<LearningModuleEn
       .setName(learningModuleEntity.getName())
       .setDeadline(learningModuleEntity.getDeadline())
       .setStart(learningModuleEntity.getStart())
+      .setColor(learningModuleEntity.getColor())
       .setDescription(learningModuleEntity.getDescription())
     ;
   }
@@ -24,6 +25,7 @@ public class LearningModuleConverter extends DtoEntityConverter<LearningModuleEn
       .setName(learningModuleDto.getName())
       .setDeadline(learningModuleDto.getDeadline())
       .setStart(learningModuleDto.getStart())
+      .setColor(learningModuleDto.getColor())
       .setDescription(learningModuleDto.getDescription())
     ;
   }

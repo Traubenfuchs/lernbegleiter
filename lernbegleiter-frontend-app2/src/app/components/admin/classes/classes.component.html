@@ -3,6 +3,7 @@
     <tr>
       <th>Name</th>
       <th>Klasse</th>
+      <th>Farbe</th>
       <th>
         <button class="btn btn-sm btn-success col-md-4 float-right"
           [routerLink]="'/management/class/new'">Anlegen</button>
@@ -19,6 +20,7 @@
   <tr *ngFor=" let class of classes">
     <td>{{class.name}}</td>
     <td>{{class.gradeName}}</td>
+    <th><input type='color' [(ngModel)]="class.color" disabled></th>
     <td>
       <div class="btn-group col-md-4 p-0 float-right">
         <button class="btn btn-sm btn-secondary" [routerLink]="'/management/class/' + class.uuid">Bearbeiten</button>

@@ -163,7 +163,6 @@ public class WeeklyOverviewService {
     for (WeeklyOverviewClassDto weeklyOverviewClassDto : weeklyOverviewDto.getWeeklyOverviewClasses()) {
       ArrayList<WeeklyOverviewClassDayEntity> orderedDays = woe
         .getWeeklyOverviewClassByUuid(weeklyOverviewClassDto.getUuid())
-        .setColor(weeklyOverviewClassDto.getColor())
         .getDaysOrdered();
 
       int i = 0;
@@ -180,7 +179,6 @@ public class WeeklyOverviewService {
     for (WeeklyOverviewReflectionClassDto weeklyOverviewReflectionClassDto : weeklyOverviewDto.getReflexionClasses()) {
       woe
         .getWeeklyOverviewReflectionClassByUuid(weeklyOverviewReflectionClassDto.getUuid())
-        .setColor(weeklyOverviewReflectionClassDto.getColor())
         .setImprovements(weeklyOverviewReflectionClassDto.getImprovements())
         .setProgress(weeklyOverviewReflectionClassDto.getProgress());
     }

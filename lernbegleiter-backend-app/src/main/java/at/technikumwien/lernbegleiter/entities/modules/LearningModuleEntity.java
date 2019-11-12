@@ -38,4 +38,7 @@ public class LearningModuleEntity extends BaseEntityCreationUpdateDate<LearningM
 
   @Column(name = "DESCRIPTION")
   private String description;
+
+  @Column(name = "COLOR")
+  private String color;
 }

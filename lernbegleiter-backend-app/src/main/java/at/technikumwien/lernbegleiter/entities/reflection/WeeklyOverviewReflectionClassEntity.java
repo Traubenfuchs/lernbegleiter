@@ -16,7 +16,6 @@ import javax.persistence.*;
 })
 @Entity
 public class WeeklyOverviewReflectionClassEntity extends BaseEntity<WeeklyOverviewReflectionClassEntity> {
-  private String color;
   @Lob
   @Column(name = "PROGRESS", length = 10240)
   private String progress;

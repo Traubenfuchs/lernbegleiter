@@ -14,4 +14,5 @@ public class ClassDto extends BaseDto<ClassDto> {
   private String name;
   private Set<LearningModuleDto> learningModules;
   private String gradeName;
+  private String color;
 }
