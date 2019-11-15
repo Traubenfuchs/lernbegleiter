@@ -16,16 +16,6 @@ import static org.springframework.context.annotation.ScopedProxyMode.*;
 @EnableScheduling
 public class LernbegleiterApplication {
   public static void main(String[] args) {
-    IntStream.of(1, 2).forEach((i) -> {
-      new Thread(() -> {
-        while (true) {
-        }
-      }).start();
-    });
-
-    var x = """
-  x  x
-    """;
     SpringApplication.run(LernbegleiterApplication.class, args);
   }
 }
