@@ -101,7 +101,6 @@ export class QuizRunComponent implements OnInit, OnDestroy {
     this.quizResult = new QuizResult()
     this.quizRun = new QuizRun()
 
-    // this.loadQuiz()
 
     if (this.uuid === 'new') {
       this.quizRun.quizRunType = 'FREE_ANSWERING'
@@ -119,7 +118,7 @@ export class QuizRunComponent implements OnInit, OnDestroy {
     }
   }
 
-  loadQuiz() {
+  /* loadQuiz() {
     console.log('Loading Quiz...')
     if (!this.quizUuid || this.quizUuid === '' || this.quizUuid === 'new') {
       console.log(`Not loading quiz because id is <${this.quizUuid}>...`)
@@ -131,7 +130,7 @@ export class QuizRunComponent implements OnInit, OnDestroy {
         console.log('Quiz loaded.')
         this.quiz = res
       })
-  }
+  } */
 
   saveClick() {
     console.log('Creating Quiz Run...')

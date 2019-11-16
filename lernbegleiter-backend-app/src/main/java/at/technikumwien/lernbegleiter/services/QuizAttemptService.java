@@ -10,7 +10,7 @@ import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
 import org.springframework.util.*;
 
-@Transactional(isolation = Isolation.SERIALIZABLE)
+
 @Service
 public class QuizAttemptService {
   @Autowired
@@ -22,6 +22,7 @@ public class QuizAttemptService {
    * Adds live attempt data to the given QuizRunDto. In other words, this method populates the "correct" field in
    * QuizQuestionAnswers inside the current quizQuestion in the given QuizRunDto
    */
+  @Transactional
   public void enrichWithAttemptData(@NonNull QuizRunDto quizRunDto) {
     //if (
     // CollectionUtils.isEmpty(quizRunDto.getCurrentQuestions()) || quizRunDto.getState() != QuizRunState.WAITING_FOR_ANSWERS) {
@@ -63,6 +64,7 @@ public class QuizAttemptService {
     }
   }
 
+  @Transactional(isolation = Isolation.SERIALIZABLE)
   public String createQuizAttemptIfNotExists(String quizRunUUID) {
     return quizAttemptRepository.createQuizAttemptIfNotExists(quizRunUUID).getUuid();
   }
