@@ -73,7 +73,8 @@ public class QuizRunService {
   }
 
   public QuizRunDto getCachedForStudent(@NonNull String quizRunUUID) throws ExecutionException {
-    QuizRunDto result = cache.get(quizRunUUID);
+    QuizRunDto result = cache.get(quizRunUUID)
+      .deepClone();
 
     if (result.getState() == QuizRunState.CREATED) {
       result.setCurrentQuestions(new HashSet<>());

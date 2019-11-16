@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.*;
 
 import java.util.*;
+import java.util.stream.*;
 
 @Getter
 @Setter
@@ -19,4 +20,19 @@ public class QuizQuestionDto extends BaseDto<QuizQuestionDto> {
   private Integer timeLimit;
   private Boolean answeredCorrectly;
   private Integer answerCount;
+
+  public QuizQuestionDto deepClone() {
+    return new QuizQuestionDto()
+      .setUuid(getUuid())
+      .setTsCreation(getTsCreation())
+      .setTsUpdate(getTsUpdate())
+      .setContent(content)
+      .setAnswers(answers.stream().map(QuizAnswerDto::deepClone).collect(Collectors.toSet()))
+      .setPosition(position)
+      .setLob(lob)
+      .setTimeLimit(timeLimit)
+      .setAnsweredCorrectly(answeredCorrectly)
+      .setAnswerCount(answerCount)
+      ;
+  }
 }

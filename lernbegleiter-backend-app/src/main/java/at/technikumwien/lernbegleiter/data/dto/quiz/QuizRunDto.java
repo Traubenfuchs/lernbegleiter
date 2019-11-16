@@ -7,6 +7,7 @@ import lombok.experimental.*;
 
 import java.time.*;
 import java.util.*;
+import java.util.stream.*;
 
 @Getter
 @Setter
@@ -19,4 +20,17 @@ public class QuizRunDto extends BaseDto<QuizRunDto> {
   private QuizRunState state;
   private QuizRunType quizRunType;
   private Integer questionCount;
+
+  public QuizRunDto deepClone() {
+    return new QuizRunDto()
+      .setUuid(getUuid())
+      .setTsCreation(getTsCreation())
+      .setTsUpdate(getTsUpdate())
+      .setNextTimeLimit(nextTimeLimit)
+      .setCurrentQuestions(currentQuestions.stream().map(QuizQuestionDto::deepClone).collect(Collectors.toSet()))
+      .setState(state)
+      .setQuizRunType(quizRunType)
+      .setQuestionCount(questionCount)
+      ;
+  }
 }

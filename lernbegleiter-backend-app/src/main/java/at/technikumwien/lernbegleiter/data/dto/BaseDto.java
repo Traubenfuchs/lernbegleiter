@@ -18,6 +18,16 @@ public class BaseDto<T extends BaseDto<T>> {
     return (T) this;
   }
 
+  public T setTsCreation(Instant tsCreation) {
+    this.tsCreation = tsCreation;
+    return (T) this;
+  }
+
+  public T setTsUpdate(Instant tsUpdate) {
+    this.tsUpdate = tsUpdate;
+    return (T) this;
+  }
+
   @Override
   public final boolean equals(Object obj) {
     return this == obj;

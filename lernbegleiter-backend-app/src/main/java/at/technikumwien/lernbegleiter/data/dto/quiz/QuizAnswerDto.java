@@ -14,4 +14,17 @@ public class QuizAnswerDto extends BaseDto<QuizAnswerDto> {
   private Boolean correct;
   private Boolean tickedCorrectly;
   private Integer position;
+
+  public QuizAnswerDto deepClone() {
+    return new QuizAnswerDto()
+      .setUuid(getUuid())
+      .setTsCreation(getTsCreation())
+      .setTsUpdate(getTsUpdate())
+      .setContent(content)
+      .setCorrect(correct)
+      .setTickedCorrectly(tickedCorrectly)
+      .setPosition(position)
+      ;
+  }
+
 }
