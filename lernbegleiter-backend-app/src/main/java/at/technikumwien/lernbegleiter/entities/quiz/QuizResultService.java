@@ -88,10 +88,12 @@ public class QuizResultService {
             .max().getAsLong();
 
           double d = (double) (qqas.getLatest() - qqas.getEarliest());
-          if (d > 0) {
-            double perc = (max - qqas.getEarliest()) / (double) (qqas.getLatest() - qqas.getEarliest());
+          if (d == 0) {
+            quizResultEntryDto.incrementWeightedPointsBy(1000);
+          } else if (d > 0) {
+            double perc = (max - qqas.getEarliest()) / d;
 
-            quizResultEntryDto.incrementWeightedPointsBy((int) Math.round(501 + 501.0 * perc));
+            quizResultEntryDto.incrementWeightedPointsBy((int) Math.round(499 + 501.0 * perc));
           }
         }
 

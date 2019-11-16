@@ -1,3 +1,9 @@
+<div *ngIf="quizRun && quizRun.qrCodeAsBase64 && quizRun.qrCodeAsBase64.length !== 0" class="card mt-3">
+  <div class="card-body" style='display:flex; justify-content:center;'>
+    <img [src]='safeQr | async'>
+  </div>
+</div>
+
 <ng-container *ngIf="loginService.loggedInAndStudent()">
   <div class="card">
     <div class="card-body">
@@ -51,7 +57,7 @@
 </ng-container> <!-- student container -->
 
 <ng-container *ngIf="loginService.loggedInAndTeacherOrAdmin()">
-  <div class="card" *ngIf="loginService.loggedInAndTeacherOrAdmin()">
+  <div class="card mt-3" *ngIf="loginService.loggedInAndTeacherOrAdmin()">
     <div class="card-header" *ngIf="uuid === 'new'">
       <h5 class="card-title">Quizlauf anlegen</h5>
       <p class="card-text">Hier kannst du einen neuen Quizlauf anlegen</p>
@@ -121,10 +127,25 @@
   <div class="card" class="card mt-3" *ngIf="uuid !== 'new' && loginService.loggedInAndTeacherOrAdmin()">
     <div class="card-header">
       <h5 class="card-title">Quizergebnisse</h5>
-      <p class="card-text">Hier kannst du die Quizergebnisse sehen</p>
+
+      <div class="btn-group" role="group">
+        <button type="button" class="btn btn-sm" [class.btn-primary]='!fancyResults'
+          [class.btn-secondary]='fancyResults' (click)='fancyResults = false'>Liste</button>
+        <button type="button" class="btn btn-sm" [class.btn-primary]='fancyResults'
+          [class.btn-secondary]='!fancyResults' (click)='fancyResults = true'>Balken</button>
+      </div>
     </div>
     <div class="card-body">
-      <table class="lernbegleiter-table">
+      <div *ngIf="fancyResults"
+        style='display: flex; flex-direction: row; justify-content:center; width:100%; flex-wrap:wrap'>
+        <div *ngFor="let line of quizResult.entries; trackBy: trackQuizResultLines"
+          style='width:80px; display:flex; flex-direction:column; justify-content:flex-end; align-items: center; margin-left:2px; margin-right: 2px'>
+          <div style='background-color:red;width:100%;' [style.height]='line.heightPerc'></div>
+          <div style='word-spacing:9999px; width:100%; height:80px; text-align: center;'>
+            {{line.weightedPoints + ' ' + line.name}}</div>
+        </div>
+      </div>
+      <table class="lernbegleiter-table" *ngIf="!fancyResults">
         <tr>
           <th>Name</th>
           <th>Punkte</th>

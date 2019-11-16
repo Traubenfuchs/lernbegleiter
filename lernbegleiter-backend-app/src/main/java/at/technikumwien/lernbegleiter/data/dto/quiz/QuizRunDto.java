@@ -20,6 +20,7 @@ public class QuizRunDto extends BaseDto<QuizRunDto> {
   private QuizRunState state;
   private QuizRunType quizRunType;
   private Integer questionCount;
+  private String qrCodeAsBase64;
 
   public QuizRunDto deepClone() {
     return new QuizRunDto()

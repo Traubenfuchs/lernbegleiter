@@ -16,34 +16,34 @@ export class LoginService {
   private loginResponse: LoginResponse;
 
   constructor(private http: HttpClient, private router: Router) {
-    const loginResponseS = localStorage.getItem('loginResponse')
+    const loginResponseS = localStorage.getItem('loginResponse');
     if (!!loginResponseS) {
-      this.loginResponse = JSON.parse(loginResponseS)
+      this.loginResponse = JSON.parse(loginResponseS);
     }
     setTimeout(() => {
-      console.log("doing login check")
+      console.log("doing login check");
       this.http
         .post<any>(this.loginCheckUrl, null)
         .pipe(catchError(res => {
-          console.error('login check not ok')
-          this.logout()
+          console.error('login check not ok');
+          this.logout();
           return throwError(res.error || 'Server error');
         })).subscribe(v => {
-          console.info('login check ok')
-        })
-    }, 0)
+          console.info('login check ok');
+        });
+    }, 0);
   }
 
   public getUserUuid(): string {
     if (!!this.loginResponse) {
-      return this.loginResponse.uuid
+      return this.loginResponse.uuid;
     }
   }
 
   public logout() {
-    this.loginResponse = null
-    localStorage.removeItem('loginResponse')
-    this.router.navigate(['/'])
+    this.loginResponse = null;
+    localStorage.removeItem('loginResponse');
+    this.router.navigate(['/login'], { queryParams: { originalTarget: window.location.href } });
   }
 
   public getLoginResponse(): LoginResponse {
@@ -59,13 +59,13 @@ export class LoginService {
       .post<LoginResponse>(this.loginUrl, loginRequest)
       .subscribe(
         rsp => {
-          this.loginResponse = rsp
-          localStorage.setItem('loginResponse', JSON.stringify(this.loginResponse))
-          success(rsp)
+          this.loginResponse = rsp;
+          localStorage.setItem('loginResponse', JSON.stringify(this.loginResponse));
+          success(rsp);
         },
         err => {
-          error(err)
-        })
+          error(err);
+        });
   }
 
   public loggedInAndStudent() {

@@ -1,11 +1,12 @@
-import { QuizQuestion } from './QuizQuestion'
-import { BaseDto } from './../BaseDto'
-import { QuizRunState } from './QuizRunState'
+import { QuizQuestion } from './QuizQuestion';
+import { BaseDto } from './../BaseDto';
+import { QuizRunState } from './QuizRunState';
 
 export class QuizRun extends BaseDto {
-  nextTimeLimit: string
-  currentQuestions: QuizQuestion[] = []
-  state: QuizRunState
-  quizRunType: string
-  questionCount: number
+  nextTimeLimit: string;
+  currentQuestions: QuizQuestion[] = [];
+  state: QuizRunState;
+  quizRunType: string;
+  questionCount: number;
+  qrCodeAsBase64 = "";
 }

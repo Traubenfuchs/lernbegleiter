@@ -1,6 +1,10 @@
-<div *ngIf='!loginService.getLoginResponse() && router.url !== "/login"'>
+<!-- <div *ngIf='!loginService.getLoginResponse() && !router.url.startsWith("/login")'>
   <button class="btn btn-primary btn-lg" [routerLink]="['/login']">Login</button>
-  <div>{{router.navigate(['/login'])}}</div>
+ <div>{{router.navigate(['/login'], { queryParams: { originalTarget: getOriginalTaget()} })}}</div>
+</div>-->
+
+<div *ngIf="loginService.getLoginResponse() && router.url.startsWith('/login')">
+  <div>{{router.navigate(['/'])}}</div>
 </div>
 
 <div *ngIf="loginService.loggedInAndAuthority()" class="jumbotron jumbotron-fluid">

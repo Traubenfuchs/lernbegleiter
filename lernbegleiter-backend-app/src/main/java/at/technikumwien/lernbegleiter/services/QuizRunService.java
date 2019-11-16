@@ -9,7 +9,13 @@ import at.technikumwien.lernbegleiter.entities.quiz.attempts.*;
 import at.technikumwien.lernbegleiter.repositories.quiz.*;
 import at.technikumwien.lernbegleiter.repositories.quiz.attempts.*;
 import com.google.common.cache.*;
+import com.google.zxing.*;
+import com.google.zxing.client.j2se.*;
+import com.google.zxing.common.*;
+import com.google.zxing.qrcode.*;
+import com.google.zxing.qrcode.decoder.*;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
 import org.springframework.stereotype.*;
@@ -18,6 +24,7 @@ import org.springframework.validation.annotation.*;
 import org.springframework.web.server.*;
 
 import javax.validation.*;
+import java.io.*;
 import java.time.*;
 import java.util.*;
 import java.util.concurrent.*;
@@ -88,9 +95,27 @@ public class QuizRunService {
     return result;
   }
 
+  @Value("${lernbegleiter.host}")
+  private String host;
+  private final static Base64.Encoder encoder = Base64.getEncoder();
+
   public QuizRunDto get(@NonNull String quizRunUUID) {
-    return quizRunConverter
-      .toDTO(quizRunRepository.getOne(quizRunUUID));
+    try {
+      QuizRunDto result = quizRunConverter
+        .toDTO(quizRunRepository.getOne(quizRunUUID));
+
+      QRCodeWriter qrCodeWriter = new QRCodeWriter();
+      BitMatrix bitMatrix = qrCodeWriter.encode(
+        host + "/management/quiz/current/quiz-run/" + result.getUuid(), BarcodeFormat.QR_CODE, 250, 250,
+        Map.of(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H));
+      ByteArrayOutputStream baos = new ByteArrayOutputStream();
+      MatrixToImageWriter.writeToStream(bitMatrix, "PNG", baos);
+      String qrCodeAsBase64 = encoder.encodeToString(baos.toByteArray());
+
+      return result.setQrCodeAsBase64(qrCodeAsBase64);
+    } catch (Exception ex) {
+      throw new RuntimeException(ex);
+    }
   }
 
   public Collection<QuizRunDto> getRuns(@NonNull String quizUUID) {

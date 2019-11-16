@@ -1,3 +1,5 @@
+lernbegleiter:
+  host: ${LERNBEGLEITER_HOST_AND_PORT}
 spring:
   jpa:
     properties:
