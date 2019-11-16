@@ -15,4 +15,5 @@ public class LearningModuleStudentDto extends BaseDto<LearningModuleStudentDto> 
   private Instant finishedAt;
   private String name;
   private Boolean late;
+  private String color;
 }

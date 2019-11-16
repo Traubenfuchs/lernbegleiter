@@ -37,7 +37,7 @@ export class LearningModuleComponent implements OnInit {
       deadline: this.deadlineFormControl,
       description: [undefined, []],
       start: [undefined, [Validators.required]],
-      color: [undefined, []]
+      color: ['#ffffff', []]
     }, {
       validator: fg => {
         const startC = fg.controls.start;

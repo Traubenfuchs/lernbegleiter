@@ -5,4 +5,5 @@ export class LearningModuleStudent {
   finishedAt: Date
   late = false
   className = ''
+  color = ""
 }

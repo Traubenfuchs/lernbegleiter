@@ -5,5 +5,5 @@ export class Class {
   name = ''
   gradeName = ''
   students: LearningModule[] = []
-  color = ""
+  color = "#ffffff"
 }

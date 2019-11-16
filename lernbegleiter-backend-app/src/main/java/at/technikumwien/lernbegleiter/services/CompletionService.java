@@ -7,6 +7,7 @@ import at.technikumwien.lernbegleiter.entities.modules.*;
 import at.technikumwien.lernbegleiter.repositories.auth.*;
 import at.technikumwien.lernbegleiter.repositories.modules.*;
 import lombok.*;
+import lombok.experimental.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.context.annotation.*;
 import org.springframework.stereotype.*;
@@ -29,10 +30,12 @@ public class CompletionService {
   @Autowired
   private UserRepository userRepository;
 
+  @Accessors(chain = true)
   @Data
   public static class ClassCompletion {
     private String className;
     private LocalDate deadline;
+    private String color;
     private Set<LearningModuleStudentDto> learningModulesStudent = new HashSet<>();
   }
 
@@ -52,6 +55,7 @@ public class CompletionService {
 
       LearningModuleStudentDto learningModuleStudentDto = new LearningModuleStudentDto()
         .setUuid(learningModuleStudentEntity.getUuid())
+        .setColor(learningModuleStudentEntity.getLearningModule().getColor())
         .setDueDate(learningModuleStudentEntity.getLearningModule().getDeadline())
         .setFinishedAt(learningModuleStudentEntity.getFinishedAt())
         .setName(learningModuleStudentEntity.getLearningModule().getName())
@@ -59,8 +63,9 @@ public class CompletionService {
 
       uuidToClassCompletions
         .computeIfAbsent(learningModuleStudentEntity.getLearningModule().getClazz().getUuid(), k -> {
-          ClassCompletion r = new ClassCompletion();
-          r.setClassName(learningModuleStudentEntity.getLearningModule().getClazz().getName());
+          ClassCompletion r = new ClassCompletion()
+            .setColor(learningModuleStudentEntity.getLearningModule().getClazz().getColor())
+            .setClassName(learningModuleStudentEntity.getLearningModule().getClazz().getName());
           if (r.getDeadline() == null || r.getDeadline().isBefore(learningModuleStudentDto.getDueDate())) {
             r.setDeadline(learningModuleStudentDto.getDueDate());
           }
@@ -83,28 +88,21 @@ public class CompletionService {
 
     Set<LearningModuleStudentEntity> existingLearningModuleStudents = userEntity.getLearningModulesStudents();
 
-    for (ClassEntity classEntity : classes) {
-      for (LearningModuleEntity learningModule : classEntity.getModules()) {
-        LearningModuleStudentEntity learningModuleStudent = learningModuleStudentExists(learningModule.getUuid(), existingLearningModuleStudents);
-        if (learningModuleStudent == null) {
-          learningModuleStudentRepository.save(
-            new LearningModuleStudentEntity()
-              .generateUuid()
-              .setLearningModule(learningModule)
-              .setStudent(userEntity)
-          );
-        }
+    classes.stream().flatMap(classEntity -> classEntity.getModules().stream()).forEach(learningModule -> {
+      LearningModuleStudentEntity learningModuleStudent = learningModuleStudentExists(learningModule.getUuid(), existingLearningModuleStudents);
+      if (learningModuleStudent == null) {
+        learningModuleStudentRepository.save(
+          new LearningModuleStudentEntity()
+            .generateUuid()
+            .setLearningModule(learningModule)
+            .setStudent(userEntity)
+        );
       }
-    }
+    });
   }
 
   private LearningModuleStudentEntity learningModuleStudentExists(String learningModuleUuid, Set<LearningModuleStudentEntity> learningModuleStudentEntities) {
-    for (LearningModuleStudentEntity existingLearningModuleStudent : learningModuleStudentEntities) {
-      if (existingLearningModuleStudent.getLearningModule().getUuid().equals(learningModuleUuid)) {
-        return existingLearningModuleStudent;
-      }
-    }
-    return null;
+    return learningModuleStudentEntities.stream().filter(existingLearningModuleStudent -> existingLearningModuleStudent.getLearningModule().getUuid().equals(learningModuleUuid)).findFirst().orElse(null);
   }
 
   public void markLearningModuleStudentAsComplete(@NonNull String learningModuleStudentUuid) {
