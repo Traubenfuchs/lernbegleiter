@@ -6,6 +6,8 @@ import org.springframework.context.annotation.*;
 import org.springframework.scheduling.annotation.*;
 import org.springframework.transaction.annotation.*;
 
+import java.util.stream.*;
+
 import static org.springframework.context.annotation.ScopedProxyMode.*;
 
 @SpringBootApplication
@@ -14,7 +16,6 @@ import static org.springframework.context.annotation.ScopedProxyMode.*;
 @EnableScheduling
 public class LernbegleiterApplication {
   public static void main(String[] args) {
-
     SpringApplication.run(LernbegleiterApplication.class, args);
   }
 }
