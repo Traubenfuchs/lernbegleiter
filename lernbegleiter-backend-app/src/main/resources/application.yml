@@ -1,3 +1,5 @@
+server:
+  port: 6666
 lernbegleiter:
   host: ${LERNBEGLEITER_HOST_AND_PORT}
 spring:
