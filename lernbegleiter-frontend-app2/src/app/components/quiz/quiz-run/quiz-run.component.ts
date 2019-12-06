@@ -42,27 +42,8 @@ export class QuizRunComponent implements OnInit, OnDestroy {
       this.ngOnInit();
     });
 
-    const loadQuizRun = () => {
-      if (this.destroyed) {
-        return;
-      }
-      const promise = this.loadQuizRun();
-      if (promise) {
-        promise.subscribe(null, null, () => setTimeout(loadQuizRun, 500));
-      } else { setTimeout(loadQuizRun, 500); }
-    };
-    loadQuizRun();
-
-    const loadQuizResult = () => {
-      if (this.destroyed) {
-        return;
-      }
-      const promise = this.loadQuizResult();
-      if (promise) {
-        promise.subscribe(null, null, () => setTimeout(loadQuizResult, 1500));
-      } else { setTimeout(loadQuizResult, 1500); }
-    };
-    loadQuizResult();
+    this.loadQuizRunInternal();
+    this.loadQuizResultInternal();
 
     const updateTimer = () => {
       if (this.destroyed) {
@@ -125,20 +106,6 @@ export class QuizRunComponent implements OnInit, OnDestroy {
     }
   }
 
-  /* loadQuiz() {
-    console.log('Loading Quiz...')
-    if (!this.quizUuid || this.quizUuid === '' || this.quizUuid === 'new') {
-      console.log(`Not loading quiz because id is <${this.quizUuid}>...`)
-      return
-    }
-
-    this.http.get<Quiz>(`api/quiz/${this.quizUuid}`)
-      .subscribe(res => {
-        console.log('Quiz loaded.')
-        this.quiz = res
-      })
-  } */
-
   saveClick() {
     console.log('Creating Quiz Run...');
 
@@ -159,6 +126,16 @@ export class QuizRunComponent implements OnInit, OnDestroy {
       });
   }
 
+  loadQuizResultInternal() {
+    if (this.destroyed || this.loadingQuizResult) {
+      return;
+    }
+    const promise = this.loadQuizResult();
+    if (promise) {
+      promise.subscribe(null, null, () => setTimeout(this.loadQuizResultInternal, 1500));
+    } else { setTimeout(this.loadQuizResultInternal, 1500); }
+  }
+
   loadQuizResult() {
     if (!this.uuid || this.uuid === '' || this.uuid === 'new') {
       return;
@@ -175,10 +152,6 @@ export class QuizRunComponent implements OnInit, OnDestroy {
       const max = res.entries.map(v => v.weightedPoints).reduce((previous, current) => current > previous ? current : previous, 0);
 
       res.entries.forEach(v => v.heightPerc = "" + (v.weightedPoints * 250 / max) + 'px');
-      res.entries.push(res.entries[0]);
-      res.entries.push(res.entries[0]);
-      res.entries.push(res.entries[0]);
-      // res.entries.forEach(v => console.log('xxx ' + v.heightPerc * 10000));
 
       console.log('Loaded QuizResult.');
       this.quizResult = res;
@@ -190,6 +163,16 @@ export class QuizRunComponent implements OnInit, OnDestroy {
       });
 
     return result;
+  }
+
+  loadQuizRunInternal() {
+    if (this.destroyed || this.loadingQuizRun) {
+      return;
+    }
+    const promise = this.loadQuizRun();
+    if (promise) {
+      promise.subscribe(null, null, () => setTimeout(this.loadQuizRunInternal, 500));
+    } else { setTimeout(this.loadQuizRunInternal, 500); }
   }
 
   loadQuizRun() {
