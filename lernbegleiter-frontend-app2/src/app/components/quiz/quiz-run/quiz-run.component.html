@@ -25,7 +25,8 @@
   <!-- *ngIf="_QuizRunState.WAITING_FOR_ANSWERS == _QuizRunState[quizRun.state]" -->
   <ng-container *ngIf="quizRun.currentQuestions && quizRun.currentQuestions.length > 0">
     <div class='card mt-3' *ngFor="let question of quizRun.currentQuestions; trackBy: trackByFn">
-      <div class="card-body">
+      <div
+        [className]='"card-header " + ((_QuizRunState.DONE == _QuizRunState[quizRun.state] || _QuizRunState.WAITING_FOR_NEXT_QUESTION == _QuizRunState[quizRun.state]) ? (question.answeredCorrectly?"green":"red") : "")'>
         <h5
           *ngIf="_QuizRunState.DONE == _QuizRunState[quizRun.state] || _QuizRunState.WAITING_FOR_NEXT_QUESTION == _QuizRunState[quizRun.state]">
           {{question.answeredCorrectly ?'✔️':'❌'}}{{question.content}}</h5>
@@ -33,6 +34,8 @@
           *ngIf="_QuizRunState.DONE != _QuizRunState[quizRun.state] && _QuizRunState.WAITING_FOR_NEXT_QUESTION != _QuizRunState[quizRun.state]">
           {{question.content}}</h5>
         <img *ngIf="question.lob.quizPictureUUID" [src]="'/api/image/' + question.lob.quizPictureUUID">
+      </div>
+      <div class="card-body">
         <div *ngFor="let answer of question.answers; trackBy: trackByFn">
           <div>{{answer.content}}</div>
           <ng-container *ngIf="_QuizRunState.WAITING_FOR_ANSWERS == _QuizRunState[quizRun.state]">
@@ -42,12 +45,12 @@
               *ngIf='!answer.correct'>❌</button>
           </ng-container>
           <ng-container *ngIf="_QuizRunState.WAITING_FOR_ANSWERS != _QuizRunState[quizRun.state]">
-            <button class="btn btn-primary" *ngIf='answer.correct'
-              [className]="answer.tickedCorrectly ? 'btn-success' : 'btn-danger'" disabled>✔️
-              {{answer.tickedCorrectly?'war die korrekte Antwort!':'war die falsche Antwort!'}}</button>
-            <button class="btn btn-secondary" *ngIf='!answer.correct'
-              [className]="answer.tickedCorrectly ? 'btn-success' : 'btn-danger'" disabled>❌
-              {{answer.tickedCorrectly?'war die korrekte Antwort!':'war die falsche Antwort!'}}</button>
+
+            <button class="btn btn-primary" [className]="answer.tickedCorrectly ? 'btn-success' : 'btn-danger'"
+              disabled>{{answer.correct?'✔️':'❌'}} ist die korrekte Antwort. Du hast mit
+              {{answer.correct?(answer.tickedCorrectly?'✔️':'❌'):(answer.tickedCorrectly?'❌':'✔️')}}
+              geantwortet.</button>
+
           </ng-container>
         </div>
       </div>

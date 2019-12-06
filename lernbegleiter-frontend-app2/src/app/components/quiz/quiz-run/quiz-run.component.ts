@@ -232,7 +232,10 @@ export class QuizRunComponent implements OnInit, OnDestroy {
       correct
     }).subscribe(res => {
       this.quizRun = res;
-    });
+    },
+      () => {
+        this.loadQuizRun();
+      });
   }
 
   trackQuizResultLines(index, item) {

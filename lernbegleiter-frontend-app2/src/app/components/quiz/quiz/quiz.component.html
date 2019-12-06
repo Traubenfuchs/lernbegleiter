@@ -58,19 +58,22 @@
         </div>
       </div>
 
-      <div class="row">
+
+      <div class="row mt-1">
         <div class='col-6' *ngIf="!question.lob.quizPictureUUID">
-          <input placeholder='Frage' type="file" class=".form-control-file"
+          <input placeholder='Frage' type="file" class="form-control-file"
             (change)="onQuestionImageChange($event, question)">
         </div>
 
+        <div class='col-4' *ngIf="!!question.lob.quizPictureUUID">
+          <button class="btn btn-sm btn-danger" (click)='deleteImageFromQuestion(question)'>delete existing
+            image</button>
+        </div>
         <div class='col-6' *ngIf="!!question.lob.quizPictureUUID">
           <a href='/api/image/{{question.lob.quizPictureUUID}}' target="_blank">current image</a>
         </div>
 
-        <div class='col-6' *ngIf="!!question.lob.quizPictureUUID">
-          <button (click)='deleteImageFromQuestion(question)'>delete existing image</button>
-        </div>
+
       </div>
 
       <button (click)="newAnswer(question)" class="btn btn-secondary btn-sm mt-1">Neue Antwort</button>
@@ -88,6 +91,7 @@
         </div>
       </div>
     </div>
+    <button (click)="newQuestion()" class="btn btn-secondary btn-sm">Neue Frage</button>
   </div> <!-- ends card-body -->
   <div class="card-footer">
     <div *ngIf="uuid !== 'new'" class="btn-group w-100">
