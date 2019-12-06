@@ -157,7 +157,7 @@ export class QuizRunComponent implements OnInit, OnDestroy {
 
       }, () => {
         this.loadingQuizResult = false;
-        setTimeout(this.loadQuizResultInternal, 1500);
+        setTimeout(() => this.loadQuizResultInternal(), 1500);
       });
 
     return result;
@@ -190,7 +190,7 @@ export class QuizRunComponent implements OnInit, OnDestroy {
       },
       () => {
         this.loadingQuizRun = false;
-        setTimeout(this.loadQuizRunInternal, 500);
+        setTimeout(() => this.loadQuizRunInternal(), 500);
       });
     return result;
   }
