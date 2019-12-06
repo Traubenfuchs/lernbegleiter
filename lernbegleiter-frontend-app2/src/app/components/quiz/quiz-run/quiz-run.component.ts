@@ -130,10 +130,7 @@ export class QuizRunComponent implements OnInit, OnDestroy {
     if (this.destroyed || this.loadingQuizResult) {
       return;
     }
-    const promise = this.loadQuizResult();
-    if (promise) {
-      promise.subscribe(null, null, () => setTimeout(this.loadQuizResultInternal, 1500));
-    } else { setTimeout(this.loadQuizResultInternal, 1500); }
+    this.loadQuizResult();
   }
 
   loadQuizResult() {
@@ -160,6 +157,7 @@ export class QuizRunComponent implements OnInit, OnDestroy {
 
       }, () => {
         this.loadingQuizResult = false;
+        setTimeout(this.loadQuizResultInternal, 1500);
       });
 
     return result;
@@ -169,10 +167,7 @@ export class QuizRunComponent implements OnInit, OnDestroy {
     if (this.destroyed || this.loadingQuizRun) {
       return;
     }
-    const promise = this.loadQuizRun();
-    if (promise) {
-      promise.subscribe(null, null, () => setTimeout(this.loadQuizRunInternal, 500));
-    } else { setTimeout(this.loadQuizRunInternal, 500); }
+    this.loadQuizRun();
   }
 
   loadQuizRun() {
@@ -195,6 +190,7 @@ export class QuizRunComponent implements OnInit, OnDestroy {
       },
       () => {
         this.loadingQuizRun = false;
+        setTimeout(this.loadQuizRunInternal, 500);
       });
     return result;
   }
