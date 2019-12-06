@@ -48,7 +48,7 @@ export class QuizRunComponent implements OnInit, OnDestroy {
       }
       const promise = this.loadQuizRun();
       if (promise) {
-        promise.subscribe(null, null, () => setTimeout(loadQuizRun, 100));
+        promise.subscribe(null, null, () => setTimeout(loadQuizRun, 500));
       } else { setTimeout(loadQuizRun, 500); }
     };
     loadQuizRun();
@@ -59,8 +59,8 @@ export class QuizRunComponent implements OnInit, OnDestroy {
       }
       const promise = this.loadQuizResult();
       if (promise) {
-        promise.subscribe(null, null, () => setTimeout(loadQuizResult, 100));
-      } else { setTimeout(loadQuizResult, 500); }
+        promise.subscribe(null, null, () => setTimeout(loadQuizResult, 1500));
+      } else { setTimeout(loadQuizResult, 1500); }
     };
     loadQuizResult();
 
