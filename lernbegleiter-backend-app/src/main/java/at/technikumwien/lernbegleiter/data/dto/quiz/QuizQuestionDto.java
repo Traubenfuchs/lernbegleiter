@@ -1,5 +1,6 @@
 package at.technikumwien.lernbegleiter.data.dto.quiz;
 
+import at.technikumwien.lernbegleiter.data.*;
 import at.technikumwien.lernbegleiter.data.dto.*;
 import lombok.*;
 import lombok.experimental.*;
@@ -20,6 +21,8 @@ public class QuizQuestionDto extends BaseDto<QuizQuestionDto> {
   private Integer timeLimit;
   private Boolean answeredCorrectly;
   private Integer answerCount;
+  private QuizQuestionType quizQuestionType;
+  private String freeText;
 
   public QuizQuestionDto deepClone() {
     return new QuizQuestionDto()

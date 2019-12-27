@@ -21,7 +21,7 @@ public class QuizAnsweringService {
   @Autowired
   private EntityManager em;
 
-  public void answer(
+  public void tick(
     @NonNull String quizAttemptUuid,
     @NonNull String quizAnswerUuid,
     @NonNull Boolean correct) {
@@ -49,6 +49,25 @@ public class QuizAnsweringService {
     query.setParameter(3, quizAnswerUuid);
     query.setParameter(4, quizAnswerUuid);
     query.setParameter(5, quizAttemptUuid);
+
+    query.executeUpdate();
+  }
+
+  public void answer(
+    @NonNull String quizAttemptUuid,
+    @NonNull String value) {
+    Query query = em.createNativeQuery(
+      """
+      update QUIZ_QUESTION_ATTEMPT
+      SET
+        FREE_TEXT = ?,
+        TS_UPDATE = ?
+      WHERE UUID = ?
+""");
+
+    query.setParameter(1, value);
+    query.setParameter(2, Instant.now());
+    query.setParameter(3, quizAttemptUuid);
 
     query.executeUpdate();
   }

@@ -48,4 +48,7 @@ public class QuizQuestionAttemptEntity extends BaseEntityCreationUpdateDate<Quiz
 
   @Column(name = "EXTRA_CONTENT")
   private String extraContent;
+
+  @Column(name = "FREE_TEXT")
+  private String freeText;
 }

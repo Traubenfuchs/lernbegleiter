@@ -215,7 +215,7 @@ export class QuizRunComponent implements OnInit, OnDestroy {
 
   flipAnswerTo(quizAnswerUuid: string, correct: boolean) {
     console.log('Setting quiz answer...');
-    this.http.post<QuizRun>(`api/quiz-run/${this.quizRunUuid}/quiz-attempt/${this.quizAttemptUuid}:answer`, {
+    this.http.post<QuizRun>(`api/quiz-run/${this.quizRunUuid}/quiz-attempt/${this.quizAttemptUuid}:tick`, {
       quizAnswerUuid,
       correct
     }).subscribe(res => {

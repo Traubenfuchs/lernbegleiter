@@ -24,6 +24,8 @@ public class QuizQuestionConverter extends DtoEntityConverter<QuizQuestionEntity
       .setUuid(quizQuestionEntity.getUuid())
       .setTimeLimit(quizQuestionEntity.getTimeLimit())
       .setAnswerCount(quizQuestionEntity.getAnswerCount())
+      .setFreeText(quizQuestionEntity.getFreeText())
+      .setQuizQuestionType(quizQuestionEntity.getQuizQuestionType())
       .setLob(new LobDto()
         .setQuizPictureUUID(quizQuestionEntity.getFkLobUUID()))
     ;
@@ -40,6 +42,8 @@ public class QuizQuestionConverter extends DtoEntityConverter<QuizQuestionEntity
       .setPosition(quizQuestionDto.getPosition())
       .setContent(quizQuestionDto.getContent())
       .setTimeLimit(quizQuestionDto.getTimeLimit())
+      .setQuizQuestionType(quizQuestionDto.getQuizQuestionType())
+      .setFreeText(quizQuestionDto.getFreeText())
       .setUuid(quizQuestionDto.getUuid())
     ;
   }

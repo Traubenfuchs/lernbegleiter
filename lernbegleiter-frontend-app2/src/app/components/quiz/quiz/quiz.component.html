@@ -60,10 +60,15 @@
 
 
       <div class="row mt-1">
+
         <div class='col-6' *ngIf="!question.lob.quizPictureUUID">
           <input placeholder='Frage' type="file" class="form-control-file"
             (change)="onQuestionImageChange($event, question)">
         </div>
+        <select [(ngModel)]="question.quizQuestionType" class="form-control col-6">
+          <option value="MULTIPLE_CHOICE">multiple choice</option>
+          <option value="FREE_TEXT">Freitext</option>
+        </select>
 
         <div class='col-4' *ngIf="!!question.lob.quizPictureUUID">
           <button class="btn btn-sm btn-danger" (click)='deleteImageFromQuestion(question)'>delete existing
@@ -75,21 +80,28 @@
 
 
       </div>
+      <ng-container *ngIf="question.quizQuestionType === 'MULTIPLE_CHOICE'">
+        <button (click)="newAnswer(question)" class="btn btn-secondary btn-sm mt-1">Neue Antwort</button>
 
-      <button (click)="newAnswer(question)" class="btn btn-secondary btn-sm mt-1">Neue Antwort</button>
-      <div *ngFor="let answer of question.answers" class='mt-1'>
-        <div class="row">
-          <div class='col-10'>
-            <input placeholder='Antwort' class="form-control" [(ngModel)]="answer.content">
-          </div>
-          <div class='col-1'>
-            <button (click)="swap(answer)" class="btn btn-secondary">{{answer.correct?'✔️':'❌'}}</button>
-          </div>
-          <div class='col-1'>
-            <button (click)="deleteAnswer(answer.internalId, question)" class="btn btn-secondary">🗑️</button>
+        <div *ngFor="let answer of question.answers" class='mt-1'>
+          <div class="row">
+            <div class='col-10'>
+              <input placeholder='Antwort' class="form-control" [(ngModel)]="answer.content">
+            </div>
+            <div class='col-1'>
+              <button (click)="swap(answer)" class="btn btn-secondary">{{answer.correct?'✔️':'❌'}}</button>
+            </div>
+            <div class='col-1'>
+              <button (click)="deleteAnswer(answer.internalId, question)" class="btn btn-secondary">🗑️</button>
+            </div>
           </div>
         </div>
-      </div>
+      </ng-container>
+
+      <ng-container *ngIf="question.quizQuestionType === 'FREE_TEXT'">
+        <input [(ngModel)]="question.freeText" class="form-control mt-1" placeholder="Freitext Antwort">
+      </ng-container>
+
     </div>
     <button (click)="newQuestion()" class="btn btn-secondary btn-sm">Neue Frage</button>
   </div> <!-- ends card-body -->

@@ -4,9 +4,9 @@ import { QuizQuestion } from './QuizQuestion';
 import { QuizRun } from './QuizRun';
 
 export class Quiz extends BaseDto {
-  name = ''
-  description = ''
-  questions: QuizQuestion[] = []
-  author = new Teacher()
-  quizRuns: QuizRun[] = []
+  name = '';
+  description = '';
+  questions: QuizQuestion[] = [];
+  author = new Teacher();
+  quizRuns: QuizRun[] = [];
 }

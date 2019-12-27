@@ -1,5 +1,6 @@
 package at.technikumwien.lernbegleiter.entities.quiz;
 
+import at.technikumwien.lernbegleiter.data.*;
 import at.technikumwien.lernbegleiter.entities.*;
 import at.technikumwien.lernbegleiter.entities.base.*;
 import lombok.*;
@@ -39,6 +40,11 @@ public class QuizQuestionEntity extends BaseEntityCreationUpdateDate<QuizQuestio
   private String fkLobUUID;
   @Column(name = "QUESTION_COUNT")
   private Integer answerCount;
+  @Column(name = "QUIZ_QUESTION_TYPE", nullable = false)
+  @Enumerated(value = EnumType.STRING)
+  private QuizQuestionType quizQuestionType;
+  @Column(name = "FREE_TEXT")
+  private String freeText;
 
   @PrePersist
   public void perPersistAnswersSize() {
