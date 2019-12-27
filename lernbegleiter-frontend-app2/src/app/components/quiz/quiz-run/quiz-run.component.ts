@@ -1,3 +1,4 @@
+import { QuizQrCodeResponse } from './../../../data/quiz/QuizQrCodeResponse';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -22,7 +23,7 @@ export class QuizRunComponent implements OnInit, OnDestroy {
   loadingQuizResult = false;
   safeQr = new BehaviorSubject<SafeUrl>(null);
   fancyResults = !false;
-  uuid = '';
+  quizRunUuid = '';
   quizUuid = '';
   // quiz = new Quiz()
   quizAttemptUuid = '';
@@ -79,30 +80,31 @@ export class QuizRunComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log("quiz-run-component ngOnDestroy called...");
     this.destroyed = true;
   }
 
   ngOnInit() {
-    this.uuid = this.route.snapshot.paramMap.get("quizRunUUID");
+
+    this.quizRunUuid = this.route.snapshot.paramMap.get("quizRunUUID");
     this.quizUuid = this.route.snapshot.paramMap.get("quizUUID");
     this.quizResult = new QuizResult();
     this.quizRun = new QuizRun();
+    console.log("HI " + this.quizRunUuid);
+    if (this.quizRunUuid && this.quizRunUuid.length !== 0) {
+      this.loadQrCode();
+    }
 
-
-    if (this.uuid === 'new') {
+    if (this.quizRunUuid === 'new') {
       this.quizRun.quizRunType = 'FREE_ANSWERING';
       this.quizRun.uuid = 'Automatisch';
-    } else {
-      if (this.loginService.loggedInAndStudent()) {
-        console.log('Loading quizAttemptUuid...');
-        this.http
-          .post<UuidResponse>(`api/quiz-run/${this.uuid}/quiz-attempt:create-if-not-exists`, {})
-          .subscribe(uuidResponse => {
-            console.log('Loaded quizAttemptUuid.');
-            this.quizAttemptUuid = uuidResponse.uuid;
-          });
-      }
+    } else if (this.loginService.loggedInAndStudent()) {
+      console.log('Loading quizAttemptUuid...');
+      this.http
+        .post<UuidResponse>(`api/quiz-run/${this.quizRunUuid}/quiz-attempt:create-if-not-exists`, {})
+        .subscribe(uuidResponse => {
+          console.log('Loaded quizAttemptUuid.');
+          this.quizAttemptUuid = uuidResponse.uuid;
+        });
     }
   }
 
@@ -134,7 +136,8 @@ export class QuizRunComponent implements OnInit, OnDestroy {
   }
 
   loadQuizResult() {
-    if (!this.uuid || this.uuid === '' || this.uuid === 'new') {
+    if (!this.quizRunUuid || this.quizRunUuid === '' || this.quizRunUuid === 'new') {
+      setTimeout(() => this.loadQuizResultInternal(), 1500);
       return;
     }
     if (!this.loginService.loggedInAndTeacherOrAdmin()) {
@@ -142,7 +145,7 @@ export class QuizRunComponent implements OnInit, OnDestroy {
     }
     this.loadingQuizResult = true;
     console.log('Loading QuizResult...');
-    const result = this.http.get<QuizResult>(`api/quiz/${this.quizUuid}/quiz-run/${this.uuid}/quiz-result`);
+    const result = this.http.get<QuizResult>(`api/quiz/${this.quizUuid}/quiz-run/${this.quizRunUuid}/quiz-result`);
     result.subscribe(res => {
       res.entries = res.entries.sort((l, r) => l.points < r.points ? -1 : 1);
 
@@ -171,16 +174,16 @@ export class QuizRunComponent implements OnInit, OnDestroy {
   }
 
   loadQuizRun() {
-    if (!this.uuid || this.uuid === '' || this.uuid === 'new') {
+    if (!this.quizRunUuid || this.quizRunUuid === '' || this.quizRunUuid === 'new') {
+      setTimeout(() => this.loadQuizRunInternal(), 500);
       return;
     }
     console.log('Loading QuizRun...');
     this.loadingQuizRun = true;
-    const result = this.http.get<QuizRun>(`api/quiz-run-${this.loginService.loggedInAndAdmin() ? 'admin' : 'student'}/${this.uuid}`);
+    const result = this.http.get<QuizRun>(`api/quiz-run-${this.loginService.loggedInAndAdmin() ? 'admin' : 'student'}/${this.quizRunUuid}`);
     result.subscribe(res => {
       console.log('QuizRun loaded.');
       this.quizRun = res;
-      this.safeQr.next(this.sanitizer.bypassSecurityTrustUrl("data:image/png;base64, " + res.qrCodeAsBase64));
       // if (this.quizRun.nextTimeLimit && this.quizRun.nextTimeLimit.length > 15) {
       //   this.quizRun.nextTimeLimit = this.quizRun.nextTimeLimit.substring(0, 16)
       // }
@@ -195,9 +198,15 @@ export class QuizRunComponent implements OnInit, OnDestroy {
     return result;
   }
 
+  loadQrCode() {
+    this.http.get<QuizQrCodeResponse>(`api/quiz/${this.quizRunUuid}/qr`).subscribe(r => {
+      this.safeQr.next(this.sanitizer.bypassSecurityTrustUrl("data:image/png;base64, " + r.qrCodeImageAsBase64));
+    });
+  }
+
   advance() {
     console.log('Advancing quiz run...');
-    this.http.post<QuizRun>(`api/quiz-run/${this.uuid}:advance`, {})
+    this.http.post<QuizRun>(`api/quiz-run/${this.quizRunUuid}:advance`, {})
       .subscribe(res => {
         console.log('Advanced quiz run.');
         this.quizRun = res;
@@ -206,7 +215,7 @@ export class QuizRunComponent implements OnInit, OnDestroy {
 
   flipAnswerTo(quizAnswerUuid: string, correct: boolean) {
     console.log('Setting quiz answer...');
-    this.http.post<QuizRun>(`api/quiz-run/${this.uuid}/quiz-attempt/${this.quizAttemptUuid}:answer`, {
+    this.http.post<QuizRun>(`api/quiz-run/${this.quizRunUuid}/quiz-attempt/${this.quizAttemptUuid}:answer`, {
       quizAnswerUuid,
       correct
     }).subscribe(res => {

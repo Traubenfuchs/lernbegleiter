@@ -4,7 +4,7 @@ import at.technikumwien.lernbegleiter.components.*;
 import at.technikumwien.lernbegleiter.data.*;
 import at.technikumwien.lernbegleiter.entities.quiz.attempts.*;
 import at.technikumwien.lernbegleiter.repositories.auth.*;
-import at.technikumwien.lernbegleiter.services.*;
+import at.technikumwien.lernbegleiter.services.quiz.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.context.annotation.*;
 import org.springframework.stereotype.*;

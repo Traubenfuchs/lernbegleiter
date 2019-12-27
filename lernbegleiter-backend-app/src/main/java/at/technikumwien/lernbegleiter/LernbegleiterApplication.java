@@ -13,6 +13,11 @@ import static org.springframework.context.annotation.ScopedProxyMode.*;
 @EnableTransactionManagement(proxyTargetClass = true)
 @EnableScheduling
 public class LernbegleiterApplication {
+  //-copy /import
+  //classes from
+  // other grade
+  // -import moodle.xml
+
   public static void main(String[] args) {
     SpringApplication.run(LernbegleiterApplication.class, args);
   }

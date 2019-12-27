@@ -1,4 +1,4 @@
-package at.technikumwien.lernbegleiter.services;
+package at.technikumwien.lernbegleiter.services.quiz;
 
 import at.technikumwien.lernbegleiter.data.*;
 import at.technikumwien.lernbegleiter.data.dto.quiz.*;
@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
 import org.springframework.util.*;
+
+import java.util.*;
+import java.util.stream.*;
 
 
 @Service
@@ -32,11 +35,14 @@ public class QuizAttemptService {
     if (CollectionUtils.isEmpty(quizRunDto.getCurrentQuestions())) {
       return;
     }
+    Map<String, QuizQuestionAttemptEntity> quizQuestionAttempts =
+      quizQuestionAttemptRepository
+        .findByFkQuizAttemptUuid(createQuizAttemptIfNotExists(quizRunDto.getUuid()))
+        .stream()
+        .collect(Collectors.toMap(QuizQuestionAttemptEntity::getFkQuizQuestionUuid, x -> x));
 
     for (QuizQuestionDto currentQuestion : quizRunDto.getCurrentQuestions()) {
-      QuizQuestionAttemptEntity quizQuestionAttemptEntity = quizQuestionAttemptRepository.findByFkQuizAttemptUuidAndFkQuizQuestionUuid(
-        createQuizAttemptIfNotExists(quizRunDto.getUuid()),
-        currentQuestion.getUuid());
+      QuizQuestionAttemptEntity quizQuestionAttemptEntity = quizQuestionAttempts.get(currentQuestion.getUuid());
 
       boolean questionAnsweredCorrectly = true;
 

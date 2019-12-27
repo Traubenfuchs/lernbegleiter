@@ -16,6 +16,8 @@ import java.util.*;
 public class GradeController extends BaseController {
   @Autowired
   private GradeService gradeService;
+  @Autowired
+  private GradeImportService gradeImportService;
 
   @GetMapping("grades")
   public Set<GradeDto> getAll() {
@@ -33,6 +35,15 @@ public class GradeController extends BaseController {
   public UuidResponse createGrade(@Valid @RequestBody CreateGradeRequest createGradeRequest) {
     authHelper.isAdminOrTeacherOrThrow();
     return new UuidResponse(gradeService.create(createGradeRequest));
+  }
+
+  @PostMapping("grade/{targetUuid}/import/{sourceUuid}")
+  public void importGrade(
+    @PathVariable String targetUuid,
+    @PathVariable String sourceUuid
+  ) {
+    authHelper.isAdminOrTeacherOrThrow();
+    gradeImportService.importToGradeFrom(targetUuid, sourceUuid);
   }
 
   @DeleteMapping("grade/{uuid}")

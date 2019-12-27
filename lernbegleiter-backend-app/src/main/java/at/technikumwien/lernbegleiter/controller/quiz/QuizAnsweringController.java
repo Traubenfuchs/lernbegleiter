@@ -2,7 +2,6 @@ package at.technikumwien.lernbegleiter.controller.quiz;
 
 import at.technikumwien.lernbegleiter.controller.*;
 import at.technikumwien.lernbegleiter.data.dto.quiz.*;
-import at.technikumwien.lernbegleiter.services.*;
 import at.technikumwien.lernbegleiter.services.quiz.*;
 import lombok.*;
 import org.springframework.beans.factory.annotation.*;

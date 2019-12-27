@@ -3,7 +3,7 @@ package at.technikumwien.lernbegleiter.controller.quiz;
 import at.technikumwien.lernbegleiter.components.*;
 import at.technikumwien.lernbegleiter.data.dto.quiz.*;
 import at.technikumwien.lernbegleiter.data.responses.*;
-import at.technikumwien.lernbegleiter.services.*;
+import at.technikumwien.lernbegleiter.services.quiz.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.web.bind.annotation.*;
 

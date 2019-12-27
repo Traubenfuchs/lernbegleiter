@@ -1,7 +1,25 @@
-<div class="card" *ngIf="uuid !== 'new'">
+<div class="card">
+  <div class="card-header">
+    <h5 class="card-title">Import</h5>
+    <p class="card-text">Fächer anderer Klasse kopieren (Vorsicht!)</p>
+  </div>
+  <div class="card-body">
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <button (click)="import()" class="btn btn-primary">jetzt importieren</button>
+      </div>
+      <select [(ngModel)]="sourceGradeForImport" class="custom-select">
+        <option value='default'>---</option>
+        <option *ngFor="let grade of grades" [value]='grade.uuid'>{{grade.name}}</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div class="card mt-3" *ngIf="uuid !== 'new'">
   <div class="card-header">
     <h5 class="card-title">Fächer</h5>
-    <p class="card-text">Fächer der Klasse</p>
+    <p class="card-text">Fächer der Klasse: {{grade.name}}</p>
   </div>
   <div class="card-body">
     <table class="lernbegleiter-table">
@@ -29,7 +47,7 @@
 <div class="card mt-3">
   <div class="card-header">
     <h5 class="card-title">Schüler</h5>
-    <p class="card-text">Schüler der Klasse</p>
+    <p class="card-text">Schüler der Klasse: {{grade.name}}</p>
   </div>
   <div class="card-body">
     <table class="lernbegleiter-table">

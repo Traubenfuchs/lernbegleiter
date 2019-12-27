@@ -8,5 +8,4 @@ export class QuizRun extends BaseDto {
   state: QuizRunState;
   quizRunType: string;
   questionCount: number;
-  qrCodeAsBase64 = "";
 }
