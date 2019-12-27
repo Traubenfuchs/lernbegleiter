@@ -1,16 +1,17 @@
+import { Subject } from 'rxjs';
 import { QuizQrCodeResponse } from './../../../data/quiz/QuizQrCodeResponse';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UuidResponse } from 'src/app/data/UuidResponse';
 
-import { Quiz } from './../../../data/quiz/Quiz';
 import { QuizResult } from './../../../data/quiz/QuizResult';
 import { QuizRun } from './../../../data/quiz/QuizRun';
 import { QuizRunState } from './../../../data/quiz/QuizRunState';
 import { LoginService } from './../../../services/login.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { BehaviorSubject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-quiz-run',
@@ -25,13 +26,14 @@ export class QuizRunComponent implements OnInit, OnDestroy {
   fancyResults = !false;
   quizRunUuid = '';
   quizUuid = '';
-  // quiz = new Quiz()
   quizAttemptUuid = '';
   quizResult = new QuizResult();
   quizRun = new QuizRun();
   _QuizRunState = QuizRunState;
   timeLeftIntervalId: any;
   timeLeft = '0';
+
+  answerChangeDebouncers = new Map<string, Subject<string>>();
 
   constructor(
     public router: Router,
@@ -89,7 +91,6 @@ export class QuizRunComponent implements OnInit, OnDestroy {
     this.quizUuid = this.route.snapshot.paramMap.get("quizUUID");
     this.quizResult = new QuizResult();
     this.quizRun = new QuizRun();
-    console.log("HI " + this.quizRunUuid);
     if (this.quizRunUuid && this.quizRunUuid.length !== 0) {
       this.loadQrCode();
     }
@@ -213,6 +214,14 @@ export class QuizRunComponent implements OnInit, OnDestroy {
       });
   }
 
+  answerFreeTextQuestion(quizQuestionAttemptUuid: string, freeText: string) {
+    this.http.post<QuizRun>(`api/quiz-run/${this.quizRunUuid}/quiz-attempt/${this.quizAttemptUuid}:answer`, {
+      freeText
+    }).subscribe(res => {
+      this.quizRun = res;
+    });
+  }
+
   flipAnswerTo(quizAnswerUuid: string, correct: boolean) {
     console.log('Setting quiz answer...');
     this.http.post<QuizRun>(`api/quiz-run/${this.quizRunUuid}/quiz-attempt/${this.quizAttemptUuid}:tick`, {
@@ -220,10 +229,33 @@ export class QuizRunComponent implements OnInit, OnDestroy {
       correct
     }).subscribe(res => {
       this.quizRun = res;
-    },
-      () => {
-        this.loadQuizRun();
-      });
+    });
+  }
+
+  freeTextChange(quizQuestionUuid: string, freeText: string) {
+    let debouncerSubject = this.answerChangeDebouncers.get(quizQuestionUuid);
+
+    if (!debouncerSubject) {
+      debouncerSubject = new Subject<string>();
+      this.answerChangeDebouncers.set(quizQuestionUuid, debouncerSubject);
+      debouncerSubject.pipe(
+        debounceTime(400),
+        distinctUntilChanged())
+        .subscribe(value =>
+          this.freeTextChangeInternal(quizQuestionUuid, value)
+        );
+    }
+
+    debouncerSubject.next(freeText);
+  }
+
+  freeTextChangeInternal(quizQuestionUuid: string, freeText: string) {
+    this.http.post<QuizRun>(`api/quiz-run/${this.quizRunUuid}/quiz-attempt/${this.quizAttemptUuid}:answer`, {
+      quizQuestionUuid,
+      freeText
+    }).subscribe(res => {
+      this.quizRun = res;
+    });
   }
 
   trackQuizResultLines(index, item) {

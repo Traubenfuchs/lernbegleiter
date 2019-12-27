@@ -55,20 +55,23 @@ public class QuizAnsweringService {
 
   public void answer(
     @NonNull String quizAttemptUuid,
+    @NonNull String quizQuestionUuid,
     @NonNull String value) {
     Query query = em.createNativeQuery(
       """
       update QUIZ_QUESTION_ATTEMPT
-      SET
+      set
         FREE_TEXT = ?,
         TS_UPDATE = ?
-      WHERE UUID = ?
+      where
+        FK_QUIZ_ATTEMPT_UUID = ? and
+        FK_QUIZ_QUESTION_UUID = ?
 """);
 
     query.setParameter(1, value);
     query.setParameter(2, Instant.now());
     query.setParameter(3, quizAttemptUuid);
-
+    query.setParameter(4, quizQuestionUuid);
     query.executeUpdate();
   }
 }

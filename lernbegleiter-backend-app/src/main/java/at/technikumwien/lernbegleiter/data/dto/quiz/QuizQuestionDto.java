@@ -36,6 +36,8 @@ public class QuizQuestionDto extends BaseDto<QuizQuestionDto> {
       .setTimeLimit(timeLimit)
       .setAnsweredCorrectly(answeredCorrectly)
       .setAnswerCount(answerCount)
+      .setFreeText(freeText)
+      .setQuizQuestionType(quizQuestionType)
       ;
   }
 }

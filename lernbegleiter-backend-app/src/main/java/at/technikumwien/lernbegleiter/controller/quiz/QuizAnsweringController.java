@@ -34,10 +34,11 @@ public class QuizAnsweringController extends BaseController {
   public QuizRunDto answer(
     @PathVariable String quizRunUUID,
     @PathVariable String quizAttemptUUID,
-    @RequestBody AnswerRequest tickRequest) throws ExecutionException {
+    @RequestBody AnswerRequest answerRequest) throws ExecutionException {
     quizAnsweringService.answer(
       quizAttemptUUID,
-      tickRequest.getValue());
+      answerRequest.getQuizQuestionUuid(),
+      answerRequest.getFreeText());
     return quizRunService.getCachedForStudent(quizRunUUID);
   }
 
@@ -49,6 +50,7 @@ public class QuizAnsweringController extends BaseController {
 
   @Data
   public static class AnswerRequest {
-    private String value;
+    private String freeText;
+    private String quizQuestionUuid;
   }
 }

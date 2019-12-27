@@ -5,7 +5,7 @@ import { QuizRunState } from './QuizRunState';
 export class QuizRun extends BaseDto {
   nextTimeLimit: string;
   currentQuestions: QuizQuestion[] = [];
-  state: QuizRunState;
+  state: string;
   quizRunType: string;
   questionCount: number;
 }

@@ -8,7 +8,9 @@ import at.technikumwien.lernbegleiter.repositories.quiz.attempts.*;
 import lombok.*;
 import lombok.experimental.*;
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.http.*;
 import org.springframework.stereotype.*;
+import org.springframework.web.server.*;
 
 import java.time.*;
 import java.util.*;
@@ -29,22 +31,37 @@ public class QuizResultService {
 
     Set<QuizAttemptEntity> quizAttempts = quizAttemptRepository.findAllAnswersByFkQuizRunUUID(quizRunUuid);
 
-
     Map<String, QuizQuestionAnswerSpan> quizUuidToAnswerSpan = new HashMap<>();
     quizAttempts.forEach(qa -> {
       qa.getQuizQuestionAttempts().forEach(qqa -> {
         String currentQuizQuestionUuid = qqa.getFkQuizQuestionUuid();
 
-        if (!qqa.getAnswers().stream().allMatch(quizQuestionAnswerAttemptEntity ->
-          quizQuestionAnswerAttemptEntity.getCorrect().equals(quizQuestionAnswerAttemptEntity.getQuizAnswer().getCorrect())
-        )) {
+        if (switch (qqa.getQuizQuestion().getQuizQuestionType()) {
+          case MULTIPLE_CHOICE:
+            yield !qqa.getAnswers().stream().allMatch(quizQuestionAnswerAttemptEntity ->
+              quizQuestionAnswerAttemptEntity.getCorrect().equals(quizQuestionAnswerAttemptEntity.getQuizAnswer().getCorrect()));
+
+          case FREE_TEXT:
+            yield !Objects.equals(qqa.getQuizQuestion().getFreeText(), qqa.getFreeText());
+
+          default:
+            throw new ResponseStatusException(
+              HttpStatus.INTERNAL_SERVER_ERROR,
+              "Given QuizQuestionType<" + qqa.getQuizQuestion().getQuizQuestionType() + "> is unhandled.");
+        }) {
           return;
         }
 
-        long max = qqa.getAnswers().stream()
-          .map(BaseEntityCreationUpdateDate::getTsUpdate)
-          .mapToLong(Instant::toEpochMilli)
-          .max().getAsLong();
+        final long max = switch (qqa.getQuizQuestion().getQuizQuestionType()) {
+          case MULTIPLE_CHOICE:
+            yield qqa.getAnswers().stream()
+              .map(BaseEntityCreationUpdateDate::getTsUpdate)
+              .mapToLong(Instant::toEpochMilli)
+              .max().getAsLong();
+
+          case FREE_TEXT:
+            yield qqa.getTsUpdate().toEpochMilli();
+        };
 
         quizUuidToAnswerSpan.compute(qqa.getFkQuizQuestionUuid(), (key, qqas) -> {
           if (qqas == null) {

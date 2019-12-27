@@ -46,6 +46,8 @@ public class QuizAttemptService {
 
       boolean questionAnsweredCorrectly = true;
 
+      currentQuestion.setFreeText(quizQuestionAttemptEntity.getFreeText());
+
       for (QuizAnswerDto answerDto : currentQuestion.getAnswers()) {
         boolean ticked = quizQuestionAttemptEntity.getAnswers()
           .stream()

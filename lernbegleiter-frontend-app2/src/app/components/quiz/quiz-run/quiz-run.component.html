@@ -36,25 +36,35 @@
         <img *ngIf="question.lob.quizPictureUUID" [src]="'/api/image/' + question.lob.quizPictureUUID">
       </div>
       <div class="card-body">
-        <div *ngFor="let answer of question.answers; trackBy: trackByFn" class='mt-1'>
-          <div style='display:flex'>
-            <ng-container *ngIf="_QuizRunState.WAITING_FOR_ANSWERS == _QuizRunState[quizRun.state]">
-              <button (click)="flipAnswerTo(answer.uuid, false)" class="btn btn-secondary"
-                *ngIf='answer.correct'>✔️</button>
-              <button (click)="flipAnswerTo(answer.uuid, true)" class="btn btn-secondary"
-                *ngIf='!answer.correct'>❌</button>
+
+        <ng-container *ngIf="question.quizQuestionType === 'FREE_TEXT'">
+          <input class='form-control' [(ngModel)]='"Derzeitige Antwort: " + question.freeText' disabled>
+          <input (keyup)="freeTextChange(question.uuid, $event.target.value)" class='form-control mt-1'
+            placeholder='neue Antwort'>
+        </ng-container>
+
+        <ng-container *ngIf="question.quizQuestionType === 'MULTIPLE_CHOICE'">
+          <div *ngFor="let answer of question.answers; trackBy: trackByFn" class='mt-1'>
+            <div style='display:flex'>
+              <ng-container *ngIf="_QuizRunState.WAITING_FOR_ANSWERS == _QuizRunState[quizRun.state]">
+                <button (click)="flipAnswerTo(answer.uuid, false)" class="btn btn-secondary"
+                  *ngIf='answer.correct'>✔️</button>
+                <button (click)="flipAnswerTo(answer.uuid, true)" class="btn btn-secondary"
+                  *ngIf='!answer.correct'>❌</button>
+              </ng-container>
+              <div>{{answer.content}}</div>
+            </div>
+            <ng-container *ngIf="_QuizRunState.WAITING_FOR_ANSWERS != _QuizRunState[quizRun.state]">
+
+              <button class="btn btn-primary" [className]="answer.tickedCorrectly ? 'btn-success' : 'btn-danger'"
+                disabled>{{answer.correct?'✔️':'❌'}} ist die korrekte Antwort. Du hast mit
+                {{answer.correct?(answer.tickedCorrectly?'✔️':'❌'):(answer.tickedCorrectly?'❌':'✔️')}}
+                geantwortet.</button>
+
             </ng-container>
-            <div>{{answer.content}}</div>
           </div>
-          <ng-container *ngIf="_QuizRunState.WAITING_FOR_ANSWERS != _QuizRunState[quizRun.state]">
+        </ng-container>
 
-            <button class="btn btn-primary" [className]="answer.tickedCorrectly ? 'btn-success' : 'btn-danger'"
-              disabled>{{answer.correct?'✔️':'❌'}} ist die korrekte Antwort. Du hast mit
-              {{answer.correct?(answer.tickedCorrectly?'✔️':'❌'):(answer.tickedCorrectly?'❌':'✔️')}}
-              geantwortet.</button>
-
-          </ng-container>
-        </div>
       </div>
     </div>
   </ng-container>
