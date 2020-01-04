@@ -19,6 +19,8 @@ import { UuidResponse } from 'src/app/data/UuidResponse';
 export class QuizComponent implements OnInit {
   uuid = '';
   quiz = new Quiz();
+  moddleXmlBase64: string;
+  moddleXmlName: string;
 
   constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute, private g: GrowlService) {
     this.route.params.subscribe(params => {
@@ -119,6 +121,27 @@ export class QuizComponent implements OnInit {
   deleteImageFromQuestion(question: QuizQuestion) {
     question.lob.quizPictureFileName = undefined;
     question.lob.quizPictureUUID = undefined;
+  }
+
+  uploadMoodleXml() {
+    this.http.post<UuidResponse>(`api/quiz/moodle`, { name: this.moddleXmlName, base64: this.moddleXmlBase64 }).subscribe(
+      uuidResponse => {
+        this.router.navigate([`management/quiz/${uuidResponse.uuid}`]);
+        this.g.addMessage(new GrowlMessage("Neues Quiz erstellt!", Severity.SUCCESS, 3000));
+      }
+    );
+  }
+
+  onMoodleXmlChange(ev: any) {
+    this.moddleXmlName = ev.target.files[0].name;
+
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      const x = "replace";
+      this.moddleXmlBase64 = reader.result[x](/^data:.+;base64,/, '');
+    };
+    reader.readAsDataURL(ev.target.files[0]);
   }
 
   onQuestionImageChange(ev: any, qq: QuizQuestion) {

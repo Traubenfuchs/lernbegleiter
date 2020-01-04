@@ -17,8 +17,6 @@ export class HomeComponent implements OnInit {
     private growlService: GrowlService) {
 
   }
-  public weekInYear = HomeComponent.getWeekNumber();
-  public year: number = new Date().getFullYear();
 
   contextMessage = 'Dein Wochenplaner';
 
@@ -41,17 +39,13 @@ export class HomeComponent implements OnInit {
   }
 
   getProfileUrl = () => `user/${this.loginService.getUserUuid()}/profile`;
-  getWeeklyOverviewUrl = () => `/student/${this.loginService.getUserUuid()}/weekly-overview/${this.weekInYear}/${this.year}`;
-
+  getWeeklyOverviewUrl = () => `/student/${this.loginService.getUserUuid()}/weekly-overview`;
 
   getOriginalTaget = () => {
     const originalTarget = new URL(window.location.href).searchParams.get('originalTarget');
-    console.log("ooo " + originalTarget + " " + window.location.href);
     if (!originalTarget || originalTarget.length === 0) {
-      console.log("X");
       return window.location.href;
     } else {
-      console.log("y");
       return originalTarget;
     }
   }

@@ -6,7 +6,6 @@ import at.technikumwien.lernbegleiter.data.responses.*;
 import at.technikumwien.lernbegleiter.entities.*;
 import at.technikumwien.lernbegleiter.repositories.*;
 import lombok.*;
-import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
 import org.springframework.util.*;
@@ -14,11 +13,11 @@ import org.springframework.util.*;
 import javax.annotation.*;
 import java.security.*;
 
+@AllArgsConstructor
 @Transactional
 @Service
 public class LobService {
-  @Autowired
-  private LobRepository lobRepository;
+  private final LobRepository lobRepository;
 
   public UuidResponse store(String filename, @NonNull byte[] bytes) throws NoSuchAlgorithmException {
     LobEntity lobEntity = new LobEntity()

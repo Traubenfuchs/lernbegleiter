@@ -31,7 +31,8 @@ public class QuizAttemptRepositoryImpl implements QuizAttemptRepositoryCustom {
             .setQuizRun(quizRunRepository.getOne(quizRunUUID))
             .setStudent(userRepository.getCurrentUser()));
 
-        if (result.getQuizRun().getQuizRunType() == QuizRunType.FREE_ANSWERING) {
+        if (result.getQuizRun().getQuizRunType() == QuizRunType.FREE_ANSWERING ||
+          result.getQuizRun().getQuizRunType() == QuizRunType.FINISH_SELF) {
           quizRunService.createQuestionAndAnswerAttemptsForQuizAttempt(result.getUuid());
         }
 

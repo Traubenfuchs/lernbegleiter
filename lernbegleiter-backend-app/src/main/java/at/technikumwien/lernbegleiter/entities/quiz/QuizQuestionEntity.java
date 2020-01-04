@@ -15,7 +15,7 @@ import java.util.*;
 @Table(name = "QUIZ_QUESTION", indexes = {
   @Index(name = "I_QUIZ_QUESTION_FK_QUIZ_UUID", columnList = "FK_QUIZ_UUID")
 }, uniqueConstraints = {
-  @UniqueConstraint(name = "UC_QUIZ_QUESTION_POSITION", columnNames = {"FK_QUIZ_UUID", "POSITION"})
+  @UniqueConstraint(name = "UC_QUIZ_QUESTION_POSITION", columnNames = {"POSITION", "FK_QUIZ_UUID"})
 })
 @Entity
 public class QuizQuestionEntity extends BaseEntityCreationUpdateDate<QuizQuestionEntity> implements EntityWithLob<QuizQuestionEntity> {
@@ -27,10 +27,12 @@ public class QuizQuestionEntity extends BaseEntityCreationUpdateDate<QuizQuestio
   @Column(name = "FK_QUIZ_UUID", insertable = false, updatable = false)
   private String fkQuizzUuid;
   @OneToMany(mappedBy = "quizQuestion", cascade = CascadeType.ALL)
-  @OrderColumn(name = "POSITION")
+  @OrderBy("position")
   private List<QuizAnswerEntity> answers = new ArrayList<>();
+
   @Column(name = "POSITION", nullable = false)
   private Integer position;
+
   @Column(name = "TIME_LIMIT")
   private Integer timeLimit = 40;
   @OneToOne(fetch = FetchType.LAZY)

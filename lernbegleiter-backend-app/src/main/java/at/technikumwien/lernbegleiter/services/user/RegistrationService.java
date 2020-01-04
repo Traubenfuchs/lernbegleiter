@@ -5,7 +5,6 @@ import at.technikumwien.lernbegleiter.data.requests.*;
 import at.technikumwien.lernbegleiter.entities.auth.*;
 import at.technikumwien.lernbegleiter.repositories.auth.*;
 import lombok.*;
-import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
@@ -14,14 +13,13 @@ import org.springframework.web.server.*;
 
 import javax.validation.*;
 
+@AllArgsConstructor
 @Transactional
 @Validated
 @Service
 public class RegistrationService {
-  @Autowired
-  private UserRepository userRepository;
-  @Autowired
-  private PasswordHasher passwordHasher;
+  private final UserRepository userRepository;
+  private final PasswordHasher passwordHasher;
 
   public String register(@NonNull @Valid RegistrationRequest request) {
     String email = request.getEmail();

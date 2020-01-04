@@ -6,7 +6,6 @@ import at.technikumwien.lernbegleiter.data.responses.*;
 import at.technikumwien.lernbegleiter.entities.*;
 import at.technikumwien.lernbegleiter.repositories.*;
 import lombok.*;
-import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
 import org.springframework.validation.annotation.*;
@@ -15,16 +14,14 @@ import javax.persistence.*;
 import javax.validation.*;
 import java.util.*;
 
+@AllArgsConstructor
 @Transactional
 @Validated
 @Service
 public class ClassService {
-  @Autowired
-  private ClassRepository classRepository;
-  @Autowired
-  private ClassConverter classConverter;
-  @Autowired
-  private EntityManager em;
+  private final ClassRepository classRepository;
+  private final ClassConverter classConverter;
+  private final EntityManager em;
 
   public Collection<ClassDto> getAllForGrade(@NonNull String gradeUuid) {
     return classConverter.toDtoSet(classRepository.findByGrade(gradeUuid));

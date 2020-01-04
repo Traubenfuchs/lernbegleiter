@@ -32,7 +32,7 @@ public class QuizEntity extends BaseEntityCreationUpdateDate<QuizEntity> {
   @Column(length = 1024)
   private String description;
   @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
-  @OrderColumn(name = "POSITION")
+  @OrderBy("position")
   private List<QuizQuestionEntity> questions = new ArrayList<>();
   @ManyToOne(optional = false)
   @JoinColumn(name = "FK_AUTHOR_UUID", nullable = false)

@@ -41,7 +41,8 @@ public class QuizRunStatePromoter {
           return; // too early for quiz-run promotion //TODO only select quiz runs with time limit after now (-;
         }
 
-        if (quizRunEntity.getQuizRunType() == QuizRunType.FREE_ANSWERING) {
+        if (quizRunEntity.getQuizRunType() == QuizRunType.FREE_ANSWERING ||
+          quizRunEntity.getQuizRunType() == QuizRunType.FINISH_SELF) {
           quizRunEntity
             .setState(QuizRunState.DONE)
             .setNextTimeLimit(null);

@@ -13,9 +13,9 @@ import { UuidResponse } from 'src/app/data/UuidResponse';
   styleUrls: ['./learning-module.component.scss']
 })
 export class LearningModuleComponent implements OnInit {
-  uuid: string
-  classUuid: string
-  isLoadingSubModules = true
+  uuid: string;
+  classUuid: string;
+  isLoadingSubModules = true;
 
   deadlineFormControl: FormControl;
   learningModuleFormGroup: FormGroup;
@@ -28,10 +28,10 @@ export class LearningModuleComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.uuid = this.route.snapshot.paramMap.get("learningModuleUUID")
-    this.classUuid = this.route.snapshot.paramMap.get("classUUID")
+    this.uuid = this.route.snapshot.paramMap.get("learningModuleUUID");
+    this.classUuid = this.route.snapshot.paramMap.get("classUUID");
 
-    this.deadlineFormControl = new FormControl(undefined, [Validators.required])
+    this.deadlineFormControl = new FormControl(undefined, [Validators.required]);
     this.learningModuleFormGroup = this.formbuilder.group({
       name: [undefined, [Validators.required]],
       deadline: this.deadlineFormControl,
@@ -42,8 +42,8 @@ export class LearningModuleComponent implements OnInit {
       validator: fg => {
         const startC = fg.controls.start;
         const deadlineC = fg.controls.deadline;
-        const startV = startC.value
-        const deadlineV = deadlineC.value
+        const startV = startC.value;
+        const deadlineV = deadlineC.value;
 
         if (deadlineC.errors && !deadlineC.errors.mustBeBefore) {
           return;
@@ -51,69 +51,70 @@ export class LearningModuleComponent implements OnInit {
 
         if (!startV || !deadlineV) {
           deadlineC.setErrors(null);
-          return
+          return;
         }
 
         if (new Date(deadlineV).getTime() < new Date(startV).getTime()) {
           deadlineC.setErrors({ mustBeBefore: true });
         }
       }
-    })
+    });
 
     if (this.uuid !== 'new') {
-      this.loadLearningModule()
+      this.loadLearningModule();
     }
   }
 
   saveClick() {
     if (this.uuid === 'new') {
-      this.createLearningModule()
+      this.createLearningModule();
     } else {
-      this.updateLearningModule()
+      this.updateLearningModule();
     }
   }
 
   updateLearningModule() {
-    console.log('Updating learningModule...')
+    console.log('Updating learningModule...');
     this.http.put<UuidResponse>(`api/learning-module`, this.formToData())
       .subscribe(uuidResponse => {
-        console.log('Updated learningModule.')
-        this.router.navigate([`management/class/${this.classUuid}`])
-      })
+        console.log('Updated learningModule.');
+        this.router.navigate([`management/class/${this.classUuid}`]);
+      });
   }
 
   createLearningModule() {
-    console.log('Creating learningModule...')
+    console.log('Creating learningModule...');
     this.http.post<UuidResponse>(`api/class/${this.classUuid}/learning-module`, this.formToData())
       .subscribe(uuidResponse => {
-        console.log('Created learningModule.')
-        this.router.navigate([`management/class/${this.classUuid}`])
-      })
+        console.log('Created learningModule.');
+        this.router.navigate([`management/class/${this.classUuid}`]);
+      });
   }
 
   loadLearningModule() {
-    console.log('Loading learningModule...')
+    console.log('Loading learningModule...');
     this.http
       .get<LearningModule>(`api/learning-module/${this.uuid}`, { observe: 'body' })
       .subscribe(learningModule => {
-        console.log('Loaded learningModule.')
-        const c = this.learningModuleFormGroup.controls
+        console.log('Loaded learningModule.');
+        const c = this.learningModuleFormGroup.controls;
         c.name.setValue(learningModule.name);
         c.description.setValue(learningModule.description);
         c.deadline.setValue(learningModule.deadline);
         c.start.setValue(learningModule.start);
         c.color.setValue(learningModule.color);
-      })
+      });
   }
 
   formToData() {
-    const result = new LearningModule()
-    const c = this.learningModuleFormGroup.controls
-    result.name = c.name.value
-    result.description = c.description.value
-    result.deadline = c.deadline.value
-    result.start = c.start.value
-    result.color = c.color.value
+    const result = new LearningModule();
+    const c = this.learningModuleFormGroup.controls;
+    result.uuid = this.uuid;
+    result.name = c.name.value;
+    result.description = c.description.value;
+    result.deadline = c.deadline.value;
+    result.start = c.start.value;
+    result.color = c.color.value;
 
     return result;
   }
@@ -126,7 +127,7 @@ export class LearningModuleComponent implements OnInit {
     return this.uuid === 'new' ? 'Hier können Sie ein neues Modul anlegen.' : 'Hier können Sie ein Modul bearbeiten.';
   }
   valueMissing() {
-    const c = this.learningModuleFormGroup.controls
-    return [c.deadline, c.start, c.name].some(v => !v.value || v.value.length === 0)
+    const c = this.learningModuleFormGroup.controls;
+    return [c.deadline, c.start, c.name].some(v => !v.value || v.value.length === 0);
   }
 }

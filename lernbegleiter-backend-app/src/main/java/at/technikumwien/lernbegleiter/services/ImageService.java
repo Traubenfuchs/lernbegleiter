@@ -5,7 +5,6 @@ import at.technikumwien.lernbegleiter.repositories.*;
 import com.google.common.cache.*;
 import lombok.*;
 import org.apache.tomcat.util.http.fileupload.*;
-import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
 import org.springframework.stereotype.*;
 
@@ -13,17 +12,20 @@ import javax.servlet.http.*;
 import java.io.*;
 import java.util.concurrent.*;
 
+
 @Service
 public class ImageService {
-  @Autowired
-  private LobRepository lobRepository;
+  private final LobRepository lobRepository;
+  private final HttpServletResponse httpServletResponse;
+  private final LoadingCache<String, CachedImage> cache;
 
-  @Autowired
-  private HttpServletResponse httpServletResponse;
+  public ImageService(
+    LobRepository lobRepository,
+    HttpServletResponse httpServletResponse
+  ) {
+    this.lobRepository = lobRepository;
+    this.httpServletResponse = httpServletResponse;
 
-  private LoadingCache<String, CachedImage> cache;
-
-  public ImageService() {
     cache = CacheBuilder
       .newBuilder()
       .maximumWeight(1024L * 1000L * 1000L * 20) // 20 mb

@@ -11,34 +11,36 @@ import { UuidResponse } from 'src/app/data/UuidResponse';
 })
 export class ProfileEditComponent implements OnInit {
 
-  user: Student = new Student()
-  uuid = 'new'
+  user: Student = new Student();
+  uuid = 'new';
 
   constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute) {
-    this.uuid = this.route.snapshot.paramMap.get("userUUID")
+    this.uuid = this.route.snapshot.paramMap.get("userUUID");
+    this.loadUser();
   }
 
   ngOnInit() {
-    this.loadUser()
+
   }
 
   loadUser() {
-    console.log('Loading user...')
+    console.log('Loading user...');
 
     this.http.get<Student>(`api/user/${this.uuid}`)
       .subscribe(res => {
-        console.log(`Loaded user ${this.uuid}`)
-        this.user = res
-      })
+        console.log(`Loaded user ${this.uuid}`);
+        this.user = res;
+        this.user.uuid = this.uuid;
+      });
   }
 
   updateUser() {
-    console.log('Updating user...')
+    console.log('Updating user...');
     this.http.patch<UuidResponse>(`api/user/${this.uuid}`, this.user)
       .subscribe(uuidResponse => {
-      console.log("updated user, reloading user...")
-      this.loadUser()
-    })
+        console.log("updated user, reloading user...");
+        this.loadUser();
+      });
   }
 
 }

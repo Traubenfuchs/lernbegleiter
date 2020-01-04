@@ -32,6 +32,7 @@ import { QuizRunsComponent } from './components/quiz/quiz-runs/quiz-runs.compone
 import { QuizRunComponent } from './components/quiz/quiz-run/quiz-run.component';
 import { QuizRunStatePipe } from './pipes/quiz-run-state.pipe';
 import { QuizTypePipe } from './pipes/quiz-type.pipe';
+import { WeeklyOverviewLandingPageComponent } from './components/weekly-overview-landing-page/weekly-overview-landing-page.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { QuizTypePipe } from './pipes/quiz-type.pipe';
     QuizRunsComponent,
     QuizRunComponent,
     QuizRunStatePipe,
-    QuizTypePipe
+    QuizTypePipe,
+    WeeklyOverviewLandingPageComponent
   ],
   imports: [
     BrowserModule,

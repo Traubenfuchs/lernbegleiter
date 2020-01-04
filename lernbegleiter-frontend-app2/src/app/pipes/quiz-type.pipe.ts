@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import {Pipe, PipeTransform} from '@angular/core';
 
 @Pipe({
   name: 'quizType'
@@ -11,6 +11,9 @@ export class QuizTypePipe implements PipeTransform {
     }
     if (value === 'FREE_ANSWERING') {
       return 'freies Antworten / take home'
+    }
+    if (value === 'FINISH_SELF') {
+      return 'selbst abschließbar'
     }
     return value;
   }

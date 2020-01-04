@@ -14,104 +14,104 @@ import { Grade } from '../../../data/Grade';
   styleUrls: ['./class.component.scss']
 })
 export class ClassComponent implements OnInit {
-  class: Class = new Class()
-  uuid: string
-  grades: Grade[] = []
-  learningModules: LearningModule[] = []
+  class: Class = new Class();
+  uuid: string;
+  grades: Grade[] = [];
+  learningModules: LearningModule[] = [];
 
   constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute) {
     this.route.params.subscribe(params => {
-      this.ngOnInit()
+      this.ngOnInit();
     });
-   }
+  }
 
   ngOnInit() {
-    this.uuid = this.route.snapshot.paramMap.get("classUUID")
-    this.loadGrades()
-    this.loadLearningModules()
+    this.uuid = this.route.snapshot.paramMap.get("classUUID");
+    this.loadGrades();
+    this.loadLearningModules();
     if (this.isClassNew()) {
-      this.class.uuid = 'Automatisch'
-      this.class.gradeName = sessionStorage.getItem('preferedGradeName')
+      this.class.uuid = 'Automatisch';
+      this.class.gradeName = sessionStorage.getItem('preferedGradeName');
     } else {
-      this.loadClass()
+      this.loadClass();
     }
   }
 
-  isClassNew = () => this.uuid === 'new'
+  isClassNew = () => this.uuid === 'new';
 
   loadLearningModules = () => {
-    console.log('Loading LearningModules...')
+    console.log('Loading LearningModules...');
 
     this.http.get<LearningModule[]>(`api/class/${this.uuid}/learning-modules`)
       .subscribe(res => {
-        console.log('LearningModules loaded.')
-        this.learningModules = res
-      })
+        console.log('LearningModules loaded.');
+        this.learningModules = res;
+      });
   }
 
   loadGrades() {
-    console.log('Loading grades...')
+    console.log('Loading grades...');
     this.http.get<Grade[]>('api/grades')
       .subscribe(res => {
-        console.log('Grades loaded.')
-        this.grades = res
-      })
+        console.log('Grades loaded.');
+        this.grades = res;
+      });
   }
 
   loadClass() {
-    console.log('Loading class...')
+    console.log('Loading class...');
     this.http.get<Class>(`api/class/${this.uuid}`)
       .subscribe(c => {
-        console.log('Class loaded.')
-        this.class = c
-      })
+        console.log('Class loaded.');
+        this.class = c;
+      });
   }
 
   saveClick() {
     if (this.uuid === 'new') {
-      this.createNewClass()
+      this.createNewClass();
     } else {
-      this.updateClass()
+      this.updateClass();
     }
   }
 
   updateClass() {
-    console.log('updating class...')
+    console.log('updating class...');
     this.http.patch<UuidResponse>(`api/class/${this.uuid}`, this.class)
       .subscribe(() => {
-        this.loadClass()
-        console.log("udated class")
-        this.router.navigate([`management/classes/`])
+        this.loadClass();
+        console.log("udated class");
+        this.router.navigate([`management/classes/`]);
       });
   }
 
   createNewClass() {
-    console.log('creating class...')
+    console.log('creating class...');
     this.http.post<UuidResponse>('api/class', this.class)
       .subscribe(uuidResponse => {
-        console.log("created class.")
-        this.router.navigate([`management/class/${uuidResponse.uuid}`])
-      })
+        console.log("created class.");
+        this.router.navigate([`management/class/${uuidResponse.uuid}`]);
+      });
   }
 
   deleteClick() {
-    console.log('deleting class...')
+    console.log('deleting class...');
     this.http
       .delete<any>(`api/class/${this.uuid}`)
       .subscribe(_ => {
-        this.router.navigate(['management/classes'])
-      })
+        this.router.navigate(['management/classes']);
+      });
   }
 
-  getCardHeaderForClass = () => this.isClassNew() ? 'Neues Fach anlegen' : ' Fach bearbeiten'
+  getCardHeaderForClass = () => this.isClassNew() ? 'Neues Fach anlegen' : ' Fach bearbeiten';
   getCardDescriptionForClass = () => this.isClassNew() ? 'Hier kannst du ein neues Fach anlegen.' : 'Hier kannst du das ausgewählte Fach bearbeiten.';
 
   deleteLearningModule(uuid: string) {
-    console.log('deleting learning module...')
+    console.log('deleting learning module...');
     this.http
       .delete<any>(`api/learning-module/${uuid}`)
       .subscribe(_ => {
-        this.ngOnInit()
-      })
+        this.ngOnInit();
+      });
   }
 }

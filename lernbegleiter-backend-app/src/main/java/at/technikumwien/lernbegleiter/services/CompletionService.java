@@ -25,10 +25,15 @@ public class CompletionService {
   @Lazy
   @Autowired
   private CompletionService completionService;
-  @Autowired
-  private LearningModuleStudentRepository learningModuleStudentRepository;
-  @Autowired
-  private UserRepository userRepository;
+  private final LearningModuleStudentRepository learningModuleStudentRepository;
+
+  private final UserRepository userRepository;
+
+  public CompletionService(LearningModuleStudentRepository learningModuleStudentRepository,
+                           UserRepository userRepository) {
+    this.userRepository = userRepository;
+    this.learningModuleStudentRepository = learningModuleStudentRepository;
+  }
 
   @Accessors(chain = true)
   @Data

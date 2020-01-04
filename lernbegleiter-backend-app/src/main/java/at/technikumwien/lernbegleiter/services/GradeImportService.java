@@ -1,25 +1,20 @@
 package at.technikumwien.lernbegleiter.services;
 
-import at.technikumwien.lernbegleiter.data.dto.converter.*;
 import at.technikumwien.lernbegleiter.entities.*;
 import at.technikumwien.lernbegleiter.entities.modules.*;
 import at.technikumwien.lernbegleiter.repositories.*;
 import at.technikumwien.lernbegleiter.repositories.modules.*;
-import org.springframework.beans.factory.annotation.*;
+import lombok.*;
 import org.springframework.http.*;
 import org.springframework.stereotype.*;
 import org.springframework.web.server.*;
 
+@AllArgsConstructor
 @Service
 public class GradeImportService {
-  @Autowired
-  private GradeRepository gradeRepository;
-  @Autowired
-  private GradeConverter gradeConverter;
-  @Autowired
-  private ClassRepository classRepository;
-  @Autowired
-  private LearningModuleRepository learningModuleRepository;
+  private final GradeRepository gradeRepository;
+  private final ClassRepository classRepository;
+  private final LearningModuleRepository learningModuleRepository;
 
   public void importToGradeFrom(String targetUuid, String sourceUuid) {
     GradeEntity targetGrade = gradeRepository.getOne(targetUuid);

@@ -8,7 +8,6 @@ import at.technikumwien.lernbegleiter.entities.reflection.*;
 import at.technikumwien.lernbegleiter.repositories.auth.*;
 import at.technikumwien.lernbegleiter.repositories.reflection.*;
 import lombok.*;
-import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
@@ -21,24 +20,15 @@ import java.time.temporal.*;
 import java.util.*;
 import java.util.stream.*;
 
+@AllArgsConstructor
 @Transactional
 @Validated
 @Service
 public class WeeklyOverviewService {
-  @Autowired
-  private WeeklyOverviewRepository weeklyOverviewRepository;
-  @Autowired
-  private UserRepository userRepository;
-  @Autowired
-  private WeeklyOverviewConverter weeklyOverviewConverter;
-  @Autowired
-  private WeeklyOverviewReflectionClassRepository weeklyOverviewReflectionClassRepository;
-  @Autowired
-  private AuthHelper authHelper;
-  @Autowired
-  private WeeklyOverviewClassRepository weeklyOverviewClassRepository;
-  @Autowired
-  private WeeklyOverviewClassDayRepository weeklyOverviewClassDayRepository;
+  private final WeeklyOverviewRepository weeklyOverviewRepository;
+  private final UserRepository userRepository;
+  private final WeeklyOverviewConverter weeklyOverviewConverter;
+  private final AuthHelper authHelper;
 
   public WeeklyOverviewDto adaptStudentsWeeklyOverview(
     @NonNull String studentUuid,

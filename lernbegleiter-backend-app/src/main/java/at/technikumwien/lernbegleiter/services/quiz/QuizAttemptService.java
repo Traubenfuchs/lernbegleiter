@@ -5,7 +5,6 @@ import at.technikumwien.lernbegleiter.data.dto.quiz.*;
 import at.technikumwien.lernbegleiter.entities.quiz.attempts.*;
 import at.technikumwien.lernbegleiter.repositories.quiz.attempts.*;
 import lombok.*;
-import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
 import org.springframework.util.*;
@@ -14,12 +13,11 @@ import java.util.*;
 import java.util.stream.*;
 
 
+@AllArgsConstructor
 @Service
 public class QuizAttemptService {
-  @Autowired
-  private QuizAttemptRepository quizAttemptRepository;
-  @Autowired
-  private QuizQuestionAttemptRepository quizQuestionAttemptRepository;
+  private final QuizAttemptRepository quizAttemptRepository;
+  private final QuizQuestionAttemptRepository quizQuestionAttemptRepository;
 
   /**
    * Adds live attempt data to the given QuizRunDto. In other words, this method populates the "correct" field in

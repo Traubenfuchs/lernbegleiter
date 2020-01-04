@@ -5,7 +5,7 @@ import at.technikumwien.lernbegleiter.data.dto.converter.*;
 import at.technikumwien.lernbegleiter.data.requests.*;
 import at.technikumwien.lernbegleiter.entities.*;
 import at.technikumwien.lernbegleiter.repositories.*;
-import org.springframework.beans.factory.annotation.*;
+import lombok.*;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
 import org.springframework.validation.annotation.*;
@@ -13,14 +13,13 @@ import org.springframework.validation.annotation.*;
 import java.util.*;
 import java.util.stream.*;
 
+@AllArgsConstructor
 @Transactional
 @Validated
 @Service
 public class GradeService {
-  @Autowired
-  private GradeRepository gradeRepository;
-  @Autowired
-  private GradeConverter gradeConverter;
+  private final GradeRepository gradeRepository;
+  private final GradeConverter gradeConverter;
 
   public GradeDto getOne(String uuid) {
     return gradeConverter.toDTO(gradeRepository.getOne(uuid));

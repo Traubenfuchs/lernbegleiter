@@ -30,7 +30,7 @@ public class QuizRunConverter extends DtoEntityConverter<QuizRunEntity, QuizRunD
             }
             yield quizRunEntity.getCurrentQuestion() == null ? new HashSet<>() : Set.of(quizQuestionConverter.toDTO(quizRunEntity.getCurrentQuestion()));
           }
-          case FREE_ANSWERING -> quizQuestionConverter.toDtoSet(quizRunEntity.getQuiz().getQuestions());
+          case FREE_ANSWERING, FINISH_SELF -> quizQuestionConverter.toDtoSet(quizRunEntity.getQuiz().getQuestions());
         }
       )
     ;

@@ -38,11 +38,11 @@ public class QuizResultService {
 
         if (switch (qqa.getQuizQuestion().getQuizQuestionType()) {
           case MULTIPLE_CHOICE:
-            yield !qqa.getAnswers().stream().allMatch(quizQuestionAnswerAttemptEntity ->
-              quizQuestionAnswerAttemptEntity.getCorrect().equals(quizQuestionAnswerAttemptEntity.getQuizAnswer().getCorrect()));
+            yield (!qqa.getAnswers().stream().allMatch(quizQuestionAnswerAttemptEntity ->
+              quizQuestionAnswerAttemptEntity.getCorrect().equals(quizQuestionAnswerAttemptEntity.getQuizAnswer().getCorrect())));
 
           case FREE_TEXT:
-            yield !Objects.equals(qqa.getQuizQuestion().getFreeText(), qqa.getFreeText());
+            yield (!Objects.equals(qqa.getQuizQuestion().getFreeText(), qqa.getFreeText()));
 
           default:
             throw new ResponseStatusException(

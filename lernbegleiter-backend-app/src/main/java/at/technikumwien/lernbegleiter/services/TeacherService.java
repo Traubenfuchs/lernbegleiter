@@ -6,7 +6,6 @@ import at.technikumwien.lernbegleiter.data.responses.*;
 import at.technikumwien.lernbegleiter.entities.auth.*;
 import at.technikumwien.lernbegleiter.repositories.auth.*;
 import lombok.*;
-import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
 import org.springframework.stereotype.*;
 import org.springframework.util.*;
@@ -15,12 +14,12 @@ import org.springframework.web.server.*;
 import javax.validation.*;
 import java.util.*;
 
+
+@AllArgsConstructor
 @Service
 public class TeacherService {
-  @Autowired
-  private UserRepository userRepository;
-  @Autowired
-  private TeacherConverter teacherConverter;
+  private final UserRepository userRepository;
+  private final TeacherConverter teacherConverter;
 
   public Collection<TeacherDto> getAll() {
     return teacherConverter.toDtoSet(userRepository.findByRightsContains("TEACHER"));

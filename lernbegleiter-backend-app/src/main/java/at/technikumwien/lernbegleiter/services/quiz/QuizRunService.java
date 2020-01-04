@@ -112,6 +112,8 @@ public class QuizRunService {
       advanceOneQuestionAtATimeQuizRun(quizRunEntity);
     } else if (quizRunEntity.getQuizRunType() == QuizRunType.FREE_ANSWERING) {
       advanceFreeAnsweringQuizRun(quizRunEntity);
+    } else if (quizRunEntity.getQuizRunType() == QuizRunType.FINISH_SELF) {
+      throw new RuntimeException("Should not happen"); //TODO HTTPSTATUSCODE EX
     }
   }
 

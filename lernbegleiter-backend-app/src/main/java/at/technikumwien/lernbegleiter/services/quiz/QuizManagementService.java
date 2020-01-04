@@ -49,6 +49,7 @@ public class QuizManagementService {
     return new UuidResponse(qe.getUuid());
   }
 
+
   public void delete(String quizUuid) {
     quizRepository.deleteById(quizUuid);
   }

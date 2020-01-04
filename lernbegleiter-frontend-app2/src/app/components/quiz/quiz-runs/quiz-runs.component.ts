@@ -10,23 +10,25 @@ import { QuizRun } from 'src/app/data/quiz/QuizRun';
   styleUrls: ['./quiz-runs.component.scss']
 })
 export class QuizRunsComponent implements OnInit {
-  quizRuns: QuizRun[] = []
-  quizUUID = ''
-  constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute) { }
+  quizRuns: QuizRun[] = [];
+  quizUUID = '';
+  constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute) {
+    this.quizUUID = this.route.snapshot.paramMap.get("quizUUID");
+    this.loadQuizRuns();
+  }
 
   ngOnInit() {
-    this.quizUUID = this.route.snapshot.paramMap.get("quizUUID")
-    this.loadQuizRuns()
+
   }
 
   loadQuizRuns() {
-    console.log('Loading QuizRuns...')
+    console.log('Loading QuizRuns...');
 
     this.http.get<QuizRun[]>(`api/quiz/${this.quizUUID}/quiz-runs`)
       .subscribe(res => {
-        console.log('QuizRuns loaded.')
-        res= res.sort((l, r) => BaseDto.getTsCreationAsNumber(l)>BaseDto.getTsCreationAsNumber(r)?-1:1)
-        this.quizRuns = res
-      })
+        console.log('QuizRuns loaded.');
+        res = res.sort((l, r) => BaseDto.getTsCreationAsNumber(l) > BaseDto.getTsCreationAsNumber(r) ? -1 : 1);
+        this.quizRuns = res;
+      });
   }
 }

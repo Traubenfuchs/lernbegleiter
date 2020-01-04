@@ -1,8 +1,22 @@
-<div class="card">
+<div class="card" *ngIf="uuid === 'new'">
+  <div class="card-header">
+    <h5 class="card-title">Moodle Quiz importieren</h5>
+    <p class="card-text">Hier kannst du ein Moodle Quiz importieren</p>
+  </div>
+  <div class="card-body">
+    <input (change)="onMoodleXmlChange($event)" id="moodleFileImport" type="file">
+    <button (click)="uploadMoodleXml()">Import starten</button>
+  </div>
+</div>
+
+<div class="card mt-3">
   <div class="card-header">
     <h5 class="card-title">Quiz</h5>
     <p class="card-text">Quiz bearbeiten</p>
   </div>
+
+
+
   <div class="card-body">
     <div class="row">
       <div class="col">

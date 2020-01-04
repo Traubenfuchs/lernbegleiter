@@ -9,15 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ClassesComponent implements OnInit {
 
-  public classes: Class[]
+  public classes: Class[];
 
   isLoadingClasses = true;
 
   constructor(private http: HttpClient) {
+    this.loadClasses();
   }
 
   ngOnInit() {
-    this.loadClasses()
+
   }
 
   loadClasses() {
@@ -35,7 +36,7 @@ export class ClassesComponent implements OnInit {
     :
     string
   ) {
-    console.log("Deleting class...")
+    console.log("Deleting class...");
     // TODO
   }
 

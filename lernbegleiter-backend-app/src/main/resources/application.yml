@@ -4,7 +4,7 @@ spring:
   jpa:
     properties:
       hibernate:
-        format_sql: false
+        format_sql: true
         order_inserts: true
         order_updates: true
         jdbc:
@@ -24,9 +24,17 @@ spring:
     hikari:
       maximum-pool-size: 30
 
-
 server:
   compression:
     enabled: true
     mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
     min-response-size: 300
+
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE

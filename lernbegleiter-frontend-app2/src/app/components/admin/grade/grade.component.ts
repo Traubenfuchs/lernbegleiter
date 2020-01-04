@@ -14,7 +14,10 @@ export class GradeComponent implements OnInit {
   public grades: Grade[] = [];
   public sourceGradeForImport = 'default';
 
-  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.uuid = this.route.snapshot.paramMap.get("gradeUUID");

@@ -1,3 +1,4 @@
+import { WeeklyOverviewLandingPageComponent } from './components/weekly-overview-landing-page/weekly-overview-landing-page.component';
 import { QuizRunsComponent } from './components/quiz/quiz-runs/quiz-runs.component';
 import { QuizRunComponent } from './components/quiz/quiz-run/quiz-run.component';
 import { QuizComponent } from './components/quiz/quiz/quiz.component';
@@ -38,6 +39,7 @@ const routes: Routes = [
   { path: 'management/classes', component: ClassesComponent }, // class = Fach
   { path: 'management/class/:classUUID', component: ClassComponent }, // class = Fach
 
+  { path: 'student/:studentUUID/weekly-overview', component: WeeklyOverviewLandingPageComponent }, // class = Fach
   { path: 'student/:studentUUID/weekly-overview/:week/:year', component: WeekOverviewComponent }, // class = Fach
 
   { path: 'management/quizzes', component: QuizesComponent },
@@ -46,7 +48,7 @@ const routes: Routes = [
   { path: 'management/quiz/:quizUUID/quiz-run/:quizRunUUID', component: QuizRunComponent },
 
   { path: 'user/:userUUID/profile', component: ProfileEditComponent }
-]
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {

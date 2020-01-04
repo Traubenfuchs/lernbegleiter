@@ -8,23 +8,20 @@ import at.technikumwien.lernbegleiter.entities.modules.*;
 import at.technikumwien.lernbegleiter.repositories.*;
 import at.technikumwien.lernbegleiter.repositories.modules.*;
 import lombok.*;
-import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
 import org.springframework.validation.annotation.*;
 
 import java.util.*;
 
+@AllArgsConstructor
 @Transactional
 @Validated
 @Service
 public class LearningModuleService {
-  @Autowired
-  private LearningModuleRepository learningModuleRepository;
-  @Autowired
-  private ClassRepository classRepository;
-  @Autowired
-  private LearningModuleConverter learningModuleConverter;
+  private final LearningModuleRepository learningModuleRepository;
+  private final ClassRepository classRepository;
+  private final LearningModuleConverter learningModuleConverter;
 
   public Collection<LearningModuleDto> getAllByClass(@NonNull String classUuid) {
     return learningModuleConverter.toDtoSet(learningModuleRepository.findByClazzUuid(classUuid));
