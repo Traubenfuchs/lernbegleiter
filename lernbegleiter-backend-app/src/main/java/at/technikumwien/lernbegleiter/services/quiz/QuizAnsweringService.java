@@ -22,7 +22,7 @@ public class QuizAnsweringService {
               update QUIZ_QUESTION_ANSWER_ATTEMPT
               SET
                 CORRECT = ?,
-                TS_UPDATE = ?
+                ANSWERED_AT = ?
               WHERE UUID = (
                 select qqaa.UUID
                   FROM (SELECT * from QUIZ_QUESTION_ANSWER_ATTEMPT WHERE FK_QUIZ_ANSWER_UUID = ?) qqaa
@@ -54,7 +54,7 @@ public class QuizAnsweringService {
               update QUIZ_QUESTION_ATTEMPT
               set
                 FREE_TEXT = ?,
-                TS_UPDATE = ?
+                ANSWERED_AT = ?
               where
                 FK_QUIZ_ATTEMPT_UUID = ? and
                 FK_QUIZ_QUESTION_UUID = ?

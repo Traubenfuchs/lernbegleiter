@@ -4,19 +4,18 @@ import at.technikumwien.lernbegleiter.components.*;
 import at.technikumwien.lernbegleiter.data.dto.quiz.*;
 import at.technikumwien.lernbegleiter.data.responses.*;
 import at.technikumwien.lernbegleiter.services.quiz.*;
-import org.springframework.beans.factory.annotation.*;
+import lombok.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 import java.util.concurrent.*;
 
+@AllArgsConstructor
 @RequestMapping("api")
 @RestController
 public class QuizRunController {
-  @Autowired
-  private QuizRunService quizRunService;
-  @Autowired
-  private AuthHelper authHelper;
+  private final QuizRunService quizRunService;
+  private final AuthHelper authHelper;
 
   @PostMapping("quiz/{quizUUID}/quiz-run")
   public UuidResponse post(

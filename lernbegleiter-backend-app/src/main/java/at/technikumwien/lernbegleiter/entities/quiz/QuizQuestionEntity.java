@@ -5,7 +5,13 @@ import at.technikumwien.lernbegleiter.entities.*;
 import at.technikumwien.lernbegleiter.entities.base.*;
 import lombok.*;
 import lombok.experimental.*;
+import org.hibernate.annotations.*;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Index;
+import javax.persistence.OrderBy;
+import javax.persistence.Table;
 import javax.persistence.*;
 import java.util.*;
 
@@ -28,6 +34,7 @@ public class QuizQuestionEntity extends BaseEntityCreationUpdateDate<QuizQuestio
   private String fkQuizzUuid;
   @OneToMany(mappedBy = "quizQuestion", cascade = CascadeType.ALL)
   @OrderBy("position")
+  @Fetch(FetchMode.SELECT)
   private List<QuizAnswerEntity> answers = new ArrayList<>();
 
   @Column(name = "POSITION", nullable = false)

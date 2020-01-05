@@ -3,6 +3,7 @@ package at.technikumwien.lernbegleiter.services.quiz;
 import at.technikumwien.lernbegleiter.data.*;
 import at.technikumwien.lernbegleiter.data.dto.converter.quiz.*;
 import at.technikumwien.lernbegleiter.data.dto.quiz.*;
+import at.technikumwien.lernbegleiter.data.dto.quiz.attempt.*;
 import at.technikumwien.lernbegleiter.data.responses.*;
 import at.technikumwien.lernbegleiter.entities.quiz.*;
 import at.technikumwien.lernbegleiter.entities.quiz.attempts.*;
@@ -65,6 +66,11 @@ public class QuizRunService {
       .setState(QuizRunState.CREATED)
       .setQuiz(quizEntity)
       .setQuestionCount(quizEntity.getQuestions().size());
+
+    if (quizRunEntity.getQuizRunType() == QuizRunType.FINISH_SELF) {
+      quizRunEntity.setState(QuizRunState.WAITING_FOR_ANSWERS);
+    }
+
     return new UuidResponse(quizRunRepository.save(quizRunEntity).getUuid());
   }
 
@@ -75,6 +81,13 @@ public class QuizRunService {
   public QuizRunDto getCachedForStudent(@NonNull String quizRunUUID) throws ExecutionException {
     QuizRunDto result = cache.get(quizRunUUID)
       .deepClone();
+
+    if (result.getQuizRunType() == QuizRunType.FINISH_SELF) {
+      QuizAttemptDto qad = quizAttemptService.getByQuizRunUuidAndCurrentUser(quizRunUUID);
+      if (qad.getQuizQuestionAttemptState() == QuizQuestionAttemptState.FINISHED_BY_STUDENT) {
+        result.setState(QuizRunState.DONE);
+      }
+    }
 
     if (result.getState() == QuizRunState.CREATED) {
       result.setCurrentQuestions(new HashSet<>());
@@ -140,7 +153,7 @@ public class QuizRunService {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "State <" + quizRunEntity.getState() + "> can not be advanced!");
     }
 
-    createAttemptsForAllRuns(quizRunEntity, qqe);
+    //createAttemptsForAllRuns(quizRunEntity, qqe);
 
     quizRunEntity
       .setCurrentQuestion(qqe)

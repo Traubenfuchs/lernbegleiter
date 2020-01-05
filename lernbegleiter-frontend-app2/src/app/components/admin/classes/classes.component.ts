@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './classes.component.html',
   styleUrls: ['./classes.component.scss']
 })
-export class ClassesComponent implements OnInit {
+export class ClassesComponent {
 
   public classes: Class[];
 
@@ -17,25 +17,18 @@ export class ClassesComponent implements OnInit {
     this.loadClasses();
   }
 
-  ngOnInit() {
-
-  }
-
   loadClasses() {
     this.isLoadingClasses = true;
     this.http
       .get<Class[]>(`api/classes`)
       .subscribe(
         classes => this.classes = classes,
-        (err) => console.log(err),
+        err => console.log(err),
         () => this.isLoadingClasses = false
       );
   }
 
-  deleteClass(classUuid
-    :
-    string
-  ) {
+  deleteClass(classUuid: string) {
     console.log("Deleting class...");
     // TODO
   }

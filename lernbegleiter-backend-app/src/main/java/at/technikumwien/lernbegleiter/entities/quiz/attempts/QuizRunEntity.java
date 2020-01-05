@@ -42,7 +42,7 @@ public class QuizRunEntity extends BaseEntityCreationUpdateDate<QuizRunEntity> {
   @Enumerated(EnumType.STRING)
   private QuizRunState state;
 
-  @OneToMany(mappedBy = "quizRun")
+  @OneToMany(mappedBy = "quizRun", cascade = CascadeType.REMOVE)
   private Set<QuizAttemptEntity> attempts = new HashSet<>();
 
   @Column(name = "QUIZ_RUN_TYPE", nullable = false)

@@ -1,3 +1,4 @@
+import { QuizAttempt } from './../../../data/quiz/QuizAttempt';
 import { Subject } from 'rxjs';
 import { QuizQrCodeResponse } from './../../../data/quiz/QuizQrCodeResponse';
 import { HttpClient } from '@angular/common/http';
@@ -18,22 +19,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
   templateUrl: './quiz-run.component.html',
   styleUrls: ['./quiz-run.component.scss']
 })
-export class QuizRunComponent implements OnInit, OnDestroy {
-  destroyed = false;
-  loadingQuizRun = false;
-  loadingQuizResult = false;
-  safeQr = new BehaviorSubject<SafeUrl>(null);
-  fancyResults = !false;
-  quizRunUuid = '';
-  quizUuid = '';
-  quizAttemptUuid = '';
-  quizResult = new QuizResult();
-  quizRun = new QuizRun();
-  _QuizRunState = QuizRunState;
-  timeLeftIntervalId: any;
-  timeLeft = '0';
-
-  answerChangeDebouncers = new Map<string, Subject<string>>();
+export class QuizRunComponent implements OnDestroy {
 
   constructor(
     public router: Router,
@@ -45,7 +31,7 @@ export class QuizRunComponent implements OnInit, OnDestroy {
       this.ngOnInit();
     });
 
-    this.loadQuizRunInternal();
+    this.loadQuizRun();
     this.loadQuizResultInternal();
 
     const updateTimer = () => {
@@ -80,13 +66,29 @@ export class QuizRunComponent implements OnInit, OnDestroy {
     };
     updateTimer();
   }
+  destroyed = false;
+  loadingQuizRun = false;
+  loadingQuizResult = false;
+  safeQr = new BehaviorSubject<SafeUrl>(null);
+  fancyResults = !false;
+  quizRunUuid = '';
+  quizUuid = '';
+  quizAttemptUuid = '';
+  quizResult = new QuizResult();
+  quizRun = new QuizRun();
+  _QuizRunState = QuizRunState;
+  timeLeftIntervalId: any;
+  timeLeft = '0';
+  quizAttempt = new QuizAttempt();
+  quizRunInterval = 500;
+
+  answerChangeDebouncers = new Map<string, Subject<string>>();
 
   ngOnDestroy(): void {
     this.destroyed = true;
   }
 
   ngOnInit() {
-
     this.quizRunUuid = this.route.snapshot.paramMap.get("quizRunUUID");
     this.quizUuid = this.route.snapshot.paramMap.get("quizUUID");
     this.quizResult = new QuizResult();
@@ -167,24 +169,23 @@ export class QuizRunComponent implements OnInit, OnDestroy {
     return result;
   }
 
-  loadQuizRunInternal() {
+  loadQuizRun() {
     if (this.destroyed || this.loadingQuizRun) {
       return;
     }
-    this.loadQuizRun();
-  }
-
-  loadQuizRun() {
     if (!this.quizRunUuid || this.quizRunUuid === '' || this.quizRunUuid === 'new') {
-      setTimeout(() => this.loadQuizRunInternal(), 500);
+      setTimeout(() => this.loadQuizRun(), this.quizRunInterval);
       return;
     }
-    console.log('Loading QuizRun...');
     this.loadingQuizRun = true;
+    console.log('Loading QuizRun...');
     const result = this.http.get<QuizRun>(`api/quiz-run-${this.loginService.loggedInAndAdmin() ? 'admin' : 'student'}/${this.quizRunUuid}`);
     result.subscribe(res => {
       console.log('QuizRun loaded.');
       this.quizRun = res;
+      if (res && res.nextTimeLimit && res.nextTimeLimit.length > 3) {
+        this.quizRun.nextTimeLimitForInput = res.nextTimeLimit.substring(0, res.nextTimeLimit.length - 1);
+      }
       // if (this.quizRun.nextTimeLimit && this.quizRun.nextTimeLimit.length > 15) {
       //   this.quizRun.nextTimeLimit = this.quizRun.nextTimeLimit.substring(0, 16)
       // }
@@ -194,9 +195,14 @@ export class QuizRunComponent implements OnInit, OnDestroy {
       },
       () => {
         this.loadingQuizRun = false;
-        setTimeout(() => this.loadQuizRunInternal(), 500);
+        setTimeout(() => this.loadQuizRun(), this.quizRunInterval);
+        if (this.quizRun.quizRunType === 'FREE_ANSWERING' || this.quizRun.quizRunType === 'FINISH_SELF') {
+          this.quizRunInterval = 1000;
+        }
+        if (this.quizRun.quizRunType === 'FINISH_SELF') {
+          this.loadAttempt();
+        }
       });
-    return result;
   }
 
   loadQrCode() {
@@ -211,6 +217,8 @@ export class QuizRunComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         console.log('Advanced quiz run.');
         this.quizRun = res;
+        this.loadingQuizRun = false;
+        this.loadQuizRun();
       });
   }
 
@@ -256,6 +264,26 @@ export class QuizRunComponent implements OnInit, OnDestroy {
     }).subscribe(res => {
       this.quizRun = res;
     });
+  }
+
+  finishSelf() {
+    console.log('Finishing quiz attempt...');
+    this.http.post<any>(`api/quiz-run/${this.quizRunUuid}/quiz-attempt:finish`, {})
+      .subscribe(res => {
+        console.log('Finished quiz attempt.');
+        this.loadAttempt();
+      });
+  }
+
+  loadAttempt() {
+    if (!this.quizRun || !this.loginService.loggedInAndStudent()) {
+      return;
+    }
+    this.http.get<QuizAttempt>(`api/quiz-run/${this.quizRunUuid}/quiz-attempt`)
+      .subscribe(res => {
+        console.log('Finished loading quiz attempt.');
+        this.quizAttempt = res;
+      });
   }
 
   trackQuizResultLines(index, item) {

@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.Table;
 import javax.persistence.*;
+import java.time.*;
 import java.util.*;
 
 @Accessors(chain = true)
@@ -51,4 +52,7 @@ public class QuizQuestionAttemptEntity extends BaseEntityCreationUpdateDate<Quiz
 
   @Column(name = "FREE_TEXT")
   private String freeText;
+
+  @Column(name = "ANSWERED_AT")
+  private Instant answeredAt = Instant.now();
 }

@@ -1,5 +1,6 @@
 package at.technikumwien.lernbegleiter.entities.quiz.attempts;
 
+import at.technikumwien.lernbegleiter.data.*;
 import at.technikumwien.lernbegleiter.entities.auth.*;
 import at.technikumwien.lernbegleiter.entities.base.*;
 import lombok.*;
@@ -55,4 +56,8 @@ public class QuizAttemptEntity extends BaseEntityCreationUpdateDate<QuizAttemptE
 
   @Column(name = "FK_STUDENT_UUID", updatable = false, insertable = false)
   private String fkStudentUuid;
+
+  @Column(name = "QUIZ_QUESTION_ATTEMPT_STATE")
+  @Enumerated(EnumType.STRING)
+  private QuizQuestionAttemptState quizQuestionAttemptState = QuizQuestionAttemptState.ACTIVE;
 }

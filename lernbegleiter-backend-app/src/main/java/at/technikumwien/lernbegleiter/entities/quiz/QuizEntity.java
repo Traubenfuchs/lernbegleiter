@@ -33,10 +33,11 @@ public class QuizEntity extends BaseEntityCreationUpdateDate<QuizEntity> {
   private String description;
   @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
   @OrderBy("position")
+  // @Fetch(FetchMode.JOIN)
   private List<QuizQuestionEntity> questions = new ArrayList<>();
   @ManyToOne(optional = false)
   @JoinColumn(name = "FK_AUTHOR_UUID", nullable = false)
   private UserEntity author;
-  @OneToMany(mappedBy = "quiz")
+  @OneToMany(mappedBy = "quiz", cascade = CascadeType.REMOVE)
   private Set<QuizRunEntity> quizRuns = new HashSet<>();
 }

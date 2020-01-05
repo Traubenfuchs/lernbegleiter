@@ -1,7 +1,6 @@
 package at.technikumwien.lernbegleiter.repositories.quiz.attempts;
 
 import at.technikumwien.lernbegleiter.components.*;
-import at.technikumwien.lernbegleiter.data.*;
 import at.technikumwien.lernbegleiter.entities.quiz.attempts.*;
 import at.technikumwien.lernbegleiter.repositories.auth.*;
 import at.technikumwien.lernbegleiter.services.quiz.*;
@@ -31,10 +30,10 @@ public class QuizAttemptRepositoryImpl implements QuizAttemptRepositoryCustom {
             .setQuizRun(quizRunRepository.getOne(quizRunUUID))
             .setStudent(userRepository.getCurrentUser()));
 
-        if (result.getQuizRun().getQuizRunType() == QuizRunType.FREE_ANSWERING ||
-          result.getQuizRun().getQuizRunType() == QuizRunType.FINISH_SELF) {
-          quizRunService.createQuestionAndAnswerAttemptsForQuizAttempt(result.getUuid());
-        }
+        //if (result.getQuizRun().getQuizRunType() == QuizRunType.FREE_ANSWERING ||
+        //  result.getQuizRun().getQuizRunType() == QuizRunType.FINISH_SELF) {
+        quizRunService.createQuestionAndAnswerAttemptsForQuizAttempt(result.getUuid());
+        // }
 
         return result;
       });

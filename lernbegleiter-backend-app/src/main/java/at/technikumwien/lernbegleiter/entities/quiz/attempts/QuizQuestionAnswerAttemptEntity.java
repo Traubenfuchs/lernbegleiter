@@ -6,6 +6,7 @@ import lombok.*;
 import lombok.experimental.*;
 
 import javax.persistence.*;
+import java.time.*;
 
 @Accessors(chain = true)
 @Getter
@@ -32,5 +33,8 @@ public class QuizQuestionAnswerAttemptEntity extends BaseEntityCreationUpdateDat
 
   @Column(name = "CORRECT", nullable = false)
   private Boolean correct;
+
+  @Column(name = "ANSWERED_AT")
+  private Instant answeredAt = Instant.now();
 }
 

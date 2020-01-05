@@ -5,24 +5,27 @@
 </div>
 
 <ng-container *ngIf="loginService.loggedInAndStudent()">
+
   <div class="card">
     <div class="card-body">
       <div [title]='quizRun.nextTimeLimit' *ngIf="!!timeLeft">Zeit übrig: {{timeLeft}}</div>
 
-      <ng-container *ngIf="_QuizRunState.WAITING_FOR_NEXT_QUESTION == _QuizRunState[quizRun.state]">
-        <div>Bitte warte bis die nächste Frage freigeschalten wurde...</div>
-      </ng-container>
+      <div *ngIf="_QuizRunState.WAITING_FOR_NEXT_QUESTION == _QuizRunState[quizRun.state]">
+        Bitte warte bis die nächste Frage freigeschalten wurde...</div>
 
-      <ng-container *ngIf="_QuizRunState.CREATED == _QuizRunState[quizRun.state]">
-        <div>Bitte warte bis das Quiz gestartet wurde...</div>
-      </ng-container>
+      <div *ngIf="_QuizRunState.CREATED == _QuizRunState[quizRun.state]">
+        Bitte warte bis das Quiz gestartet wurde...</div>
 
-      <ng-container *ngIf="_QuizRunState.DONE == _QuizRunState[quizRun.state]">
-        <div>Dieser Quizlauf ist vorbei. Schau dir unten die richtigen Antworten an.</div>
-      </ng-container>
+      <div *ngIf="_QuizRunState.DONE == _QuizRunState[quizRun.state]">
+        Dieser Quizlauf ist vorbei. Schau dir unten die richtigen Antworten an.</div>
+
     </div>
   </div>
   <!-- *ngIf="_QuizRunState.WAITING_FOR_ANSWERS == _QuizRunState[quizRun.state]" -->
+
+  <button (click)='finishSelf()' class='mt-3 btn btn-primary'
+    *ngIf="quizRun.quizRunType == 'FINISH_SELF' && quizAttempt.quizQuestionAttemptState !== 'FINISHED_BY_STUDENT'">Quiz
+    abschließen</button>
   <ng-container *ngIf="quizRun.currentQuestions && quizRun.currentQuestions.length > 0">
     <div class='card mt-3' *ngFor="let question of quizRun.currentQuestions; trackBy: trackByFn">
       <div
@@ -40,7 +43,7 @@
         <ng-container *ngIf="question.quizQuestionType === 'FREE_TEXT'">
           <input class='form-control' [(ngModel)]='"Derzeitige Antwort: " + question.freeText' disabled>
           <input (keyup)="freeTextChange(question.uuid, $event.target.value)" class='form-control mt-1'
-            placeholder='neue Antwort'>
+            placeholder='neue Antwort' *ngIf="_QuizRunState[quizRun.state] == _QuizRunState.WAITING_FOR_ANSWERS">
         </ng-container>
 
         <ng-container *ngIf="question.quizQuestionType === 'MULTIPLE_CHOICE'">
@@ -68,7 +71,9 @@
       </div>
     </div>
   </ng-container>
-
+  <button (click)='finishSelf()' class='mt-3 btn btn-primary'
+    *ngIf="quizRun.quizRunType == 'FINISH_SELF' && quizAttempt.quizQuestionAttemptState !== 'FINISHED_BY_STUDENT'">Quiz
+    abschließen</button>
 </ng-container> <!-- student container -->
 
 <ng-container *ngIf="loginService.loggedInAndTeacherOrAdmin()">
@@ -98,15 +103,20 @@
           <label for="typeInput">Quiz-Typ</label>
           <select id="typeInput" [(ngModel)]="quizRun.quizRunType" class="form-control"
             [disabled]='quizRunUuid !== "new" ? true : null'>
-            <option value="ONE_QUESTION_AT_A_TIME">Einzelne Frage mit Timelimit</option>
-            <option value="FREE_ANSWERING">freies Antworten / take home</option>
+            <option value="ONE_QUESTION_AT_A_TIME">{{'ONE_QUESTION_AT_A_TIME' | quizType}}</option>
+            <option value="FREE_ANSWERING">{{'FREE_ANSWERING' | quizType}}</option>
+            <option value="FINISH_SELF">{{'FINISH_SELF' | quizType}}</option>
           </select>
         </div>
         <div class="col">
-          <ng-container *ngIf="quizRun.quizRunType === 'FREE_ANSWERING'">
+          <ng-container *ngIf="quizRun.quizRunType === 'FREE_ANSWERING' || quizRun.quizRunType === 'FINISH_SELF'">
             <label for="nextTimeLimitInput">Quiz endet am & um</label>
-            <input id="nextTimeLimitInput" [(ngModel)]="quizRun.nextTimeLimit" type="datetime-local"
-              class="form-control" [attr.disabled]='quizRunUuid !== "new" ? true : null'>
+            <input id="nextTimeLimitInput" *ngIf="quizRunUuid === 'new'" [(ngModel)]="quizRun.nextTimeLimit"
+              type="datetime-local" class="form-control">
+
+            <input id="nextTimeLimitInput" *ngIf="quizRunUuid !== 'new'" [(ngModel)]="quizRun.nextTimeLimitForInput"
+              type="datetime-local" class="form-control" disabled>
+
           </ng-container>
         </div>
       </div><!-- ends row-->
@@ -117,7 +127,7 @@
             beenden</button>
         </div>
         <div class="col"
-          *ngIf="_QuizRunState.CREATED ==_QuizRunState[quizRun.state] || _QuizRunState.WAITING_FOR_NEXT_QUESTION == _QuizRunState[quizRun.state]">
+          *ngIf="quizRun.quizRunType !== 'FINISH_SELF' && ( _QuizRunState.CREATED ==_QuizRunState[quizRun.state] || _QuizRunState.WAITING_FOR_NEXT_QUESTION == _QuizRunState[quizRun.state])">
           <button (click)='advance()' class="btn btn-success"
             *ngIf="_QuizRunState.WAITING_FOR_NEXT_QUESTION == _QuizRunState[quizRun.state]">Nächste Frage
             aktivieren</button>
