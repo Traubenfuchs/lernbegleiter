@@ -129,6 +129,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "lernbegleiter-frontend-app2"
 }

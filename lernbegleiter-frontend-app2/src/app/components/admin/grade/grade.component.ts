@@ -1,14 +1,17 @@
+import { Severity } from './../../../data/Severity';
+import { GrowlService } from './../../../services/growl.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Grade } from './../../../data/Grade';
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { GrowlMessage } from 'src/app/data/GrowlMessage';
 
 @Component({
   selector: 'app-grade',
   templateUrl: './grade.component.html',
   styleUrls: ['./grade.component.scss']
 })
-export class GradeComponent implements OnInit {
+export class GradeComponent {
   public grade: Grade = new Grade();
   public uuid = 'new';
   public grades: Grade[] = [];
@@ -17,7 +20,11 @@ export class GradeComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private growlService: GrowlService) {
+
+    this.ngOnInit();
+  }
 
   ngOnInit() {
     this.uuid = this.route.snapshot.paramMap.get("gradeUUID");
@@ -26,17 +33,13 @@ export class GradeComponent implements OnInit {
   }
 
   loadGrade() {
-    console.log(`Loading grade ${this.uuid}`);
-
     this.http.get<Grade>(`api/grade/${this.uuid}`)
       .subscribe(res => {
-        console.log(`Loaded grade ${this.uuid}`);
         this.grade = res;
       });
   }
 
   loadGrades() {
-    console.log("Loading grades...");
     this.http.get<Grade[]>('api/grades').subscribe(
       res => this.grades = res,
       err => console.log(err)
@@ -48,28 +51,25 @@ export class GradeComponent implements OnInit {
   }
 
   deleteStudentFromGrade(studentUuid: string) {
-    console.log(`Deleting student with uuid <${studentUuid}> from grade <${studentUuid}>.`);
-
     this.http.delete<any>(`api/grade/${this.uuid}/student/${studentUuid}`)
       .subscribe(res => {
-        console.log(`Student with uuid <${studentUuid}> deleted from grade <${studentUuid}>.`);
         this.loadGrade();
+        this.growlService.addMessage(new GrowlMessage("Schüler wurde von Klasse entfernt.", Severity.SUCCESS, 2000));
       });
   }
   deleteClass(uuid: string) {
-    console.log('Deleting class...');
     this.http.delete<any>(`api/class/${uuid}`)
       .subscribe(res => {
-        console.log(`Class with uuid <${uuid}> deleted.`);
         this.loadGrade();
+        this.loadGrades();
+        this.growlService.addMessage(new GrowlMessage("Fach wurde gelöscht.", Severity.SUCCESS, 2000));
       });
   }
   import() {
-    console.log(`Importing grade <${this.sourceGradeForImport}> into grade <${this.uuid}>.`);
-
     this.http.post<any>(`api/grade/${this.uuid}/import/${this.sourceGradeForImport}`, {})
       .subscribe(res => {
         this.loadGrade();
+        this.growlService.addMessage(new GrowlMessage("Fächer wurden importiert.", Severity.SUCCESS, 2000));
       });
   }
 }

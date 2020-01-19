@@ -8,6 +8,7 @@ import at.technikumwien.lernbegleiter.repositories.auth.*;
 import lombok.*;
 import org.springframework.http.*;
 import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.*;
 import org.springframework.util.*;
 import org.springframework.web.server.*;
 
@@ -15,6 +16,7 @@ import javax.validation.*;
 import java.util.*;
 
 
+@Transactional
 @AllArgsConstructor
 @Service
 public class TeacherService {
@@ -41,8 +43,8 @@ public class TeacherService {
     return teacherConverter.toDTO(userEntity);
   }
 
-  public Object create(@Valid @NonNull TeacherDto techerDto) {
-    UserEntity userEntity = teacherConverter.toEntity(techerDto)
+  public Object create(@Valid @NonNull TeacherDto teacherDto) {
+    UserEntity userEntity = teacherConverter.toEntity(teacherDto)
       .generateUuid()
       .setRights(Set.of("TEACHER"));
     userEntity = userRepository.save(userEntity);

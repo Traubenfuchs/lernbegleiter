@@ -1,3 +1,5 @@
+import { Severity } from './../../../data/Severity';
+import { GrowlService } from './../../../services/growl.service';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -5,27 +7,29 @@ import { Class } from 'src/app/data/Class';
 import { LearningModule } from 'src/app/data/LearningModule';
 import { UuidResponse } from 'src/app/data/UuidResponse';
 
-import { Breadcrumb } from '../../../data/Breadcrumb';
 import { Grade } from '../../../data/Grade';
+import { GrowlMessage } from 'src/app/data/GrowlMessage';
 
 @Component({
   selector: 'app-class',
   templateUrl: './class.component.html',
   styleUrls: ['./class.component.scss']
 })
-export class ClassComponent implements OnInit {
+export class ClassComponent {
   class: Class = new Class();
   uuid: string;
   grades: Grade[] = [];
   learningModules: LearningModule[] = [];
 
-  constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute) {
-    this.route.params.subscribe(params => {
-      this.ngOnInit();
-    });
+  constructor(
+    public router: Router,
+    public http: HttpClient,
+    private route: ActivatedRoute,
+    private growlService: GrowlService) {
+    this.route.params.subscribe(() => this.load());
   }
 
-  ngOnInit() {
+  load() {
     this.uuid = this.route.snapshot.paramMap.get("classUUID");
     this.loadGrades();
     this.loadLearningModules();
@@ -40,29 +44,22 @@ export class ClassComponent implements OnInit {
   isClassNew = () => this.uuid === 'new';
 
   loadLearningModules = () => {
-    console.log('Loading LearningModules...');
-
     this.http.get<LearningModule[]>(`api/class/${this.uuid}/learning-modules`)
       .subscribe(res => {
-        console.log('LearningModules loaded.');
         this.learningModules = res;
       });
   }
 
   loadGrades() {
-    console.log('Loading grades...');
     this.http.get<Grade[]>('api/grades')
       .subscribe(res => {
-        console.log('Grades loaded.');
         this.grades = res;
       });
   }
 
   loadClass() {
-    console.log('Loading class...');
     this.http.get<Class>(`api/class/${this.uuid}`)
       .subscribe(c => {
-        console.log('Class loaded.');
         this.class = c;
       });
   }
@@ -76,30 +73,28 @@ export class ClassComponent implements OnInit {
   }
 
   updateClass() {
-    console.log('updating class...');
     this.http.patch<UuidResponse>(`api/class/${this.uuid}`, this.class)
       .subscribe(() => {
         this.loadClass();
-        console.log("udated class");
         this.router.navigate([`management/classes/`]);
+        this.growlService.addMessage(new GrowlMessage("Fach wurde upgedated.", Severity.SUCCESS, 2000));
       });
   }
 
   createNewClass() {
-    console.log('creating class...');
     this.http.post<UuidResponse>('api/class', this.class)
       .subscribe(uuidResponse => {
-        console.log("created class.");
         this.router.navigate([`management/class/${uuidResponse.uuid}`]);
+        this.growlService.addMessage(new GrowlMessage("Fach wurde erstellt.", Severity.SUCCESS, 2000));
       });
   }
 
   deleteClick() {
-    console.log('deleting class...');
     this.http
       .delete<any>(`api/class/${this.uuid}`)
       .subscribe(_ => {
         this.router.navigate(['management/classes']);
+        this.growlService.addMessage(new GrowlMessage("Fach wurde gelöscht.", Severity.SUCCESS, 2000));
       });
   }
 
@@ -107,11 +102,11 @@ export class ClassComponent implements OnInit {
   getCardDescriptionForClass = () => this.isClassNew() ? 'Hier kannst du ein neues Fach anlegen.' : 'Hier kannst du das ausgewählte Fach bearbeiten.';
 
   deleteLearningModule(uuid: string) {
-    console.log('deleting learning module...');
     this.http
       .delete<any>(`api/learning-module/${uuid}`)
       .subscribe(_ => {
-        this.ngOnInit();
+        this.load();
+        this.growlService.addMessage(new GrowlMessage("Modul wurde gelöscht.", Severity.SUCCESS, 2000));
       });
   }
 }

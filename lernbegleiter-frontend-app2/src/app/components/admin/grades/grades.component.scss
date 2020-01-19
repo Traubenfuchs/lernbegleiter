@@ -1,0 +1,7 @@
+#class-list-header {
+  display:flex;
+  flex-direction:row;
+}
+#class-list-header>*:nth-child(2){
+  margin-left:30px;
+}

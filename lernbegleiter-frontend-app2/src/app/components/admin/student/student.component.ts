@@ -1,10 +1,13 @@
-import {Grade} from './../../../data/Grade';
-import {HttpClient} from '@angular/common/http';
-import {Component, OnInit} from '@angular/core';
-import {Student} from 'src/app/data/Student';
-import {ActivatedRoute, Router} from '@angular/router';
-import {UuidResponse} from 'src/app/data/UuidResponse';
-import {Breadcrumb} from "../../../data/Breadcrumb";
+import { Severity } from './../../../data/Severity';
+import { GrowlService } from './../../../services/growl.service';
+import { Grade } from './../../../data/Grade';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { Student } from 'src/app/data/Student';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UuidResponse } from 'src/app/data/UuidResponse';
+import { Breadcrumb } from "../../../data/Breadcrumb";
+import { GrowlMessage } from 'src/app/data/GrowlMessage';
 
 @Component({
   selector: 'app-student',
@@ -12,77 +15,76 @@ import {Breadcrumb} from "../../../data/Breadcrumb";
   styleUrls: ['./student.component.scss']
 })
 export class StudentComponent implements OnInit {
-  student: Student = new Student()
-  uuid: string
-  grades: Grade[] = []
-  selectedClass = ''
+  student: Student = new Student();
+  uuid: string;
+  grades: Grade[] = [];
+  selectedClass = '';
 
-  constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute) {
+  constructor(
+    public router: Router,
+    public http: HttpClient,
+    private route: ActivatedRoute,
+    private growlService: GrowlService) {
     this.route.params.subscribe(params => {
-      this.ngOnInit()
+      this.ngOnInit();
     });
   }
 
   ngOnInit() {
-    this.uuid = this.route.snapshot.paramMap.get("studentUUID")
-    this.loadGrades()
+    this.uuid = this.route.snapshot.paramMap.get("studentUUID");
+    this.loadGrades();
     if (this.uuid === 'new') {
-      this.student.uuid = 'Automatisch'
+      this.student.uuid = 'Automatisch';
     } else {
-      this.loadStudent()
+      this.loadStudent();
     }
   }
 
   loadGrades() {
-    console.log('Loading grades...')
     this.http.get<Grade[]>('api/grades')
-    .subscribe(res => {
-      console.log('Grades loaded.')
-      this.grades = res
-    })
+      .subscribe(res => {
+        this.grades = res;
+      });
   }
 
   saveClick() {
     if (this.uuid === 'new') {
-      this.createNewStudent()
+      this.createNewStudent();
     } else {
-      this.updateStudent()
+      this.updateStudent();
     }
   }
 
   updateStudent() {
-    console.log('Updating student...')
     this.http.patch<UuidResponse>(`api/student/${this.uuid}`, this.student)
-    .subscribe(uuidResponse => {
-      this.loadStudent()
-    })
+      .subscribe(uuidResponse => {
+        this.loadStudent();
+        this.growlService.addMessage(new GrowlMessage("Schüler wurde upgedated.", Severity.SUCCESS, 2000));
+      });
   }
 
   createNewStudent() {
-    console.log('Creating student...')
     this.http.post<UuidResponse>('api/student', this.student)
-    .subscribe(uuidResponse => {
-      this.router.navigate([`management/student/${uuidResponse.uuid}`])
-    })
+      .subscribe(uuidResponse => {
+        this.router.navigate([`management/student/${uuidResponse.uuid}`]);
+        this.growlService.addMessage(new GrowlMessage("Schüler wurde angelegt.", Severity.SUCCESS, 2000));
+      });
   }
 
   loadStudent() {
-    console.log('Loading student...')
     this.http
-    .get<Student>(`api/student/${this.uuid}`)
-    .subscribe(student => {
-      console.log('Loaded student.')
-      this.student = student
-    })
+      .get<Student>(`api/student/${this.uuid}`)
+      .subscribe(student => {
+        this.student = student;
+      });
   }
 
   deleteClick() {
-    console.log('Deleting student...')
     this.http
-    .delete<any>(`api/student/${this.uuid}`)
-    .subscribe(_ => {
-      console.log('Deleted student.')
-      this.router.navigate(['management/students'])
-    })
+      .delete<any>(`api/student/${this.uuid}`)
+      .subscribe(_ => {
+        this.router.navigate(['management/students;']);
+        this.growlService.addMessage(new GrowlMessage("Schüler wurde gelöscht.", Severity.SUCCESS, 2000));
+      });
   }
 }

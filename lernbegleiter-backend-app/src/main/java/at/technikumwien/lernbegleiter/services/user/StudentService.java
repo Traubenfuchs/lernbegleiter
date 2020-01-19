@@ -62,6 +62,11 @@ public class StudentService {
 
     byte[] tmpHashedAndSaltedPassword = userEntity.getHashedAndSaltedPassword();
 
+    if (!Objects.equals(studentDto.getGradeName(), userEntity.getGrade().getName())) {
+      userEntity.getLearningModulesStudents().forEach(lms -> lms.setStudent(null));
+      userEntity.getLearningModulesStudents().clear();
+    }
+
     studentConverter.applyToEntity(studentDto, userEntity);
 
     if (StringUtils.isEmpty(studentDto.getPassword())) {

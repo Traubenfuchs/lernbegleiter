@@ -16,9 +16,14 @@
 </div>
 
 <div class="card mt-3">
-  <div class="card-header">
-    <h5 class="card-title">Klassenliste</h5>
-    <p class="card-text">Liste der Klassen</p>
+  <div id='class-list-header' class="card-header">
+    <div>
+      <h5 class="card-title">Klassenliste</h5>
+      <p class="card-text">Liste der Klassen</p>
+    </div>
+    <div>
+      <input placeholder="Suche" [(ngModel)]="filterWord" class="form-control" />
+    </div>
   </div>
 
   <div class="card-body">
@@ -30,7 +35,7 @@
       </tr>
     </ng-container>
     <ng-container *ngIf="!isLoadingGrades">
-      <ul *ngFor="let grade of grades" class="list-group list-group-flush">
+      <ul *ngFor="let grade of displayedGrades" class="list-group list-group-flush">
         <li class="list-group-item">
           <app-loader *ngIf="isLoadingGrades"></app-loader>
           <div *ngIf="!isLoadingGrades">

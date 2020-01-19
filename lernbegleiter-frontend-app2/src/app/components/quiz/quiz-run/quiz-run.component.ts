@@ -21,6 +21,8 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 })
 export class QuizRunComponent implements OnDestroy {
 
+  readonly audio = new Audio();
+
   constructor(
     public router: Router,
     public http: HttpClient,
@@ -30,6 +32,9 @@ export class QuizRunComponent implements OnDestroy {
     this.route.params.subscribe(params => {
       this.ngOnInit();
     });
+
+    this.audio.src = "/assets/Greek_Dance.mp3";
+    this.audio.load();
 
     this.loadQuizRun();
     this.loadQuizResultInternal();
@@ -186,6 +191,25 @@ export class QuizRunComponent implements OnDestroy {
       if (res && res.nextTimeLimit && res.nextTimeLimit.length > 3) {
         this.quizRun.nextTimeLimitForInput = res.nextTimeLimit.substring(0, res.nextTimeLimit.length - 1);
       }
+
+      setTimeout(() => {
+        if (!this.loginService.loggedInAndTeacherOrAdmin()) {
+          return;
+        }
+        if (res.quizRunType != 'ONE_QUESTION_AT_A_TIME') {
+          return;
+        }
+
+        if (this._QuizRunState[res.state] == this._QuizRunState.WAITING_FOR_ANSWERS) {
+          this.startMusicIfNotPlaying();
+          console.log("A");
+        } else {
+          this.stopMusic(); console.log("B");
+        }
+
+      }, 0);
+
+
       // if (this.quizRun.nextTimeLimit && this.quizRun.nextTimeLimit.length > 15) {
       //   this.quizRun.nextTimeLimit = this.quizRun.nextTimeLimit.substring(0, 16)
       // }
@@ -284,6 +308,16 @@ export class QuizRunComponent implements OnDestroy {
         console.log('Finished loading quiz attempt.');
         this.quizAttempt = res;
       });
+  }
+
+  stopMusic() {
+    this.audio.pause();
+    this.audio.currentTime = 0;
+  }
+  startMusicIfNotPlaying() {
+    if (this.audio.paused) {
+      this.audio.play();
+    }
   }
 
   trackQuizResultLines(index, item) {

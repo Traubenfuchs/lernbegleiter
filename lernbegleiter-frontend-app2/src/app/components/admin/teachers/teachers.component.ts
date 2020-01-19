@@ -8,31 +8,23 @@ import { Teacher } from 'src/app/data/Teacher';
   templateUrl: './teachers.component.html',
   styleUrls: ['./teachers.component.scss']
 })
-export class TeachersComponent implements OnInit {
+export class TeachersComponent {
   public teachers: Teacher[];
   public isLoadingTeachers = true;
 
-  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute) {
+  constructor(private http: HttpClient) {
     this.loadTeachers();
   }
 
-  ngOnInit() {
-
-  }
-
   loadTeachers() {
-    console.info("Loading teachers...");
-
     this.http
       .get<Teacher[]>(`api/teachers`, { observe: 'body' })
       .subscribe(
         teachers => this.teachers = teachers,
         err => {
-          console.log(err);
           this.isLoadingTeachers = false;
         },
         () => {
-          console.log("Loaded teachers.");
           this.isLoadingTeachers = false;
         }
       );

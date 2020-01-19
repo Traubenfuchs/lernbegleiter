@@ -1,3 +1,4 @@
+import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { WeeklyOverviewLandingPageComponent } from './components/weekly-overview-landing-page/weekly-overview-landing-page.component';
 import { QuizRunsComponent } from './components/quiz/quiz-runs/quiz-runs.component';
 import { QuizRunComponent } from './components/quiz/quiz-run/quiz-run.component';
@@ -9,7 +10,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './components/general/login/login.component';
 import { LoginSuccessComponent } from './components/general/login-success/login-success.component';
 import { ClassComponent } from './components/admin/class/class.component';
-import { ClassesComponent } from './components/admin/classes/classes.component';
 import { LearningModuleComponent } from './components/admin/learning-module/learning-module.component';
 import { StudentComponent } from './components/admin/student/student.component';
 import { GradeComponent } from './components/admin/grade/grade.component';
@@ -21,7 +21,7 @@ import { TeachersComponent } from './components/admin/teachers/teachers.componen
 import { TeacherComponent } from './components/admin/teacher/teacher.component';
 
 const routes: Routes = [
-  { path: '', children: [] },
+  { path: '', component: LandingPageComponent },
   { path: 'login', component: LoginComponent },
   { path: 'login-success', component: LoginSuccessComponent },
 
@@ -36,7 +36,6 @@ const routes: Routes = [
 
   { path: 'management/class/:classUUID/learning-module/:learningModuleUUID', component: LearningModuleComponent },
 
-  { path: 'management/classes', component: ClassesComponent }, // class = Fach
   { path: 'management/class/:classUUID', component: ClassComponent }, // class = Fach
 
   { path: 'student/:studentUUID/weekly-overview', component: WeeklyOverviewLandingPageComponent }, // class = Fach

@@ -1,3 +1,6 @@
+import { Severity } from './../../../data/Severity';
+import { GrowlMessage } from './../../../data/GrowlMessage';
+import { GrowlService } from './../../../services/growl.service';
 import { Validators, FormControl } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
@@ -24,7 +27,8 @@ export class LearningModuleComponent implements OnInit {
     public router: Router,
     public http: HttpClient,
     private route: ActivatedRoute,
-    private formbuilder: FormBuilder) {
+    private formbuilder: FormBuilder,
+    private growlService: GrowlService) {
   }
 
   ngOnInit() {
@@ -74,29 +78,25 @@ export class LearningModuleComponent implements OnInit {
   }
 
   updateLearningModule() {
-    console.log('Updating learningModule...');
     this.http.put<UuidResponse>(`api/learning-module`, this.formToData())
       .subscribe(uuidResponse => {
-        console.log('Updated learningModule.');
         this.router.navigate([`management/class/${this.classUuid}`]);
+        this.growlService.addMessage(new GrowlMessage("Modul wurde upgedated.", Severity.SUCCESS, 2000));
       });
   }
 
   createLearningModule() {
-    console.log('Creating learningModule...');
     this.http.post<UuidResponse>(`api/class/${this.classUuid}/learning-module`, this.formToData())
       .subscribe(uuidResponse => {
-        console.log('Created learningModule.');
         this.router.navigate([`management/class/${this.classUuid}`]);
+        this.growlService.addMessage(new GrowlMessage("Modul wurde erstellt.", Severity.SUCCESS, 2000));
       });
   }
 
   loadLearningModule() {
-    console.log('Loading learningModule...');
     this.http
       .get<LearningModule>(`api/learning-module/${this.uuid}`, { observe: 'body' })
       .subscribe(learningModule => {
-        console.log('Loaded learningModule.');
         const c = this.learningModuleFormGroup.controls;
         c.name.setValue(learningModule.name);
         c.description.setValue(learningModule.description);

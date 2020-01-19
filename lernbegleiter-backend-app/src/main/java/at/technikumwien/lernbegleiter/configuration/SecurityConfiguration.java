@@ -30,7 +30,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
       .formLogin().disable()
       .logout().disable()
       .httpBasic().disable()
-      .logout().disable()
       .authorizeRequests()
       .antMatchers("/api/login").permitAll()
       .antMatchers("/api/image/**").permitAll()
