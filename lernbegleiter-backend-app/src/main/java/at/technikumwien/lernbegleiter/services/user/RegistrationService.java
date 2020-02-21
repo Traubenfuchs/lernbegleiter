@@ -14,13 +14,17 @@ import org.springframework.web.server.*;
 import javax.validation.*;
 
 @AllArgsConstructor
-@Transactional
+@Transactional(propagation = Propagation.REQUIRES_NEW)
 @Validated
 @Service
 public class RegistrationService {
   private final UserRepository userRepository;
   private final PasswordHasher passwordHasher;
 
+  /**
+   * @param request
+   * @return new users UUID
+   */
   public String register(@NonNull @Valid RegistrationRequest request) {
     String email = request.getEmail();
 

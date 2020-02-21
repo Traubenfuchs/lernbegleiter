@@ -20,7 +20,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
   styleUrls: ['./quiz-run.component.scss']
 })
 export class QuizRunComponent implements OnDestroy {
-
+  globalImageQuizPictureUUID = '';
   readonly audio = new Audio();
 
   constructor(
@@ -202,7 +202,6 @@ export class QuizRunComponent implements OnDestroy {
 
         if (this._QuizRunState[res.state] == this._QuizRunState.WAITING_FOR_ANSWERS) {
           this.startMusicIfNotPlaying();
-          console.log("A");
         } else {
           this.stopMusic(); console.log("B");
         }
@@ -326,5 +325,12 @@ export class QuizRunComponent implements OnDestroy {
 
   trackByFn(index, item) {
     return item.uuid; // or item.id
+  }
+
+  selectGlobalImage(uuid: string) {
+    this.globalImageQuizPictureUUID = uuid;
+  }
+  clearGlobalImage() {
+    this.globalImageQuizPictureUUID = null;
   }
 }

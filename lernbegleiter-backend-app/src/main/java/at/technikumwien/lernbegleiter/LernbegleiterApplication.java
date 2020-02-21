@@ -1,11 +1,10 @@
 package at.technikumwien.lernbegleiter;
 
+import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.*;
 import org.springframework.context.annotation.*;
 import org.springframework.scheduling.annotation.*;
 import org.springframework.transaction.annotation.*;
-
-import java.util.stream.*;
 
 import static org.springframework.context.annotation.ScopedProxyMode.*;
 
@@ -14,13 +13,7 @@ import static org.springframework.context.annotation.ScopedProxyMode.*;
 @EnableTransactionManagement(proxyTargetClass = true)
 @EnableScheduling
 public class LernbegleiterApplication {
-// normal answers
-  // -import moodle.xml
-
   public static void main(String[] args) {
-    IntStream.rangeClosed(0, 4).forEach(i -> new Thread(() -> {
-      while (true) {
-      }
-    }).start());
+    SpringApplication.run(LernbegleiterApplication.class, args);
   }
 }

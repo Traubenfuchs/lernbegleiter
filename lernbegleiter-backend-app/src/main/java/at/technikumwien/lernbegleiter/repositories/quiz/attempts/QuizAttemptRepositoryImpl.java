@@ -12,7 +12,7 @@ import org.springframework.stereotype.*;
 public class QuizAttemptRepositoryImpl implements QuizAttemptRepositoryCustom {
   @Lazy
   @Autowired
-  private QuizAttemptRepository quizAttemptRepository;
+  private QuizAttemptRepository self;
   @Autowired
   private QuizRunRepository quizRunRepository;
   @Autowired
@@ -23,19 +23,24 @@ public class QuizAttemptRepositoryImpl implements QuizAttemptRepositoryCustom {
 
   @Override
   public QuizAttemptEntity createQuizAttemptIfNotExists(String quizRunUUID) {
-    return quizAttemptRepository.findByFkQuizRunUUIDAndFkStudentUuid(quizRunUUID, AuthHelper.getCurrentUserUUIDOrThrow())
-      .orElseGet(() -> {
-        QuizAttemptEntity result = quizAttemptRepository.save(
-          new QuizAttemptEntity()
-            .setQuizRun(quizRunRepository.getOne(quizRunUUID))
-            .setStudent(userRepository.getCurrentUser()));
+    if (self.existsByFkQuizRunUUIDAndFkStudentUuid(quizRunUUID, AuthHelper.getCurrentUserUUIDOrThrow())) {
+      return self.findByFkQuizRunUUIDAndFkStudentUuid(quizRunUUID, AuthHelper.getCurrentUserUUIDOrThrow()).get();
+    }
 
-        //if (result.getQuizRun().getQuizRunType() == QuizRunType.FREE_ANSWERING ||
-        //  result.getQuizRun().getQuizRunType() == QuizRunType.FINISH_SELF) {
-        quizRunService.createQuestionAndAnswerAttemptsForQuizAttempt(result.getUuid());
-        // }
+    self.createQuizAttemptForCurrentUser(quizRunUUID);
 
-        return result;
-      });
+    return self.findByFkQuizRunUUIDAndFkStudentUuid(quizRunUUID, AuthHelper.getCurrentUserUUIDOrThrow()).get();
+  }
+
+  @Override
+  public Object createQuizAttemptForCurrentUser(String quizRunUUID) {
+    QuizAttemptEntity result = self.save(
+      new QuizAttemptEntity()
+        .setQuizRun(quizRunRepository.getOne(quizRunUUID))
+        .setStudent(userRepository.getCurrentUser()));
+
+    quizRunService.createQuestionAndAnswerAttemptsForQuizAttempt(result.getUuid());
+
+    return result;
   }
 }

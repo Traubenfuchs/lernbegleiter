@@ -18,4 +18,12 @@ public class QuizDto extends BaseDto<QuizDto> {
   private Set<QuizQuestionDto> questions = new HashSet<>();
   private TeacherDto author;
   private Set<QuizRunDto> quizRuns = new HashSet<>();
+
+  public QuizDto addQuestions(QuizQuestionDto... quizQuestionDtos) {
+    for (QuizQuestionDto quizQuestionDto : quizQuestionDtos) {
+      questions.add(quizQuestionDto);
+    }
+
+    return this;
+  }
 }

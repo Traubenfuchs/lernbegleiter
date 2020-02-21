@@ -57,7 +57,7 @@ public class LoginService {
     return userToAuthentication(le.getUser());
   }
 
-  private UserAuthentication userToAuthentication(UserEntity userEntity) {
+  public UserAuthentication userToAuthentication(UserEntity userEntity) {
     return new UserAuthentication()
       .setUuid(userEntity.getUuid())
       .setRights(new HashSet<>(userEntity.getRights()));

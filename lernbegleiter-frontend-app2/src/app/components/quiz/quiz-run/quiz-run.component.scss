@@ -7,3 +7,23 @@ background-color: #EC7063;
 .green {
   background-color:#52BE80;
 }
+.qqi{
+  max-width:100%;
+  cursor:pointer;
+}
+#globalImageContainer {
+  width:100vw;
+  height:100vh;
+  bottom: 0;
+  right: 0;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.75);
+}
+#globalImage {
+  width:100vw;
+  height:100vh;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor:pointer;
+}

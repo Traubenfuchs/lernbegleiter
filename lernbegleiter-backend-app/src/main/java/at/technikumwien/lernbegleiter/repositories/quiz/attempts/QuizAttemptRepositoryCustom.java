@@ -5,4 +5,6 @@ import at.technikumwien.lernbegleiter.entities.quiz.attempts.*;
 public interface QuizAttemptRepositoryCustom {
 
   QuizAttemptEntity createQuizAttemptIfNotExists(String quizRunUUID);
+
+  Object createQuizAttemptForCurrentUser(String quizRunUUID);
 }

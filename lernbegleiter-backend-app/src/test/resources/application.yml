@@ -1,0 +1,9 @@
+lernbegleiter:
+  host: http://localhost:80
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/lernbegleiter?createDatabaseIfNotExist=true&serverTimezone=UTC
+    username: root
+    password: abcdefgh12
+server:
+  port: 8666

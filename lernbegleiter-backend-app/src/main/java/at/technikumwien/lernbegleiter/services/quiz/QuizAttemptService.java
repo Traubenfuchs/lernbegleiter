@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.*;
 import org.springframework.util.*;
 
 import java.util.*;
-import java.util.concurrent.*;
 import java.util.stream.*;
 
 
@@ -27,8 +26,6 @@ public class QuizAttemptService {
   @Lazy
   @Autowired
   private QuizAttemptService quizAttemptService;
-
-  private final ConcurrentHashMap<String, Object> lockMap = new ConcurrentHashMap<>();
 
   /**
    * Adds live attempt data to the given QuizRunDto. In other words, this method populates the "correct" field in
@@ -84,19 +81,14 @@ public class QuizAttemptService {
     }
   }
 
-
   public String createQuizAttemptIfNotExists(String quizRunUUID) {
-    synchronized (lockMap.computeIfAbsent(AuthHelper.getCurrentUserUUIDOrThrow(), s -> new Object())) {
-      quizAttemptService.createQuizAttemptIfNotExistsTx(quizRunUUID);
-    }
+    quizAttemptService.createQuizAttemptIfNotExistsTx(quizRunUUID);
     return quizAttemptRepository.createQuizAttemptIfNotExists(quizRunUUID).getUuid();
   }
 
-  @Transactional(isolation = Isolation.SERIALIZABLE)
   public String createQuizAttemptIfNotExistsTx(String quizRunUUID) {
     return quizAttemptRepository.createQuizAttemptIfNotExists(quizRunUUID).getUuid();
   }
-
 
   @Transactional
   public void finishQuizAttempt(String quizRunUUID) {
