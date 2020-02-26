@@ -25,7 +25,10 @@
           Bitte warte bis das Quiz gestartet wurde...</div>
 
         <div *ngIf="_QuizRunState.DONE == _QuizRunState[quizRun.state]">
-          Dieser Quizlauf ist vorbei. Schau dir unten die richtigen Antworten an.</div>
+          <p>Dieser Quizlauf ist vorbei. Schau dir unten die richtigen Antworten an.</p>
+          <div>Du hast {{questionsCorrect}} von {{questionCount}} Fragen richtig beantwortet.</div>
+
+        </div>
 
       </div>
     </div>

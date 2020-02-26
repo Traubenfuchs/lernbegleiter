@@ -1,6 +1,8 @@
 package at.technikumwien.lernbegleiter.services.user;
 
 import at.technikumwien.lernbegleiter.components.*;
+import at.technikumwien.lernbegleiter.data.dto.*;
+import at.technikumwien.lernbegleiter.data.dto.converter.*;
 import at.technikumwien.lernbegleiter.data.requests.*;
 import at.technikumwien.lernbegleiter.entities.auth.*;
 import at.technikumwien.lernbegleiter.repositories.auth.*;
@@ -20,12 +22,26 @@ import javax.validation.*;
 public class RegistrationService {
   private final UserRepository userRepository;
   private final PasswordHasher passwordHasher;
+  private final StudentConverter studentConverter;
+  private final TeacherConverter teacherConverter;
 
   /**
    * @param request
    * @return new users UUID
    */
   public String register(@NonNull @Valid RegistrationRequest request) {
+    return registerInternal(request).getUuid();
+  }
+
+  public StudentDto registerStudent(@NonNull @Valid RegistrationRequest request) {
+    return studentConverter.toDTO(registerInternal(request));
+  }
+
+  public TeacherDto registerTeacher(@NonNull @Valid RegistrationRequest request) {
+    return teacherConverter.toDTO(registerInternal(request));
+  }
+
+  private UserEntity registerInternal(RegistrationRequest request) {
     String email = request.getEmail();
 
     if (userRepository.existsByEmail(email)) {
@@ -42,8 +58,6 @@ public class RegistrationService {
       .setFamilyName(request.getFamilyName())
       .generateUuid();
 
-    userEntity = userRepository.save(userEntity);
-
-    return userEntity.getUuid();
+    return userRepository.save(userEntity);
   }
 }

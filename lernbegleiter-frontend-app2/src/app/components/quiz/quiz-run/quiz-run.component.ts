@@ -91,6 +91,7 @@ export class QuizRunComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.destroyed = true;
+    this.stopMusic();
   }
 
   ngOnInit() {
@@ -106,7 +107,6 @@ export class QuizRunComponent implements OnDestroy {
       this.quizRun.quizRunType = 'FREE_ANSWERING';
       this.quizRun.uuid = 'Automatisch';
     } else if (this.loginService.loggedInAndStudent()) {
-      console.log('Loading quizAttemptUuid...');
       this.http
         .post<UuidResponse>(`api/quiz-run/${this.quizRunUuid}/quiz-attempt:create-if-not-exists`, {})
         .subscribe(uuidResponse => {
@@ -117,8 +117,6 @@ export class QuizRunComponent implements OnDestroy {
   }
 
   saveClick() {
-    console.log('Creating Quiz Run...');
-
     let nextTimeLimit: string;
     try {
       nextTimeLimit = new Date(this.quizRun.nextTimeLimit).toISOString();
@@ -131,7 +129,6 @@ export class QuizRunComponent implements OnDestroy {
       nextTimeLimit
     })
       .subscribe(uuidResponse => {
-        console.log('Created Quiz Run. Refreshing route.');
         this.router.navigate([`management/quiz/${this.quizUuid}/quiz-run/${uuidResponse.uuid}`]);
       });
   }
@@ -152,7 +149,6 @@ export class QuizRunComponent implements OnDestroy {
       return;
     }
     this.loadingQuizResult = true;
-    console.log('Loading QuizResult...');
     const result = this.http.get<QuizResult>(`api/quiz/${this.quizUuid}/quiz-run/${this.quizRunUuid}/quiz-result`);
     result.subscribe(res => {
       res.entries = res.entries.sort((l, r) => l.points < r.points ? -1 : 1);
@@ -161,7 +157,6 @@ export class QuizRunComponent implements OnDestroy {
 
       res.entries.forEach(v => v.heightPerc = "" + (v.weightedPoints * 250 / max) + 'px');
 
-      console.log('Loaded QuizResult.');
       this.quizResult = res;
     },
       err => {
@@ -174,6 +169,9 @@ export class QuizRunComponent implements OnDestroy {
     return result;
   }
 
+  questionCount = 0;
+  questionsCorrect = 0;
+
   loadQuizRun() {
     if (this.destroyed || this.loadingQuizRun) {
       return;
@@ -183,11 +181,19 @@ export class QuizRunComponent implements OnDestroy {
       return;
     }
     this.loadingQuizRun = true;
-    console.log('Loading QuizRun...');
     const result = this.http.get<QuizRun>(`api/quiz-run-${this.loginService.loggedInAndAdmin() ? 'admin' : 'student'}/${this.quizRunUuid}`);
     result.subscribe(res => {
-      console.log('QuizRun loaded.');
       this.quizRun = res;
+
+      this.questionCount = 0;
+      this.questionsCorrect = 0;
+      res.currentQuestions.forEach(q => {
+        this.questionCount += 1;
+        if (q.answers.every(a => a.tickedCorrectly)) {
+          this.questionsCorrect += 1;
+        }
+      });
+
       if (res && res.nextTimeLimit && res.nextTimeLimit.length > 3) {
         this.quizRun.nextTimeLimitForInput = res.nextTimeLimit.substring(0, res.nextTimeLimit.length - 1);
       }
@@ -203,7 +209,7 @@ export class QuizRunComponent implements OnDestroy {
         if (this._QuizRunState[res.state] == this._QuizRunState.WAITING_FOR_ANSWERS) {
           this.startMusicIfNotPlaying();
         } else {
-          this.stopMusic(); console.log("B");
+          this.stopMusic();
         }
 
       }, 0);
@@ -235,10 +241,8 @@ export class QuizRunComponent implements OnDestroy {
   }
 
   advance() {
-    console.log('Advancing quiz run...');
     this.http.post<QuizRun>(`api/quiz-run/${this.quizRunUuid}:advance`, {})
       .subscribe(res => {
-        console.log('Advanced quiz run.');
         this.quizRun = res;
         this.loadingQuizRun = false;
         this.loadQuizRun();
@@ -254,7 +258,6 @@ export class QuizRunComponent implements OnDestroy {
   }
 
   flipAnswerTo(quizAnswerUuid: string, correct: boolean) {
-    console.log('Setting quiz answer...');
     this.http.post<QuizRun>(`api/quiz-run/${this.quizRunUuid}/quiz-attempt/${this.quizAttemptUuid}:tick`, {
       quizAnswerUuid,
       correct
@@ -290,10 +293,8 @@ export class QuizRunComponent implements OnDestroy {
   }
 
   finishSelf() {
-    console.log('Finishing quiz attempt...');
     this.http.post<any>(`api/quiz-run/${this.quizRunUuid}/quiz-attempt:finish`, {})
       .subscribe(res => {
-        console.log('Finished quiz attempt.');
         this.loadAttempt();
       });
   }
@@ -304,7 +305,6 @@ export class QuizRunComponent implements OnDestroy {
     }
     this.http.get<QuizAttempt>(`api/quiz-run/${this.quizRunUuid}/quiz-attempt`)
       .subscribe(res => {
-        console.log('Finished loading quiz attempt.');
         this.quizAttempt = res;
       });
   }

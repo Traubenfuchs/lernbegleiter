@@ -9,6 +9,7 @@ import at.technikumwien.lernbegleiter.repositories.quiz.attempts.*;
 import lombok.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.context.annotation.*;
+import org.springframework.dao.*;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
 import org.springframework.util.*;
@@ -81,13 +82,17 @@ public class QuizAttemptService {
     }
   }
 
-  public String createQuizAttemptIfNotExists(String quizRunUUID) {
-    quizAttemptService.createQuizAttemptIfNotExistsTx(quizRunUUID);
-    return quizAttemptRepository.createQuizAttemptIfNotExists(quizRunUUID).getUuid();
-  }
 
-  public String createQuizAttemptIfNotExistsTx(String quizRunUUID) {
-    return quizAttemptRepository.createQuizAttemptIfNotExists(quizRunUUID).getUuid();
+  public String createQuizAttemptIfNotExists(String quizRunUUID) {
+    DataIntegrityViolationException ex = null;
+    for (int i = 0; i < 5; i++) {
+      try {
+        return quizAttemptRepository.createQuizAttemptIfNotExists(quizRunUUID);
+      } catch (DataIntegrityViolationException e) {
+        ex = e;
+      }
+    }
+    throw ex;
   }
 
   @Transactional

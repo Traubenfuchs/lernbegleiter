@@ -9,16 +9,12 @@ import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("api")
 @RestController
-public class AuthenticationController extends BaseController {
+public class MassRegistrationController extends BaseController {
   @Autowired
-  private LoginService loginService;
+  private MassRegistrationService massRegistrationService;
 
-  @PostMapping("login")
-  public LoginResponse login(@RequestBody LoginRequest loginRequest) {
-    return loginService.login(loginRequest);
-  }
-
-  @PostMapping("login/check")
-  public void check() {
+  @PostMapping("students:mass-register")
+  public MassRegistrationResponse massRegister(@RequestBody MassRegistrationRequest massRegistrationRequest) {
+    return massRegistrationService.massRegister(massRegistrationRequest);
   }
 }
