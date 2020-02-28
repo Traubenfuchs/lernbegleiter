@@ -1,6 +1,6 @@
 package at.technikumwien.lernbegleiter.controller;
 
-import at.technikumwien.lernbegleiter.services.user.*;
+import at.technikumwien.lernbegleiter.services.massregistration.*;
 import lombok.*;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +33,6 @@ public class NameController {
     }
 
     throw new RuntimeException("ListFormat <" + listFormat + "> not supported");
-
   }
 
   enum ListFormat {

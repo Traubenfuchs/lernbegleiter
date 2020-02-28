@@ -116,7 +116,7 @@ public class QuizRunService {
 
   public void put(@NonNull @Valid QuizRunDto quizRunDto) {
     QuizRunEntity qre = quizRunRepository.getOne(quizRunDto.getUuid());
-    quizRunConverter.applyToEntity(quizRunDto, qre);
+    quizRunConverter.applyToEntityFull(quizRunDto, qre);
   }
 
   public void advance(@NonNull String quizRunUUID) {

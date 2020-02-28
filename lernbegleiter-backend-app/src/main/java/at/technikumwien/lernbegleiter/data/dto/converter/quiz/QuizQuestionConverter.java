@@ -16,7 +16,7 @@ public class QuizQuestionConverter extends DtoEntityConverter<QuizQuestionEntity
   private LobService lobService;
 
   @Override
-  public void applyToDto(QuizQuestionEntity quizQuestionEntity, QuizQuestionDto quizQuestionDto) {
+  public void applyToDtoCustom(QuizQuestionEntity quizQuestionEntity, QuizQuestionDto quizQuestionDto) {
     quizQuestionDto
       .setAnswers(quizAnswerConverter.toDtoSet(quizQuestionEntity.getAnswers()))
       .setPosition(quizQuestionEntity.getPosition())
@@ -32,7 +32,7 @@ public class QuizQuestionConverter extends DtoEntityConverter<QuizQuestionEntity
   }
 
   @Override
-  public void applyToEntity(QuizQuestionDto quizQuestionDto, QuizQuestionEntity quizQuestionEntity) {
+  public void applyToEntityCustom(QuizQuestionDto quizQuestionDto, QuizQuestionEntity quizQuestionEntity) {
     quizAnswerConverter.applyOrCreateToEntityCollection(quizQuestionDto.getAnswers(), quizQuestionEntity.getAnswers());
     quizQuestionEntity.getAnswers().forEach(qa -> qa.setQuizQuestion(quizQuestionEntity));
 

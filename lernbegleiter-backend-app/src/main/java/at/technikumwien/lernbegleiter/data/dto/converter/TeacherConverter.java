@@ -13,7 +13,7 @@ public class TeacherConverter extends DtoEntityConverter<UserEntity, TeacherDto>
   private PasswordHasher passwordHasher;
 
   @Override
-  public void applyToDto(UserEntity userEntity, TeacherDto teacherDto) {
+  public void applyToDtoCustom(UserEntity userEntity, TeacherDto teacherDto) {
     teacherDto
       .setBirthday(userEntity.getBirthday())
       .setEmail(userEntity.getEmail())
@@ -24,7 +24,7 @@ public class TeacherConverter extends DtoEntityConverter<UserEntity, TeacherDto>
   }
 
   @Override
-  public void applyToEntity(TeacherDto teacherDto, UserEntity userEntity) {
+  public void applyToEntityCustom(TeacherDto teacherDto, UserEntity userEntity) {
     userEntity
       .setBirthday(teacherDto.getBirthday())
       .setEmail(teacherDto.getEmail())

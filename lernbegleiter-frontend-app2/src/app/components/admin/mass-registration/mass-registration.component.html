@@ -1,0 +1,74 @@
+<div class="card">
+  <div class="card-header">
+    <h5 class="card-title">Massen-Registrierung</h5>
+    <p *ngIf="uuid === 'new'" class="card-text">Massen-Registrierung ausführen</p>
+    <p *ngIf="uuid !== 'new'" class="card-text">Massen-Registrierung bearbeiten</p>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col">
+        <label for="uuidInput">UUID</label>
+        <input id="uuidInput" [(ngModel)]="massRegistration.uuid" type="text" class="form-control" placeholder="UUID"
+          disabled>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <label for="nameInput">Name</label>
+        <input id="nameInput" [(ngModel)]="massRegistration.name" type="text" class="form-control" placeholder="Name">
+      </div>
+      <div class="col">
+        <label for="notesInput">Notizen</label>
+        <input id="notesInput" [(ngModel)]="massRegistration.notes" type="text" class="form-control"
+          placeholder="Notizen">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <label for="amountInput">Anzahl</label>
+        <input id="amountInput" [(ngModel)]="massRegistration.amount" type="number" step="1" min="1" max="100"
+          class="form-control" placeholder="Anzahl" [disabled]="uuid !== 'new'">
+      </div>
+      <div class="col">
+        <label for="loeschZeitInput">Löschzeit</label>
+        <input id="loeschZeitInput" [(ngModel)]="deletionTimeHtml" type="datetime-local" class="form-control"
+          placeholder="Löschzeit">
+      </div>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div *ngIf="uuid !== 'new'" class="btn-group w-100">
+      <button (click)="saveClick()" class="btn btn-secondary">Aktualisieren</button>
+      <button (click)="deleteClick()" class="btn btn-danger">Löschen</button>
+    </div>
+    <button (click)="saveClick()" *ngIf="uuid === 'new'" class="btn btn-success w-100">Anlegen</button>
+  </div>
+
+
+</div>
+
+<div class="card mt-3 mb-3" *ngIf="uuid !== 'new'">
+  <div class="card-header">
+    <h5 class="card-title">Erzeugte User</h5>
+  </div>
+  <div class="card-body">
+
+    <table class="lernbegleiter-table">
+      <tr>
+        <th>UUID</th>
+        <th>Username</th>
+        <th>Originales Passwort</th>
+        <!-- <th>Secret</th>-->
+      </tr>
+
+      <tr *ngFor="let item of massRegistration.users">
+        <td>{{item.uuid}}</td>
+        <td>{{item.username}}</td>
+        <td>{{item.password}}</td>
+        <!--<td>{{item.secret}}</td>-->
+      </tr>
+    </table>
+  </div>
+</div>

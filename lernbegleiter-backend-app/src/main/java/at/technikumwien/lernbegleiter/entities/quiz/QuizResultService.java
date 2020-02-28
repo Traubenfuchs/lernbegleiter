@@ -29,7 +29,7 @@ public class QuizResultService {
           quizQuestionAnswerAttemptEntity.getCorrect().equals(quizQuestionAnswerAttemptEntity.getQuizAnswer().getCorrect()));
 
       case FREE_TEXT:
-        yield Objects.equals(qqa.getQuizQuestion().getFreeText(), qqa.getFreeText());
+        yield qqa.getQuizQuestion().getFreeText().equalsIgnoreCase(qqa.getFreeText());
 
       default:
         throw new ResponseStatusException(
@@ -101,10 +101,9 @@ public class QuizResultService {
         quizAttemptEntity.getStudent().getFirstName() +
         " " +
         quizAttemptEntity.getStudent().getFamilyName();
-      quizResultEntryDto.setName("" +
-        quizAttemptEntity.getStudent().getFirstName() +
-        " " +
-        quizAttemptEntity.getStudent().getFamilyName());
+      name = quizAttemptEntity.getStudent().getEmail();
+      quizResultEntryDto.setName(name);
+
 
       question:
       for (QuizQuestionAttemptEntity quizQuestionAttemptEntity : quizAttemptEntity.getQuizQuestionAttempts()) {
@@ -130,8 +129,6 @@ public class QuizResultService {
             quizResultEntryDto.incrementWeightedPointsBy(1000);
           } else if (span > 0) {
             double perc = 1 - (max - qqas.getEarliest()) / (double) span;
-            System.out.println(name + ", " + span + ", " + (max - 1578154000000L) + ", " + perc);
-
             quizResultEntryDto.incrementWeightedPointsBy((int) Math.round(499 + 501.0 * perc));
           }
         }

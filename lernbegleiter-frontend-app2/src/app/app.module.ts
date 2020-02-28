@@ -33,6 +33,8 @@ import { QuizRunStatePipe } from './pipes/quiz-run-state.pipe';
 import { QuizTypePipe } from './pipes/quiz-type.pipe';
 import { WeeklyOverviewLandingPageComponent } from './components/weekly-overview-landing-page/weekly-overview-landing-page.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
+import { MassRegistrationComponent } from './components/admin/mass-registration/mass-registration.component';
+import { MassRegistrationsComponent } from './components/admin/mass-registrations/mass-registrations.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +63,9 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
     QuizRunStatePipe,
     QuizTypePipe,
     WeeklyOverviewLandingPageComponent,
-    LandingPageComponent
+    LandingPageComponent,
+    MassRegistrationComponent,
+    MassRegistrationsComponent
   ],
   imports: [
     BrowserModule,

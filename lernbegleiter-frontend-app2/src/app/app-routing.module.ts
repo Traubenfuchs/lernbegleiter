@@ -1,3 +1,5 @@
+import { MassRegistrationComponent } from './components/admin/mass-registration/mass-registration.component';
+import { MassRegistrationsComponent } from './components/admin/mass-registrations/mass-registrations.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { WeeklyOverviewLandingPageComponent } from './components/weekly-overview-landing-page/weekly-overview-landing-page.component';
 import { QuizRunsComponent } from './components/quiz/quiz-runs/quiz-runs.component';
@@ -45,6 +47,9 @@ const routes: Routes = [
   { path: 'management/quiz/:quizUUID', component: QuizComponent },
   { path: 'management/quiz/:quizUUID/quiz-runs', component: QuizRunsComponent },
   { path: 'management/quiz/:quizUUID/quiz-run/:quizRunUUID', component: QuizRunComponent },
+
+  { path: 'management/mass-registrations', component: MassRegistrationsComponent },
+  { path: 'management/mass-registration/:massRegistrationUUID', component: MassRegistrationComponent },
 
   { path: 'user/:userUUID/profile', component: ProfileEditComponent }
 ];

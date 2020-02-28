@@ -15,8 +15,7 @@ public class QuizRunConverter extends DtoEntityConverter<QuizRunEntity, QuizRunD
   private QuizQuestionConverter quizQuestionConverter;
 
   @Override
-  public void applyToDto(QuizRunEntity quizRunEntity, QuizRunDto quizRunDto) {
-    super.applyToDto(quizRunEntity, quizRunDto);
+  public void applyToDtoCustom(QuizRunEntity quizRunEntity, QuizRunDto quizRunDto) {
     quizRunDto
       .setNextTimeLimit(quizRunEntity.getNextTimeLimit())
       .setState(quizRunEntity.getState())
@@ -37,7 +36,7 @@ public class QuizRunConverter extends DtoEntityConverter<QuizRunEntity, QuizRunD
   }
 
   @Override
-  public void applyToEntity(QuizRunDto quizRunDto, QuizRunEntity quizRunEntity) {
+  public void applyToEntityCustom(QuizRunDto quizRunDto, QuizRunEntity quizRunEntity) {
     quizRunEntity
       .setQuizRunType(quizRunDto.getQuizRunType())
       .setNextTimeLimit(quizRunDto.getNextTimeLimit());

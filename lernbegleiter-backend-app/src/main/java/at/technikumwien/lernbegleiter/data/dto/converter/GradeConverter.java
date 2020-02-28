@@ -14,7 +14,7 @@ public class GradeConverter extends DtoEntityConverter<GradeEntity, GradeDto> {
   private ClassConverter classConverter;
 
   @Override
-  public void applyToDto(GradeEntity gradeEntity, GradeDto gradeDto) {
+  public void applyToDtoCustom(GradeEntity gradeEntity, GradeDto gradeDto) {
     gradeDto
       .setUuid(gradeEntity.getUuid())
       .setName(gradeEntity.getName())
@@ -25,7 +25,7 @@ public class GradeConverter extends DtoEntityConverter<GradeEntity, GradeDto> {
   }
 
   @Override
-  public void applyToEntity(GradeDto gradeDto, GradeEntity gradeEntity) {
+  public void applyToEntityCustom(GradeDto gradeDto, GradeEntity gradeEntity) {
     gradeEntity
       .setUuid(gradeDto.getUuid())
       .setName(gradeDto.getName())

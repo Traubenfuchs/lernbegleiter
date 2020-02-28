@@ -44,7 +44,7 @@ public class ClassService {
 
   public void update(@NonNull String classUuid, @Valid @NonNull ClassDto classDto) {
     ClassEntity classEntity = classRepository.getOne(classUuid);
-    classConverter.applyToEntity(classDto, classEntity);
+    classConverter.applyToEntityFull(classDto, classEntity);
   }
 
   public void delete(@NonNull String classUuid) {

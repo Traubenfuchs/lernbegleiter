@@ -47,7 +47,8 @@ public class StudentService {
   }
 
   public UuidResponse create(@Valid @NonNull StudentDto studentDto) {
-    UserEntity userEntity = studentConverter.toEntity(studentDto)
+    UserEntity userEntity = studentConverter
+      .toEntity(studentDto)
       .generateUuid()
       .setRights(Set.of("STUDENT"));
     userEntity = userRepository.save(userEntity);
@@ -67,7 +68,7 @@ public class StudentService {
       userEntity.getLearningModulesStudents().clear();
     }
 
-    studentConverter.applyToEntity(studentDto, userEntity);
+    studentConverter.applyToEntityFull(studentDto, userEntity);
 
     if (StringUtils.isEmpty(studentDto.getPassword())) {
       userEntity.setHashedAndSaltedPassword(tmpHashedAndSaltedPassword);

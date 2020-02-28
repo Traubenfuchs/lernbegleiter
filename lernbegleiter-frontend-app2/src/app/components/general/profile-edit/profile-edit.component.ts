@@ -37,5 +37,8 @@ export class ProfileEditComponent {
       .subscribe(uuidResponse => {
         this.loadUser();
         this.growlService.addMessage(new GrowlMessage("User wurde upgedated.", Severity.SUCCESS, 2000));
-      })
+      },
+        err => {
+          this.growlService.addMessage(new GrowlMessage("Update fehlgeschlagen!.", Severity.ERROR, 2000));
+        })
 }

@@ -8,7 +8,7 @@ import org.springframework.stereotype.*;
 @Component
 public class QuizAnswerConverter extends DtoEntityConverter<QuizAnswerEntity, QuizAnswerDto> {
   @Override
-  public void applyToDto(QuizAnswerEntity quizAnswerEntity, QuizAnswerDto quizAnswerDto) {
+  public void applyToDtoCustom(QuizAnswerEntity quizAnswerEntity, QuizAnswerDto quizAnswerDto) {
     quizAnswerDto
       .setContent(quizAnswerEntity.getContent())
       .setCorrect(quizAnswerEntity.getCorrect())
@@ -17,9 +17,7 @@ public class QuizAnswerConverter extends DtoEntityConverter<QuizAnswerEntity, Qu
   }
 
   @Override
-  public void applyToEntity(QuizAnswerDto quizAnswerDto, QuizAnswerEntity quizAnswerEntity) {
-
-
+  public void applyToEntityCustom(QuizAnswerDto quizAnswerDto, QuizAnswerEntity quizAnswerEntity) {
     quizAnswerEntity
       .setContent(quizAnswerDto.getContent())
       .setCorrect(quizAnswerDto.getCorrect())

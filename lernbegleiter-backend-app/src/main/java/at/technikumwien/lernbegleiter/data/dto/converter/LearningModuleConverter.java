@@ -7,7 +7,7 @@ import org.springframework.stereotype.*;
 @Component
 public class LearningModuleConverter extends DtoEntityConverter<LearningModuleEntity, LearningModuleDto> {
   @Override
-  public void applyToDto(LearningModuleEntity learningModuleEntity, LearningModuleDto learningModuleDto) {
+  public void applyToDtoCustom(LearningModuleEntity learningModuleEntity, LearningModuleDto learningModuleDto) {
     learningModuleDto
       .setUuid(learningModuleEntity.getUuid())
       .setName(learningModuleEntity.getName())
@@ -19,7 +19,7 @@ public class LearningModuleConverter extends DtoEntityConverter<LearningModuleEn
   }
 
   @Override
-  public void applyToEntity(LearningModuleDto learningModuleDto, LearningModuleEntity learningModuleEntity) {
+  public void applyToEntityCustom(LearningModuleDto learningModuleDto, LearningModuleEntity learningModuleEntity) {
     learningModuleEntity
       .setUuid(learningModuleDto.getUuid())
       .setName(learningModuleDto.getName())

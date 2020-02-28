@@ -35,7 +35,7 @@ public class LearningModuleService {
 
     LearningModuleEntity learningModuleEntity = new LearningModuleEntity();
     learningModuleEntity.setClazz(classEntity);
-    learningModuleConverter.applyToEntity(learningModuleDto, learningModuleEntity);
+    learningModuleConverter.applyToEntityFull(learningModuleDto, learningModuleEntity);
     learningModuleEntity.generateUuid();
     learningModuleRepository.save(learningModuleEntity);
 
@@ -52,6 +52,6 @@ public class LearningModuleService {
 
   public void put(LearningModuleDto learningModuleDto) {
     LearningModuleEntity learningModuleEntity = learningModuleRepository.getOne(learningModuleDto.getUuid());
-    learningModuleConverter.applyToEntity(learningModuleDto, learningModuleEntity);
+    learningModuleConverter.applyToEntityFull(learningModuleDto, learningModuleEntity);
   }
 }

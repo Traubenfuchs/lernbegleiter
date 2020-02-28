@@ -18,7 +18,7 @@ public class WeeklyOverviewConverter extends DtoEntityConverter<WeeklyOverviewEn
   private WeeklyOverviewClassConverter weeklyOverviewClassConverter;
 
   @Override
-  public void applyToDto(WeeklyOverviewEntity weeklyOverviewEntity, WeeklyOverviewDto weeklyOverviewDto) {
+  public void applyToDtoCustom(WeeklyOverviewEntity weeklyOverviewEntity, WeeklyOverviewDto weeklyOverviewDto) {
     LocalDate firstDayOfWeek = LocalDate.of(weeklyOverviewEntity.getYear(), 2, 1)
       .with(IsoFields.WEEK_OF_WEEK_BASED_YEAR, weeklyOverviewEntity.getCalendarWeek())
       .with(ChronoField.DAY_OF_WEEK, DayOfWeek.MONDAY.getValue());
@@ -41,7 +41,7 @@ public class WeeklyOverviewConverter extends DtoEntityConverter<WeeklyOverviewEn
   }
 
   @Override
-  public void applyToEntity(WeeklyOverviewDto weeklyOverviewDto, WeeklyOverviewEntity weeklyOverviewEntity) {
+  public void applyToEntityCustom(WeeklyOverviewDto weeklyOverviewDto, WeeklyOverviewEntity weeklyOverviewEntity) {
     weeklyOverviewEntity
       .setFurtherSteps(weeklyOverviewDto.getFurtherSteps())
       .setCalendarWeek(weeklyOverviewDto.getCalendarWeek())

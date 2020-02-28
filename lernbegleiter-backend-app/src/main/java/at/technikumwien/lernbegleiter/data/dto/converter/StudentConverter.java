@@ -15,7 +15,7 @@ public class StudentConverter extends DtoEntityConverter<UserEntity, StudentDto>
   private GradeRepository gr;
 
   @Override
-  public void applyToDto(UserEntity ue, StudentDto sd) {
+  public void applyToDtoCustom(UserEntity ue, StudentDto sd) {
     sd
       .setUuid(ue.getUuid())
       .setEmail(ue.getEmail())
@@ -27,7 +27,7 @@ public class StudentConverter extends DtoEntityConverter<UserEntity, StudentDto>
   }
 
   @Override
-  public void applyToEntity(StudentDto sd, UserEntity ue) {
+  public void applyToEntityCustom(StudentDto sd, UserEntity ue) {
     ue
       .setUuid(sd.getUuid())
       .setEmail(sd.getEmail())

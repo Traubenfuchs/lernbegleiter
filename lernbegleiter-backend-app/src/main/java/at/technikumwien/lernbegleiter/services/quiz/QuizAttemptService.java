@@ -55,30 +55,39 @@ public class QuizAttemptService {
 
       currentQuestion.setFreeText(quizQuestionAttemptEntity.getFreeText());
 
-      for (QuizAnswerDto answerDto : currentQuestion.getAnswers()) {
-        boolean ticked = quizQuestionAttemptEntity.getAnswers()
-          .stream()
-          .filter(a -> a.getFkQuizAnswerUuid().equals(answerDto.getUuid()))
-          .findFirst()
-          .get()
-          .getCorrect();
+      if (currentQuestion.getQuizQuestionType() == QuizQuestionType.FREE_TEXT) {
 
-        if (
-          quizRunDto.getQuizRunType() == QuizRunType.FINISH_SELF ||
-            quizRunDto.getState() == QuizRunState.DONE ||
-            quizRunDto.getState() == QuizRunState.WAITING_FOR_NEXT_QUESTION) {
-          boolean tickedCorrectly = answerDto.getCorrect().equals(ticked);
-          if (!tickedCorrectly) {
-            questionAnsweredCorrectly = false;
+        String correctAnswer = quizQuestionAttemptEntity.getQuizQuestion().getFreeText();
+        currentQuestion.setAnsweredCorrectly(correctAnswer.equalsIgnoreCase(quizQuestionAttemptEntity.getFreeText()));
+      }
+
+      if (currentQuestion.getQuizQuestionType() == QuizQuestionType.MULTIPLE_CHOICE) {
+        for (QuizAnswerDto answerDto : currentQuestion.getAnswers()) {
+          boolean ticked = quizQuestionAttemptEntity.getAnswers()
+            .stream()
+            .filter(a -> a.getFkQuizAnswerUuid().equals(answerDto.getUuid()))
+            .findFirst()
+            .get()
+            .getCorrect();
+
+          if (
+            quizRunDto.getQuizRunType() == QuizRunType.FINISH_SELF ||
+              quizRunDto.getState() == QuizRunState.DONE ||
+              quizRunDto.getState() == QuizRunState.WAITING_FOR_NEXT_QUESTION) {
+            boolean tickedCorrectly = answerDto.getCorrect().equals(ticked);
+            if (!tickedCorrectly) {
+              questionAnsweredCorrectly = false;
+            }
+            answerDto.setTickedCorrectly(answerDto.getCorrect().equals(ticked));
+            currentQuestion.setAnsweredCorrectly(questionAnsweredCorrectly);
           }
-          answerDto.setTickedCorrectly(answerDto.getCorrect().equals(ticked));
-          currentQuestion.setAnsweredCorrectly(questionAnsweredCorrectly);
-        }
 
-        if (quizRunDto.getState() == QuizRunState.WAITING_FOR_ANSWERS) {
-          answerDto.setCorrect(ticked);
+          if (quizRunDto.getState() == QuizRunState.WAITING_FOR_ANSWERS) {
+            answerDto.setCorrect(ticked);
+          }
         }
       }
+
     }
   }
 

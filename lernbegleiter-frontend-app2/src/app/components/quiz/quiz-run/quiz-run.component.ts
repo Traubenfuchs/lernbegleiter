@@ -20,8 +20,6 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
   styleUrls: ['./quiz-run.component.scss']
 })
 export class QuizRunComponent implements OnDestroy {
-  globalImageQuizPictureUUID = '';
-  readonly audio = new Audio();
 
   constructor(
     public router: Router,
@@ -71,6 +69,8 @@ export class QuizRunComponent implements OnDestroy {
     };
     updateTimer();
   }
+  globalImageQuizPictureUUID = '';
+  readonly audio = new Audio();
   destroyed = false;
   loadingQuizRun = false;
   loadingQuizResult = false;
@@ -88,6 +88,9 @@ export class QuizRunComponent implements OnDestroy {
   quizRunInterval = 500;
 
   answerChangeDebouncers = new Map<string, Subject<string>>();
+
+  questionCount = 0;
+  questionsCorrect = 0;
 
   ngOnDestroy(): void {
     this.destroyed = true;
@@ -142,7 +145,7 @@ export class QuizRunComponent implements OnDestroy {
 
   loadQuizResult() {
     if (!this.quizRunUuid || this.quizRunUuid === '' || this.quizRunUuid === 'new') {
-      setTimeout(() => this.loadQuizResultInternal(), 1500);
+      setTimeout(() => this.loadQuizResultInternal(), 3000);
       return;
     }
     if (!this.loginService.loggedInAndTeacherOrAdmin()) {
@@ -163,14 +166,11 @@ export class QuizRunComponent implements OnDestroy {
 
       }, () => {
         this.loadingQuizResult = false;
-        setTimeout(() => this.loadQuizResultInternal(), 1500);
+        setTimeout(() => this.loadQuizResultInternal(), 3000);
       });
 
     return result;
   }
-
-  questionCount = 0;
-  questionsCorrect = 0;
 
   loadQuizRun() {
     if (this.destroyed || this.loadingQuizRun) {

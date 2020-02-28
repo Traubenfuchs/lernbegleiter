@@ -29,7 +29,17 @@ public abstract class DtoEntityConverter<ENTITY extends BaseEntity<ENTITY>, DTO 
     }
   }
 
-  public void applyToDto(ENTITY entity, DTO dto) {
+  public void applyToDtoFull(ENTITY entity, DTO dto) {
+    applyToDtoBase(entity, dto);
+    applyToDtoCustom(entity, dto);
+  }
+
+  public void applyToEntityFull(DTO dto, ENTITY entity) {
+    applyToEntityBase(dto, entity);
+    applyToEntityCustom(dto, entity);
+  }
+
+  public void applyToDtoBase(ENTITY entity, DTO dto) {
     dto.setUuid(entity.getUuid());
     if (entity instanceof BaseEntityCreationUpdateDate) {
       dto.setTsUpdate(((BaseEntityCreationUpdateDate<?>) entity).getTsUpdate());
@@ -39,7 +49,13 @@ public abstract class DtoEntityConverter<ENTITY extends BaseEntity<ENTITY>, DTO 
     }
   }
 
-  public abstract void applyToEntity(DTO dto, ENTITY entity);
+  public void applyToEntityBase(DTO dto, ENTITY entity) {
+
+  }
+
+  public abstract void applyToDtoCustom(ENTITY entity, DTO dto);
+
+  public abstract void applyToEntityCustom(DTO dto, ENTITY entity);
 
   public DTO toDTO(ENTITY entity) {
     if (entity == null) {
@@ -47,7 +63,7 @@ public abstract class DtoEntityConverter<ENTITY extends BaseEntity<ENTITY>, DTO 
     }
     try {
       DTO dto = dtoConstructor.newInstance();
-      applyToDto(entity, dto);
+      applyToDtoFull(entity, dto);
       return dto;
     } catch (Exception e1) {
       throw new RuntimeException(e1);
@@ -60,7 +76,7 @@ public abstract class DtoEntityConverter<ENTITY extends BaseEntity<ENTITY>, DTO 
     }
     try {
       ENTITY entity = entityConstructor.newInstance();
-      applyToEntity(dto, entity);
+      applyToEntityFull(dto, entity);
       return entity;
     } catch (Exception e1) {
       throw new RuntimeException(e1);
@@ -117,7 +133,7 @@ public abstract class DtoEntityConverter<ENTITY extends BaseEntity<ENTITY>, DTO 
     for (DTO qqd : dtoCollection) {
       for (ENTITY qqe : entityCollection) {
         if (qqd.getUuid() != null && Objects.equals(qqd.getUuid(), qqe.getUuid())) {
-          applyToEntity(qqd, qqe);
+          applyToEntityFull(qqd, qqe);
           continue outer;
         }
       }

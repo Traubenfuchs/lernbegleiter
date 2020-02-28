@@ -59,7 +59,7 @@ public class TeacherService {
 
     byte[] tmpHashedAndSaltedPassword = userEntity.getHashedAndSaltedPassword();
 
-    teacherConverter.applyToEntity(teacherDto, userEntity);
+    teacherConverter.applyToEntityFull(teacherDto, userEntity);
 
     if (StringUtils.isEmpty(teacherDto.getPassword())) {
       userEntity.setHashedAndSaltedPassword(tmpHashedAndSaltedPassword);

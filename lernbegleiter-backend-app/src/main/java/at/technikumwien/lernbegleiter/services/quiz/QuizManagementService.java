@@ -30,7 +30,7 @@ public class QuizManagementService {
 
   public void put(@NonNull @Valid QuizDto quizDto) {
     QuizEntity qe = quizRepository.getOne(quizDto.getUuid());
-    quizConverterDeep.applyToEntity(quizDto, qe);
+    quizConverterDeep.applyToEntityFull(quizDto, qe);
   }
 
   public UuidResponse post(@NonNull @Valid QuizDto quizDto) {

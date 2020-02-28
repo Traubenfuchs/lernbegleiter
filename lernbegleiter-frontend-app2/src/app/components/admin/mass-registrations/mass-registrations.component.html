@@ -1,0 +1,41 @@
+<div class='card'>
+  <div class="card-body">
+    <table class="lernbegleiter-table">
+      <thead class="sticky-top">
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Löchschzeit</th>
+          <th scope="col"></th>
+          <th scope="col">
+            <button class="btn btn-sm btn-success col-md-10 float-right"
+              [routerLink]="'/management/mass-registration/new'">Anlegen</button>
+          </th>
+        </tr>
+      </thead>
+      <ng-container *ngIf="isLoadingMassRegistrations">
+        <tr *ngFor="let i2 of [].constructor(5)">
+          <td *ngFor="let i of [].constructor(4)">
+            <app-loader></app-loader>
+          </td>
+        </tr>
+      </ng-container>
+      <ng-container *ngIf="!isLoadingMassRegistrations">
+        <tr *ngFor="let registration of massRegistrations">
+          <td>{{registration.name}}</td>
+          <td>{{registration.deletionTime}}</td>
+          <td>
+            <button class="btn btn-sm btn-secondary col-md-10 float-right"
+              [routerLink]="'/management/mass-registration/' + registration.uuid">
+              Bearbeiten
+            </button>
+          </td>
+          <td>
+            <button class="btn btn-sm btn-danger col-md-10 float-right" (click)='deleteRegistration(registration.uuid)'>
+              Löschen
+            </button>
+          </td>
+        </tr>
+      </ng-container>
+    </table>
+  </div>
+</div>

@@ -8,7 +8,7 @@ import org.springframework.stereotype.*;
 @Component
 public class WeeklyOverviewClassDayConverter extends DtoEntityConverter<WeeklyOverviewClassDayEntity, WeeklyOverviewClassDayDto> {
   @Override
-  public void applyToDto(WeeklyOverviewClassDayEntity weeklyOverviewClassDayEntity, WeeklyOverviewClassDayDto weeklyOverviewClassDayDto) {
+  public void applyToDtoCustom(WeeklyOverviewClassDayEntity weeklyOverviewClassDayEntity, WeeklyOverviewClassDayDto weeklyOverviewClassDayDto) {
     weeklyOverviewClassDayDto
       .setStudentComment(weeklyOverviewClassDayEntity.getStudentComment())
       .setTeacherComment(weeklyOverviewClassDayEntity.getTeacherComment())
@@ -16,7 +16,7 @@ public class WeeklyOverviewClassDayConverter extends DtoEntityConverter<WeeklyOv
   }
 
   @Override
-  public void applyToEntity(WeeklyOverviewClassDayDto weeklyOverviewClassDayDto, WeeklyOverviewClassDayEntity weeklyOverviewClassDayEntity) {
+  public void applyToEntityCustom(WeeklyOverviewClassDayDto weeklyOverviewClassDayDto, WeeklyOverviewClassDayEntity weeklyOverviewClassDayEntity) {
     weeklyOverviewClassDayEntity
       .setStudentComment(weeklyOverviewClassDayDto.getStudentComment())
       .setTeacherComment(weeklyOverviewClassDayDto.getTeacherComment())

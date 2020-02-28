@@ -14,6 +14,7 @@ import org.springframework.validation.annotation.*;
 import org.springframework.web.server.*;
 
 import javax.validation.*;
+import java.util.*;
 
 @AllArgsConstructor
 @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -34,7 +35,7 @@ public class RegistrationService {
   }
 
   public StudentDto registerStudent(@NonNull @Valid RegistrationRequest request) {
-    return studentConverter.toDTO(registerInternal(request));
+    return studentConverter.toDTO(registerInternal(request).setRights(Set.of("STUDENT")));
   }
 
   public TeacherDto registerTeacher(@NonNull @Valid RegistrationRequest request) {

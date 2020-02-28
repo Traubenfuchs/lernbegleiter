@@ -115,7 +115,7 @@
           <div class="col">
             <label for="typeInput">Quiz-Typ</label>
             <select id="typeInput" [(ngModel)]="quizRun.quizRunType" class="form-control"
-              [disabled]='quizRunUuid !== "new" ? true : null'>
+              [disabled]="quizRunUuid !== 'new' ? true : null">
               <option value="ONE_QUESTION_AT_A_TIME">{{'ONE_QUESTION_AT_A_TIME' | quizType}}</option>
               <option value="FREE_ANSWERING">{{'FREE_ANSWERING' | quizType}}</option>
               <option value="FINISH_SELF">{{'FINISH_SELF' | quizType}}</option>
@@ -177,7 +177,7 @@
         <div *ngIf="fancyResults"
           style='display: flex; flex-direction: row; justify-content:center; width:100%; flex-wrap:wrap'>
           <div *ngFor="let line of quizResult.entries; trackBy: trackQuizResultLines"
-            style='width:80px; display:flex; flex-direction:column; justify-content:flex-end; align-items: center; margin-left:2px; margin-right: 2px'>
+            style='font-size:13px; width:80px; display:flex; flex-direction:column; justify-content:flex-end; align-items: center; margin-left:2px; margin-right: 2px'>
             <div style='background-color:red;width:100%;' [style.height]='line.heightPerc'></div>
             <div style='word-spacing:9999px; width:100%; height:80px; text-align: center;'>
               {{line.weightedPoints + ' ' + line.name}}</div>

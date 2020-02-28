@@ -13,8 +13,8 @@ public class QuizConverterDeep extends QuizConverter {
   private QuizRunConverter quizRunConverter;
 
   @Override
-  public void applyToDto(QuizEntity quizEntity, QuizDto quizDto) {
-    super.applyToDto(quizEntity, quizDto);
+  public void applyToDtoCustom(QuizEntity quizEntity, QuizDto quizDto) {
+    super.applyToDtoCustom(quizEntity, quizDto);
     quizDto
       .setQuestions(quizQuestionConverter.toDtoSet(quizEntity.getQuestions()))
       .setQuizRuns(quizRunConverter.toDtoSet(quizEntity.getQuizRuns()))
@@ -22,8 +22,8 @@ public class QuizConverterDeep extends QuizConverter {
   }
 
   @Override
-  public void applyToEntity(QuizDto quizDto, QuizEntity quizEntity) {
-    super.applyToEntity(quizDto, quizEntity);
+  public void applyToEntityCustom(QuizDto quizDto, QuizEntity quizEntity) {
+    super.applyToEntityCustom(quizDto, quizEntity);
 
     quizQuestionConverter.applyOrCreateToEntityCollection(quizDto.getQuestions(), quizEntity.getQuestions());
     quizRunConverter.applyOrCreateToEntityCollection(quizDto.getQuizRuns(), quizEntity.getQuizRuns());

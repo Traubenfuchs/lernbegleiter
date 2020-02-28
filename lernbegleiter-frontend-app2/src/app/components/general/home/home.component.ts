@@ -27,6 +27,7 @@ export class HomeComponent implements OnInit {
   learningModuledUrl = '/management/learning-modules';
   teachersUrl = '/management/teachers';
   quizzesUrl = 'management/quizzes';
+  massRegistrationsUrl = 'management/mass-registrations'
 
   static getWeekNumber(): any {
     const d = new Date();
