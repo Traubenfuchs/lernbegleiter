@@ -37,6 +37,12 @@ public class QuizRunStatePromoter {
       .findByState(QuizRunState.WAITING_FOR_ANSWERS)
       .forEach(quizRunEntity -> {
         QuizQuestionEntity currentQuestion = quizRunEntity.getCurrentQuestion();
+        if(quizRunEntity.getNextTimeLimit() == null) {
+           quizRunEntity
+            .setState(QuizRunState.DONE)
+            .setNextTimeLimit(null);
+          return;
+        }
         if (!Instant.now().isAfter(quizRunEntity.getNextTimeLimit())) {
           return; // too early for quiz-run promotion //TODO only select quiz runs with time limit after now (-;
         }
