@@ -126,10 +126,10 @@ public class QuizResultService {
 
           long span = (qqas.getLatest() - qqas.getEarliest());
           if (span == 0) {
-            quizResultEntryDto.incrementWeightedPointsBy(1000);
+            quizResultEntryDto.incrementWeightedPointsBy(1500);
           } else if (span > 0) {
             double perc = 1 - (max - qqas.getEarliest()) / (double) span;
-            quizResultEntryDto.incrementWeightedPointsBy((int) Math.round(499 + 501.0 * perc));
+            quizResultEntryDto.incrementWeightedPointsBy((int) Math.round(999 + 501.0 * perc));
           }
         }
 
