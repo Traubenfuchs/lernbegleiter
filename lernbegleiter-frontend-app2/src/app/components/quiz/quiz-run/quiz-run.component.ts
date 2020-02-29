@@ -154,7 +154,17 @@ export class QuizRunComponent implements OnDestroy {
     this.loadingQuizResult = true;
     const result = this.http.get<QuizResult>(`api/quiz/${this.quizUuid}/quiz-run/${this.quizRunUuid}/quiz-result`);
     result.subscribe(res => {
-      res.entries = res.entries.sort((l, r) => l.points > r.points ? -1 : 1);
+      res.entries = res.entries.sort((l, r) => {
+        if (l.points === r.points) {
+          return l.weightedPoints > r.weightedPoints ? -1 : 1;
+        }
+
+        if (l.points > r.points) {
+          return -1;
+        } else {
+          return 1;
+        }
+      });
 
       const max = res.entries.map(v => v.weightedPoints).reduce((previous, current) => current > previous ? current : previous, 0);
 
