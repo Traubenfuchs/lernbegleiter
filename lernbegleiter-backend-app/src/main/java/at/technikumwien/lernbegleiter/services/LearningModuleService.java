@@ -23,7 +23,7 @@ public class LearningModuleService {
   private final ClassRepository classRepository;
   private final LearningModuleConverter learningModuleConverter;
 
-  public Collection<LearningModuleDto> getAllByClass(@NonNull String classUuid) {
+  public Set<LearningModuleDto> getAllByClass(@NonNull String classUuid) {
     return learningModuleConverter.toDtoSet(learningModuleRepository.findByClazzUuid(classUuid));
   }
 

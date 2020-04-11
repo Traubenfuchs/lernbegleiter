@@ -40,7 +40,8 @@ public class MassRegistrationService {
         .setEmail(generatedName)
         .setPassword(generatedName)
         .setFamilyName("g")
-        .setBirthday(LocalDate.now())).getUuid();
+        .setBirthday(LocalDate.now()))
+        .getUuid();
 
       massRegistrationEntity.addChild(new MassRegistrationEntryEntity()
         .setPassword(generatedName)

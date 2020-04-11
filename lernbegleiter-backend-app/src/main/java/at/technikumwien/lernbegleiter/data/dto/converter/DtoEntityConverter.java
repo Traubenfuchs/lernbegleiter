@@ -15,8 +15,8 @@ public abstract class DtoEntityConverter<ENTITY extends BaseEntity<ENTITY>, DTO 
     Type type = getClass().getGenericSuperclass();
 
     while (!(type instanceof ParameterizedType) || ((ParameterizedType) type).getRawType() != DtoEntityConverter.class) {
-      if (type instanceof ParameterizedType) {
-        type = ((Class<?>) ((ParameterizedType) type).getRawType()).getGenericSuperclass();
+      if (type instanceof ParameterizedType pt) {
+        type = ((Class<?>) pt.getRawType()).getGenericSuperclass();
       } else {
         type = ((Class<?>) type).getGenericSuperclass();
       }
@@ -41,11 +41,11 @@ public abstract class DtoEntityConverter<ENTITY extends BaseEntity<ENTITY>, DTO 
 
   public void applyToDtoBase(ENTITY entity, DTO dto) {
     dto.setUuid(entity.getUuid());
-    if (entity instanceof BaseEntityCreationUpdateDate) {
-      dto.setTsUpdate(((BaseEntityCreationUpdateDate<?>) entity).getTsUpdate());
-      dto.setTsCreation(((BaseEntityCreationUpdateDate<?>) entity).getTsCreation());
-    } else if (entity instanceof BaseEntityCreationDate) {
-      dto.setTsCreation(((BaseEntityCreationDate<?>) entity).getTsCreation());
+    if (entity instanceof BaseEntityCreationUpdateDate becud) {
+      dto.setTsUpdate(becud.getTsUpdate());
+      dto.setTsCreation(becud.getTsCreation());
+    } else if (entity instanceof BaseEntityCreationDate becd) {
+      dto.setTsCreation(becd.getTsCreation());
     }
   }
 
