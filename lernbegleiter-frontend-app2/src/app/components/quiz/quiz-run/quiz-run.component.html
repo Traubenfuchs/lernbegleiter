@@ -26,7 +26,7 @@
 
         <div *ngIf="_QuizRunState.DONE == _QuizRunState[quizRun.state]">
           <p>Dieser Quizlauf ist vorbei. Schau dir unten die richtigen Antworten an.</p>
-          <div>Du hast {{questionsCorrect}} von {{questionCount}} Fragen richtig beantwortet.</div>
+          <div>Du hast {{questionsCorrect}} / {{questionCount}} Fragen richtig beantwortet.</div>
 
         </div>
 
@@ -185,11 +185,11 @@
         </div>
         <table class="lernbegleiter-table" *ngIf="!fancyResults">
           <tr>
-            <th>Name</th>
+            <th>Email</th>
             <th>Punkte</th>
             <th>fancy points</th>
           </tr>
-          <tr *ngFor="let line of quizResult.entries">
+          <tr *ngFor="let line of quizResult.entries; trackBy: trackQuizResultLines">
             <td>{{line.name}}</td>
             <td>{{line.points}} von {{quizRun.questionCount}}</td>
             <td>{{line.weightedPoints}}</td>

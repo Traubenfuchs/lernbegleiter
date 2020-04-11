@@ -1,3 +1,4 @@
+import { MyQuizzesComponent } from './components/quiz/my-quizzes/my-quizzes.component';
 import { MassRegistrationComponent } from './components/admin/mass-registration/mass-registration.component';
 import { MassRegistrationsComponent } from './components/admin/mass-registrations/mass-registrations.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
@@ -47,6 +48,7 @@ const routes: Routes = [
   { path: 'management/quiz/:quizUUID', component: QuizComponent },
   { path: 'management/quiz/:quizUUID/quiz-runs', component: QuizRunsComponent },
   { path: 'management/quiz/:quizUUID/quiz-run/:quizRunUUID', component: QuizRunComponent },
+  { path: 'my-quizzes', component: MyQuizzesComponent },
 
   { path: 'management/mass-registrations', component: MassRegistrationsComponent },
   { path: 'management/mass-registration/:massRegistrationUUID', component: MassRegistrationComponent },

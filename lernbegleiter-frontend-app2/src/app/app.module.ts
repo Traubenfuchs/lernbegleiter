@@ -35,6 +35,9 @@ import { WeeklyOverviewLandingPageComponent } from './components/weekly-overview
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { MassRegistrationComponent } from './components/admin/mass-registration/mass-registration.component';
 import { MassRegistrationsComponent } from './components/admin/mass-registrations/mass-registrations.component';
+import { MyQuizzesComponent } from './components/quiz/my-quizzes/my-quizzes.component';
+import { CompetitiveQuizTeacherComponent } from './components/quiz/competitive-quiz-teacher/competitive-quiz-teacher.component';
+import { CompetitiveQuizStudentComponent } from './components/quiz/competitive-quiz-student/competitive-quiz-student.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +68,10 @@ import { MassRegistrationsComponent } from './components/admin/mass-registration
     WeeklyOverviewLandingPageComponent,
     LandingPageComponent,
     MassRegistrationComponent,
-    MassRegistrationsComponent
+    MassRegistrationsComponent,
+    MyQuizzesComponent,
+    CompetitiveQuizTeacherComponent,
+    CompetitiveQuizStudentComponent
   ],
   imports: [
     BrowserModule,

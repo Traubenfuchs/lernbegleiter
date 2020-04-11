@@ -1,3 +1,4 @@
+import { QuizResultEntry } from './../../../data/quiz/QuizResultEntry';
 import { QuizAttempt } from './../../../data/quiz/QuizAttempt';
 import { Subject } from 'rxjs';
 import { QuizQrCodeResponse } from './../../../data/quiz/QuizQrCodeResponse';
@@ -53,12 +54,16 @@ export class QuizRunComponent implements OnDestroy {
         return;
       }
 
-      const timeLeftSecs = Math.round(diff * 100) / 100000;
+      const timeLeftSecs = Math.round(diff / 100) / 10;
 
       if (timeLeftSecs < 0) {
         this.timeLeft = undefined;
       } else if (Math.round(timeLeftSecs) < 120) {
-        this.timeLeft = timeLeftSecs.toString();
+        let strR = timeLeftSecs.toString();
+        if (Number.isInteger(timeLeftSecs)) {
+          strR += '.0';
+        }
+        this.timeLeft = strR;
       } else if (timeLeftSecs < 60 * 60) {
         this.timeLeft = `mehr als ${Math.floor(timeLeftSecs / 60)} Minuten`;
       } else if (timeLeftSecs < 60 * 60 * 24) {
@@ -107,7 +112,7 @@ export class QuizRunComponent implements OnDestroy {
     }
 
     if (this.quizRunUuid === 'new') {
-      this.quizRun.quizRunType = 'FREE_ANSWERING';
+      this.quizRun.quizRunType = 'ONE_QUESTION_AT_A_TIME';
       this.quizRun.uuid = 'Automatisch';
     } else if (this.loginService.loggedInAndStudent()) {
       this.http
@@ -329,8 +334,8 @@ export class QuizRunComponent implements OnDestroy {
     }
   }
 
-  trackQuizResultLines(index, item) {
-    return item.name + item.points;
+  trackQuizResultLines(index, item: QuizResultEntry) {
+    return item.name + item.weightedPoints;
   }
 
   trackByFn(index, item) {

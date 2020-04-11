@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit {
   learningModuledUrl = '/management/learning-modules';
   teachersUrl = '/management/teachers';
   quizzesUrl = 'management/quizzes';
-  massRegistrationsUrl = 'management/mass-registrations'
+  massRegistrationsUrl = 'management/mass-registrations';
 
   static getWeekNumber(): any {
     const d = new Date();
@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit {
 
   getProfileUrl = () => `user/${this.loginService.getUserUuid()}/profile`;
   getWeeklyOverviewUrl = () => `/student/${this.loginService.getUserUuid()}/weekly-overview`;
-
+  getMyQuizzesUrl = () => 'my-quizzes';
   getOriginalTaget = () => {
     const originalTarget = new URL(window.location.href).searchParams.get('originalTarget');
     if (!originalTarget || originalTarget.length === 0) {

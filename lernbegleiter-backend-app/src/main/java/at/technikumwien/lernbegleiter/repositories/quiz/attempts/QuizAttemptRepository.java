@@ -13,5 +13,7 @@ public interface QuizAttemptRepository extends JpaRepository<QuizAttemptEntity, 
   @EntityGraph(value = "QuizAttempt.allAnswers", type = EntityGraph.EntityGraphType.FETCH)
   Set<QuizAttemptEntity> findAllAnswersByFkQuizRunUUID(String fkQUizRunUUID);
 
+  Set<QuizAttemptEntity> findByFkStudentUuid(String fkStudentUuid);
+
   boolean existsByFkQuizRunUUIDAndFkStudentUuid(String fkQuizRunUUID, String fkStudentUuid);
 }
