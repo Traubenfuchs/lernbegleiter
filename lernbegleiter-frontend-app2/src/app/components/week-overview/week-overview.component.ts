@@ -12,7 +12,7 @@ import { LoginService } from 'src/app/services/login.service';
   templateUrl: './week-overview.component.html',
   styleUrls: ['./week-overview.component.scss']
 })
-export class WeekOverviewComponent implements OnInit {
+export class WeekOverviewComponent {
 
   public week: number;
   public year: number;
@@ -25,13 +25,11 @@ export class WeekOverviewComponent implements OnInit {
     this.studentUuid = this.route.snapshot.paramMap.get("studentUUID");
 
     this.route.params.subscribe(params =>
-      this.ngOnInit()
+      this.refresh()
     );
-
-    // setTimeout(() => this.route.params.subscribe(this.ngOnInit), 100);
   }
 
-  ngOnInit() {
+  refresh() {
     this.week = parseInt(this.route.snapshot.paramMap.get("week"), 10);
     this.year = parseInt(this.route.snapshot.paramMap.get("year"), 10);
     this.loadLearningModuleStudents();
@@ -50,53 +48,37 @@ export class WeekOverviewComponent implements OnInit {
   }
 
   unfinishLearningModule(uuid: string) {
-    console.log('Unfinishing learningModule...');
-
     this.http.post<UuidResponse>(`api/learningModuleStudent/${uuid}?complete=false`, undefined)
       .subscribe(uuidResponse => {
-        this.loadLearningModuleStudents();
-        console.log('Unfinished learningModule.');
+        this.refresh();
       });
   }
 
   finishLearningModule(uuid: string) {
-    console.log('Finishing learningModule...');
-
     this.http.post<UuidResponse>(`api/learningModuleStudent/${uuid}`, undefined)
       .subscribe(uuidResponse => {
-        this.loadLearningModuleStudents();
-        console.log('Finished learningModule.');
-        this.ngOnInit();
+        this.refresh();
       });
   }
   finishSubModule(uuid: string) {
-    console.log('Finishing subModule...');
-
     this.http.post<UuidResponse>(`api/subModuleStudent/${uuid}`, undefined)
       .subscribe(uuidResponse => {
-        this.loadLearningModuleStudents();
-        console.log('Finished subModule.');
-        this.ngOnInit();
+        this.refresh();
       });
   }
 
   loadWeeklyOverview() {
-    console.log('Loading weekly overview...');
     this.http
       .get<WeeklyOverview>(
         `api/student/${this.studentUuid}/weekly-overview/${this.week}/${this.year}`)
       .subscribe(weeklyOverview => {
-        console.log('Loaded weekly overview.');
         this.weeklyOverview = weeklyOverview;
       });
   }
 
   saveWeeklyOverview() {
-    console.log('Saving weekly overview...');
-
     this.http.patch<UuidResponse>(`api/student/${this.studentUuid}/weekly-overview`, this.weeklyOverview)
       .subscribe(uuidResponse => {
-        console.log('Saved weekly overview...');
         this.loadWeeklyOverview();
       });
   }

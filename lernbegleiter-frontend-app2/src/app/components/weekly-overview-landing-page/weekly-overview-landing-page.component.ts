@@ -7,14 +7,12 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './weekly-overview-landing-page.component.html',
   styleUrls: ['./weekly-overview-landing-page.component.scss']
 })
-export class WeeklyOverviewLandingPageComponent implements OnInit {
+export class WeeklyOverviewLandingPageComponent {
 
   constructor(
     private router: Router,
     private loginService: LoginService,
-    private route: ActivatedRoute) { }
-
-  ngOnInit() {
+    private route: ActivatedRoute) {
     const currentWeek = new Date()['getWeekNumber' + '']();
     const year = new Date().getFullYear() + (currentWeek === 1 ? 1 : 0);
 

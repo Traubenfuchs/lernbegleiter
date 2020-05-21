@@ -14,7 +14,7 @@ import { GrowlMessage } from 'src/app/data/GrowlMessage';
   templateUrl: './student.component.html',
   styleUrls: ['./student.component.scss']
 })
-export class StudentComponent implements OnInit {
+export class StudentComponent {
   student: Student = new Student();
   uuid: string;
   grades: Grade[] = [];
@@ -26,11 +26,11 @@ export class StudentComponent implements OnInit {
     private route: ActivatedRoute,
     private growlService: GrowlService) {
     this.route.params.subscribe(params => {
-      this.ngOnInit();
+      this.refresh();
     });
   }
 
-  ngOnInit() {
+  refresh() {
     this.uuid = this.route.snapshot.paramMap.get("studentUUID");
     this.loadGrades();
     if (this.uuid === 'new') {

@@ -9,7 +9,7 @@ import { QuizRun } from 'src/app/data/quiz/QuizRun';
   templateUrl: './quiz-runs.component.html',
   styleUrls: ['./quiz-runs.component.scss']
 })
-export class QuizRunsComponent implements OnInit {
+export class QuizRunsComponent {
   quizRuns: QuizRun[] = [];
   quizUUID = '';
   constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute) {
@@ -17,16 +17,9 @@ export class QuizRunsComponent implements OnInit {
     this.loadQuizRuns();
   }
 
-  ngOnInit() {
-
-  }
-
   loadQuizRuns() {
-    console.log('Loading QuizRuns...');
-
     this.http.get<QuizRun[]>(`api/quiz/${this.quizUUID}/quiz-runs`)
       .subscribe(res => {
-        console.log('QuizRuns loaded.');
         res = res.sort((l, r) => BaseDto.getTsCreationAsNumber(l) > BaseDto.getTsCreationAsNumber(r) ? -1 : 1);
         this.quizRuns = res;
       });

@@ -9,7 +9,7 @@ import { LoginService } from 'src/app/services/login.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   response = 'default text';
   loginFormgroup: FormGroup;
   errorMessage: string = null;
@@ -19,10 +19,6 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private formbuilder: FormBuilder) {
-  }
-
-
-  ngOnInit() {
     this.loginFormgroup = this.formbuilder.group({
       username: ['', [Validators.required]],
       password: ['', [Validators.required]]

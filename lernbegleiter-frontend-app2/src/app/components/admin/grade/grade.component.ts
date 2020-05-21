@@ -23,10 +23,6 @@ export class GradeComponent {
     private route: ActivatedRoute,
     private growlService: GrowlService) {
 
-    this.ngOnInit();
-  }
-
-  ngOnInit() {
     this.uuid = this.route.snapshot.paramMap.get("gradeUUID");
     this.loadGrade();
     this.loadGrades();

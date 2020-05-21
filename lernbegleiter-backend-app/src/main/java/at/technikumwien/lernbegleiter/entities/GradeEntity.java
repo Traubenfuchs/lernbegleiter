@@ -28,7 +28,7 @@ public class GradeEntity extends BaseEntityCreationUpdateDate<GradeEntity> {
   /**
    * Students that belong to this class
    */
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "grade", fetch = LAZY)
+  @OneToMany(mappedBy = "grade", fetch = LAZY)
   // @Fetch(value = FetchMode.JOIN)
   private Set<UserEntity> students = new HashSet<>();
 
@@ -36,7 +36,7 @@ public class GradeEntity extends BaseEntityCreationUpdateDate<GradeEntity> {
   @JoinColumn(name = "FK_HEADTEACHER_UUID")
   private UserEntity classTeacher;
 
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "grade", fetch = LAZY)
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "grade", fetch = LAZY, orphanRemoval = true)
   // @Fetch(value = FetchMode.JOIN)
   private Set<ClassEntity> classes = new HashSet<>();
 }

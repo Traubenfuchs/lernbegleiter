@@ -62,9 +62,10 @@ public class WeeklyOverviewService {
       ))
       .collect(Collectors.toSet());
 
+    System.out.println("found " + classes.size() + "classes");
     prepareReflectionClasses(woe, classes);
     prepareWeeklyOverviewClasses(woe, classes);
-
+    
     return weeklyOverviewRepository.save(woe);
   }
 

@@ -7,7 +7,7 @@ import { Student } from 'src/app/data/Student';
   templateUrl: './students.component.html',
   styleUrls: ['./students.component.scss']
 })
-export class StudentsComponent implements OnInit {
+export class StudentsComponent {
   public students: Student[];
   public displayedStudents: Student[];
   public currentWeek: number;
@@ -19,10 +19,6 @@ export class StudentsComponent implements OnInit {
     this.currentWeek = new Date()['getWeekNumber' + '']();
     this.year = new Date().getFullYear() + (this.currentWeek === 1 ? 1 : 0);
     this.loadStudents();
-  }
-
-  ngOnInit() {
-
   }
 
   get filterWord(): string {

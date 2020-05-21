@@ -5,7 +5,7 @@ import { GrowlService } from './../../../services/growl.service';
 import { QuizAnswer } from './../../../data/quiz/QuizAnswer';
 import { QuizQuestion } from './../../../data/quiz/QuizQuestion';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Quiz } from './../../../data/quiz/Quiz';
@@ -16,7 +16,7 @@ import { UuidResponse } from 'src/app/data/UuidResponse';
   templateUrl: './quiz.component.html',
   styleUrls: ['./quiz.component.scss']
 })
-export class QuizComponent implements OnInit {
+export class QuizComponent {
   uuid = '';
   quiz = new Quiz();
   moddleXmlBase64: string;
@@ -24,11 +24,11 @@ export class QuizComponent implements OnInit {
 
   constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute, private g: GrowlService) {
     this.route.params.subscribe(params => {
-      this.ngOnInit();
+      this.refresh();
     });
   }
 
-  ngOnInit() {
+  refresh() {
     this.uuid = this.route.snapshot.paramMap.get("quizUUID");
     if (this.uuid === 'new') {
       this.newQuestion();

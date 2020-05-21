@@ -49,6 +49,7 @@
         <th>Name</th>
         <th>Anfang</th>
         <th>Deadline</th>
+        <th>Farbe</th>
         <th></th>
         <th>
           <button class="btn btn-sm btn-success" [routerLink]="'/management/class/'+uuid+'/learning-module/new'">
@@ -60,6 +61,7 @@
         <td>{{learningModule.name}}</td>
         <td>{{learningModule.start | saneDate}}</td>
         <td>{{learningModule.deadline | saneDate}}</td>
+        <td><input [(ngModel)]="learningModule.color" type="color" class="form-control" disabled></td>
         <td>
           <button class="btn btn-secondary"
             [routerLink]="'/management/class/'+uuid+'/learning-module/' + learningModule.uuid">Bearbeiten</button>

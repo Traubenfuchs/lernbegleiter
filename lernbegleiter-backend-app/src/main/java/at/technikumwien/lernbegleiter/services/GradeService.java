@@ -10,6 +10,7 @@ import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
 import org.springframework.validation.annotation.*;
 
+import javax.persistence.*;
 import java.util.*;
 import java.util.stream.*;
 
@@ -20,6 +21,7 @@ import java.util.stream.*;
 public class GradeService {
   private final GradeRepository gradeRepository;
   private final GradeConverter gradeConverter;
+  private final EntityManager em;
 
   public GradeDto getOne(String uuid) {
     return gradeConverter.toDTO(gradeRepository.getOne(uuid));
@@ -37,8 +39,10 @@ public class GradeService {
       .getUuid();
   }
 
-  public void delete(String uuid) {
-    gradeRepository.deleteById(uuid);
+  public void delete(String gradeUuid) {
+    GradeEntity ge = gradeRepository.getOne(gradeUuid);
+    
+    gradeRepository.delete(ge);
   }
 
   public void deleteStudentFromGrade(String studentUuid, String gradeUuid) {

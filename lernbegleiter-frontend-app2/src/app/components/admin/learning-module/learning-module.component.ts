@@ -15,7 +15,7 @@ import { UuidResponse } from 'src/app/data/UuidResponse';
   templateUrl: './learning-module.component.html',
   styleUrls: ['./learning-module.component.scss']
 })
-export class LearningModuleComponent implements OnInit {
+export class LearningModuleComponent {
   uuid: string;
   classUuid: string;
   isLoadingSubModules = true;
@@ -29,9 +29,6 @@ export class LearningModuleComponent implements OnInit {
     private route: ActivatedRoute,
     private formbuilder: FormBuilder,
     private growlService: GrowlService) {
-  }
-
-  ngOnInit() {
     this.uuid = this.route.snapshot.paramMap.get("learningModuleUUID");
     this.classUuid = this.route.snapshot.paramMap.get("classUUID");
 

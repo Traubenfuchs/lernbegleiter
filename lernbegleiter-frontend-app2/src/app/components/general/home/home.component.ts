@@ -8,7 +8,7 @@ import { GrowlService } from "../../../services/growl.service";
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
 
   constructor(
     public loginService: LoginService,
@@ -34,9 +34,6 @@ export class HomeComponent implements OnInit {
     d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
     const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
     return Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7);
-  }
-
-  ngOnInit(): void {
   }
 
   getProfileUrl = () => `user/${this.loginService.getUserUuid()}/profile`;

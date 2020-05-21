@@ -29,7 +29,7 @@ export class QuizRunComponent implements OnDestroy {
     public loginService: LoginService,
     private sanitizer: DomSanitizer) {
     this.route.params.subscribe(params => {
-      this.ngOnInit();
+      this.refresh();
     });
 
     this.audio.src = "/assets/Greek_Dance.mp3";
@@ -102,7 +102,7 @@ export class QuizRunComponent implements OnDestroy {
     this.stopMusic();
   }
 
-  ngOnInit() {
+  refresh() {
     this.quizRunUuid = this.route.snapshot.paramMap.get("quizRunUUID");
     this.quizUuid = this.route.snapshot.paramMap.get("quizUUID");
     this.quizResult = new QuizResult();

@@ -7,6 +7,8 @@ import at.technikumwien.lernbegleiter.services.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.*;
+
 @RequestMapping("api")
 @RestController
 public class LearningModuleController extends BaseController {
@@ -14,7 +16,7 @@ public class LearningModuleController extends BaseController {
   private LearningModuleService learningModuleService;
 
   @GetMapping("class/{classUuid}/learning-modules")
-  public Object getAllByClass(@PathVariable String classUuid) {
+  public Set<LearningModuleDto> getAllByClass(@PathVariable String classUuid) {
     authHelper.isAdminOrTeacherOrThrow();
     return learningModuleService.getAllByClass(classUuid);
   }

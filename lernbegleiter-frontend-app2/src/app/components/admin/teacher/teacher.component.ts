@@ -12,17 +12,12 @@ import { GrowlMessage } from 'src/app/data/GrowlMessage';
   templateUrl: './teacher.component.html',
   styleUrls: ['./teacher.component.scss']
 })
-export class TeacherComponent implements OnInit {
+export class TeacherComponent {
   constructor(
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
-    private growlService: GrowlService) { }
-
-  uuid: string;
-  teacher = new Teacher();
-
-  ngOnInit() {
+    private growlService: GrowlService) {
     this.uuid = this.route.snapshot.paramMap.get("teacherUUID");
     if (this.isNew()) {
       this.teacher.uuid = 'Automatisch';
@@ -30,6 +25,9 @@ export class TeacherComponent implements OnInit {
       this.loadTeacher();
     }
   }
+
+  uuid: string;
+  teacher = new Teacher();
 
   loadTeacher() {
     this.http

@@ -10,16 +10,12 @@ import { Quiz } from './../../../data/quiz/Quiz';
   templateUrl: './quizes.component.html',
   styleUrls: ['./quizes.component.scss']
 })
-export class QuizesComponent implements OnInit {
+export class QuizesComponent {
   quizzes: Quiz[] = [];
   displayedQuizzes: Quiz[] = [];
   _filterWord = '';
   constructor(public router: Router, public http: HttpClient, private route: ActivatedRoute) {
     this.loadQuizzes();
-  }
-
-  ngOnInit() {
-
   }
 
   get filterWord(): string {
