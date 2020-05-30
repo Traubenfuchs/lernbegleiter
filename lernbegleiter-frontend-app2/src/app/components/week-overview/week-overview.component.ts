@@ -42,7 +42,19 @@ export class WeekOverviewComponent {
       .get<ClassCompletion[]>(
         `api/student/${this.studentUuid}/learningModuleStudent`)
       .subscribe(ccs => {
-        console.log('Loaded loadLearningModuleStudents.');
+        if(!!ccs) {
+          ccs.forEach(x=>{
+            if(!x.learningModulesStudent) {
+              return;
+            }
+
+            x.learningModulesStudent= x.learningModulesStudent.sort((l,r)=>{
+              return l.dueDate < r.dueDate ? -1:1
+            })
+            
+          })
+        }
+        
         this.classCompletions = ccs;
       });
   }
