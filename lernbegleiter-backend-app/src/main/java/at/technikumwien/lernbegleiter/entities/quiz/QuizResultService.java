@@ -101,7 +101,7 @@ public class QuizResultService {
         quizAttemptEntity.getStudent().getFirstName() +
         " " +
         quizAttemptEntity.getStudent().getFamilyName();
-      name = quizAttemptEntity.getStudent().getEmail();
+      //name = quizAttemptEntity.getStudent().getEmail();
       quizResultEntryDto.setName(name);
 
 
