@@ -10,7 +10,7 @@ export class SaneDateTimePipe implements PipeTransform {
       return value;
     }
     const d = new Date(Date.parse(value));
-    return `${this.lp(d.getDate())}.${this.lp(d.getMonth() + 1)}.${this.lp(d.getFullYear())} - ${this.lp(d.getHours())}:${this.lp(d.getMinutes())}:${this.lp(d.getMinutes())}`;
+    return `${this.lp(d.getDate())}.${this.lp(d.getMonth() + 1)}.${this.lp(d.getFullYear())} - ${this.lp(d.getHours())}:${this.lp(d.getMinutes())}:${this.lp(d.getSeconds())}`;
   }
 
   lp(input) {
