@@ -67,7 +67,7 @@
                   <button (click)="flipAnswerTo(answer.uuid, true)" class="btn btn-secondary"
                     *ngIf='!answer.correct'>❌</button>
                 </ng-container>
-                <div>{{answer.content}}</div>
+                <div>&nbsp;&nbsp;&nbsp;{{answer.content}}</div>
               </div>
               <ng-container *ngIf="_QuizRunState.WAITING_FOR_ANSWERS != _QuizRunState[quizRun.state]">
 
