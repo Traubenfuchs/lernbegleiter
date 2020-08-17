@@ -15,6 +15,11 @@ public class LobController {
 
   @GetMapping("lob/{lobUUID}")
   public void get(@PathVariable String lobUUID) throws IOException, ExecutionException {
-    lobService.writeToResponse(lobUUID);
+    lobService.writeToResponse(lobUUID, null);
+  }
+
+  @GetMapping("lob/{lobUUID}/{filename}")
+  public void getWithFilename(@PathVariable String lobUUID, @PathVariable String filename) throws IOException, ExecutionException {
+    lobService.writeToResponse(lobUUID, filename);
   }
 }

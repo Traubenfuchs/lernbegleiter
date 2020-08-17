@@ -3,10 +3,12 @@ package at.technikumwien.lernbegleiter.services;
 import at.technikumwien.lernbegleiter.data.*;
 import at.technikumwien.lernbegleiter.entities.*;
 import at.technikumwien.lernbegleiter.entities.modules.*;
+import at.technikumwien.lernbegleiter.repositories.*;
 import at.technikumwien.lernbegleiter.repositories.auth.*;
 import at.technikumwien.lernbegleiter.repositories.modules.*;
 import lombok.*;
 import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.*;
 
 import java.util.*;
 
@@ -17,6 +19,7 @@ public class LearningModule2LobService {
   private final LearningModule2LobRepository learningModule2LobRepository;
   private final LearningModuleRepository learningModuleRepository;
   private final UserRepository userRepository;
+  private final LobRepository lobRepository;
 
   public LobDto save(String learningModuleUUID, LobDto lobDto) {
     return new LobDto()
@@ -31,6 +34,9 @@ public class LearningModule2LobService {
       );
   }
 
+  @Transactional
   public void delete(String lobUUID) {
+    LobEntity lobEntity = lobRepository.getOne(lobUUID);
+    learningModule2LobRepository.delete(learningModule2LobRepository.findByFkLobUuid(lobEntity.getUuid()));
   }
 }

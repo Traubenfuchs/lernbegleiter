@@ -17,7 +17,13 @@ public class LearningModule2LobEntity extends BaseEntity<LearningModule2LobEntit
   @JoinColumn(name = "FK_LOB_UUID")
   private LobEntity lob;
 
+  @Column(name = "FK_LOB_UUID", insertable = false, updatable = false)
+  private String fkLobUuid;
+
   @ManyToOne(optional = false)
   @JoinColumn(name = "FK_LEARNING_MODULE_UUID")
   private LearningModuleEntity learningModule;
+
+  @Column(name = "FK_LEARNING_MODULE_UUID", insertable = false, updatable = false)
+  private String fkLearningModuleUuid;
 }

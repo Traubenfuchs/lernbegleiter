@@ -22,7 +22,7 @@ public class ClassConverter extends DtoEntityConverter<ClassEntity, ClassDto> {
     String gradeName = ge == null ? null : ge.getName();
 
     classDto
-      .setLobs(classEntity.getLobs().stream().map(lobEntity -> new LobDto().setFilename(lobEntity.getLob().getFilename())
+      .setLobs(classEntity.getLobs().stream().map(lobEntity -> new LobDto().setVisibleForModules(lobEntity.getVisibleForModules()).setFilename(lobEntity.getLob().getFilename())
         .setUuid(lobEntity.getLob().getUuid())).collect(Collectors.toList()))
       .setUuid(classEntity.getUuid())
       .setName(classEntity.getName())

@@ -14,6 +14,7 @@ import org.springframework.util.*;
 import javax.annotation.*;
 import javax.servlet.http.*;
 import java.io.*;
+import java.nio.file.*;
 import java.security.*;
 import java.util.concurrent.*;
 
@@ -24,10 +25,16 @@ public class LobService {
   private final LobRepository lobRepository;
   private final HttpServletResponse httpServletResponse;
 
-  public void writeToResponse(String uuid) throws ExecutionException, IOException {
+  public void writeToResponse(String uuid, String filename) throws ExecutionException, IOException {
     LobEntity lob = lobRepository.getOne(uuid);
     byte[] bytes = lob.getBytes();
     try (ByteArrayInputStream bais = new ByteArrayInputStream(bytes)) {
+      if (filename != null) {
+        Path path = new File(filename).toPath();
+        String mimeType = Files.probeContentType(path);
+        httpServletResponse.setHeader("Content-Type", mimeType);
+      }
+
       //httpServletResponse.setContentType(MediaType.IMAGE_JPEG_VALUE);
       httpServletResponse.setHeader("Cache-Control", "31536000");
       // httpServletResponse.setHeader("Content-Type", "image/jpeg");

@@ -73,3 +73,37 @@
     </table>
   </div>
 </div> <!-- ends card -->
+
+
+<div class="card mt-3" *ngIf="uuid !== 'new'">
+  <div class="card-header">
+    <h5 class="card-title">Dateien</h5>
+    <p class="card-text">Liste der Dateien dieses Fachs.</p>
+  </div>
+  <div class="card-body">
+    <div class="card-body">
+      <div class="row">
+        <input type="file" (change)="onLobInputChange($event)">
+        <button class="btn btn-primary" (click)="uploadLob()">upload</button>
+      </div>
+
+      <div class="row">
+        <input id='visibleForModules' type='checkbox' class="form-check-input"
+          style='margin-left:0px; position:relative' [(ngModel)]="visibleForModules">
+        <label for="visibleForModules" style='position:relative; margin-left:5px'>sichtbar für Module</label>
+      </div>
+    </div>
+    <table class='lernbegleiter-table mt-3'>
+      <tr>
+        <th>Filename</th>
+        <th>Sichtbar für Module</th>
+        <th>Löschen</th>
+      </tr>
+      <tr *ngFor="let lob of lobs">
+        <td><a [href]="'api/lob/' + lob.uuid + '/' + lob.filename">{{lob.filename}}</a></td>
+        <td>{{lob.visibleForModules ? 'ja' : 'nein'}}</td>
+        <td><button class="btn btn-danger" (click)="deleteLob(lob.uuid)">delete</button></td>
+      </tr>
+    </table>
+  </div>
+</div> <!-- ends card -->

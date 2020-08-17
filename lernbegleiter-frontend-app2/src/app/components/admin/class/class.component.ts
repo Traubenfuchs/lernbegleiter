@@ -1,3 +1,4 @@
+import { LobGeneric } from './../../../data/LobGeneric';
 import { Severity } from './../../../data/Severity';
 import { GrowlService } from './../../../services/growl.service';
 import { HttpClient } from '@angular/common/http';
@@ -20,6 +21,10 @@ export class ClassComponent {
   uuid: string;
   grades: Grade[] = [];
   learningModules: LearningModule[] = [];
+  lobBase64: string;
+  lobFilename: string;
+  lobs: LobGeneric[] = [];
+  visibleForModules = false;
 
   constructor(
     public router: Router,
@@ -61,6 +66,7 @@ export class ClassComponent {
     this.http.get<Class>(`api/class/${this.uuid}`)
       .subscribe(c => {
         this.class = c;
+        this.lobs = c.lobs;
       });
   }
 
@@ -108,5 +114,38 @@ export class ClassComponent {
         this.load();
         this.growlService.addMessage(new GrowlMessage("Modul wurde gelöscht.", Severity.SUCCESS, 2000));
       });
+  }
+
+
+  deleteLob(uuid: string) {
+    this.http.delete(`api/class-file/${uuid}`).subscribe(rsp => {
+      this.growlService.addMessage(new GrowlMessage("File wurde gelöscht.", Severity.SUCCESS, 2000));
+      this.loadClass();
+    });
+  }
+
+  uploadLob() {
+    const lob = new LobGeneric();
+    lob.base64String = this.lobBase64;
+    lob.filename = this.lobFilename;
+    lob.visibleForModules = this.visibleForModules;
+    console.log(this.visibleForModules + " " + typeof this.visibleForModules);
+
+    this.http.post<UuidResponse>(`api/class/${this.uuid}/class-file`, lob)
+      .subscribe(uuidResponse => {
+        this.growlService.addMessage(new GrowlMessage("File wurde hochgeladen.", Severity.SUCCESS, 2000));
+        this.loadClass();
+      });
+  }
+  onLobInputChange(ev: any) {
+    this.lobFilename = ev.target.files[0].name;
+
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      const x = "replace";
+      this.lobBase64 = reader.result[x](/^data:.+;base64,/, '');
+    };
+    reader.readAsDataURL(ev.target.files[0]);
   }
 }

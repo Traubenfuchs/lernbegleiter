@@ -12,4 +12,5 @@ public class LobDto {
   private String uuid;
   private String filename;
   private String base64String;
+  private Boolean visibleForModules = false;
 }

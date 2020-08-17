@@ -21,6 +21,8 @@ public class LearningModuleConverter extends DtoEntityConverter<LearningModuleEn
       .setColor(learningModuleEntity.getColor())
       .setDescription(learningModuleEntity.getDescription())
     ;
+
+    learningModuleEntity.getClazz().getLobs().stream().filter(x -> x.getVisibleForModules()).forEach(lob -> learningModuleDto.getLobs().add(new LobDto().setFilename(lob.getLob().getFilename()).setUuid(lob.getLob().getUuid()).setVisibleForModules(lob.getVisibleForModules())));
   }
 
   @Override

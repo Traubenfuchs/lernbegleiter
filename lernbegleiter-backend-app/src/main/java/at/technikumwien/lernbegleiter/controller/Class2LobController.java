@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.*;
 public class Class2LobController extends BaseController {
   private final Class2LobService class2LobService;
 
-  @PostMapping("clas/{classUUID}/learningmodulefile")
+  @PostMapping("class/{classUUID}/class-file")
   public LobDto post(@PathVariable String classUUID, @RequestBody LobDto lobDto) {
     return class2LobService.save(classUUID, lobDto);
   }
 
-  @DeleteMapping("learningmodulefile/{uuid}")
+  @DeleteMapping("class-file/{uuid}")
   public void delete(@PathVariable String uuid) {
     class2LobService.delete(uuid);
   }
