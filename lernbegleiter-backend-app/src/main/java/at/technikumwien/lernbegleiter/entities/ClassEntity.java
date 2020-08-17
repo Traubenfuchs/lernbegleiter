@@ -42,6 +42,10 @@ public class ClassEntity extends BaseEntityCreationUpdateDate<ClassEntity> {
   @Fetch(value = FetchMode.JOIN)
   private Set<WeeklyOverviewClassEntity> weeklyOverviewClasses = new HashSet<>();
 
+  @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "classEntity", fetch = LAZY, orphanRemoval = true)
+  @Fetch(value = FetchMode.SELECT)
+  private Set<Class2LobEntity> lobs = new HashSet<>();
+
   @ManyToOne
   @JoinColumn(name = "FK_GRADE_UUID")
   private GradeEntity grade;

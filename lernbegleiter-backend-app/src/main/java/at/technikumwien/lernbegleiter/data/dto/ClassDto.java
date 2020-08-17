@@ -1,5 +1,6 @@
 package at.technikumwien.lernbegleiter.data.dto;
 
+import at.technikumwien.lernbegleiter.data.*;
 import lombok.*;
 import lombok.experimental.*;
 
@@ -15,4 +16,5 @@ public class ClassDto extends BaseDto<ClassDto> {
   private Set<LearningModuleDto> learningModules;
   private String gradeName;
   private String color;
+  private List<LobDto> lobs = new ArrayList<>();
 }

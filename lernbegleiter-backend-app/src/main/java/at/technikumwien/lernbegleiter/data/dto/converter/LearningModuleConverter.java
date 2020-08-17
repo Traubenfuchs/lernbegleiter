@@ -1,14 +1,19 @@
 package at.technikumwien.lernbegleiter.data.dto.converter;
 
+import at.technikumwien.lernbegleiter.data.*;
 import at.technikumwien.lernbegleiter.data.dto.*;
 import at.technikumwien.lernbegleiter.entities.modules.*;
 import org.springframework.stereotype.*;
+
+import java.util.stream.*;
 
 @Component
 public class LearningModuleConverter extends DtoEntityConverter<LearningModuleEntity, LearningModuleDto> {
   @Override
   public void applyToDtoCustom(LearningModuleEntity learningModuleEntity, LearningModuleDto learningModuleDto) {
     learningModuleDto
+      .setLobs(learningModuleEntity.getLobs().stream().map(lobEntity -> new LobDto().setFilename(lobEntity.getLob().getFilename())
+        .setUuid(lobEntity.getLob().getUuid())).collect(Collectors.toList()))
       .setUuid(learningModuleEntity.getUuid())
       .setName(learningModuleEntity.getName())
       .setDeadline(learningModuleEntity.getDeadline())

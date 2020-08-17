@@ -17,7 +17,7 @@ public class QuizQuestionDto extends BaseDto<QuizQuestionDto> {
   private String content;
   private Set<QuizAnswerDto> answers = new HashSet<>();
   private Integer position;
-  private LobDto lob;
+  private QuizLobDto lob;
   private Integer timeLimit = 20;
   private Boolean answeredCorrectly;
   private Integer answerCount;
