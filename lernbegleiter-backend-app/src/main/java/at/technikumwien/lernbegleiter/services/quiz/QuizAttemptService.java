@@ -9,13 +9,15 @@ import at.technikumwien.lernbegleiter.repositories.quiz.attempts.*;
 import lombok.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.context.annotation.*;
-import org.springframework.dao.*;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
 import org.springframework.util.*;
 
 import java.util.*;
-import java.util.stream.*;
+
+import static at.technikumwien.lernbegleiter.data.QuizQuestionType.*;
+import static at.technikumwien.lernbegleiter.data.QuizRunState.*;
+import static at.technikumwien.lernbegleiter.data.QuizRunType.*;
 
 
 @Service
@@ -42,66 +44,58 @@ public class QuizAttemptService {
     if (CollectionUtils.isEmpty(quizRunDto.getCurrentQuestions())) {
       return;
     }
-    Map<String, QuizQuestionAttemptEntity> quizQuestionAttempts =
-      quizQuestionAttemptRepository
-        .findByFkQuizAttemptUuid(createQuizAttemptIfNotExists(quizRunDto.getUuid()))
-        .stream()
-        .collect(Collectors.toMap(QuizQuestionAttemptEntity::getFkQuizQuestionUuid, x -> x));
+    Map<String, QuizQuestionAttemptEntity> quizQuestionAttemptEntities =
+      quizQuestionAttemptRepository.findByFkQuizAttemptUuidAsMap(createQuizAttemptIfNotExists(quizRunDto.getUuid()));
 
     for (QuizQuestionDto currentQuestion : quizRunDto.getCurrentQuestions()) {
-      QuizQuestionAttemptEntity quizQuestionAttemptEntity = quizQuestionAttempts.get(currentQuestion.getUuid());
-
-      boolean questionAnsweredCorrectly = true;
+      QuizQuestionAttemptEntity quizQuestionAttemptEntity = quizQuestionAttemptEntities.get(currentQuestion.getUuid());
 
       currentQuestion.setFreeText(quizQuestionAttemptEntity.getFreeText());
 
-      if (currentQuestion.getQuizQuestionType() == QuizQuestionType.FREE_TEXT) {
-
-        String correctAnswer = quizQuestionAttemptEntity.getQuizQuestion().getFreeText();
-        currentQuestion.setAnsweredCorrectly(correctAnswer.equalsIgnoreCase(quizQuestionAttemptEntity.getFreeText()));
-      }
-
-      if (currentQuestion.getQuizQuestionType() == QuizQuestionType.MULTIPLE_CHOICE) {
-        for (QuizAnswerDto answerDto : currentQuestion.getAnswers()) {
-          boolean ticked = quizQuestionAttemptEntity.getAnswers()
-            .stream()
-            .filter(a -> a.getFkQuizAnswerUuid().equals(answerDto.getUuid()))
-            .findFirst()
-            .get()
-            .getCorrect();
-
-          if (
-            quizRunDto.getQuizRunType() == QuizRunType.FINISH_SELF ||
-              quizRunDto.getState() == QuizRunState.DONE ||
-              quizRunDto.getState() == QuizRunState.WAITING_FOR_NEXT_QUESTION) {
-            boolean tickedCorrectly = answerDto.getCorrect().equals(ticked);
-            if (!tickedCorrectly) {
-              questionAnsweredCorrectly = false;
-            }
-            answerDto.setTickedCorrectly(answerDto.getCorrect().equals(ticked));
-            currentQuestion.setAnsweredCorrectly(questionAnsweredCorrectly);
-          }
-
-          if (quizRunDto.getState() == QuizRunState.WAITING_FOR_ANSWERS) {
-            answerDto.setCorrect(ticked);
-          }
+      switch (currentQuestion.getQuizQuestionType()) {
+        case FREE_TEXT -> {
+          String correctAnswer = quizQuestionAttemptEntity.getQuizQuestion().getFreeText();
+          currentQuestion.setAnsweredCorrectly(correctAnswer.equalsIgnoreCase(quizQuestionAttemptEntity.getFreeText()));
         }
+        case MULTIPLE_CHOICE -> handleCat(currentQuestion, quizQuestionAttemptEntity, quizRunDto);
+      }
+    }
+  }
+
+  private void handleCat(
+    QuizQuestionDto currentQuestion,
+    QuizQuestionAttemptEntity quizQuestionAttemptEntity,
+    QuizRunDto quizRunDto
+  ) {
+    for (QuizAnswerDto answerDto : currentQuestion.getAnswers()) {
+      boolean ticked = quizQuestionAttemptEntity.getAnswers()
+        .stream()
+        .filter(a -> a.getFkQuizAnswerUuid().equals(answerDto.getUuid()))
+        .findFirst()
+        .get()
+        .getCorrect();
+
+      if (
+        quizRunDto.getQuizRunType() == FINISH_SELF ||
+          quizRunDto.getState() == DONE ||
+          quizRunDto.getState() == WAITING_FOR_NEXT_QUESTION) {
+        boolean tickedCorrectly = answerDto.getCorrect().equals(ticked);
+        answerDto.setTickedCorrectly(tickedCorrectly);
+        currentQuestion.setAnsweredCorrectly(tickedCorrectly);
       }
 
+      if (quizRunDto.getState() == QuizRunState.WAITING_FOR_ANSWERS) {
+        answerDto.setCorrect(ticked);
+      }
     }
   }
 
 
   public String createQuizAttemptIfNotExists(String quizRunUUID) {
-    DataIntegrityViolationException ex = null;
     for (int i = 0; i < 5; i++) {
-      try {
-        return quizAttemptRepository.createQuizAttemptIfNotExists(quizRunUUID);
-      } catch (DataIntegrityViolationException e) {
-        ex = e;
-      }
+      return quizAttemptRepository.createQuizAttemptIfNotExists(quizRunUUID);
     }
-    throw ex;
+    throw new RuntimeException("Should not happen.");
   }
 
   @Transactional

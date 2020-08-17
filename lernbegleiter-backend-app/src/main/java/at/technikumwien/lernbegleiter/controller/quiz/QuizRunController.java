@@ -43,14 +43,12 @@ public class QuizRunController {
   @GetMapping({"quiz-run-admin/{quizRunUUID}"})
   public QuizRunDto getRunAdmin(@PathVariable String quizRunUUID) throws ExecutionException {
     authHelper.isAdminOrTeacherOrThrow();
-    QuizRunDto result = quizRunService.getCachedForAdmin(quizRunUUID);
-    return result;
+    return quizRunService.getCachedForAdmin(quizRunUUID);
   }
 
   @GetMapping({"quiz-run-student/{quizRunUUID}"})
   public QuizRunDto getRunStudent(@PathVariable String quizRunUUID) throws ExecutionException {
-    QuizRunDto result = quizRunService.getCachedForStudent(quizRunUUID);
-    return result;
+    return quizRunService.getCachedForStudent(quizRunUUID);
   }
 
   @PostMapping("quiz-run/{quizRunUUID}:advance")

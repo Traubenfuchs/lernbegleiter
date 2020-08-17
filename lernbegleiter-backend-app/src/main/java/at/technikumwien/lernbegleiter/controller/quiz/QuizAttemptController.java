@@ -20,8 +20,7 @@ public class QuizAttemptController {
 
   @GetMapping("quiz-run/{quizRunUUID}/quiz-attempt")
   public QuizAttemptDto get(@PathVariable String quizRunUUID) {
-    QuizAttemptDto quizQuestionAttemptDto = quizAttemptService.getByQuizRunUuidAndCurrentUser(quizRunUUID);
-    return quizQuestionAttemptDto;
+    return quizAttemptService.getByQuizRunUuidAndCurrentUser(quizRunUUID);
   }
 
   @PostMapping("quiz-run/{quizRunUUID}/quiz-attempt:create-if-not-exists")

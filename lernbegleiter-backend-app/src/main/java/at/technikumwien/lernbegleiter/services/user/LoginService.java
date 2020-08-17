@@ -36,7 +36,7 @@ public class LoginService {
     cache = CacheBuilder
       .newBuilder()
       .maximumSize(500)
-      .expireAfterWrite(1, TimeUnit.SECONDS)
+      .expireAfterWrite(2, TimeUnit.SECONDS)
       .build(new CacheLoader<>() {
         @Override
         public UserAuthentication load(String key) {
