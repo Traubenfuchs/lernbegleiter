@@ -31,8 +31,12 @@ public class LobService {
     try (ByteArrayInputStream bais = new ByteArrayInputStream(bytes)) {
       if (filename != null) {
         Path path = new File(filename).toPath();
-        String mimeType = Files.probeContentType(path);
-        httpServletResponse.setHeader("Content-Type", mimeType);
+        if (filename.endsWith(".webp")) {
+          httpServletResponse.setHeader("Content-Type", "img/webp");
+        } else {
+          httpServletResponse.setHeader("Content-Type", Files.probeContentType(path));
+        }
+
       }
 
       //httpServletResponse.setContentType(MediaType.IMAGE_JPEG_VALUE);

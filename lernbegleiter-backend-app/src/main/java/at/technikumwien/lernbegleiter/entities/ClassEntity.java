@@ -50,6 +50,9 @@ public class ClassEntity extends BaseEntityCreationUpdateDate<ClassEntity> {
   @JoinColumn(name = "FK_GRADE_UUID")
   private GradeEntity grade;
 
-  @Column(name = "color")
+  @Column(name = "COLOR")
   private String color;
+  
+  @Column(name = "DESCRIPTION")
+  private String description;
 }

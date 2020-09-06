@@ -28,6 +28,12 @@
         </select>
       </div>
     </div>
+    <div class='row mt-3'>
+      <div class="col">
+        <textarea id="descriptionInput" [(ngModel)]="class.description" class="form-control"
+          placeholder="Beschreibung"></textarea>
+      </div>
+    </div>
   </div>
   <div class="card-footer">
     <div *ngIf="uuid !== 'new'" class="btn-group w-100">

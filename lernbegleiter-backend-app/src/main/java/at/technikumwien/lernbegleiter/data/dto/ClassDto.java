@@ -17,4 +17,5 @@ public class ClassDto extends BaseDto<ClassDto> {
   private String gradeName;
   private String color;
   private List<LobDto> lobs = new ArrayList<>();
+  private String description;
 }

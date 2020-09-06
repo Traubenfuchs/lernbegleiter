@@ -8,4 +8,5 @@ export class Class {
   students: LearningModule[] = [];
   color = "#ffffff";
   lobs: LobGeneric[] = [];
+  description = "";
 }

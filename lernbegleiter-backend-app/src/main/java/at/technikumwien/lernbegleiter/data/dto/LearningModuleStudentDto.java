@@ -16,4 +16,5 @@ public class LearningModuleStudentDto extends BaseDto<LearningModuleStudentDto> 
   private String name;
   private Boolean late;
   private String color;
+  private String learningModuleUuid;
 }
