@@ -15,7 +15,6 @@ import org.springframework.util.*;
 
 import java.util.*;
 
-import static at.technikumwien.lernbegleiter.data.QuizQuestionType.*;
 import static at.technikumwien.lernbegleiter.data.QuizRunState.*;
 import static at.technikumwien.lernbegleiter.data.QuizRunType.*;
 
@@ -26,9 +25,6 @@ public class QuizAttemptService {
   private QuizAttemptRepository quizAttemptRepository;
   @Autowired
   private QuizQuestionAttemptRepository quizQuestionAttemptRepository;
-  @Lazy
-  @Autowired
-  private QuizAttemptService quizAttemptService;
 
   /**
    * Adds live attempt data to the given QuizRunDto. In other words, this method populates the "correct" field in
@@ -57,12 +53,12 @@ public class QuizAttemptService {
           String correctAnswer = quizQuestionAttemptEntity.getQuizQuestion().getFreeText();
           currentQuestion.setAnsweredCorrectly(correctAnswer.equalsIgnoreCase(quizQuestionAttemptEntity.getFreeText()));
         }
-        case MULTIPLE_CHOICE -> handleCat(currentQuestion, quizQuestionAttemptEntity, quizRunDto);
+        case MULTIPLE_CHOICE -> handleMultipleChoice(currentQuestion, quizQuestionAttemptEntity, quizRunDto);
       }
     }
   }
 
-  private void handleCat(
+  private void handleMultipleChoice(
     QuizQuestionDto currentQuestion,
     QuizQuestionAttemptEntity quizQuestionAttemptEntity,
     QuizRunDto quizRunDto
