@@ -16,8 +16,8 @@
         <input id="nameInput" formControlName="name" class="form-control" placeholder="Name">
       </div>
       <div class="col">
-        <label for="descriptionInput">Beschreibung</label>
-        <input id="descriptionInput" formControlName="description" class="form-control" placeholder="Beschreibung">
+        <label for="colorInput">Farbe</label>
+        <input id="colorInput" type='color' formControlName="color" class="form-control" placeholder="Startdatum">
       </div>
 
     </div>
@@ -33,12 +33,10 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class='row mt-3'>
       <div class="col">
-        <label for="colorInput">Farbe</label>
-        <input id="colorInput" type='color' formControlName="color" class="form-control" placeholder="Startdatum">
-      </div>
-      <div class="col">
+        <textarea id="descriptionInput" formControlName="description" class="form-control"
+          placeholder="Beschreibung"></textarea>
       </div>
     </div>
 
@@ -48,3 +46,26 @@
       (click)='saveClick()'>{{ uuid === 'new' ? 'Anlegen' : 'Aktualisieren' }}</button>
   </div>
 </div>
+
+<div class="card mt-3" *ngIf="uuid !== 'new'">
+  <div class="card-header">
+    <h5 class="card-title">Dateien</h5>
+    <p class="card-text">Liste der Dateien dieses Moduls.</p>
+  </div>
+  <div class="card-body">
+    <input type="file" (change)="onLobInputChange($event)">
+    <button class="btn btn-primary" (click)="uploadLob()">upload</button>
+    <table class='lernbegleiter-table mt-3'>
+      <tr>
+        <th>Filename</th>
+        <th>Löschen</th>
+      </tr>
+      <tr *ngFor="let lob of lobs">
+        <td><a [href]="'api/lob/' + lob.uuid + '/' + lob.filename">{{lob.filename}}</a></td>
+        <td><button *ngIf="!lob.visibleForModules" class="btn btn-danger" (click)="deleteLob(lob.uuid)">delete</button>
+          <div *ngIf="lob.visibleForModules">Ist unter Fach zu löschen.</div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div> <!-- ends card -->

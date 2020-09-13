@@ -42,13 +42,11 @@ public class LobEntity extends BaseEntityCreationUpdateDate<LobEntity> {
     if (bytes == null) {
       md5 = null;
     } else {
-      MessageDigest md = null;
       try {
-        md = MessageDigest.getInstance("MD5");
+        md5 = new String(MessageDigest.getInstance("MD5").digest(bytes), StandardCharsets.UTF_8);
       } catch (NoSuchAlgorithmException e) {
-        throw new RuntimeException("Can not happen.");
+        throw new RuntimeException(e);
       }
-      md5 = new String(md.digest(bytes), StandardCharsets.UTF_8);
     }
     this.bytes = bytes;
 

@@ -1,3 +1,4 @@
+import { LobGeneric } from './../../../data/LobGeneric';
 import { Severity } from './../../../data/Severity';
 import { GrowlMessage } from './../../../data/GrowlMessage';
 import { GrowlService } from './../../../services/growl.service';
@@ -16,12 +17,17 @@ import { UuidResponse } from 'src/app/data/UuidResponse';
   styleUrls: ['./learning-module.component.scss']
 })
 export class LearningModuleComponent {
+
   uuid: string;
   classUuid: string;
   isLoadingSubModules = true;
 
   deadlineFormControl: FormControl;
   learningModuleFormGroup: FormGroup;
+
+  lobs: LobGeneric[] = [];
+  lobBase64: string;
+  lobFilename: string;
 
   constructor(
     public router: Router,
@@ -100,6 +106,8 @@ export class LearningModuleComponent {
         c.deadline.setValue(learningModule.deadline);
         c.start.setValue(learningModule.start);
         c.color.setValue(learningModule.color);
+
+        this.lobs = learningModule.lobs;
       });
   }
 
@@ -126,5 +134,35 @@ export class LearningModuleComponent {
   valueMissing() {
     const c = this.learningModuleFormGroup.controls;
     return [c.deadline, c.start, c.name].some(v => !v.value || v.value.length === 0);
+  }
+
+  deleteLob(uuid: string) {
+    this.http.delete(`api/learning-module-file/${uuid}`).subscribe(rsp => {
+      this.growlService.addMessage(new GrowlMessage("File wurde gelöscht.", Severity.SUCCESS, 2000));
+      this.loadLearningModule();
+    });
+  }
+  uploadLob() {
+
+    const lob = new LobGeneric();
+    lob.base64String = this.lobBase64;
+    lob.filename = this.lobFilename;
+
+    this.http.post<UuidResponse>(`api/learning-module/${this.uuid}/learning-module-file`, lob)
+      .subscribe(uuidResponse => {
+        this.growlService.addMessage(new GrowlMessage("File wurde hochgeladen.", Severity.SUCCESS, 2000));
+        this.loadLearningModule();
+      });
+  }
+  onLobInputChange(ev: any) {
+    this.lobFilename = ev.target.files[0].name;
+
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      const x = "replace";
+      this.lobBase64 = reader.result[x](/^data:.+;base64,/, '');
+    };
+    reader.readAsDataURL(ev.target.files[0]);
   }
 }

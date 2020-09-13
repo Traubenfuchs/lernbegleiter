@@ -89,13 +89,14 @@
   <div class="card-body">
     <table class="lernbegleiter-table" *ngFor="let cc of classCompletions">
       <thead>
-        <th>Module von Fach {{cc.className}}</th>
+        <th>Module von Fach <a [routerLink]="['/display-class/' + cc.classUuid]">{{cc.className}}</a></th>
         <th>Deadline</th>
         <th>Abschluss</th>
         <th>Aktion</th>
       </thead>
       <tr *ngFor="let lms of cc.learningModulesStudent" [style.background-color]="lms.color">
-        <td style='width:25%'>{{lms.name}}</td>
+        <td style='width:25%'><a [routerLink]="['/display-module/' + lms.learningModuleUuid]">{{lms.name}}</a>
+        </td>
         <td style='width:25%'>{{lms.dueDate | saneDate}}</td>
         <td style='width:25%' [ngStyle]="{'color':lms.late?'red':'green'}">
           {{lms.finishedAt ? (lms.finishedAt | saneDateTime) : 'noch nicht abgeschlossen'}}</td>

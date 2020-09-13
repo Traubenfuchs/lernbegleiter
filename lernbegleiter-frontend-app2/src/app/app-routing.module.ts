@@ -1,3 +1,5 @@
+import { DisplayModuleComponent } from './components/display-module/display-module.component';
+import { DisplayClassComponent } from './components/display-class/display-class.component';
 import { MyQuizzesComponent } from './components/quiz/my-quizzes/my-quizzes.component';
 import { MassRegistrationComponent } from './components/admin/mass-registration/mass-registration.component';
 import { MassRegistrationsComponent } from './components/admin/mass-registrations/mass-registrations.component';
@@ -52,6 +54,9 @@ const routes: Routes = [
 
   { path: 'management/mass-registrations', component: MassRegistrationsComponent },
   { path: 'management/mass-registration/:massRegistrationUUID', component: MassRegistrationComponent },
+
+  { path: 'display-module/:moduleUUID', component: DisplayModuleComponent },
+  { path: 'display-class/:classUUID', component: DisplayClassComponent },
 
   { path: 'user/:userUUID/profile', component: ProfileEditComponent }
 ];

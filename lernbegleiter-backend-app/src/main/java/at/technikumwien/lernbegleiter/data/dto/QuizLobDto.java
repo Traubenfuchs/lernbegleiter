@@ -8,7 +8,7 @@ import lombok.experimental.*;
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class LobDto {
+public class QuizLobDto {
   private String quizPictureBase64;
   private String quizPictureUUID;
   private String quizPictureFileName;

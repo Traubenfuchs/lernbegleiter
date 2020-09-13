@@ -41,6 +41,7 @@ public class CompletionService {
     private String className;
     private LocalDate deadline;
     private String color;
+    private String classUuid;
     private Set<LearningModuleStudentDto> learningModulesStudent = new HashSet<>();
   }
 
@@ -59,6 +60,7 @@ public class CompletionService {
       }
 
       LearningModuleStudentDto learningModuleStudentDto = new LearningModuleStudentDto()
+        .setLearningModuleUuid(learningModuleStudentEntity.getLearningModule().getUuid())
         .setUuid(learningModuleStudentEntity.getUuid())
         .setColor(learningModuleStudentEntity.getLearningModule().getColor())
         .setDueDate(learningModuleStudentEntity.getLearningModule().getDeadline())
@@ -69,6 +71,7 @@ public class CompletionService {
       uuidToClassCompletions
         .computeIfAbsent(learningModuleStudentEntity.getLearningModule().getClazz().getUuid(), k -> {
           ClassCompletion r = new ClassCompletion()
+            .setClassUuid(learningModuleStudentEntity.getLearningModule().getClazz().getUuid())
             .setColor(learningModuleStudentEntity.getLearningModule().getClazz().getColor())
             .setClassName(learningModuleStudentEntity.getLearningModule().getClazz().getName());
           if (r.getDeadline() == null || r.getDeadline().isBefore(learningModuleStudentDto.getDueDate())) {

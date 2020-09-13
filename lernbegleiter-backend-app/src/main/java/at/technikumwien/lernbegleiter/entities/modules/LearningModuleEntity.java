@@ -4,10 +4,17 @@ import at.technikumwien.lernbegleiter.entities.*;
 import at.technikumwien.lernbegleiter.entities.base.*;
 import lombok.*;
 import lombok.experimental.*;
+import org.hibernate.annotations.*;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Index;
+import javax.persistence.Table;
 import javax.persistence.*;
 import java.time.*;
 import java.util.*;
+
+import static javax.persistence.FetchType.*;
 
 @Accessors(chain = true)
 @Getter
@@ -35,6 +42,10 @@ public class LearningModuleEntity extends BaseEntityCreationUpdateDate<LearningM
 
   @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "learningModule", orphanRemoval = true)
   private Set<LearningModuleStudentEntity> learningModuleStudents = new HashSet<>();
+
+  @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "learningModule", fetch = LAZY, orphanRemoval = true)
+  @Fetch(value = FetchMode.SELECT)
+  private Set<LearningModule2LobEntity> lobs = new HashSet<>();
 
   @Column(name = "DESCRIPTION")
   private String description;

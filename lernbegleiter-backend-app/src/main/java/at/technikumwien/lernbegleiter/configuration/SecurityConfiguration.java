@@ -4,6 +4,7 @@ import at.technikumwien.lernbegleiter.components.*;
 import at.technikumwien.lernbegleiter.services.user.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.context.annotation.*;
+import org.springframework.http.*;
 import org.springframework.security.config.annotation.method.configuration.*;
 import org.springframework.security.config.annotation.web.builders.*;
 import org.springframework.security.config.annotation.web.configuration.*;
@@ -31,6 +32,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
       .logout().disable()
       .httpBasic().disable()
       .authorizeRequests()
+      .antMatchers(HttpMethod.GET, "/api/lob/**").permitAll()
       .antMatchers("/api/login").permitAll()
       .antMatchers("/api/image/**").permitAll()
       .antMatchers("/unsecured-api/**").permitAll()

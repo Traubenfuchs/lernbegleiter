@@ -26,7 +26,7 @@ public class QuizQuestionConverter extends DtoEntityConverter<QuizQuestionEntity
       .setAnswerCount(quizQuestionEntity.getAnswerCount())
       .setFreeText(quizQuestionEntity.getFreeText())
       .setQuizQuestionType(quizQuestionEntity.getQuizQuestionType())
-      .setLob(new LobDto()
+      .setLob(new QuizLobDto()
         .setQuizPictureUUID(quizQuestionEntity.getFkLobUUID()))
     ;
   }

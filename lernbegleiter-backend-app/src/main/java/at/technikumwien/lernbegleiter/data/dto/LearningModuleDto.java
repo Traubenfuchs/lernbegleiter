@@ -1,9 +1,11 @@
 package at.technikumwien.lernbegleiter.data.dto;
 
+import at.technikumwien.lernbegleiter.data.*;
 import lombok.*;
 import lombok.experimental.*;
 
 import java.time.*;
+import java.util.*;
 
 @Getter
 @Setter
@@ -16,4 +18,5 @@ public class LearningModuleDto extends BaseDto<LearningModuleDto> {
   private LocalDate start;
   private String description;
   private String color;
+  private List<LobDto> lobs = new ArrayList<>();
 }

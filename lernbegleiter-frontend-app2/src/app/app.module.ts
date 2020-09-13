@@ -38,6 +38,9 @@ import { MassRegistrationsComponent } from './components/admin/mass-registration
 import { MyQuizzesComponent } from './components/quiz/my-quizzes/my-quizzes.component';
 import { CompetitiveQuizTeacherComponent } from './components/quiz/competitive-quiz-teacher/competitive-quiz-teacher.component';
 import { CompetitiveQuizStudentComponent } from './components/quiz/competitive-quiz-student/competitive-quiz-student.component';
+import { DisplayModuleComponent } from './components/display-module/display-module.component';
+import { DisplayClassComponent } from './components/display-class/display-class.component';
+import { AllowHtmlPipe } from './pipes/allow-html.pipe';
 
 @NgModule({
   declarations: [
@@ -71,7 +74,10 @@ import { CompetitiveQuizStudentComponent } from './components/quiz/competitive-q
     MassRegistrationsComponent,
     MyQuizzesComponent,
     CompetitiveQuizTeacherComponent,
-    CompetitiveQuizStudentComponent
+    CompetitiveQuizStudentComponent,
+    DisplayModuleComponent,
+    DisplayClassComponent,
+    AllowHtmlPipe
   ],
   imports: [
     BrowserModule,
